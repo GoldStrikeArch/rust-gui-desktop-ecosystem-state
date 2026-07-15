@@ -25,8 +25,6 @@ Two questions drove this work:
   identical app built in 7 frameworks: build times, binary sizes, dep trees,
   overlap analysis.
 - `dashboard.html` — shareable one-page summary of all of the above.
-- **[FIXES_2.md](FIXES_2.md)** — completed independent claim/evidence audit,
-  required corrections, and implementation status.
 
 ## Deep dives (one per framework, source-linked)
 
