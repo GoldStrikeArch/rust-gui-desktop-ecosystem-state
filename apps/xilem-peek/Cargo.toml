@@ -1,0 +1,27 @@
+[package]
+name = "xilem-peek"
+version = "0.1.0"
+edition = "2021"
+publish = false
+
+# Independent crate — deliberately NOT a workspace member.
+[workspace]
+
+[dependencies]
+# Same pinned framework version as apps/xilem-app (latest stable on crates.io).
+xilem = "=0.4.0"
+
+# Camera capture (AVFoundation backend on macOS). Latest stable as of 2026-07.
+nokhwa = { version = "=0.10.11", features = ["input-avfoundation"] }
+
+# Mic input. 0.17.x matches what rodio 0.22 uses, so only one cpal in the tree.
+cpal = "=0.17.3"
+
+# Audio out (beep). Decoder features disabled: we only synthesize a sine wave.
+rodio = { version = "=0.22.2", default-features = false, features = ["playback"] }
+
+# JPEG decode + downscale for the gallery thumbnails.
+image = { version = "0.25", default-features = false, features = ["jpeg"] }
+
+[profile.release]
+# Match the other xilem apps (defaults; nothing exotic).

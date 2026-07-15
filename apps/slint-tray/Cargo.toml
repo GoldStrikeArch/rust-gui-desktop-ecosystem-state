@@ -1,0 +1,22 @@
+[package]
+name = "slint-tray"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+# Default features (winit backend, femtovg renderer, system-tray) plus
+# `unstable-winit-030`: needed to install a raw winit WindowEvent filter,
+# which is the only way to receive external (Finder) file drops in 1.17.1 —
+# the stock event loop does not translate WindowEvent::DroppedFile.
+slint = { version = "=1.17.1", features = ["unstable-winit-030"] }
+# Native file dialogs (Slint has none).
+rfd = "0.15"
+# Clipboard image access (Slint's built-in clipboard is text-only).
+arboard = "3"
+# System notifications (Slint has none).
+notify-rust = "4"
+# Global hotkey Cmd+Shift+9 (Slint has none; Carbon RegisterEventHotKey on macOS).
+global-hotkey = "0.7"
+
+[build-dependencies]
+slint-build = "=1.17.1"

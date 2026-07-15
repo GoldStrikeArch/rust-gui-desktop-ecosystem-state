@@ -1,0 +1,11 @@
+[package]
+name = "gpui-grid"
+version = "0.1.0"
+edition = "2021"
+publish = false
+
+[dependencies]
+# Same pin as apps/gpui-app (SPEC-7 rule). runtime_shaders: Xcode 26 has no
+# bundled Metal Toolchain, so shaders must compile at app startup — see
+# apps/gpui-app/GAPS.md.
+gpui = { version = "=0.2.2", features = ["runtime_shaders"] }

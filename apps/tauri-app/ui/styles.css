@@ -1,0 +1,72 @@
+:root {
+  color-scheme: light dark;
+  font-family: system-ui, -apple-system, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.app {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  padding: 12px;
+  gap: 8px;
+}
+
+.add-row {
+  display: flex;
+  gap: 8px;
+}
+
+#task-input {
+  flex: 1;
+  padding: 8px 10px;
+  font-size: 14px;
+}
+
+button {
+  padding: 8px 14px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.counter {
+  margin: 0;
+  font-size: 13px;
+  opacity: 0.75;
+}
+
+.task-list {
+  flex: 1;
+  overflow-y: auto; /* scrolls when the list overflows the window */
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.task-list li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 8px 4px;
+  border-bottom: 1px solid rgba(128, 128, 128, 0.25);
+}
+
+.task-text {
+  overflow-wrap: anywhere;
+}
+
+.delete-btn {
+  flex-shrink: 0;
+  padding: 4px 10px;
+  font-size: 12px;
+}

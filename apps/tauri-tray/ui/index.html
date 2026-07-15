@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tray Notes (Tauri)</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="app">
+    <div class="toolbar">
+      <button id="paste-image" type="button">Paste image</button>
+      <span id="theme-label" class="muted"></span>
+      <span id="status" class="muted" aria-live="polite">Ready</span>
+    </div>
+    <textarea
+      id="editor"
+      placeholder="Type a note… (⌘S saves, ⌘O opens, drop a .txt here, ⌘⇧9 toggles the window globally)"
+      spellcheck="false"
+      autofocus
+    ></textarea>
+    <div id="thumb-row" class="thumb-row" hidden>
+      <canvas id="thumb"></canvas>
+      <span id="thumb-caption" class="muted"></span>
+    </div>
+  </main>
+  <script src="main.js"></script>
+</body>
+</html>

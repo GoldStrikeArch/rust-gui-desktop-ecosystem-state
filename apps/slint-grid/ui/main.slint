@@ -1,0 +1,237 @@
+// Grid (slint) — SPEC-7. Custom virtualized table: ListView + hand-built
+// header row. StandardTableView was rejected (see FRICTION.md): its cells are
+// text-only StandardListViewItem (no colored chip), and its selection model is
+// a single current-row (no range selection).
+
+import { LineEdit, ListView, Palette } from "std-widgets.slint";
+
+// One display row, materialized lazily by the Rust Model implementation.
+export struct RowItem {
+    id: int,
+    name: string,
+    category: string,
+    value: string,   // pre-formatted 2 decimals (right-aligned in the cell)
+    date: string,    // ISO yyyy-mm-dd
+    status: int,     // 0 Ok, 1 Warn, 2 Err
+    selected: bool,
+}
+
+export struct ColDef {
+    title: string,
+    width: length,
+    min-width: length,
+    numeric: bool,   // right-aligned
+}
+
+component HeaderCell inherits Rectangle {
+    in property <string> title;
+    in property <int> sort;      // 0 none, 1 asc, 2 desc
+    in property <bool> numeric;
+    in property <bool> last;
+
+    callback header-clicked();
+    callback adjust-size(diff: length);
+
+    background: ta.pressed ? Palette.alternate-background : transparent;
+
+    ta := TouchArea {
+        clicked => { root.header-clicked(); }
+    }
+
+    HorizontalLayout {
+        padding-left: 10px;
+        padding-right: 10px;
+        spacing: 4px;
+
+        Text {
+            text: root.title;
+            vertical-alignment: center;
+            horizontal-alignment: root.numeric ? right : left;
+            font-weight: root.sort != 0 ? 700 : 500;
+            color: Palette.foreground;
+            overflow: elide;
+            horizontal-stretch: 1;
+        }
+
+        if root.sort != 0 : Text {
+            text: root.sort == 1 ? "▲" : "▼";
+            vertical-alignment: center;
+            font-size: 9px;
+            color: Palette.foreground;
+        }
+    }
+
+    // bottom border
+    Rectangle {
+        y: parent.height - 1px;
+        height: 1px;
+        width: 100%;
+        background: Palette.border;
+    }
+
+    // column divider doubling as the resize handle (drag, ew-resize cursor)
+    if !root.last : Rectangle {
+        x: parent.width - 1px;
+        y: 5px;
+        width: 1px;
+        height: parent.height - 10px;
+        background: Palette.border;
+
+        TouchArea {
+            x: -4px;
+            width: 10px;
+            mouse-cursor: ew-resize;
+            moved => {
+                if (self.pressed) {
+                    root.adjust-size(self.mouse-x - self.pressed-x);
+                }
+            }
+        }
+    }
+}
+
+component Cell inherits Rectangle {
+    in property <string> content;
+    in property <bool> numeric;
+    in property <bool> sel;
+    clip: true;
+    HorizontalLayout {
+        padding-left: 10px;
+        padding-right: 10px;
+        Text {
+            text: root.content;
+            vertical-alignment: center;
+            horizontal-alignment: root.numeric ? right : left;
+            color: root.sel ? Palette.accent-foreground : Palette.foreground;
+            overflow: elide;
+        }
+    }
+}
+
+// The custom-rendered cell: colored status chip.
+component ChipCell inherits Rectangle {
+    in property <int> status;
+    clip: true;
+    Rectangle {
+        x: 10px;
+        y: (parent.height - self.height) / 2;
+        height: 18px;
+        width: chip-text.preferred-width + 16px;
+        border-radius: 9px;
+        background: root.status == 0 ? #22c55e30 : root.status == 1 ? #f59e0b30 : #ef444430;
+        chip-text := Text {
+            width: 100%;
+            height: 100%;
+            text: root.status == 0 ? "Ok" : root.status == 1 ? "Warn" : "Err";
+            color: root.status == 0 ? #16a34a : root.status == 1 ? #b45309 : #dc2626;
+            font-size: 11px;
+            font-weight: 600;
+            vertical-alignment: center;
+            horizontal-alignment: center;
+        }
+    }
+}
+
+component GridRow inherits Rectangle {
+    in property <RowItem> item;
+    in property <int> index;
+    in property <[ColDef]> cols;
+
+    callback row-clicked(shift: bool);
+
+    height: 28px;
+    background: root.item.selected ? Palette.accent-background
+        : mod(root.index, 2) == 0 ? Palette.background : Palette.alternate-background;
+
+    TouchArea {
+        pointer-event(pe) => {
+            if (pe.kind == PointerEventKind.down && pe.button == PointerEventButton.left) {
+                root.row-clicked(pe.modifiers.shift);
+            }
+        }
+    }
+
+    HorizontalLayout {
+        Cell { width: root.cols[0].width; content: root.item.id; numeric: true; sel: root.item.selected; }
+        Cell { width: root.cols[1].width; content: root.item.name; sel: root.item.selected; }
+        Cell { width: root.cols[2].width; content: root.item.category; sel: root.item.selected; }
+        Cell { width: root.cols[3].width; content: root.item.value; numeric: true; sel: root.item.selected; }
+        Cell { width: root.cols[4].width; content: root.item.date; sel: root.item.selected; }
+        ChipCell { width: root.cols[5].width; status: root.item.status; }
+    }
+}
+
+export component MainWindow inherits Window {
+    title: "Grid (slint)";
+    preferred-width: 1000px;
+    preferred-height: 640px;
+
+    in property <[RowItem]> rows;          // Rust GridModel (lazy)
+    in-out property <[ColDef]> cols;       // VecModel; width mutated on drag
+    in property <int> shown-rows;
+    in property <int> total-rows;
+    in property <int> sort-col: -1;
+    in property <bool> sort-asc: true;
+
+    // self-test instrumentation (verification only): scroll access + geometry
+    // for synthetic pointer events
+    in-out property <length> table-viewport-y <=> lv.viewport-y;
+    out property <length> table-viewport-height <=> lv.viewport-height;
+    out property <length> table-visible-height <=> lv.visible-height;
+    out property <length> header-y: header-area.absolute-position.y;
+
+    callback filter-edited(text: string);
+    callback sort-clicked(col: int);
+    callback row-clicked(index: int, shift: bool);
+
+    forward-focus: filter-input;
+
+    VerticalLayout {
+        HorizontalLayout {
+            padding: 10px;
+            spacing: 12px;
+
+            filter-input := LineEdit {
+                placeholder-text: "Filter by name…";
+                horizontal-stretch: 1;
+                edited(t) => { root.filter-edited(t); }
+            }
+
+            Text {
+                text: root.shown-rows + " of " + root.total-rows + " rows";
+                vertical-alignment: center;
+                color: Palette.foreground;
+            }
+        }
+
+        header-area := Rectangle {
+            clip: true;
+            height: 30px;
+            vertical-stretch: 0;
+            background: Palette.alternate-background;
+
+            header := HorizontalLayout {
+                x: lv.viewport-x;
+                width: max(self.preferred-width, parent.width);
+                for col[i] in root.cols : HeaderCell {
+                    title: col.title;
+                    numeric: col.numeric;
+                    last: i == root.cols.length - 1;
+                    sort: root.sort-col == i ? (root.sort-asc ? 1 : 2) : 0;
+                    width: col.width;
+                    header-clicked => { root.sort-clicked(i); }
+                    adjust-size(d) => { col.width = max(col.min-width, col.width + d); }
+                }
+            }
+        }
+
+        lv := ListView {
+            for r[i] in root.rows : GridRow {
+                item: r;
+                index: i;
+                cols: root.cols;
+                row-clicked(sh) => { root.row-clicked(i, sh); }
+            }
+        }
+    }
+}

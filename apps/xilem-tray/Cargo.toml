@@ -1,0 +1,24 @@
+[package]
+name = "xilem-tray"
+version = "0.1.0"
+edition = "2021"
+publish = false
+
+# Independent crate — deliberately NOT a workspace member.
+[workspace]
+
+[dependencies]
+# Same pinned framework version as iteration 1.
+xilem = "=0.4.0"
+# masonry_winit is part of the xilem 0.4.0 release train; we depend on it
+# directly (same pinned version, no duplicate in the tree) because the
+# external-event-loop embedding needs MasonryState/AppDriver/DriverCtx,
+# which xilem does not re-export.
+masonry_winit = "=0.4.0"
+
+# OS-shell helper crates (the finding: none of this exists in xilem itself).
+tray-icon = "0.21"      # macOS menu-bar extra (NSStatusItem) + muda menus (re-exported as tray_icon::menu)
+global-hotkey = "0.7"   # Carbon RegisterEventHotKey wrapper
+rfd = "0.15"            # native NSOpen/NSSavePanel
+arboard = "3"           # image clipboard (text clipboard is built into masonry)
+notify-rust = "4"       # system notifications (mac-notification-sys)

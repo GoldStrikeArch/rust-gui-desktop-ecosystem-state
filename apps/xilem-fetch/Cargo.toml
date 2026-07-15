@@ -1,0 +1,23 @@
+[package]
+name = "xilem-fetch"
+version = "0.1.0"
+edition = "2021"
+publish = false
+
+# Independent crate — deliberately NOT a workspace member.
+[workspace]
+
+[dependencies]
+# Same pinned version as apps/xilem-app (latest crates.io release).
+xilem = "=0.4.0"
+# HTTP client. xilem has no networking story of its own; reqwest rides the
+# same tokio 1.x that xilem bundles (xilem's runtime is Runtime::new(), i.e.
+# enable_all(), so the IO driver reqwest needs is running). TLS features are
+# disabled: the fetcher server is plain http on localhost.
+reqwest = { version = "0.12", default-features = false, features = ["json"] }
+# Only for deriving Deserialize on the two response shapes.
+serde = { version = "1", features = ["derive"] }
+# xilem re-exports tokio, but WITHOUT the `macros` feature — `tokio::select!`
+# (needed for debounce/cancellation races) requires a direct dependency.
+# Same tokio 1.x as xilem bundles; cargo unifies them into one crate.
+tokio = { version = "1", features = ["macros"] }

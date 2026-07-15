@@ -1,0 +1,18 @@
+[package]
+name = "egui-board"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.92" # egui 0.35 MSRV
+publish = false
+
+# NOT a workspace member (SPEC-3 rule); standalone crate.
+[workspace]
+
+[dependencies]
+# Same pin as iteration 1 (apps/egui-app). No helper crates: the kanban DnD
+# is built on egui's own drag-and-drop payload API (egui::DragAndDrop,
+# Ui::dnd_drag_source) which ships in the core crate.
+eframe = "=0.35.0"
+
+[dev-dependencies]
+egui_kittest = "=0.35.0"

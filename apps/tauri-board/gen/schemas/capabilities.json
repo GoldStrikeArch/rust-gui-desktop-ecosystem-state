@@ -1,0 +1,1 @@
+{"default":{"identifier":"default","description":"Default capability for the main window: core defaults only. The board app defines no commands and uses no core APIs beyond the injected bootstrap, but tauri-build requires at least one capability file to exist alongside gen/schemas.","local":true,"windows":["main"],"permissions":["core:default"]}}

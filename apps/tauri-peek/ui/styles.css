@@ -1,0 +1,52 @@
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: #14161a; color: #e6e8eb; overflow: hidden;
+}
+.app { display: flex; flex-direction: column; height: 100vh; }
+
+.tabs { display: flex; gap: 4px; padding: 8px 10px 0; border-bottom: 1px solid #2a2e35; }
+.tab {
+  background: #1d2026; color: #9aa1ab; border: 1px solid #2a2e35; border-bottom: none;
+  border-radius: 6px 6px 0 0; padding: 7px 18px; font-size: 13px; cursor: pointer;
+}
+.tab.active { background: #262b33; color: #fff; }
+
+.panel { display: none; flex: 1; min-height: 0; padding: 12px; overflow-y: auto; }
+.panel.active { display: block; }
+
+h2 { font-size: 12px; font-weight: 600; color: #9aa1ab; margin-bottom: 8px; }
+hr { border: none; border-top: 1px solid #2a2e35; margin: 14px 0; }
+
+.cam-columns { display: flex; gap: 12px; }
+.cam-col { flex: 1; min-width: 0; }
+.preview-box {
+  position: relative; background: #000; border: 1px solid #2a2e35; border-radius: 6px;
+  aspect-ratio: 4 / 3; overflow: hidden; display: flex; align-items: center; justify-content: center;
+}
+.preview-box video, .preview-box canvas { width: 100%; height: 100%; object-fit: contain; }
+.fps-badge {
+  position: absolute; top: 6px; right: 8px; background: rgba(0,0,0,0.65);
+  color: #6ee787; font: 600 13px ui-monospace, monospace; padding: 2px 8px; border-radius: 4px;
+}
+
+.row { display: flex; gap: 8px; margin: 10px 0 4px; }
+button {
+  background: #2f6feb; color: #fff; border: none; border-radius: 6px;
+  padding: 7px 14px; font-size: 13px; cursor: pointer;
+}
+button:disabled { background: #3a3f47; color: #7c828c; cursor: default; }
+.status { font: 12px ui-monospace, monospace; color: #9aa1ab; margin-top: 6px; word-break: break-all; }
+
+.vu-track { height: 22px; background: #1d2026; border: 1px solid #2a2e35; border-radius: 6px; overflow: hidden; }
+.vu-bar { height: 100%; width: 0%; background: linear-gradient(90deg, #2ea043, #d29922 70%, #f85149 92%); transition: width 45ms linear; }
+
+.grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(96px, 1fr));
+  gap: 6px; margin-top: 10px;
+}
+.grid img {
+  width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 4px;
+  background: #1d2026; display: block;
+}

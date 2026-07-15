@@ -1,0 +1,17 @@
+[package]
+name = "iced-babel"
+version = "0.1.0"
+edition = "2024"
+
+# Same pinned version as iteration 1 (apps/iced-app).
+# No text/i18n helper crates needed: iced 0.14's text stack is cosmic-text
+# (HarfRust shaping, swash rasterization and Unicode BiDi) + fontdb system-font
+# discovery with automatic per-script fallback, all in the default features. Default
+# shaping is `Shaping::Auto` (advanced for any non-ASCII run).
+#
+# `smol` executor feature: Task timers for the scripted screenshot delay.
+# `png` + `smol` crates: verification only (encode window::screenshot output).
+[dependencies]
+iced = { version = "=0.14.0", features = ["smol"] }
+png = "0.18"
+smol = "2"

@@ -1,0 +1,52 @@
+import { Button, LineEdit, ListView, VerticalBox, HorizontalBox } from "std-widgets.slint";
+
+export component MainWindow inherits Window {
+    title: "Tasks (Slint)";
+    preferred-width: 480px;
+    preferred-height: 640px;
+    min-width: 320px;
+    min-height: 240px;
+
+    // The task list lives in Rust as a VecModel; the UI only observes it.
+    in property <[string]> tasks;
+    // Two-way binding so Rust can clear the input after a successful add.
+    in-out property <string> input-text <=> input.text;
+
+    callback add-task(text: string);
+    callback delete-task(index: int);
+
+    VerticalBox {
+        HorizontalBox {
+            padding: 0;
+            input := LineEdit {
+                placeholder-text: "What needs to be done?";
+                // Fires when Enter is pressed while the input has focus.
+                accepted(text) => { root.add-task(text); }
+            }
+            Button {
+                text: "Add";
+                clicked => { root.add-task(input.text); }
+            }
+        }
+
+        Text {
+            text: root.tasks.length + " task(s)";
+        }
+
+        ListView {
+            for task[i] in root.tasks: HorizontalBox {
+                padding: 0;
+                Text {
+                    text: task;
+                    vertical-alignment: center;
+                    horizontal-stretch: 1;
+                    overflow: elide;
+                }
+                Button {
+                    text: "Delete";
+                    clicked => { root.delete-task(i); }
+                }
+            }
+        }
+    }
+}

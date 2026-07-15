@@ -1,0 +1,28 @@
+# Tray Notes (Tauri) — SPEC-4 OS-shell-integration app.
+# Same manual plain-cargo Tauri v2 setup as ../tauri-app (no Node / npm / tauri-cli).
+#
+# Feature flags:
+# - tauri "tray-icon": enables TrayIconBuilder (tray-icon crate underneath).
+#   Menus (menubar + tray menu) are in default tauri (muda underneath).
+# - Official plugins (each is a helper crate; see FRICTION.md):
+#   global-shortcut (global-hotkey crate), dialog (rfd underneath),
+#   notification (notify-rust underneath), clipboard-manager (arboard
+#   underneath — this is where image clipboard support comes from).
+[package]
+name = "tauri-tray"
+version = "0.1.0"
+edition = "2021"
+description = "Tray Notes mini-app (RCN GUI ecosystem research, SPEC-4) built with Tauri v2"
+license = "MIT"
+
+[build-dependencies]
+tauri-build = { version = "=2.6.3", features = [] }
+
+[dependencies]
+tauri = { version = "=2.11.5", features = ["tray-icon"] }
+tauri-plugin-global-shortcut = "=2.3.2"
+tauri-plugin-dialog = "=2.7.1"
+tauri-plugin-notification = "=2.3.3"
+tauri-plugin-clipboard-manager = "=2.3.2"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"

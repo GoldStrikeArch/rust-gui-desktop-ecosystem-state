@@ -1,0 +1,25 @@
+# Fetcher (Tauri) — SPEC-8 async/network test, manual no-Node Tauri v2 setup.
+#
+# Feature flags: tauri default features only. serde/serde_json for
+# #[tauri::command] (de)serialization.
+#
+# tauri-plugin-http (official plugin, pinned): the webview page runs on the
+# custom tauri://localhost origin, so WKWebView enforces CORS on browser-native
+# fetch() against the CORS-header-less local server — the plugin routes a
+# fetch-compatible JS API through Rust reqwest over IPC instead, gated by the
+# URL-scoped ACL in capabilities/default.json. See FRICTION.md.
+[package]
+name = "tauri-fetch"
+version = "0.1.0"
+edition = "2021"
+description = "Fetcher mini-app (RCN GUI ecosystem research, SPEC-8) built with Tauri v2"
+license = "MIT"
+
+[build-dependencies]
+tauri-build = { version = "=2.6.3", features = [] }
+
+[dependencies]
+tauri = { version = "=2.11.5", features = [] }
+tauri-plugin-http = { version = "=2.5.9", features = [] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"

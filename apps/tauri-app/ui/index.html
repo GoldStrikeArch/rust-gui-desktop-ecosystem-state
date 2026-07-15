@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tasks (Tauri)</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="app">
+    <form id="add-form" class="add-row" autocomplete="off">
+      <input
+        id="task-input"
+        type="text"
+        placeholder="What needs to be done?"
+        aria-label="New task"
+        autofocus
+      />
+      <button id="add-btn" type="submit">Add</button>
+    </form>
+    <p id="counter" class="counter" aria-live="polite">0 task(s)</p>
+    <ul id="task-list" class="task-list"></ul>
+  </main>
+  <script src="main.js"></script>
+</body>
+</html>

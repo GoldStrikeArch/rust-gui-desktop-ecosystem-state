@@ -1,0 +1,203 @@
+   Compiling proc-macro2 v1.0.106
+   Compiling unicode-ident v1.0.24
+   Compiling quote v1.0.46
+   Compiling serde_core v1.0.228
+   Compiling libm v0.2.16
+   Compiling cfg_aliases v0.2.1
+   Compiling libc v0.2.186
+   Compiling autocfg v1.5.1
+   Compiling smallvec v1.15.2
+   Compiling equivalent v1.0.2
+   Compiling zerocopy v0.8.53
+   Compiling thiserror v2.0.18
+   Compiling allocator-api2 v0.2.21
+   Compiling cfg-if v1.0.4
+   Compiling core-foundation-sys v0.8.7
+   Compiling once_cell v1.21.4
+   Compiling objc2-encode v4.1.0
+   Compiling foldhash v0.1.5
+   Compiling num-traits v0.2.19
+   Compiling arrayvec v0.7.8
+   Compiling hashbrown v0.15.5
+   Compiling foreign-types-shared v0.3.1
+   Compiling log v0.4.33
+   Compiling objc-sys v0.3.5
+   Compiling parking_lot_core v0.9.12
+   Compiling raw-window-handle v0.6.2
+   Compiling scopeguard v1.2.0
+   Compiling paste v1.0.15
+   Compiling lock_api v0.4.14
+   Compiling core_maths v0.1.1
+   Compiling syn v2.0.118
+   Compiling tracing-core v0.1.36
+   Compiling naga v26.0.0
+   Compiling core-foundation v0.10.1
+   Compiling malloc_buf v0.0.6
+   Compiling hashbrown v0.17.1
+   Compiling bit-vec v0.8.0
+   Compiling bitflags v1.3.2
+   Compiling pin-project-lite v0.2.17
+   Compiling unicode-width v0.2.2
+   Compiling bit-set v0.8.0
+   Compiling codespan-reporting v0.12.0
+   Compiling objc v0.2.7
+   Compiling indexmap v2.14.0
+   Compiling bitflags v2.13.0
+   Compiling kurbo v0.12.0
+   Compiling core-graphics-types v0.2.0
+   Compiling wgpu-hal v26.0.6
+   Compiling rustc-hash v1.1.0
+   Compiling bytemuck_derive v1.10.2
+   Compiling zerocopy-derive v0.8.53
+   Compiling thiserror-impl v2.0.18
+   Compiling foreign-types-macros v0.2.3
+   Compiling tracing-attributes v0.1.31
+   Compiling block v0.1.6
+   Compiling linebender_resource_handle v0.1.1
+   Compiling objc2 v0.5.2
+   Compiling foreign-types v0.5.0
+   Compiling parking_lot v0.12.5
+   Compiling hexf-parse v0.2.1
+   Compiling bytemuck v1.25.0
+   Compiling tracing v0.1.44
+   Compiling block2 v0.5.1
+   Compiling objc2 v0.6.4
+   Compiling profiling v1.0.18
+   Compiling dispatch v0.2.0
+   Compiling crc32fast v1.5.0
+   Compiling simd-adler32 v0.3.9
+   Compiling objc2-foundation v0.2.2
+   Compiling metal v0.32.0
+   Compiling font-types v0.10.1
+   Compiling read-fonts v0.35.0
+   Compiling wgpu-types v26.0.0
+   Compiling font-types v0.11.3
+   Compiling displaydoc v0.2.6
+   Compiling euclid v0.22.14
+   Compiling wgpu-core v26.0.1
+   Compiling svg_fmt v0.4.5
+   Compiling litrs v1.0.0
+   Compiling color v0.3.3
+   Compiling dpi v0.1.2
+   Compiling adler2 v2.0.1
+   Compiling accesskit v0.21.1
+   Compiling miniz_oxide v0.8.9
+   Compiling peniko v0.5.0
+   Compiling document-features v0.2.12
+   Compiling guillotiere v0.6.2
+   Compiling tinystr v0.8.3
+   Compiling read-fonts v0.39.2
+   Compiling objc2-app-kit v0.2.2
+   Compiling objc2-core-foundation v0.3.2
+   Compiling half v2.7.1
+   Compiling skrifa v0.37.0
+   Compiling core-foundation v0.9.4
+   Compiling wgpu v26.0.1
+   Compiling cursor-icon v1.2.0
+   Compiling foldhash v0.2.0
+   Compiling time-core v0.1.9
+   Compiling writeable v0.6.3
+   Compiling num-conv v0.2.2
+   Compiling litemap v0.8.2
+   Compiling regex-syntax v0.8.11
+   Compiling time-macros v0.2.31
+   Compiling regex-automata v0.4.14
+   Compiling objc2-foundation v0.3.2
+   Compiling vello_encoding v0.6.0
+   Compiling icu_locale_core v2.2.0
+   Compiling hashbrown v0.16.1
+   Compiling skrifa v0.42.1
+   Compiling flate2 v1.1.9
+   Compiling core-graphics-types v0.1.3
+   Compiling objc2-core-text v0.3.2
+   Compiling fdeflate v0.3.7
+   Compiling keyboard-types v0.8.3
+   Compiling vello_shaders v0.6.0
+   Compiling wgpu-core-deps-apple v26.0.0
+   Compiling memmap2 v0.9.11
+   Compiling winit v0.30.13
+   Compiling powerfmt v0.2.0
+   Compiling static_assertions v1.1.0
+   Compiling deranged v0.5.8
+   Compiling futures-core v0.3.32
+   Compiling lazy_static v1.5.0
+   Compiling futures-intrusive v0.5.0
+   Compiling sharded-slab v0.1.7
+   Compiling fontique v0.6.0
+   Compiling time v0.3.53
+   Compiling ui-events v0.2.0
+   Compiling png v0.17.16
+   Compiling swash v0.2.9
+   Compiling core-graphics v0.23.2
+   Compiling matchers v0.2.0
+   Compiling harfrust v0.3.2
+   Compiling tracing-log v0.2.0
+   Compiling thread_local v1.1.9
+   Compiling anymore v1.0.0
+   Compiling smol_str v0.2.2
+   Compiling nu-ansi-term v0.50.3
+   Compiling tree_arena v0.2.0
+   Compiling tracing-subscriber v0.3.23
+   Compiling accesskit_consumer v0.31.0
+   Compiling anymap3 v1.1.0
+   Compiling accesskit_macos v0.22.2
+   Compiling accesskit_winit v0.29.2
+   Compiling ui-events-winit v0.2.0
+   Compiling parley v0.6.0
+   Compiling vello v0.6.0
+   Compiling masonry_core v0.4.0
+   Compiling copypasta v0.10.2
+   Compiling pollster v0.4.0
+   Compiling xilem_core v0.4.0
+   Compiling tokio v1.52.3
+   Compiling masonry v0.4.0
+   Compiling masonry_winit v0.4.0
+   Compiling xilem v0.4.0
+   Compiling xilem-dash v0.1.0 (/Users/mpl4/Desktop/workspace/self_learning/rust/gui-ecosystem-research/apps/xilem-dash)
+warning: field `grab` is never read
+   --> src/widgets.rs:432:9
+    |
+424 |     DragStart {
+    |     --------- field in this variant
+...
+432 |         grab: Vec2,
+    |         ^^^^
+    |
+    = note: `CardEvent` has a derived impl for the trait `Debug`, but this is intentionally ignored during dead code analysis
+    = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: field `window` is never read
+   --> src/widgets.rs:438:9
+    |
+437 |     DragEnd {
+    |     ------- field in this variant
+438 |         window: Point,
+    |         ^^^^^^
+    |
+    = note: `CardEvent` has a derived impl for the trait `Debug`, but this is intentionally ignored during dead code analysis
+
+warning: methods `hug`, `plain`, `padding`, `flash_seq`, and `report_geometry` are never used
+   --> src/widgets.rs:807:12
+    |
+791 | impl<State, V> CardFrameView<State, V> {
+    | -------------------------------------- methods in this implementation
+...
+807 |     pub fn hug(mut self) -> Self {
+    |            ^^^
+...
+814 |     pub fn plain(mut self) -> Self {
+    |            ^^^^^
+...
+819 |     pub fn padding(mut self, padding: f64) -> Self {
+    |            ^^^^^^^
+...
+824 |     pub fn flash_seq(mut self, seq: u64) -> Self {
+    |            ^^^^^^^^^
+...
+828 |     pub fn report_geometry(mut self, key: u64, registry: GeomRegistry) -> Self {
+    |            ^^^^^^^^^^^^^^^
+
+warning: `xilem-dash` (bin "xilem-dash") generated 3 warnings
+    Finished `release` profile [optimized] target(s) in 28.14s
+warning: the following packages contain code that will be rejected by a future version of Rust: block v0.1.6
+note: to see what the problems were, use the option `--future-incompat-report`, or run `cargo report future-incompatibilities --id 1`

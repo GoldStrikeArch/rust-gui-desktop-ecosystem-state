@@ -1,0 +1,20 @@
+[package]
+name = "slint-app"
+version = "0.1.0"
+edition = "2021"
+
+# Default features only. `slint` defaults include: std, backend-winit,
+# renderer-femtovg, renderer-software, backend-qt (no-op unless Qt present),
+# accessibility, compat-1-2. Nothing beyond defaults is needed for the spec.
+[dependencies]
+slint = "=1.17.1"
+
+[build-dependencies]
+slint-build = "=1.17.1"
+
+# Packaging experiment (iteration 3): minimal cargo-bundle config.
+# icon.icns derived from apps/tauri-app/icons/icon-512.png (sips + iconutil).
+[package.metadata.bundle]
+name = "Slint Tasks"
+identifier = "org.rcn.slintapp"
+icon = ["icon.icns"]

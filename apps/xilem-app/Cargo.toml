@@ -1,0 +1,20 @@
+[package]
+name = "xilem-app"
+version = "0.1.0"
+edition = "2021"
+publish = false
+
+# Independent crate — deliberately NOT a workspace member.
+[workspace]
+
+[dependencies]
+# Latest stable xilem release on crates.io as of 2026-07-07 (released 2025-10-29).
+# Default features only; nothing in the spec needs more.
+xilem = "=0.4.0"
+
+# Packaging experiment (iteration 3): minimal cargo-bundle config.
+# icon.icns derived from apps/tauri-app/icons/icon-512.png (sips + iconutil).
+[package.metadata.bundle]
+name = "Xilem Tasks"
+identifier = "org.rcn.xilemapp"
+icon = ["icon.icns"]

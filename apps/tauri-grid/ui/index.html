@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Grid (Tauri)</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="app">
+    <div class="toolbar">
+      <input
+        id="filter-input"
+        type="text"
+        placeholder="Filter by name…"
+        aria-label="Filter rows by name"
+        autocomplete="off"
+        autofocus
+      />
+      <span id="row-count" class="row-count" aria-live="polite"></span>
+    </div>
+    <div id="viewport" class="viewport" tabindex="0">
+      <div id="header" class="row header"></div>
+      <div id="spacer" class="spacer">
+        <div id="slice" class="slice"></div>
+      </div>
+    </div>
+  </main>
+  <script src="main.js"></script>
+  <script src="selftest.js"></script>
+</body>
+</html>

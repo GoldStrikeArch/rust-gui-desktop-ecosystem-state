@@ -1,0 +1,347 @@
+0xilem-app v0.1.0 (/Users/mpl4/Desktop/workspace/self_learning/rust/gui-ecosystem-research/apps/xilem-app)
+1xilem v0.4.0
+2masonry v0.4.0
+3accesskit v0.21.1
+3dpi v0.1.2
+3masonry_core v0.4.0
+4accesskit v0.21.1
+4anymap3 v1.1.0
+4anymore v1.0.0
+4cursor-icon v1.2.0
+4dpi v0.1.2
+4parley v0.6.0
+5accesskit v0.21.1
+5fontique v0.6.0
+6bytemuck v1.25.0
+7bytemuck_derive v1.10.2 (proc-macro)
+8proc-macro2 v1.0.106
+9unicode-ident v1.0.24
+8quote v1.0.46
+9proc-macro2 v1.0.106 (*)
+8syn v2.0.118
+9proc-macro2 v1.0.106 (*)
+9quote v1.0.46 (*)
+9unicode-ident v1.0.24
+6hashbrown v0.15.5
+7allocator-api2 v0.2.21
+7equivalent v1.0.2
+7foldhash v0.1.5
+6icu_locale_core v2.2.0
+7displaydoc v0.2.6 (proc-macro)
+8proc-macro2 v1.0.106 (*)
+8quote v1.0.46 (*)
+8syn v2.0.118 (*)
+7litemap v0.8.2
+7tinystr v0.8.3
+8displaydoc v0.2.6 (proc-macro) (*)
+7writeable v0.6.3
+6linebender_resource_handle v0.1.1
+6memmap2 v0.9.11
+7libc v0.2.186
+6objc2 v0.6.4
+7objc2-encode v4.1.0
+6objc2-core-foundation v0.3.2
+7bitflags v2.13.0
+8serde_core v1.0.228
+6objc2-core-text v0.3.2
+7bitflags v2.13.0 (*)
+7objc2-core-foundation v0.3.2 (*)
+6objc2-foundation v0.3.2
+7bitflags v2.13.0 (*)
+7objc2 v0.6.4 (*)
+6read-fonts v0.35.0
+7bytemuck v1.25.0 (*)
+7core_maths v0.1.1
+8libm v0.2.16
+7font-types v0.10.1
+8bytemuck v1.25.0 (*)
+6smallvec v1.15.2
+5harfrust v0.3.2
+6bitflags v2.13.0 (*)
+6bytemuck v1.25.0 (*)
+6core_maths v0.1.1 (*)
+6read-fonts v0.35.0 (*)
+6smallvec v1.15.2
+5hashbrown v0.15.5 (*)
+5linebender_resource_handle v0.1.1
+5skrifa v0.37.0
+6bytemuck v1.25.0 (*)
+6read-fonts v0.35.0 (*)
+5swash v0.2.9
+6skrifa v0.42.1
+7bytemuck v1.25.0 (*)
+7read-fonts v0.39.2
+8bytemuck v1.25.0 (*)
+8font-types v0.11.3
+9bytemuck v1.25.0 (*)
+4smallvec v1.15.2
+4time v0.3.53
+5deranged v0.5.8
+5num-conv v0.2.2
+5powerfmt v0.2.0
+5time-core v0.1.9
+5time-macros v0.2.31 (proc-macro)
+6num-conv v0.2.2
+6time-core v0.1.9
+4tracing v0.1.44
+5pin-project-lite v0.2.17
+5tracing-attributes v0.1.31 (proc-macro)
+6proc-macro2 v1.0.106 (*)
+6quote v1.0.46 (*)
+6syn v2.0.118 (*)
+5tracing-core v0.1.36
+6once_cell v1.21.4
+4tracing-core v0.1.36 (*)
+4tracing-subscriber v0.3.23
+5matchers v0.2.0
+6regex-automata v0.4.14
+7regex-syntax v0.8.11
+5nu-ansi-term v0.50.3
+5once_cell v1.21.4
+5regex-automata v0.4.14 (*)
+5sharded-slab v0.1.7
+6lazy_static v1.5.0
+5smallvec v1.15.2
+5thread_local v1.1.9
+6cfg-if v1.0.4
+5time v0.3.53 (*)
+5tracing v0.1.44 (*)
+5tracing-core v0.1.36 (*)
+5tracing-log v0.2.0
+6log v0.4.33
+6once_cell v1.21.4
+6tracing-core v0.1.36 (*)
+4tree_arena v0.2.0
+5hashbrown v0.16.1
+6allocator-api2 v0.2.21
+6equivalent v1.0.2
+6foldhash v0.2.0
+4ui-events v0.2.0
+5dpi v0.1.2
+5keyboard-types v0.8.3
+6bitflags v2.13.0 (*)
+5kurbo v0.12.0
+6arrayvec v0.7.8
+6smallvec v1.15.2
+4vello v0.6.0
+5bytemuck v1.25.0 (*)
+5futures-intrusive v0.5.0
+6futures-core v0.3.32
+6lock_api v0.4.14
+7scopeguard v1.2.0
+6parking_lot v0.12.5
+7lock_api v0.4.14 (*)
+7parking_lot_core v0.9.12
+8cfg-if v1.0.4
+8libc v0.2.186
+8smallvec v1.15.2
+5log v0.4.33
+5peniko v0.5.0
+6color v0.3.3
+6kurbo v0.12.0 (*)
+6linebender_resource_handle v0.1.1
+6smallvec v1.15.2
+5png v0.17.16
+6bitflags v1.3.2
+6crc32fast v1.5.0
+7cfg-if v1.0.4
+6fdeflate v0.3.7
+7simd-adler32 v0.3.9
+6flate2 v1.1.9
+7crc32fast v1.5.0 (*)
+7miniz_oxide v0.8.9
+8adler2 v2.0.1
+8simd-adler32 v0.3.9
+6miniz_oxide v0.8.9 (*)
+5skrifa v0.37.0 (*)
+5static_assertions v1.1.0
+5thiserror v2.0.18
+6thiserror-impl v2.0.18 (proc-macro)
+7proc-macro2 v1.0.106 (*)
+7quote v1.0.46 (*)
+7syn v2.0.118 (*)
+5vello_encoding v0.6.0
+6bytemuck v1.25.0 (*)
+6guillotiere v0.6.2
+7euclid v0.22.14
+8num-traits v0.2.19
+9libm v0.2.16
+7svg_fmt v0.4.5
+6peniko v0.5.0 (*)
+6skrifa v0.37.0 (*)
+6smallvec v1.15.2
+5vello_shaders v0.6.0
+6bytemuck v1.25.0 (*)
+6vello_encoding v0.6.0 (*)
+5wgpu v26.0.1
+6arrayvec v0.7.8
+6bitflags v2.13.0 (*)
+6cfg-if v1.0.4
+6document-features v0.2.12 (proc-macro)
+7litrs v1.0.0
+6hashbrown v0.15.5 (*)
+6log v0.4.33
+6parking_lot v0.12.5 (*)
+6profiling v1.0.18
+6raw-window-handle v0.6.2
+6smallvec v1.15.2
+6static_assertions v1.1.0
+6wgpu-core v26.0.1
+7arrayvec v0.7.8
+7bit-set v0.8.0
+8bit-vec v0.8.0
+7bit-vec v0.8.0
+7bitflags v2.13.0 (*)
+7document-features v0.2.12 (proc-macro) (*)
+7hashbrown v0.15.5 (*)
+7indexmap v2.14.0
+8equivalent v1.0.2
+8hashbrown v0.17.1
+7log v0.4.33
+7naga v26.0.0
+8arrayvec v0.7.8
+8bit-set v0.8.0 (*)
+8bitflags v2.13.0 (*)
+8cfg-if v1.0.4
+8codespan-reporting v0.12.0
+9unicode-width v0.2.2
+8half v2.7.1
+9cfg-if v1.0.4
+9num-traits v0.2.19 (*)
+9zerocopy v0.8.53
+10zerocopy-derive v0.8.53 (proc-macro)
+11proc-macro2 v1.0.106 (*)
+11quote v1.0.46 (*)
+11syn v2.0.118 (*)
+8hashbrown v0.15.5 (*)
+8hexf-parse v0.2.1
+8indexmap v2.14.0 (*)
+8libm v0.2.16
+8log v0.4.33
+8num-traits v0.2.19 (*)
+8once_cell v1.21.4
+8rustc-hash v1.1.0
+8thiserror v2.0.18 (*)
+8unicode-ident v1.0.24
+7once_cell v1.21.4
+7parking_lot v0.12.5 (*)
+7profiling v1.0.18
+7raw-window-handle v0.6.2
+7rustc-hash v1.1.0
+7smallvec v1.15.2
+7thiserror v2.0.18 (*)
+7wgpu-core-deps-apple v26.0.0
+8wgpu-hal v26.0.6
+9arrayvec v0.7.8
+9bitflags v2.13.0 (*)
+9block v0.1.6
+9cfg-if v1.0.4
+9core-graphics-types v0.2.0
+10bitflags v2.13.0 (*)
+10core-foundation v0.10.1
+11core-foundation-sys v0.8.7
+11libc v0.2.186
+10libc v0.2.186
+9hashbrown v0.15.5 (*)
+9libc v0.2.186
+9log v0.4.33
+9metal v0.32.0
+10bitflags v2.13.0 (*)
+10block v0.1.6
+10core-graphics-types v0.2.0 (*)
+10foreign-types v0.5.0
+11foreign-types-macros v0.2.3 (proc-macro)
+12proc-macro2 v1.0.106 (*)
+12quote v1.0.46 (*)
+12syn v2.0.118 (*)
+11foreign-types-shared v0.3.1
+10log v0.4.33
+10objc v0.2.7
+11malloc_buf v0.0.6
+12libc v0.2.186
+10paste v1.0.15 (proc-macro)
+9naga v26.0.0 (*)
+9objc v0.2.7 (*)
+9parking_lot v0.12.5 (*)
+9profiling v1.0.18
+9raw-window-handle v0.6.2
+9thiserror v2.0.18 (*)
+9wgpu-types v26.0.0
+10bitflags v2.13.0 (*)
+10bytemuck v1.25.0 (*)
+10log v0.4.33
+10thiserror v2.0.18 (*)
+7wgpu-hal v26.0.6 (*)
+7wgpu-types v26.0.0 (*)
+6wgpu-hal v26.0.6 (*)
+6wgpu-types v26.0.0 (*)
+3parley v0.6.0 (*)
+3tracing v0.1.44 (*)
+3ui-events v0.2.0 (*)
+3vello v0.6.0 (*)
+2masonry_winit v0.4.0
+3accesskit_winit v0.29.2
+4accesskit v0.21.1
+4accesskit_macos v0.22.2
+5accesskit v0.21.1
+5accesskit_consumer v0.31.0
+6accesskit v0.21.1
+6hashbrown v0.15.5 (*)
+5hashbrown v0.15.5 (*)
+5objc2 v0.5.2
+6objc-sys v0.3.5
+6objc2-encode v4.1.0
+5objc2-app-kit v0.2.2
+6bitflags v2.13.0 (*)
+6objc2 v0.5.2 (*)
+6objc2-foundation v0.2.2
+7bitflags v2.13.0 (*)
+7block2 v0.5.1
+8objc2 v0.5.2 (*)
+7dispatch v0.2.0
+7objc2 v0.5.2 (*)
+5objc2-foundation v0.2.2 (*)
+4raw-window-handle v0.6.2
+4winit v0.30.13
+5bitflags v2.13.0 (*)
+5block2 v0.5.1 (*)
+5core-foundation v0.9.4
+6core-foundation-sys v0.8.7
+6libc v0.2.186
+5core-graphics v0.23.2
+6bitflags v1.3.2
+6core-foundation v0.9.4 (*)
+6core-graphics-types v0.1.3
+7bitflags v1.3.2
+7core-foundation v0.9.4 (*)
+7libc v0.2.186
+6foreign-types v0.5.0 (*)
+6libc v0.2.186
+5cursor-icon v1.2.0
+5dpi v0.1.2
+5objc2 v0.5.2 (*)
+5objc2-app-kit v0.2.2 (*)
+5objc2-foundation v0.2.2 (*)
+5raw-window-handle v0.6.2
+5smol_str v0.2.2
+5tracing v0.1.44 (*)
+3copypasta v0.10.2
+4objc2 v0.5.2 (*)
+4objc2-app-kit v0.2.2 (*)
+4objc2-foundation v0.2.2 (*)
+3masonry_core v0.4.0 (*)
+3pollster v0.4.0
+3tracing v0.1.44 (*)
+3ui-events-winit v0.2.0
+4ui-events v0.2.0 (*)
+4winit v0.30.13 (*)
+3winit v0.30.13 (*)
+2tokio v1.52.3
+3pin-project-lite v0.2.17
+2tracing v0.1.44 (*)
+2vello v0.6.0 (*)
+2winit v0.30.13 (*)
+2xilem_core v0.4.0
+3anymore v1.0.0
+3hashbrown v0.16.1 (*)
+3tracing v0.1.44 (*)

@@ -1,0 +1,14 @@
+# SPEC-5 "Babel" — Dioxus. Same pinned framework version as iteration 1
+# (apps/dioxus-app): 0.7.9 with the "desktop" (wry/tao webview) renderer.
+# Built/run with plain cargo; the dx CLI is not used.
+# No helper crates: text shaping/fallback/BiDi/editing all come from WebKit.
+[package]
+name = "dioxus-babel"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+dioxus = { version = "=0.7.9", features = ["desktop"] }
+
+[profile.release]
+# Framework defaults; no size/LTO tuning so measurements are comparable.

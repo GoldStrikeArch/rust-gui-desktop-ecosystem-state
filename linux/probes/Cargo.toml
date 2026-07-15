@@ -1,0 +1,21 @@
+[package]
+name = "linux-probes"
+version = "0.1.0"
+edition = "2021"
+publish = false
+
+# Iteration-5 Linux fault-line probes. Versions pinned to the exact resolutions
+# in apps/iced-tray/Cargo.lock (muda 0.19.3 arrives there as tray-icon 0.24.1's
+# re-export) so the probes test the same code the shell apps ship.
+#
+# muda: default-features = false drops the `libxdo` default feature (X11
+# keyboard-shortcut synthesis lib, not in the container image, and tray-icon
+# itself depends on muda without it). `init_for_gtk_window` is unaffected.
+[dependencies]
+winit = "=0.30.13"
+muda = { version = "=0.19.3", default-features = false }
+tray-icon = "=0.24.1"
+global-hotkey = "=0.7.0"
+
+[target.'cfg(target_os = "linux")'.dependencies]
+gtk = "=0.18.2"

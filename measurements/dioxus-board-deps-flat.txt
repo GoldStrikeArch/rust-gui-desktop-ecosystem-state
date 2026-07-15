@@ -1,0 +1,287 @@
+adler2 v2.0.1
+aligned v0.4.3
+aligned-vec v0.6.4
+anyhow v1.0.103
+arg_enum_proc_macro v0.3.4 (proc-macro)
+arrayvec v0.7.8
+as-slice v0.2.1
+async-trait v0.1.89 (proc-macro)
+av-scenechange v0.14.1
+av1-grain v0.2.5
+avif-serialize v0.8.9
+base64 v0.22.1
+bit_field v0.10.3
+bitflags v1.3.2
+bitflags v2.13.0
+bitstream-io v4.10.0
+block v0.1.6
+block-buffer v0.10.4
+block2 v0.6.2
+bytemuck v1.25.0
+byteorder v1.5.0
+byteorder-lite v0.1.0
+bytes v1.12.0
+cfb v0.7.3
+cfg-if v1.0.4
+cocoa v0.26.1
+cocoa-foundation v0.2.1
+color_quant v1.1.0
+const_format v0.2.36
+const_format_proc_macros v0.2.34 (proc-macro)
+const-serialize v0.7.2
+const-serialize v0.8.0-alpha.0
+const-serialize-macro v0.7.2 (proc-macro)
+const-serialize-macro v0.8.0-alpha.0 (proc-macro)
+convert_case v0.8.0
+cookie v0.18.1
+core-foundation v0.10.1
+core-foundation-sys v0.8.7
+core-graphics v0.24.0
+core-graphics v0.25.0
+core-graphics-types v0.2.0
+cpufeatures v0.2.17
+crc32fast v1.5.0
+crossbeam-channel v0.5.16
+crossbeam-deque v0.8.7
+crossbeam-epoch v0.9.20
+crossbeam-utils v0.8.22
+crypto-common v0.1.7
+darling v0.21.3
+darling_core v0.21.3
+darling_macro v0.21.3 (proc-macro)
+data-encoding v2.11.0
+deranged v0.5.8
+digest v0.10.7
+dioxus v0.7.9
+dioxus-asset-resolver v0.7.9
+dioxus-board v0.1.0 (/Users/mpl4/Desktop/workspace/self_learning/rust/gui-ecosystem-research/apps/dioxus-board)
+dioxus-cli-config v0.7.9
+dioxus-config-macro v0.7.9 (proc-macro)
+dioxus-config-macros v0.7.9
+dioxus-core v0.7.9
+dioxus-core-macro v0.7.9 (proc-macro)
+dioxus-core-types v0.7.9
+dioxus-desktop v0.7.9
+dioxus-devtools v0.7.9
+dioxus-devtools-types v0.7.9
+dioxus-document v0.7.9
+dioxus-history v0.7.9
+dioxus-hooks v0.7.9
+dioxus-html v0.7.9
+dioxus-html-internal-macro v0.7.9 (proc-macro)
+dioxus-interpreter-js v0.7.9
+dioxus-logger v0.7.9
+dioxus-rsx v0.7.9
+dioxus-signals v0.7.9
+dioxus-stores v0.7.9
+dioxus-stores-macro v0.7.9 (proc-macro)
+dirs v6.0.0
+dirs-sys v0.5.0
+dispatch2 v0.3.1
+displaydoc v0.2.6 (proc-macro)
+dpi v0.1.2
+dunce v1.0.5
+either v1.16.0
+enumset v1.1.13
+enumset_derive v0.15.0 (proc-macro)
+equator v0.4.2
+equator-macro v0.4.2 (proc-macro)
+errno v0.3.14
+euclid v0.22.14
+exr v1.74.0
+fastrand v2.4.1
+fax v0.2.7
+fdeflate v0.3.7
+flate2 v1.1.9
+fnv v1.0.7
+foreign-types v0.5.0
+foreign-types-macros v0.2.3 (proc-macro)
+foreign-types-shared v0.3.1
+form_urlencoded v1.2.2
+futures-channel v0.3.32
+futures-core v0.3.32
+futures-task v0.3.32
+futures-util v0.3.32
+generational-box v0.7.9
+generic-array v0.14.7
+getrandom v0.3.4
+getrandom v0.4.3
+gif v0.14.2
+global-hotkey v0.7.0
+half v2.7.1
+http v1.4.2
+httparse v1.10.1
+icu_collections v2.2.0
+icu_locale_core v2.2.0
+icu_normalizer v2.2.0
+icu_normalizer_data v2.2.0
+icu_properties v2.2.0
+icu_properties_data v2.2.0
+icu_provider v2.2.0
+ident_case v1.0.1
+idna v1.1.0
+idna_adapter v1.2.2
+image v0.25.10
+image-webp v0.2.4
+imgref v1.12.2
+infer v0.19.0
+itertools v0.14.0
+itoa v1.0.18
+keyboard-types v0.7.0
+konst v0.2.20
+konst_macro_rules v0.2.19
+lazy_static v1.5.0
+lebe v0.5.3
+libc v0.2.186
+libloading v0.8.9
+litemap v0.8.2
+lock_api v0.4.14
+log v0.4.33
+longest-increasing-subsequence v0.1.0
+loop9 v0.1.5
+macro-string v0.1.4
+malloc_buf v0.0.6
+manganis v0.7.9
+manganis-core v0.7.9
+manganis-macro v0.7.9 (proc-macro)
+matchers v0.2.0
+maybe-rayon v0.1.1
+memchr v2.8.2
+memmap2 v0.9.11
+miniz_oxide v0.8.9
+moxcms v0.8.1
+muda v0.17.2
+native-tls v0.2.18
+new_debug_unreachable v1.0.6
+no_std_io2 v0.9.4
+nom v8.0.0
+noop_proc_macro v0.3.0 (proc-macro)
+num-bigint v0.4.8
+num-conv v0.2.2
+num-derive v0.4.2 (proc-macro)
+num-integer v0.1.46
+num-rational v0.4.2
+num-traits v0.2.19
+objc v0.2.7
+objc2 v0.6.4
+objc2-app-kit v0.3.2
+objc2-core-foundation v0.3.2
+objc2-core-graphics v0.3.2
+objc2-encode v4.1.0
+objc2-exception-helper v0.1.1
+objc2-foundation v0.3.2
+objc2-web-kit v0.3.2
+once_cell v1.21.4
+option-ext v0.2.0
+parking_lot v0.12.5
+parking_lot_core v0.9.12
+paste v1.0.15 (proc-macro)
+pastey v0.1.1 (proc-macro)
+percent-encoding v2.3.2
+pin-project v1.1.13
+pin-project-internal v1.1.13 (proc-macro)
+pin-project-lite v0.2.17
+png v0.17.16
+png v0.18.1
+potential_utf v0.1.5
+powerfmt v0.2.0
+ppv-lite86 v0.2.21
+proc-macro2 v1.0.106
+proc-macro2-diagnostics v0.10.1
+profiling v1.0.18
+profiling-procmacros v1.0.18 (proc-macro)
+pxfm v0.1.30
+qoi v0.4.1
+quick-error v2.0.1
+quote v1.0.46
+rand v0.9.4
+rand_chacha v0.9.0
+rand_core v0.9.5
+rav1e v0.8.1
+ravif v0.13.0
+raw-window-handle v0.5.2
+raw-window-handle v0.6.2
+rayon v1.12.0
+rayon-core v1.13.0
+regex-automata v0.4.14
+regex-syntax v0.8.11
+rfd v0.17.2
+rgb v0.8.53
+rustc-hash v1.1.0
+rustc-hash v2.1.3
+rustix v1.1.4
+rustversion v1.0.23 (proc-macro)
+scopeguard v1.2.0
+security-framework v3.7.0
+security-framework-sys v2.17.0
+serde v1.0.228
+serde_core v1.0.228
+serde_derive v1.0.228 (proc-macro)
+serde_json v1.0.150
+serde_repr v0.1.20 (proc-macro)
+sha1 v0.10.6
+sharded-slab v0.1.7
+signal-hook v0.3.18
+signal-hook-registry v1.4.8
+simd_helpers v0.1.0 (proc-macro)
+simd-adler32 v0.3.9
+slab v0.4.12
+sledgehammer_bindgen v0.6.0
+sledgehammer_bindgen_macro v0.6.5 (proc-macro)
+sledgehammer_utils v0.3.1
+slotmap v1.1.1
+smallvec v1.15.2
+stable_deref_trait v1.2.1
+subsecond v0.7.9
+subsecond-types v0.7.9
+subtle v2.6.1
+syn v2.0.118
+synstructure v0.13.2
+tao v0.34.8
+tempfile v3.27.0
+thiserror v2.0.18
+thiserror-impl v2.0.18 (proc-macro)
+thread_local v1.1.9
+tiff v0.11.3
+time v0.3.53
+time-core v0.1.9
+time-macros v0.2.31 (proc-macro)
+tinystr v0.8.3
+tokio v1.52.3
+tokio-macros v2.7.0 (proc-macro)
+tracing v0.1.44
+tracing-attributes v0.1.31 (proc-macro)
+tracing-core v0.1.36
+tracing-subscriber v0.3.23
+tray-icon v0.21.3
+tungstenite v0.28.0
+typenum v1.20.1
+unicode-ident v1.0.24
+unicode-segmentation v1.13.3
+unicode-xid v0.2.6
+url v2.5.8
+utf-8 v0.7.6
+utf8_iter v1.0.4
+uuid v1.23.4
+v_frame v0.3.9
+warnings v0.2.1
+warnings-macro v0.2.0 (proc-macro)
+webbrowser v1.2.1
+weezl v0.1.12
+winnow v0.7.15
+writeable v0.6.3
+wry v0.53.5
+y4m v0.8.0
+yoke v0.8.3
+yoke-derive v0.8.2 (proc-macro)
+zerocopy v0.8.53
+zerocopy-derive v0.8.53 (proc-macro)
+zerofrom v0.1.8
+zerofrom-derive v0.1.7 (proc-macro)
+zerotrie v0.2.4
+zerovec v0.11.6
+zerovec-derive v0.11.3 (proc-macro)
+zmij v1.0.21
+zune-core v0.5.1
+zune-inflate v0.2.54
+zune-jpeg v0.5.15

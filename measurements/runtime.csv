@@ -1,0 +1,8 @@
+app,avg_cpu_pct,peak_cpu_pct,max_rss_mb,helper_procs
+dioxus-dash,11.9,14.2,208,3
+egui-dash,9.6,11.7,109,0
+gpui-dash,6.8,9.5,79,0
+iced-dash,3.5,4.6,95,0
+slint-dash,9.2,10,95,0
+tauri-dash,14.0,17.4,211,3
+xilem-dash,9.9,12.4,106,0

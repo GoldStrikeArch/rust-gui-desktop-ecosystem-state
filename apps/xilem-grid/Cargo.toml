@@ -1,0 +1,15 @@
+[package]
+name = "xilem-grid"
+version = "0.1.0"
+edition = "2021"
+publish = false
+
+# Independent crate — deliberately NOT a workspace member.
+[workspace]
+
+[dependencies]
+# Same pinned version as apps/xilem-app (latest crates.io release).
+xilem = "=0.4.0"
+
+[profile.release]
+# Defaults; kept explicit-free to match the other xilem apps.

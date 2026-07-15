@@ -1,0 +1,393 @@
+// Pulse — live metrics dashboard (Slint 1.17.1)
+//
+// Interactivity notes (research output):
+// * Charts: Slint has no chart widget. Sparklines and the main chart are `Path`
+//   elements whose `commands` strings (SVG path syntax) are rebuilt in Rust on
+//   every tick and re-tessellated by the renderer.
+// * DnD reorder: hand-rolled on TouchArea (pressed/moved/pointer-event) with a
+//   ghost card + slot indicator. The dragged card itself never moves, so the
+//   TouchArea coordinate space stays stable (avoids the classic feedback loop).
+// * Animation: declarative `animate` blocks (duration/easing/delay), incl.
+//   cubic-bezier easing. No springs, no per-frame callbacks in the DSL.
+
+import { Button, Slider } from "std-widgets.slint";
+
+export struct MetricData {
+    id: int,        // stable metric id, 0..5 (indexes the accent palette)
+    name: string,
+    unit: string,
+    display: string, // preformatted current value
+    spark: string,   // SVG path commands for the 60-sample sparkline
+    slot: int,       // grid slot 0..5 (permuted by drag-and-drop)
+}
+
+component MetricCard inherits Rectangle {
+    in property <MetricData> data;
+    in property <bool> selected;
+    in property <color> accent;
+    in property <bool> hovered;
+    in property <bool> dimmed;
+
+    border-radius: 12px;
+    background: self.selected ? #1b2334 : #161c29;
+    border-width: self.selected ? 2px : 1px;
+    border-color: self.selected ? self.accent : #273044;
+    opacity: self.dimmed ? 0.3 : 1.0;
+    // Hover elevation: animated drop shadow + accent border fade.
+    drop-shadow-color: #00000066;
+    drop-shadow-offset-y: self.hovered && !self.dimmed ? 6px : 2px;
+    drop-shadow-blur: self.hovered && !self.dimmed ? 18px : 0px;
+    animate border-color, background { duration: 150ms; }
+    animate drop-shadow-blur, drop-shadow-offset-y { duration: 160ms; easing: ease-out; }
+    animate opacity { duration: 120ms; }
+
+    VerticalLayout {
+        padding: 12px;
+        spacing: 2px;
+        HorizontalLayout {
+            spacing: 6px;
+            Text {
+                text: root.data.name;
+                color: #93a4c6;
+                font-size: 12px;
+                vertical-alignment: center;
+                horizontal-stretch: 1;
+            }
+            Rectangle {
+                width: 8px;
+                height: 8px;
+                y: (parent.height - 8px) / 2;
+                border-radius: 4px;
+                background: root.accent;
+            }
+        }
+        Text {
+            text: root.data.display + " " + root.data.unit;
+            color: #edf2fc;
+            font-size: 24px;
+            font-weight: 700;
+        }
+        Rectangle {
+            vertical-stretch: 1;
+            clip: true;
+            Path {
+                width: 100%;
+                height: 100%;
+                commands: root.data.spark;
+                viewbox-width: 59;
+                viewbox-height: 40;
+                stroke: root.accent;
+                stroke-width: 1.6px;
+                fill: transparent;
+            }
+        }
+    }
+}
+
+export component MainWindow inherits Window {
+    title: "Pulse (slint)";
+    preferred-width: 900px;
+    preferred-height: 640px;
+    min-width: 700px;
+    min-height: 520px;
+    background: #0e1219;
+
+    // --- data plumbing (all models/values owned by Rust) ---
+    in property <[MetricData]> metrics;
+    in property <int> selected-id: 0;
+    in property <bool> running: true;
+    in property <int> rate: 10;
+    in property <string> chart-line;
+    in property <string> chart-fill;
+    in property <[float]> chart-samples;
+    in property <float> chart-min;
+    in property <float> chart-max;
+    in property <int> chart-count: 300;
+    in property <string> sel-name;
+    in property <string> sel-unit;
+
+    callback reorder(from-slot: int, to-slot: int);
+    callback select(id: int);
+    callback toggle-pause();
+    callback rate-changed(hz: int);
+
+    property <[color]> accents: [#4cc9f0, #f72585, #ffd166, #06d6a0, #b085f5, #ff8552];
+    property <color> sel-color: root.accents[Math.clamp(root.selected-id, 0, 5)];
+
+    // --- drag state (hand-rolled DnD) ---
+    property <bool> drag-active: false;
+    property <int> drag-idx: -1;    // model row being dragged
+    property <int> drop-slot: -1;   // slot the card would land in
+    property <length> ghost-x;      // ghost position, grid-local
+    property <length> ghost-y;
+    property <length> gutter: 14px;
+
+    VerticalLayout {
+        padding: 16px;
+        spacing: 12px;
+
+        // ------- controls row -------
+        HorizontalLayout {
+            spacing: 10px;
+            Text {
+                text: "Pulse";
+                color: #edf2fc;
+                font-size: 20px;
+                font-weight: 800;
+                vertical-alignment: center;
+            }
+            Rectangle { horizontal-stretch: 1; }
+            Button {
+                text: root.running ? "Pause" : "Resume";
+                clicked => { root.toggle-pause(); }
+            }
+            Text {
+                text: "Tick rate";
+                color: #93a4c6;
+                font-size: 12px;
+                vertical-alignment: center;
+            }
+            Slider {
+                width: 180px;
+                minimum: 1;
+                maximum: 60;
+                value: 10;
+                changed(v) => { root.rate-changed(Math.round(v)); }
+            }
+            Text {
+                text: root.rate + " Hz";
+                color: #edf2fc;
+                font-size: 13px;
+                width: 44px;
+                vertical-alignment: center;
+            }
+        }
+
+        // ------- metric card grid (3 x 2, DnD reorder) -------
+        grid := Rectangle {
+            height: 250px;
+            property <length> cw: (self.width - 2 * root.gutter) / 3;
+            property <length> ch: (self.height - root.gutter) / 2;
+
+            pure function slot-x(s: int) -> length { Math.mod(s, 3) * (self.cw + root.gutter); }
+            pure function slot-y(s: int) -> length { Math.floor(s / 3) * (self.ch + root.gutter); }
+            // Which slot a grid-local point falls into (used with the ghost's center).
+            pure function slot-at(cx: length, cy: length) -> int {
+                Math.clamp(Math.floor((cy / 1px) / ((self.ch + root.gutter) / 1px)), 0, 1) * 3
+                    + Math.clamp(Math.floor((cx / 1px) / ((self.cw + root.gutter) / 1px)), 0, 2);
+            }
+
+            // Drop indicator: highlighted slot where the card would land.
+            if root.drag-active && root.drop-slot >= 0: Rectangle {
+                x: grid.slot-x(root.drop-slot);
+                y: grid.slot-y(root.drop-slot);
+                width: grid.cw;
+                height: grid.ch;
+                border-radius: 12px;
+                border-width: 2px;
+                border-color: root.accents[Math.clamp(root.metrics[root.drag-idx].id, 0, 5)];
+                background: #1c2537;
+                animate x, y { duration: 120ms; easing: ease-out; }
+            }
+
+            for m[i] in root.metrics: cardbox := Rectangle {
+                x: grid.slot-x(m.slot);
+                y: grid.slot-y(m.slot);
+                width: grid.cw;
+                height: grid.ch;
+                // Reorder settle animation when slots are reassigned on drop.
+                animate x, y { duration: 240ms; easing: cubic-bezier(0.22, 1.0, 0.36, 1.0); }
+
+                MetricCard {
+                    width: 100%;
+                    height: 100%;
+                    data: m;
+                    selected: root.selected-id == m.id;
+                    accent: root.accents[Math.clamp(m.id, 0, 5)];
+                    hovered: ta.has-hover;
+                    dimmed: root.drag-active && root.drag-idx == i;
+                }
+
+                ta := TouchArea {
+                    mouse-cursor: root.drag-active && root.drag-idx == i
+                        ? MouseCursor.grabbing : MouseCursor.grab;
+                    moved => {
+                        if (!root.drag-active
+                            && (Math.abs((self.mouse-x - self.pressed-x) / 1px) > 5
+                                || Math.abs((self.mouse-y - self.pressed-y) / 1px) > 5)) {
+                            root.drag-active = true;
+                            root.drag-idx = i;
+                        }
+                        if (root.drag-active && root.drag-idx == i) {
+                            root.ghost-x = cardbox.x + (self.mouse-x - self.pressed-x);
+                            root.ghost-y = cardbox.y + (self.mouse-y - self.pressed-y);
+                            root.drop-slot = grid.slot-at(
+                                root.ghost-x + grid.cw / 2, root.ghost-y + grid.ch / 2);
+                        }
+                    }
+                    pointer-event(e) => {
+                        if (e.kind == PointerEventKind.up) {
+                            if (root.drag-active && root.drag-idx == i) {
+                                if (root.drop-slot >= 0 && root.drop-slot != m.slot) {
+                                    root.reorder(m.slot, root.drop-slot);
+                                }
+                                root.drag-active = false;
+                                root.drag-idx = -1;
+                                root.drop-slot = -1;
+                            } else {
+                                root.select(m.id);
+                            }
+                        }
+                        if (e.kind == PointerEventKind.cancel && root.drag-idx == i) {
+                            root.drag-active = false;
+                            root.drag-idx = -1;
+                            root.drop-slot = -1;
+                        }
+                    }
+                }
+            }
+
+            // Ghost: floating copy of the dragged card, follows the cursor.
+            if root.drag-active && root.drag-idx >= 0: MetricCard {
+                x: root.ghost-x;
+                y: root.ghost-y;
+                width: grid.cw;
+                height: grid.ch;
+                data: root.metrics[root.drag-idx];
+                selected: false;
+                accent: root.accents[Math.clamp(root.metrics[root.drag-idx].id, 0, 5)];
+                hovered: true;
+                dimmed: false;
+                opacity: 0.92;
+                drop-shadow-blur: 28px;
+                drop-shadow-offset-y: 12px;
+                drop-shadow-color: #000000aa;
+            }
+        }
+
+        // ------- main chart (selected metric, last 300 samples) -------
+        chartpanel := Rectangle {
+            vertical-stretch: 1;
+            background: #131824;
+            border-radius: 12px;
+            border-width: 1px;
+            border-color: #232b3d;
+
+            VerticalLayout {
+                padding: 14px;
+                spacing: 6px;
+                HorizontalLayout {
+                    Text {
+                        text: root.sel-name + " — last 300 samples";
+                        color: #93a4c6;
+                        font-size: 13px;
+                    }
+                    Rectangle { horizontal-stretch: 1; }
+                    Text {
+                        text: root.running ? "● live" : "❚❚ paused";
+                        color: root.running ? #3ad67d : #e0b34e;
+                        font-size: 12px;
+                    }
+                }
+
+                plot := Rectangle {
+                    vertical-stretch: 1;
+                    clip: true;
+
+                    property <int> hidx: Math.clamp(
+                        Math.round((hover.mouse-x / Math.max(self.width, 1px)) * (root.chart-count - 1)),
+                        0, root.chart-count - 1);
+                    property <float> hval: root.chart-samples[self.hidx];
+                    property <float> hnorm: (root.chart-max - root.chart-min) > 0.0001
+                        ? (self.hval - root.chart-min) / (root.chart-max - root.chart-min)
+                        : 0.5;
+                    property <length> cross-x: root.chart-count > 1
+                        ? self.hidx / (root.chart-count - 1) * self.width
+                        : 0px;
+                    property <length> marker-y: (1 - self.hnorm) * self.height;
+
+                    for gl in [0.25, 0.5, 0.75]: Rectangle {
+                        y: gl * parent.height;
+                        height: 1px;
+                        width: 100%;
+                        background: #1d2536;
+                    }
+
+                    Path {
+                        width: 100%;
+                        height: 100%;
+                        commands: root.chart-fill;
+                        viewbox-width: 299;
+                        viewbox-height: 100;
+                        fill: root.sel-color.transparentize(0.85);
+                        stroke: transparent;
+                    }
+                    Path {
+                        width: 100%;
+                        height: 100%;
+                        commands: root.chart-line;
+                        viewbox-width: 299;
+                        viewbox-height: 100;
+                        stroke: root.sel-color;
+                        stroke-width: 2px;
+                        fill: transparent;
+                    }
+
+                    hover := TouchArea {
+                        mouse-cursor: MouseCursor.crosshair;
+                    }
+
+                    // Crosshair + marker + tooltip on hover.
+                    if hover.has-hover: Rectangle {
+                        x: plot.cross-x;
+                        width: 1px;
+                        height: 100%;
+                        background: #8fa5cd88;
+                    }
+                    if hover.has-hover: Rectangle {
+                        x: plot.cross-x - 4px;
+                        y: plot.marker-y - 4px;
+                        width: 8px;
+                        height: 8px;
+                        border-radius: 4px;
+                        background: root.sel-color;
+                        border-width: 1px;
+                        border-color: #ffffff;
+                    }
+                    if hover.has-hover: tooltip := Rectangle {
+                        x: Math.min(plot.cross-x + 14px, plot.width - self.width - 4px);
+                        y: Math.max(plot.marker-y - 40px, 4px);
+                        width: tt.preferred-width + 16px;
+                        height: 26px;
+                        background: #0b0f16ee;
+                        border-radius: 6px;
+                        border-width: 1px;
+                        border-color: #2c3650;
+                        tt := Text {
+                            x: 8px;
+                            height: 100%;
+                            vertical-alignment: center;
+                            text: "#" + plot.hidx + "  " + (Math.round(plot.hval * 10) / 10) + " " + root.sel-unit;
+                            color: #e8eefc;
+                            font-size: 12px;
+                        }
+                    }
+                }
+
+                HorizontalLayout {
+                    Text {
+                        text: "min " + (Math.round(root.chart-min * 10) / 10);
+                        color: #5d6c8c;
+                        font-size: 11px;
+                    }
+                    Rectangle { horizontal-stretch: 1; }
+                    Text {
+                        text: "max " + (Math.round(root.chart-max * 10) / 10);
+                        color: #5d6c8c;
+                        font-size: 11px;
+                    }
+                }
+            }
+        }
+    }
+}

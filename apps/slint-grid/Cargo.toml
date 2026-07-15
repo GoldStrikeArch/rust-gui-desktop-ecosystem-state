@@ -1,0 +1,16 @@
+[package]
+name = "slint-grid"
+version = "0.1.0"
+edition = "2021"
+
+# Default slint features (winit backend, femtovg renderer) — same pin as
+# apps/slint-app. No helper crates: PRNG is a hand-rolled xorshift*, dates are
+# a 20-line days->ISO converter (avoids chrono/rand).
+[dependencies]
+slint = "=1.17.1"
+
+[build-dependencies]
+slint-build = "=1.17.1"
+
+[profile.release]
+debug = false

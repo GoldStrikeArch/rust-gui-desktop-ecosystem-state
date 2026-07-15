@@ -1,0 +1,165 @@
+/* Board (Tauri) — kanban styling. Animations: FLIP transforms set by JS on
+   drop/reorder/delete, a CSS keyframe pop-in for new cards, and CSS
+   transitions for hover states. */
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #141821;
+  --col: #1c2230;
+  --card: #262e42;
+  --card-hover: #2c3550;
+  --border: #323b54;
+  --text: #dbe2f0;
+  --muted: #8b95ab;
+  --accent: #5b9cf5;
+}
+
+html, body { height: 100%; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  overflow: hidden;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.board {
+  display: flex;
+  gap: 14px;
+  height: 100%;
+  padding: 14px;
+}
+
+/* columns --------------------------------------------------------------- */
+
+.column {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  background: var(--col);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 10px;
+}
+
+.column header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 2px 4px 10px;
+}
+
+.column h2 { font-size: 14px; font-weight: 600; letter-spacing: .03em; }
+
+.count {
+  min-width: 24px;
+  padding: 2px 8px;
+  border-radius: 99px;
+  background: var(--card);
+  color: var(--muted);
+  font-size: 12px;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+
+/* independent per-column scrolling */
+.cards {
+  flex: 1;
+  min-height: 40px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 2px;
+}
+
+/* cards ------------------------------------------------------------------ */
+
+.kcard {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  cursor: grab;
+  transition: background .12s ease, box-shadow .12s ease;
+}
+.kcard:hover { background: var(--card-hover); box-shadow: 0 3px 10px rgba(0,0,0,.35); }
+.kcard.dragging { opacity: .35; cursor: grabbing; }
+
+.kcard-text {
+  flex: 1;
+  font-size: 13px;
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+}
+
+.kcard-del {
+  flex: none;
+  width: 22px;
+  height: 22px;
+  border: none;
+  border-radius: 5px;
+  background: transparent;
+  color: var(--muted);
+  font-size: 12px;
+  cursor: pointer;
+  transition: background .12s ease, color .12s ease;
+}
+.kcard-del:hover { background: #43304050; color: #f27979; }
+
+.kcard-edit, .add-input {
+  width: 100%;
+  padding: 6px 8px;
+  border: 1px solid var(--accent);
+  border-radius: 6px;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 13px;
+  font-family: inherit;
+  outline: none;
+}
+.kcard-edit { flex: 1; }
+
+/* pop-in for newly added cards */
+.kcard-new { animation: pop-in 180ms ease; }
+@keyframes pop-in {
+  from { transform: scale(.92) translateY(6px); opacity: 0; }
+  to   { transform: scale(1) translateY(0); opacity: 1; }
+}
+
+/* drop indicator ---------------------------------------------------------- */
+
+.drop-indicator {
+  flex: none;
+  height: 3px;
+  margin: -2px 2px;
+  border-radius: 2px;
+  background: var(--accent);
+  box-shadow: 0 0 6px var(--accent);
+  pointer-events: none;
+}
+
+/* add affordance ----------------------------------------------------------- */
+
+.add-btn {
+  margin-top: 8px;
+  padding: 8px;
+  border: 1px dashed var(--border);
+  border-radius: 8px;
+  background: transparent;
+  color: var(--muted);
+  font-size: 13px;
+  text-align: left;
+  cursor: pointer;
+  transition: color .12s ease, border-color .12s ease, background .12s ease;
+}
+.add-btn:hover { color: var(--text); border-color: var(--accent); background: #232b40; }
+
+.add-input { margin-top: 8px; }

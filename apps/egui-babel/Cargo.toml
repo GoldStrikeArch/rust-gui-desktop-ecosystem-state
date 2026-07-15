@@ -1,0 +1,13 @@
+[package]
+name = "egui-babel"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.92" # egui 0.35 MSRV
+publish = false
+
+[dependencies]
+# Same pinned framework version as iteration 1 (apps/egui-app).
+eframe = "=0.35.0"
+# Diagnostics only: grapheme-cluster counter for the editor status line
+# (used to observe whether caret/backspace treat ZWJ emoji as one unit).
+unicode-segmentation = "1"

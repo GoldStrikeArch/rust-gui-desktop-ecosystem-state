@@ -1,0 +1,19 @@
+[package]
+name = "iced-app"
+version = "0.1.0"
+edition = "2024"
+
+# Latest stable iced on crates.io as of 2026-07-07 (released 2025-12-07).
+# Default features only: they already include the wgpu renderer, the
+# tiny-skia software fallback and automatic light/dark theme detection.
+# Iced 0.14's optional embedded font is not a default feature; this app uses
+# system-font discovery/fallback. Nothing in SPEC.md needs more.
+[dependencies]
+iced = "=0.14.0"
+
+# Packaging experiment (iteration 3): minimal cargo-bundle config.
+# icon.icns derived from apps/tauri-app/icons/icon-512.png (sips + iconutil).
+[package.metadata.bundle]
+name = "Iced Tasks"
+identifier = "org.rcn.icedapp"
+icon = ["icon.icns"]

@@ -1,0 +1,165 @@
+// Tray Notes (slint) — SPEC-4 OS shell integration test.
+import { TextEdit, Button, VerticalBox, HorizontalBox } from "std-widgets.slint";
+
+// Multi-window test: independent About window.
+export component AboutWindow inherits Window {
+    title: "About Tray Notes";
+    // preferred-width/height get overridden by the layout's preferred size
+    // when the root child is a layout (window opened at 261x100); min-*
+    // constraints are respected.
+    min-width: 340px;
+    min-height: 200px;
+    VerticalBox {
+        alignment: center;
+        Text {
+            text: "Tray Notes (Slint)";
+            font-size: 20px;
+            horizontal-alignment: center;
+        }
+        Text {
+            text: "SPEC-4 OS-shell integration test\nSlint 1.17.1 · winit backend · femtovg renderer";
+            horizontal-alignment: center;
+        }
+    }
+}
+
+// System tray icon (macOS: NSStatusItem menu-bar extra). Top-level component.
+// NOTE: the icon MUST be non-empty at creation time: the platform handle is
+// created once from a change tracker whose eval closure is `|_| true` (see
+// i-slint-core/items/system_tray.rs) — it never re-fires, so an icon set from
+// Rust after `new()` arrives too late and the tray silently fails with
+// "Failed to create a rgba8 buffer from an icon image". Use @image-url.
+export component TrayIcon inherits SystemTrayIcon {
+    icon: @image-url("tray-icon.png");
+    tooltip: "Tray Notes (Slint)";
+
+    callback show-hide();
+    callback new-note();
+    callback quit();
+
+    Menu {
+        MenuItem {
+            title: "Show/Hide window";
+            activated => { root.show-hide(); }
+        }
+        MenuItem {
+            title: "New note";
+            activated => { root.new-note(); }
+        }
+        MenuSeparator { }
+        MenuItem {
+            title: "Quit";
+            activated => { root.quit(); }
+        }
+    }
+}
+
+export component MainWindow inherits Window {
+    title: "Tray Notes (slint)";
+    preferred-width: 500px;
+    preferred-height: 420px;
+
+    in-out property <string> note-text <=> editor.text;
+    in property <image> pasted-image;
+    in property <bool> has-image: false;
+    in property <string> status: "Ready.";
+
+    callback new-note();
+    callback open-file();
+    callback save-file();
+    callback quit();
+    callback paste-image();
+    callback show-about();
+
+    // Native menubar (macOS: real top menu bar via muda).
+    // @keys(Control + X) maps Control -> Cmd on macOS (verified in
+    // i-slint-backend-winit/muda.rs: control => Modifiers::SUPER on macos).
+    MenuBar {
+        Menu {
+            title: "File";
+            MenuItem {
+                title: "New";
+                shortcut: @keys(Control + N);
+                activated => { root.new-note(); }
+            }
+            MenuItem {
+                title: "Open…";
+                shortcut: @keys(Control + O);
+                activated => { root.open-file(); }
+            }
+            MenuItem {
+                title: "Save…";
+                shortcut: @keys(Control + S);
+                activated => { root.save-file(); }
+            }
+            MenuSeparator { }
+            MenuItem {
+                title: "Quit Tray Notes";
+                shortcut: @keys(Control + Q);
+                activated => { root.quit(); }
+            }
+        }
+        Menu {
+            title: "Edit";
+            // No standard "roles" exist in Slint; these call the TextEdit's
+            // public cut()/copy()/paste()/select-all() functions directly.
+            // The menu accelerator intercepts the key before the focused
+            // TextInput sees it, so binding e.g. Cmd+V here MUST be routed
+            // back into the editor by hand — and it targets this specific
+            // editor, not "the focused widget".
+            MenuItem {
+                title: "Cut";
+                shortcut: @keys(Control + X);
+                activated => { editor.cut(); }
+            }
+            MenuItem {
+                title: "Copy";
+                shortcut: @keys(Control + C);
+                activated => { editor.copy(); }
+            }
+            MenuItem {
+                title: "Paste";
+                shortcut: @keys(Control + V);
+                activated => { editor.paste(); }
+            }
+            MenuSeparator { }
+            MenuItem {
+                title: "Select All";
+                shortcut: @keys(Control + A);
+                activated => { editor.select-all(); }
+            }
+        }
+        Menu {
+            title: "Help";
+            MenuItem {
+                title: "About Tray Notes";
+                activated => { root.show-about(); }
+            }
+        }
+    }
+
+    VerticalBox {
+        editor := TextEdit {
+            font-size: 14px;
+            wrap: word-wrap;
+            placeholder-text: "Type a note… (drop a .txt from Finder to load it)";
+        }
+        if root.has-image: Image {
+            source: root.pasted-image;
+            height: 110px;
+            image-fit: ImageFit.contain;
+        }
+        HorizontalBox {
+            padding: 0;
+            Button {
+                text: "Paste image";
+                clicked => { root.paste-image(); }
+            }
+            Text {
+                text: root.status;
+                vertical-alignment: center;
+                overflow: elide;
+            }
+        }
+    }
+}

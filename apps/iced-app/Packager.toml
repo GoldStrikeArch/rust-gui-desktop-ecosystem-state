@@ -1,0 +1,19 @@
+# Packaging experiment (iteration 3): cargo-packager comparison config.
+# Same app as the cargo-bundle config in Cargo.toml; used to compare the two
+# framework-neutral bundlers head-to-head. icon.icns shared with cargo-bundle.
+# `name` must be explicit: leaving it unset trips a cargo-packager 0.11.8 CLI
+# bug (find_nearset_pkg_name calls set_current_dir on the config FILE, which
+# fails with "Not a directory" and is silently swallowed during auto-detection,
+# surfacing only as "Couldn't detect a valid configuration file").
+name = "iced-app"
+product-name = "Iced Tasks"
+identifier = "org.rcn.icedapp"
+version = "0.1.0"
+icons = ["icon.icns"]
+formats = ["app", "dmg"]
+# Unlike the [package.metadata.packager] route, a standalone Packager.toml
+# infers nothing from Cargo.toml: binaries and dirs must be spelled out
+# (out-dir otherwise defaults to the project root).
+binaries = [{ path = "iced-app", main = true }]
+binaries-dir = "target/release"
+out-dir = "target/release/packager"

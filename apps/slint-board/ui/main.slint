@@ -1,0 +1,367 @@
+// Board — kanban with drag-and-drop (Slint 1.17.1)
+//
+// Research notes:
+// * Uses the DnD API that landed in recent Slint releases: `DragArea` (source,
+//   with press-threshold + `dragging` state + opaque `data-transfer` payload)
+//   and `DropArea` (target, `can-drop(DropEvent)` with a local cursor position
+//   on every DragMove, `dropped(DropEvent)`, `has-drag`).
+// * The payload is a `data-transfer` value, opaque in the DSL: it is built and
+//   parsed by Rust callbacks (`Logic.make-payload` / `Logic.drop-card`).
+// * Ghost: `DragArea.drag-image` only takes a *bitmap*; there is no way to
+//   render an element to an image from the DSL, so the ghost is a pseudo-ghost
+//   Rectangle driven by the positions reported to `can-drop` (it only tracks
+//   while the cursor is over some DropArea — the three columns cover most of
+//   the window, so in practice it follows everywhere that matters).
+// * Drop indicator + animation: a gap opens at the insertion index (cards
+//   below shift down with `animate y`) plus an accent slot highlight.
+// * Column scrolling: `Flickable { interactive: false; }` still handles wheel/
+//   trackpad scrolling (verified in i-slint-core flickable.rs) but no longer
+//   steals press-drags, so card dragging and scrolling coexist.
+
+import { LineEdit } from "std-widgets.slint";
+
+export struct CardData {
+    id: int,
+    text: string,
+}
+
+// Callbacks into Rust (model owner).
+export global Logic {
+    callback add-card(col: int, text: string);
+    callback delete-card(col: int, idx: int);
+    callback edit-card(col: int, idx: int, text: string);
+    callback drop-card(data: data-transfer, to-col: int, to-idx: int);
+    pure callback make-payload(col: int, idx: int) -> data-transfer;
+}
+
+// Shared drag/edit state, visible to all columns and the root ghost overlay.
+global DragState {
+    in-out property <bool> active: false;
+    in-out property <string> text;
+    in-out property <int> src-col: -1;
+    in-out property <int> src-idx: -1;
+    in-out property <int> target-col: -1;
+    in-out property <int> target-idx: -1;
+    in-out property <length> gx;  // ghost anchor, window coordinates
+    in-out property <length> gy;
+    in-out property <int> edit-col: -1;
+    in-out property <int> edit-idx: -1;
+    public function reset() {
+        active = false;
+        src-col = -1;
+        src-idx = -1;
+        target-col = -1;
+        target-idx = -1;
+    }
+}
+
+component BoardColumn inherits Rectangle {
+    in property <string> title;
+    in property <int> col-index;
+    in property <[CardData]> cards;
+    in property <color> accent;
+
+    property <length> card-h: 56px;
+    property <length> row-h: 64px;   // card + gap
+    property <bool> adding: false;
+    property <bool> drop-here: DragState.active && DragState.target-col == self.col-index;
+
+    border-radius: 12px;
+    border-width: 1px;
+    background: drop.has-drag ? #1a2130 : #161b26;
+    border-color: drop.has-drag ? self.accent : #242c3d;
+    animate background, border-color { duration: 120ms; }
+    horizontal-stretch: 1;
+
+    // Map a column-local y to an insertion index (midpoint semantics).
+    pure function insert-idx(pos-y: length) -> int {
+        Math.clamp(
+            Math.round(((pos-y - flick.y - flick.viewport-y) / 1px) / (self.row-h / 1px)),
+            0, self.cards.length);
+    }
+
+    drop := DropArea {
+        can-drop(event) => {
+            DragState.target-col = root.col-index;
+            DragState.target-idx = root.insert-idx(event.position.y);
+            DragState.gx = self.absolute-position.x + event.position.x;
+            DragState.gy = self.absolute-position.y + event.position.y;
+            return DragAction.move;
+        }
+        dropped(event) => {
+            Logic.drop-card(event.data, root.col-index, root.insert-idx(event.position.y));
+            DragState.reset();
+            return DragAction.move;
+        }
+
+        VerticalLayout {
+            padding: 10px;
+            spacing: 8px;
+
+            HorizontalLayout {
+                spacing: 6px;
+                Text {
+                    text: root.title;
+                    color: #e8eefc;
+                    font-size: 15px;
+                    font-weight: 700;
+                    vertical-alignment: center;
+                }
+                Rectangle { horizontal-stretch: 1; }
+                Rectangle {
+                    width: 32px;
+                    height: 20px;
+                    y: (parent.height - 20px) / 2;
+                    border-radius: 10px;
+                    background: #232c3f;
+                    Text {
+                        width: 100%;
+                        height: 100%;
+                        text: root.cards.length;
+                        color: root.accent;
+                        font-size: 12px;
+                        horizontal-alignment: center;
+                        vertical-alignment: center;
+                    }
+                }
+            }
+
+            flick := Flickable {
+                vertical-stretch: 1;
+                // Disable press-drag flicking so it cannot steal card drags;
+                // wheel/trackpad scroll events are still handled.
+                interactive: false;
+                viewport-height: Math.max(
+                    (root.cards.length + (root.drop-here ? 1 : 0)) * root.row-h + 2px,
+                    self.height);
+
+                // Drop indicator: highlighted slot at the insertion gap.
+                if root.drop-here: Rectangle {
+                    x: 0;
+                    y: DragState.target-idx * root.row-h;
+                    width: parent.width;
+                    height: root.card-h;
+                    border-radius: 10px;
+                    border-width: 2px;
+                    border-color: root.accent;
+                    background: root.accent.transparentize(0.88);
+                    animate y { duration: 130ms; easing: ease-out; }
+                }
+
+                for card[i] in root.cards: drag := DragArea {
+                    x: 0;
+                    // Gap opens below the insertion index while a drag hovers
+                    // this column — this shift IS the drop/reorder animation.
+                    y: i * root.row-h
+                        + (root.drop-here && i >= DragState.target-idx ? root.row-h : 0px);
+                    width: flick.width;
+                    height: root.card-h;
+                    animate y { duration: 150ms; easing: ease-out; }
+
+                    property <bool> editing: DragState.edit-col == root.col-index
+                        && DragState.edit-idx == i;
+                    enabled: !self.editing;
+                    allow-move: true;
+                    data: Logic.make-payload(root.col-index, i);
+                    changed dragging => {
+                        if (self.dragging) {
+                            DragState.active = true;
+                            DragState.text = card.text;
+                            DragState.src-col = root.col-index;
+                            DragState.src-idx = i;
+                            DragState.gx = self.absolute-position.x + self.width / 2;
+                            DragState.gy = self.absolute-position.y + self.height / 2;
+                        } else {
+                            // Fires on drop AND on cancel — single cleanup point.
+                            DragState.reset();
+                        }
+                    }
+
+                    cardrect := Rectangle {
+                        width: 100%;
+                        height: 100%;
+                        border-radius: 10px;
+                        background: main-ta.has-hover && !DragState.active ? #232c3f : #1f2533;
+                        border-width: 1px;
+                        border-color: drag.dragging ? root.accent : #2b3347;
+                        opacity: drag.dragging ? 0.35 : 1;
+                        drop-shadow-color: #00000055;
+                        drop-shadow-offset-y: 3px;
+                        drop-shadow-blur: main-ta.has-hover && !DragState.active ? 12px : 0px;
+                        animate opacity, background { duration: 120ms; }
+                        animate drop-shadow-blur { duration: 150ms; }
+
+                        main-ta := TouchArea {
+                            mouse-cursor: MouseCursor.grab;
+                            double-clicked => {
+                                DragState.edit-col = root.col-index;
+                                DragState.edit-idx = i;
+                            }
+                        }
+                        HorizontalLayout {
+                            padding: 10px;
+                            padding-right: 4px;
+                            spacing: 4px;
+                            Text {
+                                text: card.text;
+                                color: #dce5f7;
+                                font-size: 13px;
+                                wrap: word-wrap;
+                                overflow: elide;
+                                vertical-alignment: center;
+                                horizontal-stretch: 1;
+                            }
+                            del-ta := TouchArea {
+                                width: 24px;
+                                mouse-cursor: MouseCursor.pointer;
+                                Text {
+                                    width: 100%;
+                                    height: 100%;
+                                    text: "✕";
+                                    color: parent.has-hover ? #ff6b6b : #5c6a8a;
+                                    font-size: 13px;
+                                    horizontal-alignment: center;
+                                    vertical-alignment: center;
+                                }
+                                clicked => { Logic.delete-card(root.col-index, i); }
+                            }
+                        }
+
+                        // Inline edit: double-click, Enter commits, Esc cancels.
+                        if drag.editing: FocusScope {
+                            width: 100%;
+                            height: 100%;
+                            key-pressed(event) => {
+                                if (event.text == Key.Escape) {
+                                    DragState.edit-col = -1;
+                                    DragState.edit-idx = -1;
+                                    return accept;
+                                }
+                                reject
+                            }
+                            Rectangle {
+                                background: #1f2533;
+                                border-radius: 10px;
+                                border-width: 2px;
+                                border-color: root.accent;
+                                LineEdit {
+                                    x: 6px;
+                                    width: parent.width - 12px;
+                                    height: 34px;
+                                    y: (parent.height - 34px) / 2;
+                                    font-size: 13px;
+                                    init => {
+                                        self.text = card.text;
+                                        self.focus();
+                                        self.select-all();
+                                    }
+                                    accepted(text) => {
+                                        if (text != "") {
+                                            Logic.edit-card(root.col-index, i, text);
+                                        }
+                                        DragState.edit-col = -1;
+                                        DragState.edit-idx = -1;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            // "+ Add card" affordance -> inline input (Enter commits, Esc cancels).
+            if root.adding: Rectangle {
+                height: 34px;
+                FocusScope {
+                    width: 100%;
+                    height: 100%;
+                    key-pressed(event) => {
+                        if (event.text == Key.Escape) {
+                            root.adding = false;
+                            return accept;
+                        }
+                        reject
+                    }
+                    LineEdit {
+                        width: 100%;
+                        height: 100%;
+                        font-size: 13px;
+                        placeholder-text: "New card… (Enter / Esc)";
+                        init => { self.focus(); }
+                        accepted(text) => {
+                            if (text != "") { Logic.add-card(root.col-index, text); }
+                            root.adding = false;
+                        }
+                    }
+                }
+            }
+            if !root.adding: TouchArea {
+                height: 30px;
+                mouse-cursor: MouseCursor.pointer;
+                Rectangle {
+                    border-radius: 8px;
+                    background: parent.has-hover ? #212a3c : transparent;
+                    animate background { duration: 100ms; }
+                    Text {
+                        width: 100%;
+                        height: 100%;
+                        text: "+ Add card";
+                        color: #8fa1c7;
+                        font-size: 13px;
+                        horizontal-alignment: center;
+                        vertical-alignment: center;
+                    }
+                }
+                clicked => { root.adding = true; }
+            }
+        }
+    }
+}
+
+export component MainWindow inherits Window {
+    title: "Board (slint)";
+    preferred-width: 900px;
+    preferred-height: 600px;
+    min-width: 640px;
+    min-height: 400px;
+    background: #10141c;
+
+    in property <[CardData]> todo-cards;
+    in property <[CardData]> doing-cards;
+    in property <[CardData]> done-cards;
+
+    HorizontalLayout {
+        padding: 14px;
+        spacing: 12px;
+        BoardColumn { title: "Todo"; col-index: 0; cards: root.todo-cards; accent: #4cc9f0; }
+        BoardColumn { title: "Doing"; col-index: 1; cards: root.doing-cards; accent: #f4a261; }
+        BoardColumn { title: "Done"; col-index: 2; cards: root.done-cards; accent: #2dd4a7; }
+    }
+
+    // Pseudo drag ghost following the positions reported by the DropAreas.
+    if DragState.active: Rectangle {
+        x: DragState.gx - self.width * 0.35;
+        y: DragState.gy - 26px;
+        width: 240px;
+        height: 56px;
+        border-radius: 10px;
+        background: #273043;
+        border-width: 1px;
+        border-color: #3b4763;
+        drop-shadow-blur: 26px;
+        drop-shadow-color: #000000aa;
+        drop-shadow-offset-y: 10px;
+        opacity: 0.92;
+        HorizontalLayout {
+            padding: 10px;
+            Text {
+                text: DragState.text;
+                color: #e8eefc;
+                font-size: 13px;
+                wrap: word-wrap;
+                overflow: elide;
+                vertical-alignment: center;
+            }
+        }
+    }
+}

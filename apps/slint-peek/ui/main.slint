@@ -1,0 +1,163 @@
+import { Button, VerticalBox, HorizontalBox, ScrollView, GroupBox } from "std-widgets.slint";
+
+export component MainWindow inherits Window {
+    title: "Peek (slint)";
+    preferred-width: 900px;
+    preferred-height: 600px;
+    min-width: 720px;
+    min-height: 480px;
+
+    // ---- Camera ----
+    in property <image> camera-frame;
+    in property <bool> camera-running: false;
+    in property <string> camera-status: "stopped — press Start";
+    in property <float> presented-fps: 0;
+    in property <float> capture-fps: 0;
+    callback toggle-camera();
+
+    // ---- Mic ----
+    in property <bool> mic-running: false;
+    in property <float> mic-level: 0;   // 0..1, log-scaled in Rust
+    in property <float> mic-peak: 0;    // 0..1 peak hold
+    in property <string> mic-status: "mic stopped";
+    callback toggle-mic();
+
+    // ---- Audio out ----
+    in property <string> audio-status: "";
+    callback beep();
+
+    // ---- Gallery ----
+    in property <[image]> thumbs;
+    in property <int> thumbs-total: 0;
+    in property <int> thumbs-loaded: 0;
+    in property <string> gallery-status: "loading…";
+
+    HorizontalBox {
+        // Left column: camera + audio.
+        VerticalBox {
+            padding: 0;
+            horizontal-stretch: 0;
+            width: 44%;
+
+            GroupBox {
+                title: "Camera";
+                VerticalBox {
+                    padding: 0;
+                    Rectangle {
+                        background: #101014;
+                        border-radius: 6px;
+                        clip: true;
+                        height: self.width * 9 / 16;
+                        Image {
+                            width: parent.width;
+                            height: parent.height;
+                            source: root.camera-frame;
+                            image-fit: contain;
+                        }
+                        if !root.camera-running: Text {
+                            width: parent.width - 16px;
+                            text: root.camera-status;
+                            color: #c8c8cf;
+                            horizontal-alignment: center;
+                            wrap: word-wrap;
+                        }
+                    }
+                    HorizontalBox {
+                        padding: 0;
+                        Button {
+                            text: root.camera-running ? "Stop" : "Start";
+                            clicked => { root.toggle-camera(); }
+                        }
+                        Text {
+                            horizontal-stretch: 1;
+                            vertical-alignment: center;
+                            overflow: elide;
+                            text: root.camera-running
+                                ? "presented " + Math.round(root.presented-fps * 10) / 10
+                                  + " fps · capture " + Math.round(root.capture-fps * 10) / 10 + " fps"
+                                : "";
+                        }
+                    }
+                    if root.camera-running: Text {
+                        text: root.camera-status;
+                        overflow: elide;
+                        color: #888;
+                    }
+                }
+            }
+
+            GroupBox {
+                title: "Audio";
+                VerticalBox {
+                    padding: 0;
+                    // VU meter: filled bar + peak-hold marker.
+                    Rectangle {
+                        height: 22px;
+                        background: #26262b;
+                        border-radius: 4px;
+                        clip: true;
+                        Rectangle {
+                            x: 0;
+                            y: 0;
+                            height: parent.height;
+                            width: parent.width * Math.clamp(root.mic-level, 0, 1);
+                            background: root.mic-level > 0.85 ? #e5484d
+                                      : root.mic-level > 0.60 ? #f5a623
+                                      : #30a46c;
+                            animate width { duration: 40ms; }
+                        }
+                        Rectangle {
+                            x: parent.width * Math.clamp(root.mic-peak, 0, 1) - 1px;
+                            y: 0;
+                            width: 2px;
+                            height: parent.height;
+                            background: #ffffff;
+                        }
+                    }
+                    HorizontalBox {
+                        padding: 0;
+                        Button {
+                            text: root.mic-running ? "Stop mic" : "Start mic";
+                            clicked => { root.toggle-mic(); }
+                        }
+                        Button {
+                            text: "Beep";
+                            clicked => { root.beep(); }
+                        }
+                    }
+                    Text {
+                        text: root.mic-status + (root.audio-status == "" ? "" : " · " + root.audio-status);
+                        overflow: elide;
+                        color: #888;
+                    }
+                }
+            }
+        }
+
+        // Right column: gallery.
+        GroupBox {
+            title: "Gallery (" + root.thumbs-loaded + "/" + root.thumbs-total + ")";
+            VerticalBox {
+                padding: 0;
+                Text {
+                    text: root.gallery-status;
+                    overflow: elide;
+                    color: #888;
+                }
+                sv := ScrollView {
+                    property <length> cell: 104px;
+                    property <int> cols: Math.max(1, Math.floor((self.width - 12px) / self.cell));
+                    viewport-height: Math.ceil(root.thumbs.length / self.cols) * self.cell;
+                    for t[i] in root.thumbs: Image {
+                        x: Math.mod(i, sv.cols) * sv.cell + 2px;
+                        y: Math.floor(i / sv.cols) * sv.cell + 2px;
+                        width: sv.cell - 4px;
+                        height: sv.cell - 4px;
+                        source: t;
+                        image-fit: cover;
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,20 @@
+[package]
+name = "gpui-app"
+version = "0.1.0"
+edition = "2021"
+publish = false
+
+[dependencies]
+# Latest crates.io release as of 2026-07-07 (published 2025-10-22).
+# Feature "runtime_shaders": compile Metal shaders at app startup instead of
+# at build time — required because Xcode 26 no longer bundles the Metal
+# Toolchain (`xcrun metal` fails with "missing Metal Toolchain" unless the
+# multi-GB component is downloaded separately). Documented in GAPS.md.
+gpui = { version = "=0.2.2", features = ["runtime_shaders"] }
+
+# Packaging experiment (iteration 3): minimal cargo-bundle config.
+# icon.icns derived from apps/tauri-app/icons/icon-512.png (sips + iconutil).
+[package.metadata.bundle]
+name = "Gpui Tasks"
+identifier = "org.rcn.gpuiapp"
+icon = ["icon.icns"]

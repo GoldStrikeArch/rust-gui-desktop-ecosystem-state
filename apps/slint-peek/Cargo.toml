@@ -1,0 +1,24 @@
+[package]
+name = "slint-peek"
+version = "0.1.0"
+edition = "2021"
+
+# Same pinned framework version as apps/slint-app (iteration rule).
+[dependencies]
+slint = "=1.17.1"
+# Camera capture (AVFoundation backend on macOS), per SPEC-6.
+# 0.10.9 does not compile against nokhwa-bindings-macos 0.2.4 (frame channel
+# tuple grew a timestamp); 0.10.11 is the matching release.
+nokhwa = { version = "=0.10.11", features = ["input-avfoundation"] }
+# Mic input stream for the VU meter.
+cpal = "=0.17.3"
+# Audio output beep. Only the cpal playback path is needed (no decoders).
+rodio = { version = "=0.22.2", default-features = false, features = ["playback"] }
+# JPEG decode + downscale for the gallery thumbnails (Slint's own
+# Image::load_from_path decodes too, but gives no control over downscaling
+# or the background-thread handoff, so decode is done with `image`).
+# "png" is only used by the PEEK_SNAPSHOT verification hook.
+image = { version = "=0.25.10", default-features = false, features = ["jpeg", "png"] }
+
+[build-dependencies]
+slint-build = "=1.17.1"

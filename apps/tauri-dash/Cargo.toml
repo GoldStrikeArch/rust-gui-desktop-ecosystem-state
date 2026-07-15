@@ -1,0 +1,18 @@
+# Pulse (Tauri) — SPEC-2 live metrics dashboard.
+# Same manual plain-cargo Tauri v2 setup as ../tauri-app (no Node.js/npm/tauri-cli),
+# same pinned versions. serde/serde_json are required by #[tauri::command] and by
+# the Serialize payload pushed over the event bridge.
+[package]
+name = "tauri-dash"
+version = "0.1.0"
+edition = "2021"
+description = "Pulse live-metrics dashboard (RCN GUI ecosystem research, iteration 2) built with Tauri v2"
+license = "MIT"
+
+[build-dependencies]
+tauri-build = { version = "=2.6.3", features = [] }
+
+[dependencies]
+tauri = { version = "=2.11.5", features = [] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"

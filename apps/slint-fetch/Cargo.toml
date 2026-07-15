@@ -1,0 +1,23 @@
+[package]
+name = "slint-fetch"
+version = "0.1.0"
+edition = "2021"
+
+# Async model: reqwest futures REQUIRE a tokio reactor, so they cannot run on
+# slint::spawn_local (Slint's winit event loop has no reactor — proven by
+# src/bin/spawnlocal_probe.rs). A background tokio runtime (1 worker) runs all
+# network tasks; results are marshalled to the UI thread via
+# Weak::upgrade_in_event_loop. reqwest default features are off: plain-HTTP
+# localhost needs no TLS stack (cuts ~40 dep crates).
+[dependencies]
+slint = "=1.17.1"
+tokio = { version = "=1.52.3", features = ["rt-multi-thread", "time"] }
+reqwest = { version = "=0.12.24", default-features = false }
+serde = { version = "=1.0.228", features = ["derive"] }
+serde_json = "=1.0.150"
+
+[build-dependencies]
+slint-build = "=1.17.1"
+
+[profile.release]
+debug = false

@@ -1,0 +1,35 @@
+# Peek (Tauri) — media & hardware test, manual plain-cargo Tauri v2 setup
+# (no Node.js / npm / tauri-cli), cribbed from apps/tauri-app/.
+#
+# Feature flags:
+# - tauri: default features only. The asset protocol ("protocol-asset") must
+#   be enabled as a cargo feature IN ADDITION to tauri.conf.json's
+#   app.security.assetProtocol.enable — without the feature the asset://
+#   handler is compiled out.
+# - serde / serde_json: required by #[tauri::command] (de)serialization.
+#
+# Helper crates (recorded per audit rules):
+# - nokhwa =0.10.11 (input-avfoundation): the SPEC-6 Rust-side camera path
+#   (secondary path here; primary is JS getUserMedia inside WKWebView).
+[package]
+name = "tauri-peek"
+version = "0.1.0"
+edition = "2021"
+description = "Peek media/hardware mini-app (RCN GUI ecosystem research) built with Tauri v2"
+license = "MIT"
+
+[build-dependencies]
+tauri-build = { version = "=2.6.3", features = [] }
+
+[dependencies]
+tauri = { version = "=2.11.5", features = ["protocol-asset"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+nokhwa = { version = "=0.10.11", features = ["input-avfoundation"] }
+
+# Debug builds keep this crate unoptimized but optimize dependencies:
+# nokhwa's YUYV->RGBA conversion at -O0 managed only ~2.6 fps at 1080p
+# (measured), which would make the "IPC camera path" number a lie about
+# debug codegen rather than about the architecture.
+[profile.dev.package."*"]
+opt-level = 2

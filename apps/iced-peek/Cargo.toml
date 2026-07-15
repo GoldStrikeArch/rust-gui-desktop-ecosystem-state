@@ -1,0 +1,35 @@
+[package]
+name = "iced-peek"
+version = "0.1.0"
+edition = "2024"
+
+# Same pinned framework version as apps/iced-app (iteration 1).
+[dependencies]
+# `image` — the image widget (and wgpu image pipeline) is NOT a default
+#   feature; without it `iced::widget::image` does not exist.
+# `tokio` — executor backend. Needed both for `iced::time::every` (timers are
+#   only provided by the tokio/smol executor features, same finding as
+#   iced-dash) and because we use `tokio::task::spawn_blocking` for gallery
+#   JPEG decoding off the UI/executor threads.
+iced = { version = "=0.14.0", features = ["image", "tokio"] }
+
+# Camera capture. AVFoundation backend on macOS is behind the
+# `input-avfoundation` feature (verified against 0.10.11 on crates.io).
+# Default `decoding` feature stays on for MJPEG/YUV -> RGBA conversion.
+nokhwa = { version = "0.10.11", features = ["input-avfoundation"] }
+
+# Mic input (RMS meter). 0.18.1 is current stable, but rodio 0.22.2 still
+# pins cpal 0.17.x — pinning ours to match dedupes the CoreAudio binding
+# stack instead of compiling two incompatible cpal versions side by side.
+cpal = "=0.17.3"
+
+# Audio out (beep). 0.22 is the current API generation (OutputStreamBuilder).
+rodio = "0.22.2"
+
+# JPEG decode + downscale for gallery thumbnails. 0.25 matches what iced's
+# `image` feature already pulls in, so no duplicate major version.
+image = "0.25"
+
+# Direct dep so we can call `tokio::task::spawn_blocking` + `sync::Semaphore`
+# from Tasks; the runtime itself is the one iced's tokio feature drives.
+tokio = { version = "1", features = ["rt", "sync"] }

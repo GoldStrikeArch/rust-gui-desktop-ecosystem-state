@@ -1,0 +1,25 @@
+[package]
+name = "egui-app"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.92" # egui 0.35 MSRV
+publish = false
+
+[dependencies]
+# Latest stable at time of writing (published 2026-06-25).
+# Default features only: accesskit, default_fonts, wayland, x11,
+# web_screen_reader, and the wgpu renderer (default since 0.35's feature set).
+eframe = "=0.35.0"
+
+[dev-dependencies]
+# Official egui UI-testing harness; drives the app through its AccessKit
+# tree (dev-only: does not affect the shipped binary or `cargo tree
+# --edges normal` output).
+egui_kittest = "=0.35.0"
+
+# Packaging experiment (iteration 3): minimal cargo-bundle config.
+# icon.icns derived from apps/tauri-app/icons/icon-512.png (sips + iconutil).
+[package.metadata.bundle]
+name = "Egui Tasks"
+identifier = "org.rcn.eguiapp"
+icon = ["icon.icns"]

@@ -1,0 +1,10 @@
+[package]
+name = "iced-board"
+version = "0.1.0"
+edition = "2024"
+
+# Same pinned version as iteration 1 (apps/iced-app). Default features are
+# enough here: no canvas, no timers — DnD, inline edit and the drop animation
+# only need widgets, `event::listen_with`, `Animation` and `window::frames()`.
+[dependencies]
+iced = "=0.14.0"

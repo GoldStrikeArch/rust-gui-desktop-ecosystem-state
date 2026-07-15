@@ -1,0 +1,17 @@
+# SPEC-2 "Pulse" — Dioxus. Same pinned framework version as iteration 1
+# (apps/dioxus-app): 0.7.9 with the "desktop" (wry/tao webview) renderer.
+# Built/run with plain cargo; the dx CLI is not used.
+[package]
+name = "dioxus-dash"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+dioxus = { version = "=0.7.9", features = ["desktop"] }
+# Helper crate: tokio *time API only*. dioxus-desktop already runs everything
+# on a tokio runtime, but re-exports no timer, so the 1-60 Hz tick loop needs
+# tokio::time::sleep from the crate directly.
+tokio = { version = "1", features = ["time"] }
+
+[profile.release]
+# Framework defaults; no size/LTO tuning so measurements are comparable.

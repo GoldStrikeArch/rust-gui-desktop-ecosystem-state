@@ -1,0 +1,86 @@
+/* Live dark mode: explicit palettes on prefers-color-scheme so the flip is
+   unmistakable in screenshots; WKWebView re-evaluates the media query live
+   when the OS theme changes (no restart, no JS needed). */
+:root {
+  color-scheme: light dark;
+  font-family: system-ui, -apple-system, sans-serif;
+  --bg: #f4f4f2;
+  --panel: #ffffff;
+  --fg: #1c1c1e;
+  --border: #d0d0d0;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #1e1e20;
+    --panel: #2a2a2d;
+    --fg: #ececec;
+    --border: #48484c;
+  }
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  height: 100vh;
+  overflow: hidden;
+  background: var(--bg);
+  color: var(--fg);
+}
+
+.app {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  padding: 10px;
+  gap: 8px;
+}
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.toolbar button {
+  padding: 5px 12px;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.muted {
+  font-size: 12px;
+  opacity: 0.7;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+#status { margin-left: auto; }
+
+#editor {
+  flex: 1;
+  resize: none;
+  padding: 10px;
+  font-size: 14px;
+  font-family: inherit;
+  line-height: 1.45;
+  background: var(--panel);
+  color: var(--fg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+}
+
+.thumb-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+#thumb {
+  max-width: 96px;
+  max-height: 64px;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+}

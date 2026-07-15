@@ -1,0 +1,212 @@
+adler2 v2.0.1
+aho-corasick v1.1.4
+alloc-no-stdlib v2.0.4
+alloc-stdlib v0.2.4
+anyhow v1.0.103
+base64 v0.21.7
+base64 v0.22.1
+bit-set v0.8.0
+bit-vec v0.8.0
+bitflags v1.3.2
+bitflags v2.13.0
+block-buffer v0.10.4
+block2 v0.6.2
+brotli v8.0.4
+brotli-decompressor v5.0.3
+byteorder v1.5.0
+bytes v1.12.0
+camino v1.2.4
+cargo_metadata v0.19.2
+cargo-platform v0.1.9
+cfb v0.7.3
+cfg-if v1.0.4
+cookie v0.18.1
+core-foundation v0.10.1
+core-foundation-sys v0.8.7
+core-graphics v0.25.0
+core-graphics-types v0.2.0
+cpufeatures v0.2.17
+crc32fast v1.5.0
+crossbeam-channel v0.5.16
+crossbeam-utils v0.8.22
+crypto-common v0.1.7
+cssparser v0.36.0
+cssparser-macros v0.6.1 (proc-macro)
+ctor v0.8.0
+ctor-proc-macro v0.0.7 (proc-macro)
+darling v0.23.0
+darling_core v0.23.0
+darling_macro v0.23.0 (proc-macro)
+deranged v0.5.8
+derive_more v2.1.1
+derive_more-impl v2.1.1 (proc-macro)
+digest v0.10.7
+dirs v6.0.0
+dirs-sys v0.5.0
+dispatch2 v0.3.1
+displaydoc v0.2.6 (proc-macro)
+dom_query v0.27.0
+dpi v0.1.2
+dtoa v1.0.11
+dtoa-short v0.3.5
+dunce v1.0.5
+dyn-clone v1.0.20
+embed_plist v1.2.2
+equivalent v1.0.2
+erased-serde v0.4.10
+fastrand v2.4.1
+fdeflate v0.3.7
+flate2 v1.1.9
+fnv v1.0.7
+foldhash v0.2.0
+foreign-types v0.5.0
+foreign-types-macros v0.2.3 (proc-macro)
+foreign-types-shared v0.3.1
+form_urlencoded v1.2.2
+generic-array v0.14.7
+getrandom v0.3.4
+getrandom v0.4.3
+glob v0.3.3
+hashbrown v0.12.3
+hashbrown v0.17.1
+heck v0.5.0
+html5ever v0.38.0
+http v1.4.2
+ico v0.5.0
+icu_collections v2.2.0
+icu_locale_core v2.2.0
+icu_normalizer v2.2.0
+icu_normalizer_data v2.2.0
+icu_properties v2.2.0
+icu_properties_data v2.2.0
+icu_provider v2.2.0
+ident_case v1.0.1
+idna v1.1.0
+idna_adapter v1.2.2
+indexmap v1.9.3
+indexmap v2.14.0
+infer v0.19.0
+itoa v1.0.18
+json-patch v3.0.1
+jsonptr v0.6.3
+keyboard-types v0.7.0
+libc v0.2.186
+litemap v0.8.2
+lock_api v0.4.14
+log v0.4.33
+markup5ever v0.38.0
+memchr v2.8.2
+mime v0.3.17
+miniz_oxide v0.8.9
+muda v0.19.3
+new_debug_unreachable v1.0.6
+num-conv v0.2.2
+objc2 v0.6.4
+objc2-app-kit v0.3.2
+objc2-core-foundation v0.3.2
+objc2-encode v4.1.0
+objc2-exception-helper v0.1.1
+objc2-foundation v0.3.2
+objc2-web-kit v0.3.2
+once_cell v1.21.4
+option-ext v0.2.0
+parking_lot v0.12.5
+parking_lot_core v0.9.12
+percent-encoding v2.3.2
+phf v0.13.1
+phf_generator v0.13.1
+phf_macros v0.13.1 (proc-macro)
+phf_shared v0.13.1
+pin-project-lite v0.2.17
+plist v1.10.0
+png v0.17.16
+png v0.18.1
+potential_utf v0.1.5
+powerfmt v0.2.0
+precomputed-hash v0.1.1
+proc-macro2 v1.0.106
+quick-xml v0.41.0
+quote v1.0.46
+raw-window-handle v0.6.2
+regex v1.12.4
+regex-automata v0.4.14
+regex-syntax v0.8.11
+rustc-hash v2.1.3
+same-file v1.0.6
+schemars v0.8.22
+schemars_derive v0.8.22 (proc-macro)
+scopeguard v1.2.0
+selectors v0.36.1
+semver v1.0.28
+serde v1.0.228
+serde_core v1.0.228
+serde_derive v1.0.228 (proc-macro)
+serde_derive_internals v0.29.1
+serde_json v1.0.150
+serde_repr v0.1.20 (proc-macro)
+serde_spanned v1.1.1
+serde_with v3.21.0
+serde_with_macros v3.21.0 (proc-macro)
+serde-untagged v0.1.9
+serialize-to-javascript v0.1.2
+serialize-to-javascript-impl v0.1.2 (proc-macro)
+servo_arc v0.4.3
+sha2 v0.10.9
+simd-adler32 v0.3.9
+siphasher v1.0.3
+smallvec v1.15.2
+stable_deref_trait v1.2.1
+string_cache v0.9.0
+strsim v0.11.1
+swift-rs v1.0.7
+syn v2.0.118
+synstructure v0.13.2
+tao v0.35.3
+tauri v2.11.5
+tauri-codegen v2.6.3
+tauri-dash v0.1.0 (/Users/mpl4/Desktop/workspace/self_learning/rust/gui-ecosystem-research/apps/tauri-dash)
+tauri-macros v2.6.3 (proc-macro)
+tauri-runtime v2.11.3
+tauri-runtime-wry v2.11.4
+tauri-utils v2.9.3
+tendril v0.5.1
+thiserror v1.0.69
+thiserror v2.0.18
+thiserror-impl v1.0.69 (proc-macro)
+thiserror-impl v2.0.18 (proc-macro)
+time v0.3.53
+time-core v0.1.9
+time-macros v0.2.31 (proc-macro)
+tinystr v0.8.3
+tokio v1.52.3
+toml v1.1.2+spec-1.1.0
+toml_datetime v1.1.1+spec-1.1.0
+toml_parser v1.1.2+spec-1.1.0
+toml_writer v1.1.1+spec-1.1.0
+typeid v1.0.3
+typenum v1.20.1
+unic-char-property v0.9.0
+unic-char-range v0.9.0
+unic-common v0.9.0
+unic-ucd-ident v0.9.0
+unic-ucd-version v0.9.0
+unicode-ident v1.0.24
+unicode-segmentation v1.13.3
+url v2.5.8
+urlpattern v0.3.0
+utf8_iter v1.0.4
+uuid v1.23.4
+walkdir v2.5.0
+web_atoms v0.2.5
+window-vibrancy v0.6.0
+winnow v1.0.3
+writeable v0.6.3
+wry v0.55.1
+yoke v0.8.3
+yoke-derive v0.8.2 (proc-macro)
+zerofrom v0.1.8
+zerofrom-derive v0.1.7 (proc-macro)
+zerotrie v0.2.4
+zerovec v0.11.6
+zerovec-derive v0.11.3 (proc-macro)
+zmij v1.0.21

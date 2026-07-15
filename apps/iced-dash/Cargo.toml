@@ -1,0 +1,13 @@
+[package]
+name = "iced-dash"
+version = "0.1.0"
+edition = "2024"
+
+# Same pinned version as iteration 1 (apps/iced-app).
+# Default features: wgpu renderer + tiny-skia fallback and automatic
+# light/dark theme detection. The optional embedded font is not enabled.
+[dependencies]
+# `canvas` for the hand-drawn charts; `smol` because `iced::time::every` (timers) is
+# only provided by the tokio/smol executor backends, not the default
+# thread-pool one (the upstream stopwatch example does the same).
+iced = { version = "=0.14.0", features = ["canvas", "smol"] }

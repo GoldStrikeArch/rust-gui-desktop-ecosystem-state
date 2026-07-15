@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Babel (Tauri)</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="app">
+    <div class="toolbar">
+      <strong>Babel</strong>
+      <button id="big-doc" type="button">Load big doc</button>
+      <button id="reset-doc" type="button">Reset</button>
+      <span id="status" class="muted" aria-live="polite"></span>
+    </div>
+    <div class="panes">
+      <section id="render" class="render-pane" aria-label="Rendering pane"></section>
+      <textarea
+        id="editor"
+        class="editor-pane"
+        aria-label="Editing pane"
+        spellcheck="false"
+        autofocus
+      ></textarea>
+    </div>
+  </main>
+  <script src="main.js"></script>
+</body>
+</html>

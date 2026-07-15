@@ -1,0 +1,24 @@
+[package]
+name = "egui-grid"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.92" # egui 0.35 MSRV
+publish = false
+
+# NOT a workspace member (SPEC-2 rule); standalone crate.
+[workspace]
+
+[dependencies]
+# Same pin as iteration 1 (apps/egui-app).
+eframe = "=0.35.0"
+# Table widget (TableBuilder: virtualized rows, resizable columns). Lives in
+# the main egui repo, so — unlike egui_plot/egui_dnd — the version is NOT
+# offset: egui_extras 0.35.0 -> egui ^0.35.0 (verified via crates.io
+# dependency metadata, 2026-07-09). No extra features needed for tables.
+egui_extras = "=0.35.0"
+
+[dev-dependencies]
+# `wgpu` feature: lets tests rasterize the UI (`Harness::render`) so the
+# table/chips can be verified visually without touching the shared desktop.
+egui_kittest = { version = "=0.35.0", features = ["wgpu"] }
+image = { version = "=0.25.10", default-features = false, features = ["png"] }

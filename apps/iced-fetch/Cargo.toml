@@ -1,0 +1,25 @@
+[package]
+name = "iced-fetch"
+version = "0.1.0"
+edition = "2024"
+
+# Same pinned iced as iteration 1 (apps/iced-app).
+# - `tokio`: swaps iced's executor for the tokio runtime so Task futures can
+#   use tokio primitives (reqwest requires a tokio reactor; the default
+#   thread-pool executor has no reactor and reqwest panics on it).
+# - `sipper`: enables `Task::sip` — iced 0.14's first-party streamed-progress
+#   story (progress messages + final output from one task, abortable).
+[dependencies]
+iced = { version = "=0.14.0", features = ["tokio", "sipper"] }
+
+# HTTP client. default-features = false: plain HTTP to 127.0.0.1 needs no TLS
+# stack. `json` for /search + /flaky bodies, `stream` for bytes_stream() on
+# /download (progress + real mid-body cancellation).
+reqwest = { version = "=0.12.24", default-features = false, features = ["json", "stream"] }
+
+# Already a transitive dep via iced's tokio executor + reqwest; declared
+# directly only for tokio::time::sleep (the 250 ms debounce timer).
+tokio = { version = "1", features = ["time"] }
+
+# Deserializing the /search JSON array into typed results.
+serde = { version = "1", features = ["derive"] }

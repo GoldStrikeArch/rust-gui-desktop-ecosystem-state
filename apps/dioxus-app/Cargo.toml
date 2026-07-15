@@ -1,0 +1,20 @@
+[package]
+name = "dioxus-app"
+version = "0.1.0"
+edition = "2021"
+
+# Latest stable Dioxus on crates.io as of 2026-07-07 (0.8 is alpha-only).
+# Feature "desktop" enables the wry/tao webview renderer (dioxus-desktop).
+# All other features are the crate defaults (launch, devtools, logger, lib).
+[dependencies]
+dioxus = { version = "=0.7.9", features = ["desktop"] }
+
+[profile.release]
+# Framework defaults; no size/LTO tuning so measurements are comparable.
+
+# Packaging experiment (iteration 3): minimal cargo-bundle config.
+# icon.icns derived from apps/tauri-app/icons/icon-512.png (sips + iconutil).
+[package.metadata.bundle]
+name = "Dioxus Tasks"
+identifier = "org.rcn.dioxusapp"
+icon = ["icon.icns"]

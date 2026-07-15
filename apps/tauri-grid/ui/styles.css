@@ -1,0 +1,138 @@
+/* Grid (Tauri) — SPEC-7. Hand-rolled virtualized table styling.
+   Column widths live in CSS custom properties --w-0..--w-5 on .app so the
+   pointer-event resize code only touches one node. */
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --row-h: 28px;
+  color-scheme: light dark;
+}
+
+html, body { height: 100%; }
+
+body {
+  font: 13px/1.4 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: #f4f5f7;
+  color: #1c1e21;
+}
+
+.app {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  gap: 8px;
+  /* Column widths (px), resized by dragging header dividers. */
+  --w-0: 70px;   /* ID */
+  --w-1: 240px;  /* Name */
+  --w-2: 110px;  /* Category */
+  --w-3: 110px;  /* Value */
+  --w-4: 120px;  /* Date */
+  --w-5: 90px;   /* Status */
+}
+
+.toolbar { display: flex; align-items: center; gap: 12px; }
+
+#filter-input {
+  flex: 0 0 280px;
+  padding: 6px 10px;
+  border: 1px solid #c5c9d0;
+  border-radius: 6px;
+  font-size: 13px;
+  background: #fff;
+}
+#filter-input:focus { outline: 2px solid #3a76d0; outline-offset: -1px; }
+
+.row-count { color: #5a6270; font-variant-numeric: tabular-nums; }
+
+/* One scroll container for both axes; the header row is sticky so it stays
+   pinned vertically while scrolling horizontally in lockstep with rows. */
+.viewport {
+  flex: 1;
+  overflow: auto;
+  background: #fff;
+  border: 1px solid #d5d9e0;
+  border-radius: 8px;
+  position: relative;
+}
+
+.spacer { position: relative; width: max-content; min-width: 100%; }
+.slice { position: absolute; left: 0; top: 0; width: max-content; min-width: 100%; }
+
+.row {
+  display: flex;
+  width: max-content;
+  min-width: 100%;
+  height: var(--row-h);
+  align-items: center;
+  border-bottom: 1px solid #eef0f3;
+}
+.row.even { background: #fafbfc; }
+.row:not(.header):hover { background: #f0f4fa; }
+.row.selected, .row.selected.even { background: #d7e6fb; }
+
+.cell {
+  flex: none;
+  padding: 0 10px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.c0 { width: var(--w-0); }
+.c1 { width: var(--w-1); }
+.c2 { width: var(--w-2); }
+.c3 { width: var(--w-3); text-align: right; font-variant-numeric: tabular-nums; }
+.c4 { width: var(--w-4); font-variant-numeric: tabular-nums; }
+.c5 { width: var(--w-5); }
+
+/* Header */
+.row.header {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background: #e9ecf1;
+  border-bottom: 1px solid #c5c9d0;
+  font-weight: 600;
+  user-select: none;
+  -webkit-user-select: none;
+}
+.header .cell { position: relative; cursor: pointer; }
+.header .cell:hover { background: #dde2ea; }
+.sort-ind { margin-left: 4px; font-size: 10px; color: #3a76d0; }
+
+/* Resize handle: a thin hit target on the right edge of each header cell. */
+.divider {
+  position: absolute;
+  top: 0;
+  right: -4px;
+  width: 8px;
+  height: 100%;
+  cursor: col-resize;
+  z-index: 3;
+}
+.divider::after {
+  content: "";
+  position: absolute;
+  right: 3px;
+  top: 20%;
+  height: 60%;
+  width: 1px;
+  background: #b9bfc9;
+}
+.divider:hover::after, .divider.dragging::after { width: 3px; right: 2px; background: #3a76d0; }
+
+/* Status chip — custom cell rendering test. */
+.chip {
+  display: inline-block;
+  padding: 1px 8px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 16px;
+}
+.chip-ok   { background: #d9f0dd; color: #1e6b2e; }
+.chip-warn { background: #fdeeca; color: #8a6100; }
+.chip-err  { background: #fbdcd8; color: #a92a1c; }
+
+.placeholder { color: #b0b6bf; }

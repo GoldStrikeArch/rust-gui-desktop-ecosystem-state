@@ -1,0 +1,16 @@
+{
+  "$schema": "../gen/schemas/desktop-schema.json",
+  "identifier": "default",
+  "description": "Core defaults plus the http plugin's fetch permissions, URL-scoped to the local fetcher server. This is the remote-domain ACL: any URL not matching an allow entry is rejected by the plugin at request time. NOTE: the scope is baked in at build time — it cannot follow a runtime FETCHER_PORT other than 7878 (documented friction).",
+  "windows": ["main"],
+  "permissions": [
+    "core:default",
+    {
+      "identifier": "http:default",
+      "allow": [
+        { "url": "http://localhost:7878/*" },
+        { "url": "http://127.0.0.1:7878/*" }
+      ]
+    }
+  ]
+}

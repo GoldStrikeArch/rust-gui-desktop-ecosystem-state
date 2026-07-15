@@ -1,0 +1,86 @@
+// Babel (slint) — SPEC-5 text & i18n stress test.
+// Stacked panes (more idiomatic at 800px width: corpus lines stay unwrapped
+// and readable): rendering pane on top, editing pane below.
+import { TextEdit, Button, ListView, VerticalBox, HorizontalBox } from "std-widgets.slint";
+
+export component BabelWindow inherits Window {
+    title: "Babel (slint)";
+    preferred-width: 800px;
+    preferred-height: 600px;
+
+    in property <[string]> corpus-lines;
+    in property <string> doc-info: "";
+    in-out property <string> editor-text <=> editor.text;
+    // Rendering-pane scroll offset, exposed for the scripted scroll test.
+    in-out property <length> render-viewport-y <=> list.viewport-y;
+    out property <length> render-viewport-height: list.viewport-height;
+
+    callback load-big-doc();
+    callback reset-doc();
+
+    // Test hooks (BABEL_TEST_EDIT): programmatic focus + editor geometry so
+    // synthetic platform events can be dispatched at the right coordinates.
+    public function focus-editor() {
+        editor.focus();
+    }
+    public function editor-select-all() {
+        editor.select-all();
+    }
+    public function editor-copy() {
+        editor.copy();
+    }
+    public function editor-paste() {
+        editor.paste();
+    }
+    out property <length> editor-abs-x: editor.absolute-position.x;
+    out property <length> editor-abs-y: editor.absolute-position.y;
+    out property <length> editor-w: editor.width;
+
+    VerticalBox {
+        HorizontalBox {
+            padding: 0;
+            Button {
+                text: "Load big doc";
+                clicked => { root.load-big-doc(); }
+            }
+            Button {
+                text: "Reset";
+                clicked => { root.reset-doc(); }
+            }
+            Text {
+                text: root.doc-info;
+                vertical-alignment: center;
+                overflow: elide;
+            }
+        }
+
+        // Rendering pane: one Text element per paragraph inside a virtualized
+        // ListView (the idiomatic Slint shape for an 11k-line document).
+        list := ListView {
+            vertical-stretch: 1.4;
+            for line in root.corpus-lines: Rectangle {
+                height: 26px;
+                Text {
+                    x: 4px;
+                    width: parent.width - 8px;
+                    height: 100%;
+                    text: line;
+                    font-size: 15px;
+                    vertical-alignment: center;
+                    wrap: no-wrap;
+                    overflow: clip;
+                }
+            }
+        }
+
+        Text {
+            text: "Editor (seeded with the [MIXED] line):";
+            font-size: 12px;
+        }
+        editor := TextEdit {
+            vertical-stretch: 1.0;
+            font-size: 15px;
+            wrap: word-wrap;
+        }
+    }
+}

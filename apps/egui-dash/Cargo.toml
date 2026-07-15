@@ -1,0 +1,24 @@
+[package]
+name = "egui-dash"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.92" # egui 0.35 MSRV
+publish = false
+
+# NOT a workspace member (SPEC-2 rule); standalone crate.
+[workspace]
+
+[dependencies]
+# Same pin as iteration 1 (apps/egui-app).
+eframe = "=0.35.0"
+# Chart helper crate from the egui org. NOTE the version offset:
+# egui_plot 0.36.0 is the release that tracks egui 0.35 (verified via
+# crates.io dependency metadata: egui_plot 0.36.0 -> egui ^0.35.0).
+egui_plot = "=0.36.0"
+# Drag-and-drop sort helper (hello_egui family). egui_dnd 0.16.0 -> egui
+# ^0.35.0 (verified the same way). Provides handle-based drag sorting with
+# animated reordering.
+egui_dnd = "=0.16.0"
+
+[dev-dependencies]
+egui_kittest = "=0.35.0"

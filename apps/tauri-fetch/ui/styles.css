@@ -1,0 +1,85 @@
+/* Fetcher (Tauri) — SPEC-8. */
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body { height: 100%; }
+
+body {
+  font: 13px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: #f4f5f7;
+  color: #1c1e21;
+}
+
+.app {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 12px;
+  overflow-y: auto;
+}
+
+.panel {
+  background: #fff;
+  border: 1px solid #d5d9e0;
+  border-radius: 8px;
+  padding: 12px;
+}
+.panel h2 { font-size: 13px; margin-bottom: 8px; color: #3b4250; }
+
+#search-input {
+  width: 100%;
+  padding: 6px 10px;
+  border: 1px solid #c5c9d0;
+  border-radius: 6px;
+  font-size: 13px;
+}
+#search-input:focus { outline: 2px solid #3a76d0; outline-offset: -1px; }
+
+.status { color: #5a6270; min-height: 1.5em; margin-top: 4px; }
+.status.error { color: #a92a1c; }
+.status.ok { color: #1e6b2e; }
+
+.results {
+  list-style: none;
+  max-height: 180px;
+  overflow-y: auto;
+  border-top: 1px solid #eef0f3;
+}
+.results li {
+  display: flex;
+  justify-content: space-between;
+  padding: 3px 4px;
+  border-bottom: 1px solid #eef0f3;
+  font-variant-numeric: tabular-nums;
+}
+.results .score { color: #5a6270; }
+
+.row-line { display: flex; align-items: center; gap: 10px; }
+.row-line .status { margin-top: 0; }
+
+button {
+  padding: 6px 14px;
+  border: 1px solid #c5c9d0;
+  border-radius: 6px;
+  background: #fff;
+  font-size: 13px;
+  cursor: pointer;
+}
+button:hover:not(:disabled) { background: #f0f4fa; border-color: #3a76d0; }
+button:disabled { opacity: 0.45; cursor: default; }
+
+.bar {
+  margin-top: 10px;
+  height: 14px;
+  border: 1px solid #c5c9d0;
+  border-radius: 7px;
+  overflow: hidden;
+  background: #eef0f3;
+}
+.bar-fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, #3a76d0, #5b9bd5);
+  transition: width 0.1s linear;
+}

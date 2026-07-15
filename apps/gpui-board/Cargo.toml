@@ -1,0 +1,12 @@
+[package]
+name = "gpui-board"
+version = "0.1.0"
+edition = "2021"
+publish = false
+
+[dependencies]
+# Same pin as iteration 1 (apps/gpui-app). Feature "runtime_shaders": compile
+# Metal shaders at app startup instead of at build time — required because
+# Xcode 26 no longer bundles the Metal Toolchain (`xcrun metal` fails with
+# "missing Metal Toolchain"). See apps/gpui-app/GAPS.md.
+gpui = { version = "=0.2.2", features = ["runtime_shaders"] }

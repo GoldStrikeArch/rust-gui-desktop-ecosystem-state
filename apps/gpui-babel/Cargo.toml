@@ -1,0 +1,15 @@
+[package]
+name = "gpui-babel"
+version = "0.1.0"
+edition = "2024"
+publish = false
+
+[dependencies]
+# Same pinned framework as iteration 1 (apps/gpui-app). runtime_shaders:
+# compile Metal shaders at startup — Xcode 26 no longer bundles `xcrun metal`
+# (see apps/gpui-app/GAPS.md).
+gpui = { version = "=0.2.2", features = ["runtime_shaders"] }
+
+# Grapheme-cluster boundaries for the hand-rolled editor (same crate the
+# bundled gpui input.rs example uses).
+unicode-segmentation = "1"

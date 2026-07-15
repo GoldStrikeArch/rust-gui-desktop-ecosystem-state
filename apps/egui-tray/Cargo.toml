@@ -1,0 +1,22 @@
+[package]
+name = "egui-tray"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.92" # egui 0.35 MSRV
+publish = false
+
+[dependencies]
+# Same pinned framework version as iteration 1 (apps/egui-app).
+eframe = "=0.35.0"
+
+# --- OS-shell helper crates (each recorded in FRICTION.md) ---
+# System tray / menu-bar extra. Re-exports muda as `tray_icon::menu`; we use
+# that re-export for BOTH the tray menu and the native menubar so a single
+# muda instance owns the one global MenuEvent channel.
+tray-icon = "=0.24.1"
+# Global (system-wide) hotkey via RegisterEventHotKey on macOS.
+global-hotkey = "=0.7.0"
+# Native file open/save dialogs (NSSavePanel/NSOpenPanel).
+rfd = "=0.17.2"
+# Image clipboard (egui/eframe's built-in clipboard path is text-only).
+arboard = "=3.6.1"

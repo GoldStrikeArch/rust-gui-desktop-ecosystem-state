@@ -1,0 +1,30 @@
+# SPEC-6 "Peek" — Dioxus. Same pinned framework version as iteration 1
+# (apps/dioxus-app): 0.7.9 with the "desktop" (wry/tao WKWebView) renderer.
+# Built/run with plain cargo; the dx CLI is not used.
+[package]
+name = "dioxus-peek"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+dioxus = { version = "=0.7.9", features = ["desktop"] }
+# Helper crates (see FRICTION.md):
+# tokio time API only — dioxus-desktop runs on tokio but re-exports no timer
+# (same finding as dioxus-dash); every poll/sleep loop needs it directly.
+tokio = { version = "1", features = ["time"] }
+# Rust-side camera path: AVFoundation capture. Dioxus has no camera anything.
+nokhwa = { version = "=0.10.11", features = ["input-avfoundation"] }
+# JPEG-encode nokhwa frames for the webview (matches nokhwa's image 0.25).
+image = { version = "0.25", default-features = false, features = ["jpeg"] }
+# Mic level meter (spec-mandated path). Same 0.17 line rodio resolves to.
+cpal = "0.17"
+# Beep on the default output. Only the playback core; no decoders needed.
+rodio = { version = "0.22", default-features = false, features = ["playback"] }
+# App Nap guard: without an NSActivity assertion the unbundled binary is
+# App-Napped once its window is fully occluded — tokio timers and with them
+# the whole Dioxus update loop freeze (observed in run 1). objc2-foundation
+# is already in the tree via wry; this only turns on one generated binding.
+objc2-foundation = { version = "0.3", features = ["NSProcessInfo", "NSString"] }
+
+[profile.release]
+# Framework defaults; no size/LTO tuning so measurements are comparable.

@@ -1,0 +1,29 @@
+# SPEC-4 "Tray Notes" — Dioxus. Same pinned framework version as iteration 1
+# (apps/dioxus-app): 0.7.9 with the "desktop" (wry/tao webview) renderer.
+# Built/run with plain cargo; the dx CLI is not used.
+[package]
+name = "dioxus-tray"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+dioxus = { version = "=0.7.9", features = ["desktop"] }
+# Helper crates (each one is a finding — see FRICTION.md):
+# - rfd: native Open/Save dialogs. dioxus-desktop already depends on rfd 0.17
+#   internally (for <input type=file>), but re-exports nothing; pinning the
+#   same minor + feature set means zero extra crates in the tree.
+rfd = { version = "0.17", default-features = false, features = ["xdg-portal"] }
+# - arboard: image clipboard (webview textarea covers text paste natively).
+arboard = "3"
+# - image + base64: PNG-encode arboard's raw RGBA so the thumbnail can be an
+#   <img src="data:..."> in the webview (no file I/O, no custom protocol).
+image = { version = "0.25", default-features = false, features = ["png"] }
+base64 = "0.22"
+# - notify-rust: system notification on save.
+notify-rust = "4"
+# - tokio (time only): used by the TRAY_SELFTEST verification path; same
+#   iteration-2 finding — dioxus runs on tokio but re-exports no timer.
+tokio = { version = "1", features = ["time"] }
+
+[profile.release]
+# Framework defaults; no size/LTO tuning so measurements are comparable.

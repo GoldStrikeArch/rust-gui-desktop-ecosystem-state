@@ -1,0 +1,34 @@
+[package]
+name = "egui-peek"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.92" # egui 0.35 MSRV
+publish = false
+
+# NOT a workspace member (spec rule); standalone crate.
+[workspace]
+
+[dependencies]
+# Same pin as iteration 1 (apps/egui-app).
+eframe = "=0.35.0"
+
+# Camera capture. Latest stable (2026-05-15). `input-avfoundation` enables
+# the macOS backend AND the `nokhwa_initialize`/`nokhwa_check` TCC helpers.
+nokhwa = { version = "=0.10.11", features = ["input-avfoundation"] }
+
+# Mic input. Pinned to the same 0.17 line rodio 0.22 depends on, so only one
+# cpal builds.
+cpal = "=0.17.3"
+
+# Audio out (beep). default-features off: we only need the output path +
+# SineWave source, none of the symphonia decoders.
+rodio = { version = "=0.22.2", default-features = false, features = ["playback"] }
+
+# Gallery JPEG decode (worker threads) + PNG encode for the screenshot hook.
+image = { version = "=0.25.10", default-features = false, features = ["jpeg", "png"] }
+
+[dev-dependencies]
+egui_kittest = "=0.35.0"
+# Used only by examples/probe.rs (verification tool) to dump the raw
+# AVFoundation format list; already in-tree as nokhwa's own dependency.
+nokhwa-bindings-macos = "=0.2.4"

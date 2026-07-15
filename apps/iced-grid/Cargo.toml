@@ -1,0 +1,16 @@
+[package]
+name = "iced-grid"
+version = "0.1.0"
+edition = "2024"
+
+# Same pinned version as iteration 1 (apps/iced-app). Default features only:
+# no timers, no async work in this app — filtering/sorting run synchronously
+# in `update` and are self-timed with std::time::Instant. The 0.14 `table`
+# widget was evaluated (source-read) and rejected: it materializes one
+# Element per cell for *all* rows up front (no virtualization), so the
+# virtualized table here is hand-rolled on `scrollable` + two spacers.
+[dependencies]
+iced = "=0.14.0"
+
+[profile.release]
+debug = false

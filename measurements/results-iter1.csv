@@ -1,0 +1,8 @@
+app,crate_root,clean_build_secs,incremental_secs,binary_bytes,binary_stripped_bytes,deps_unique,accesskit_in_deps,loc_rust,loc_other_ui,launch_ok
+dioxus-app,/Users/mpl4/Desktop/workspace/self_learning/rust/gui-ecosystem-research/apps/dioxus-app,40,1,5982128,5108920,279,0,90,0,yes
+egui-app,/Users/mpl4/Desktop/workspace/self_learning/rust/gui-ecosystem-research/apps/egui-app,27,1,12531728,11054344,156,4,168,0,yes
+gpui-app,/Users/mpl4/Desktop/workspace/self_learning/rust/gui-ecosystem-research/apps/gpui-app,56,1,5239088,4467704,391,0,230,0,yes
+iced-app,/Users/mpl4/Desktop/workspace/self_learning/rust/gui-ecosystem-research/apps/iced-app,22,2,10393264,8885624,140,0,74,0,yes
+slint-app,/Users/mpl4/Desktop/workspace/self_learning/rust/gui-ecosystem-research/apps/slint-app,42,4,15434560,13873752,302,4,42,52,yes
+tauri-app,/Users/mpl4/Desktop/workspace/self_learning/rust/gui-ecosystem-research/apps/tauri-app,36,10,8373344,6682264,204,0,60,148,yes
+xilem-app,/Users/mpl4/Desktop/workspace/self_learning/rust/gui-ecosystem-research/apps/xilem-app,28,1,11944000,10217064,143,4,81,0,yes

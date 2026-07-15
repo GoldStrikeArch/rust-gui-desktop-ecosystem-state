@@ -1,0 +1,25 @@
+# SPEC-8 "Fetcher" — Dioxus. Same pinned framework version as iteration 1
+# (apps/dioxus-app): 0.7.9 with the "desktop" (wry/tao webview) renderer.
+# Built/run with plain cargo; the dx CLI is not used.
+[package]
+name = "dioxus-fetch"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+dioxus = { version = "=0.7.9", features = ["desktop"] }
+# Helper crates:
+# - reqwest: Dioxus ships no HTTP client and re-exports none; reqwest is the
+#   natural fit because dioxus-desktop already runs the VirtualDom on a tokio
+#   runtime, so reqwest futures run directly in use_resource/spawn. TLS is
+#   off (default-features = false): the target is plain-HTTP localhost.
+#   "json" pulls serde_json for /search response decoding.
+# - serde: derive Deserialize for the search-hit struct.
+# - tokio (time only): the 250 ms debounce sleep + self-test pacing — the
+#   framework runs on tokio but re-exports no timer (iteration-2 finding).
+reqwest = { version = "0.12", default-features = false, features = ["json"] }
+serde = { version = "1", features = ["derive"] }
+tokio = { version = "1", features = ["time"] }
+
+[profile.release]
+# Framework defaults; no size/LTO tuning so measurements are comparable.

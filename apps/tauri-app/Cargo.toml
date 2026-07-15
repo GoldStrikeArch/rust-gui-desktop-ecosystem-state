@@ -1,0 +1,21 @@
+# Tasks (Tauri) — manual plain-cargo Tauri v2 setup, no Node.js / npm / tauri-cli.
+#
+# Feature flags:
+# - tauri: default features only ("wry" = the webview runtime, and
+#   "common-controls-v6" which is Windows-only). Nothing in the spec needs more.
+# - serde / serde_json: required by #[tauri::command] argument/return
+#   (de)serialization across the IPC bridge.
+[package]
+name = "tauri-app"
+version = "0.1.0"
+edition = "2021"
+description = "Tasks mini-app (RCN GUI ecosystem research) built with Tauri v2"
+license = "MIT"
+
+[build-dependencies]
+tauri-build = { version = "=2.6.3", features = [] }
+
+[dependencies]
+tauri = { version = "=2.11.5", features = [] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"

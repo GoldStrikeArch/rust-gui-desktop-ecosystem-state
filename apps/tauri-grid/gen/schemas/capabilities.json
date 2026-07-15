@@ -1,0 +1,1 @@
+{"default":{"identifier":"default","description":"Core defaults for the main window. App-defined commands (get_meta/get_rows/set_filter/set_sort/report) do not require permissions.","local":true,"windows":["main"],"permissions":["core:default"]}}

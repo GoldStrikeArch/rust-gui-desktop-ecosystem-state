@@ -1,0 +1,33 @@
+[package]
+name = "iced-tray"
+version = "0.1.0"
+edition = "2024"
+
+# Same pinned version as iteration 1 (apps/iced-app).
+#
+# Helper crates (iced has NO built-in tray / global hotkey / native menubar /
+# dialogs / image clipboard / notifications — every one below fills a hole):
+# - tray-icon: NSStatusItem tray icon + menu. Re-exports muda under
+#   `tray_icon::menu`; we use that re-export for the NATIVE MENUBAR too so
+#   both menus share one `MenuEvent` channel (a separately-versioned muda
+#   dep would have a *different* static channel and silently eat events).
+# - global-hotkey: Carbon RegisterEventHotKey wrapper (no accessibility
+#   permission needed) for the system-wide Cmd+Shift+9.
+# - rfd: native NSOpenPanel/NSSavePanel; async API composes with iced Tasks.
+# - arboard: image clipboard (iced's clipboard API is text-only).
+# - notify-rust: system notification (mac-notification-sys underneath).
+[dependencies]
+# `image` for the pasted-image thumbnail widget; `smol` because
+# `iced::time::every` (used to poll the tray/menu/hotkey channels) is only
+# provided by the tokio/smol executor backends, not the default thread pool.
+iced = { version = "=0.14.0", features = ["image", "smol"] }
+tray-icon = "0.24"
+global-hotkey = "0.7"
+rfd = "0.17"
+arboard = "3.6"
+notify-rust = "4"
+# Verification-only helpers: `png` encodes the self-test window screenshot
+# (iced's window::screenshot returns raw RGBA); `smol` (already in tree via
+# the iced feature) provides the async timer used by the self-test delay.
+png = "0.18"
+smol = "2"

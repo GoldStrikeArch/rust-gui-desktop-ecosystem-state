@@ -1,0 +1,15 @@
+[package]
+name = "xilem-board"
+version = "0.1.0"
+edition = "2021"
+publish = false
+
+# Independent crate — deliberately NOT a workspace member.
+[workspace]
+
+[dependencies]
+# Same pin as iteration 1 (apps/xilem-app). Latest stable release on crates.io.
+xilem = "=0.4.0"
+
+[profile.release]
+# Defaults; nothing special needed.

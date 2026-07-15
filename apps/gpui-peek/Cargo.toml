@@ -1,0 +1,36 @@
+[package]
+name = "gpui-peek"
+version = "0.1.0"
+edition = "2021"
+publish = false
+
+[dependencies]
+# Same pin as iteration 1 (apps/gpui-app). Feature "runtime_shaders": compile
+# Metal shaders at app startup instead of at build time — required because
+# Xcode 26 no longer bundles the Metal Toolchain (`xcrun metal` fails with
+# "missing Metal Toolchain"). See apps/gpui-app/GAPS.md.
+gpui = { version = "=0.2.2", features = ["runtime_shaders"] }
+
+# --- Camera capture: the same Apple-glue stack gpui's own macOS backend uses
+# (its screen-capture code is the crib: objc ClassDecl delegate + gpui_media
+# CMSampleBuffer + core-video CVPixelBuffer). Direct AVFoundation instead of
+# nokhwa because gpui's `surface()` element wants the IOSurface-backed NV12
+# CVPixelBuffer itself (zero-copy via CVMetalTextureCache); nokhwa would copy
+# every frame out to a Vec and convert to RGB on the CPU. See FRICTION.md.
+objc = "0.2"                                              # msg_send!/ClassDecl (delegate)
+block = "0.1"                                             # ObjC block for requestAccess completion
+media = { package = "gpui_media", version = "=0.2.2" }    # CMSampleBuffer -> CVImageBuffer
+core-video = { version = "=0.4.3", features = ["metal"] } # CVPixelBuffer type gpui::surface() takes (exact pin = same type as gpui's)
+core-foundation = "=0.10.0"                               # TCFType (wrap_under_get_rule), same pin as gpui
+dispatch = "0.2"                                          # dispatch_queue_create for the sample-buffer delegate queue
+
+# --- CPU-upload comparison path (RenderImage rebuilt per frame)
+image = "0.25"    # image::Frame gpui::RenderImage::new takes (matches gpui's own image dep)
+smallvec = "1"    # SmallVec<[Frame; 1]> in RenderImage::new (matches gpui's)
+
+futures = "0.3"   # mpsc/oneshot channels camera thread -> UI task (gpui uses futures internally)
+
+# --- Audio
+cpal = "0.17"     # mic input stream -> RMS (spec-mandated)
+# Beep only; default features pull the symphonia decoders we don't need.
+rodio = { version = "0.22", default-features = false, features = ["playback"] }

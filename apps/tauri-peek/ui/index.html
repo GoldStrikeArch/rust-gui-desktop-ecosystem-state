@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Peek (Tauri)</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="app">
+    <nav class="tabs" role="tablist">
+      <button id="tab-camera" class="tab active" data-tab="camera">Camera</button>
+      <button id="tab-audio" class="tab" data-tab="audio">Audio</button>
+      <button id="tab-gallery" class="tab" data-tab="gallery">Gallery</button>
+    </nav>
+
+    <!-- ============================ Camera ============================ -->
+    <section id="panel-camera" class="panel active">
+      <div class="cam-columns">
+        <div class="cam-col">
+          <h2>Webview path — JS getUserMedia (camera never touches Rust)</h2>
+          <div class="preview-box">
+            <video id="gum-video" autoplay playsinline muted></video>
+            <span id="gum-fps" class="fps-badge">— fps</span>
+          </div>
+          <div class="row">
+            <button id="gum-start">Start camera</button>
+            <button id="gum-stop" disabled>Stop</button>
+          </div>
+          <p id="gum-status" class="status">idle</p>
+        </div>
+        <div class="cam-col">
+          <h2>Rust path — nokhwa &rarr; RGBA over IPC &rarr; canvas</h2>
+          <div class="preview-box">
+            <canvas id="rust-canvas" width="640" height="480"></canvas>
+            <span id="rust-fps" class="fps-badge">— fps</span>
+          </div>
+          <div class="row">
+            <button id="rust-start">Start Rust camera</button>
+            <button id="rust-stop" disabled>Stop</button>
+          </div>
+          <p id="rust-status" class="status">idle</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================ Audio ============================= -->
+    <section id="panel-audio" class="panel">
+      <h2>Microphone level (getUserMedia + WebAudio AnalyserNode — Rust bypassed)</h2>
+      <div class="vu-track"><div id="vu-bar" class="vu-bar"></div></div>
+      <p id="mic-level" class="status">RMS: —</p>
+      <div class="row">
+        <button id="mic-start">Start mic</button>
+        <button id="mic-stop" disabled>Stop</button>
+      </div>
+      <p id="mic-status" class="status">idle</p>
+      <hr />
+      <h2>Playback (WebAudio oscillator)</h2>
+      <div class="row"><button id="beep-btn">Beep</button></div>
+      <p id="beep-status" class="status">idle</p>
+    </section>
+
+    <!-- ============================ Gallery =========================== -->
+    <section id="panel-gallery" class="panel">
+      <p id="gallery-status" class="status">not loaded yet</p>
+      <div id="gallery-grid" class="grid"></div>
+    </section>
+  </main>
+  <script src="main.js"></script>
+  <script src="verify.js"></script>
+</body>
+</html>

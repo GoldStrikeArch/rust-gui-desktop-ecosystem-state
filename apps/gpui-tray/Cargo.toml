@@ -1,0 +1,21 @@
+[package]
+name = "gpui-tray"
+version = "0.1.0"
+edition = "2024"
+publish = false
+
+[dependencies]
+# Same pinned framework as iteration 1 (apps/gpui-app). runtime_shaders:
+# compile Metal shaders at startup — Xcode 26 no longer bundles `xcrun metal`
+# (see apps/gpui-app/GAPS.md).
+gpui = { version = "=0.2.2", features = ["runtime_shaders"] }
+
+# Menu-bar extra (NSStatusItem). gpui has no tray support at all.
+tray-icon = "0.24.1"
+# Carbon RegisterEventHotKey-based system-wide hotkey. Not in gpui.
+global-hotkey = "0.7.0"
+# "Note saved" system notification (mac-notification-sys under the hood).
+notify-rust = "4"
+# Grapheme-cluster boundaries for the hand-rolled editor (same crate the
+# bundled gpui input.rs example uses).
+unicode-segmentation = "1"

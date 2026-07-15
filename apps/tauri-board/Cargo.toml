@@ -1,0 +1,17 @@
+# Board (Tauri) — SPEC-3 kanban board.
+# Same manual plain-cargo Tauri v2 setup as ../tauri-app (no Node.js/npm/tauri-cli),
+# same pinned versions. Board state lives entirely in the webview (see
+# FRICTION.md), so there are no #[tauri::command]s and no direct serde deps —
+# the Rust side is only the window shell.
+[package]
+name = "tauri-board"
+version = "0.1.0"
+edition = "2021"
+description = "Board kanban mini-app (RCN GUI ecosystem research, iteration 2) built with Tauri v2"
+license = "MIT"
+
+[build-dependencies]
+tauri-build = { version = "=2.6.3", features = [] }
+
+[dependencies]
+tauri = { version = "=2.11.5", features = [] }

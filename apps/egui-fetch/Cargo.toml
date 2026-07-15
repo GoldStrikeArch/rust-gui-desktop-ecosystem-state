@@ -1,0 +1,25 @@
+[package]
+name = "egui-fetch"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.92" # egui 0.35 MSRV
+publish = false
+
+# NOT a workspace member (SPEC-2 rule); standalone crate.
+[workspace]
+
+[dependencies]
+# Same pin as iteration 1 (apps/egui-app).
+eframe = "=0.35.0"
+# egui-native HTTP client (from the egui org; callback-based, spawns its own
+# native threads — no async runtime needed, which is exactly egui's model).
+# NOT version-locked to egui at all; 0.7.1 is what egui_extras 0.35 itself
+# pairs with (crates.io metadata: egui_extras 0.35.0 -> ehttp ^0.7.1).
+# `json` = Response::json::<T>(); `streaming` = chunk-callback fetch with
+# ControlFlow cancellation (drops the connection on Break -> real abort).
+ehttp = { version = "=0.7.1", features = ["json", "streaming"] }
+# Derive for the /search result rows (serde_json comes via ehttp/json).
+serde = { version = "=1.0.228", features = ["derive"] }
+
+[dev-dependencies]
+egui_kittest = "=0.35.0"

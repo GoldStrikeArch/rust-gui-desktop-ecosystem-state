@@ -1,0 +1,10 @@
+{
+  "$schema": "../gen/schemas/desktop-schema.json",
+  "identifier": "default",
+  "description": "Main + about windows. core:default covers events/window introspection. dialog:default is needed because Open/Save dialogs are invoked FROM JS (window.__TAURI__.dialog). The other plugins (global-shortcut, notification, clipboard-manager) are used exclusively from the Rust side, which bypasses the ACL entirely — no permissions needed. App-defined #[tauri::command]s never need permissions.",
+  "windows": ["main", "about"],
+  "permissions": [
+    "core:default",
+    "dialog:default"
+  ]
+}

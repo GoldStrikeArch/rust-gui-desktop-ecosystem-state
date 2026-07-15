@@ -1,0 +1,142 @@
+// Fetcher (slint) — SPEC-8. Search-as-you-type with debounce + stale
+// protection, streamed download with live progress + real cancellation,
+// flaky endpoint with retry UX.
+
+import { LineEdit, ListView, Button, ProgressIndicator, Palette } from "std-widgets.slint";
+
+export struct SearchResult {
+    id: int,
+    name: string,
+    score: string,
+}
+
+component SectionTitle inherits Text {
+    font-size: 12px;
+    font-weight: 700;
+    color: Palette.foreground;
+}
+
+export component MainWindow inherits Window {
+    title: "Fetcher (slint)";
+    preferred-width: 700px;
+    preferred-height: 560px;
+
+    // --- search ---
+    in property <[SearchResult]> results;
+    in property <bool> searching;
+    in property <string> search-status;   // e.g. "12 results for \"amber\""
+    callback search-edited(text: string);
+
+    // --- download ---
+    in property <float> dl-progress;      // 0..1
+    in property <string> dl-status;       // "3.2 / 8.0 MiB" etc.
+    in property <int> dl-state;           // 0 idle, 1 running, 2 done, 3 cancelled, 4 error
+    callback download-clicked();
+    callback cancel-clicked();
+
+    // --- flaky ---
+    in property <string> flaky-status;
+    in property <int> flaky-state;        // 0 idle, 1 running, 2 error, 3 success
+    callback flaky-clicked();
+
+    forward-focus: search-input;
+
+    VerticalLayout {
+        padding: 14px;
+        spacing: 10px;
+
+        // ============== search ==============
+        SectionTitle { text: "Search (250 ms debounce, stale-response protection)"; }
+
+        HorizontalLayout {
+            spacing: 8px;
+            search-input := LineEdit {
+                placeholder-text: "Search (try \"amber\", \"prism\"…)";
+                horizontal-stretch: 1;
+                edited(t) => { root.search-edited(t); }
+            }
+            Text {
+                text: root.searching ? "searching…" : root.search-status;
+                vertical-alignment: center;
+                color: root.searching ? #b45309 : Palette.foreground.transparentize(0.4);
+                font-size: 12px;
+            }
+        }
+
+        results-list := ListView {
+            vertical-stretch: 1;
+            for r[i] in root.results : Rectangle {
+                height: 26px;
+                background: mod(i, 2) == 0 ? Palette.background : Palette.alternate-background;
+                HorizontalLayout {
+                    padding-left: 8px;
+                    padding-right: 8px;
+                    Text {
+                        text: r.name;
+                        vertical-alignment: center;
+                        color: Palette.foreground;
+                        horizontal-stretch: 1;
+                        overflow: elide;
+                    }
+                    Text {
+                        text: r.score;
+                        vertical-alignment: center;
+                        color: Palette.foreground.transparentize(0.4);
+                    }
+                }
+            }
+        }
+
+        Rectangle { height: 1px; background: Palette.border; }
+
+        // ============== download ==============
+        SectionTitle { text: "Download (8 MiB streamed, live progress, real cancel)"; }
+
+        HorizontalLayout {
+            spacing: 8px;
+            Button {
+                text: root.dl-state == 1 ? "Downloading…" : "Download 8 MiB";
+                enabled: root.dl-state != 1;
+                clicked => { root.download-clicked(); }
+            }
+            Button {
+                text: "Cancel";
+                enabled: root.dl-state == 1;
+                clicked => { root.cancel-clicked(); }
+            }
+            Text {
+                text: root.dl-status;
+                vertical-alignment: center;
+                color: root.dl-state == 3 ? #dc2626 : Palette.foreground;
+                font-size: 12px;
+            }
+        }
+
+        ProgressIndicator {
+            height: 8px;
+            progress: root.dl-progress;
+        }
+
+        Rectangle { height: 1px; background: Palette.border; }
+
+        // ============== flaky ==============
+        SectionTitle { text: "Flaky endpoint (500, 500, then 200 — manual retry)"; }
+
+        HorizontalLayout {
+            spacing: 8px;
+            Button {
+                text: root.flaky-state == 2 ? "Retry" : "Call /flaky";
+                enabled: root.flaky-state != 1;
+                clicked => { root.flaky-clicked(); }
+            }
+            Text {
+                text: root.flaky-status;
+                vertical-alignment: center;
+                color: root.flaky-state == 2 ? #dc2626
+                     : root.flaky-state == 3 ? #16a34a : Palette.foreground;
+                font-size: 12px;
+                overflow: elide;
+            }
+        }
+    }
+}

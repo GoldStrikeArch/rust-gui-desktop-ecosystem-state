@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fetcher (Tauri)</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="app">
+    <section class="panel">
+      <h2>Search</h2>
+      <input
+        id="search-input"
+        type="text"
+        placeholder="Search (250 ms debounce)…"
+        aria-label="Search query"
+        autocomplete="off"
+        autofocus
+      />
+      <p id="search-status" class="status" aria-live="polite"></p>
+      <ul id="results" class="results"></ul>
+    </section>
+
+    <section class="panel">
+      <h2>Download</h2>
+      <div class="row-line">
+        <button id="dl-btn" type="button">Download 8 MiB</button>
+        <button id="dl-cancel" type="button" disabled>Cancel</button>
+        <span id="dl-status" class="status"></span>
+      </div>
+      <div class="bar"><div id="dl-fill" class="bar-fill"></div></div>
+    </section>
+
+    <section class="panel">
+      <h2>Flaky endpoint</h2>
+      <div class="row-line">
+        <button id="flaky-btn" type="button">Call /flaky</button>
+        <button id="flaky-retry" type="button" hidden>Retry</button>
+        <span id="flaky-status" class="status"></span>
+      </div>
+    </section>
+  </main>
+  <script src="main.js"></script>
+  <script src="selftest.js"></script>
+</body>
+</html>

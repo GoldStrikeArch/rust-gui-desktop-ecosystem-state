@@ -1,0 +1,742 @@
+0dioxus-app v0.1.0 (/Users/mpl4/Desktop/workspace/self_learning/rust/gui-ecosystem-research/apps/dioxus-app)
+1dioxus v0.7.9
+2dioxus-asset-resolver v0.7.9
+3dioxus-cli-config v0.7.9
+3http v1.4.2
+4bytes v1.12.0
+5serde v1.0.228
+6serde_core v1.0.228
+6serde_derive v1.0.228 (proc-macro)
+7proc-macro2 v1.0.106
+8unicode-ident v1.0.24
+7quote v1.0.46
+8proc-macro2 v1.0.106 (*)
+7syn v2.0.118
+8proc-macro2 v1.0.106 (*)
+8quote v1.0.46 (*)
+8unicode-ident v1.0.24
+4itoa v1.0.18
+3infer v0.19.0
+4cfb v0.7.3
+5byteorder v1.5.0
+5fnv v1.0.7
+5uuid v1.23.4
+3percent-encoding v2.3.2
+3thiserror v2.0.18
+4thiserror-impl v2.0.18 (proc-macro)
+5proc-macro2 v1.0.106 (*)
+5quote v1.0.46 (*)
+5syn v2.0.118 (*)
+3tokio v1.52.3
+4bytes v1.12.0 (*)
+4pin-project-lite v0.2.17
+4tokio-macros v2.7.0 (proc-macro)
+5proc-macro2 v1.0.106 (*)
+5quote v1.0.46 (*)
+5syn v2.0.118 (*)
+2dioxus-cli-config v0.7.9
+2dioxus-config-macro v0.7.9 (proc-macro)
+3proc-macro2 v1.0.106 (*)
+3quote v1.0.46 (*)
+2dioxus-config-macros v0.7.9
+2dioxus-core v0.7.9
+3anyhow v1.0.103
+3const_format v0.2.36
+4const_format_proc_macros v0.2.34 (proc-macro)
+5proc-macro2 v1.0.106 (*)
+5quote v1.0.46 (*)
+5unicode-xid v0.2.6
+4konst v0.2.20
+5konst_macro_rules v0.2.19
+3dioxus-core-types v0.7.9
+3futures-channel v0.3.32
+4futures-core v0.3.32
+3futures-util v0.3.32
+4futures-core v0.3.32
+4futures-task v0.3.32
+4pin-project-lite v0.2.17
+4slab v0.4.12
+3generational-box v0.7.9
+4parking_lot v0.12.5
+5lock_api v0.4.14
+6scopeguard v1.2.0
+5parking_lot_core v0.9.12
+6cfg-if v1.0.4
+6libc v0.2.186
+6smallvec v1.15.2
+4tracing v0.1.44
+5pin-project-lite v0.2.17
+5tracing-attributes v0.1.31 (proc-macro)
+6proc-macro2 v1.0.106 (*)
+6quote v1.0.46 (*)
+6syn v2.0.118 (*)
+5tracing-core v0.1.36
+6once_cell v1.21.4
+3longest-increasing-subsequence v0.1.0
+3rustc-hash v2.1.3
+3rustversion v1.0.23 (proc-macro)
+3serde v1.0.228 (*)
+3slab v0.4.12
+3slotmap v1.1.1
+4serde v1.0.228 (*)
+3subsecond v0.7.9
+4libc v0.2.186
+4libloading v0.8.9
+5cfg-if v1.0.4
+4memmap2 v0.9.11
+5libc v0.2.186
+4serde v1.0.228 (*)
+4subsecond-types v0.7.9
+5serde v1.0.228 (*)
+4thiserror v2.0.18 (*)
+3tracing v0.1.44 (*)
+2dioxus-core-macro v0.7.9 (proc-macro)
+3convert_case v0.8.0
+4unicode-segmentation v1.13.3
+3dioxus-rsx v0.7.9
+4proc-macro2 v1.0.106 (*)
+4proc-macro2-diagnostics v0.10.1
+5proc-macro2 v1.0.106 (*)
+5quote v1.0.46 (*)
+5syn v2.0.118 (*)
+4quote v1.0.46 (*)
+4rustversion v1.0.23 (proc-macro)
+4syn v2.0.118 (*)
+3proc-macro2 v1.0.106 (*)
+3quote v1.0.46 (*)
+3syn v2.0.118 (*)
+2dioxus-desktop v0.7.9
+3anyhow v1.0.103
+3async-trait v0.1.89 (proc-macro)
+4proc-macro2 v1.0.106 (*)
+4quote v1.0.46 (*)
+4syn v2.0.118 (*)
+3base64 v0.22.1
+3bytes v1.12.0 (*)
+3cocoa v0.26.1
+4bitflags v2.13.0
+5serde_core v1.0.228
+4block v0.1.6
+4cocoa-foundation v0.2.1
+5bitflags v2.13.0 (*)
+5block v0.1.6
+5core-foundation v0.10.1
+6core-foundation-sys v0.8.7
+6libc v0.2.186
+5core-graphics-types v0.2.0
+6bitflags v2.13.0 (*)
+6core-foundation v0.10.1 (*)
+6libc v0.2.186
+5objc v0.2.7
+6malloc_buf v0.0.6
+7libc v0.2.186
+4core-foundation v0.10.1 (*)
+4core-graphics v0.24.0
+5bitflags v2.13.0 (*)
+5core-foundation v0.10.1 (*)
+5core-graphics-types v0.2.0 (*)
+5foreign-types v0.5.0
+6foreign-types-macros v0.2.3 (proc-macro)
+7proc-macro2 v1.0.106 (*)
+7quote v1.0.46 (*)
+7syn v2.0.118 (*)
+6foreign-types-shared v0.3.1
+5libc v0.2.186
+4foreign-types v0.5.0 (*)
+4libc v0.2.186
+4objc v0.2.7 (*)
+3core-foundation v0.10.1 (*)
+3dioxus-asset-resolver v0.7.9 (*)
+3dioxus-cli-config v0.7.9
+3dioxus-core v0.7.9 (*)
+3dioxus-devtools v0.7.9
+4dioxus-cli-config v0.7.9
+4dioxus-core v0.7.9 (*)
+4dioxus-devtools-types v0.7.9
+5dioxus-core v0.7.9 (*)
+5serde v1.0.228 (*)
+5subsecond-types v0.7.9 (*)
+4dioxus-signals v0.7.9
+5dioxus-core v0.7.9 (*)
+5futures-channel v0.3.32 (*)
+5futures-util v0.3.32 (*)
+5generational-box v0.7.9 (*)
+5parking_lot v0.12.5 (*)
+5rustc-hash v2.1.3
+5tracing v0.1.44 (*)
+5warnings v0.2.1
+6pin-project v1.1.13
+7pin-project-internal v1.1.13 (proc-macro)
+8proc-macro2 v1.0.106 (*)
+8quote v1.0.46 (*)
+8syn v2.0.118 (*)
+6tracing v0.1.44 (*)
+6warnings-macro v0.2.0 (proc-macro)
+7proc-macro2 v1.0.106 (*)
+7quote v1.0.46 (*)
+7syn v2.0.118 (*)
+4serde v1.0.228 (*)
+4serde_json v1.0.150
+5itoa v1.0.18
+5memchr v2.8.2
+5serde_core v1.0.228
+5zmij v1.0.21
+4subsecond v0.7.9 (*)
+4thiserror v2.0.18 (*)
+4tracing v0.1.44 (*)
+4tungstenite v0.28.0
+5bytes v1.12.0 (*)
+5data-encoding v2.11.0
+5http v1.4.2 (*)
+5httparse v1.10.1
+5log v0.4.33
+5native-tls v0.2.18
+6libc v0.2.186
+6security-framework v3.7.0
+7bitflags v2.13.0 (*)
+7core-foundation v0.10.1 (*)
+7core-foundation-sys v0.8.7
+7libc v0.2.186
+7security-framework-sys v2.17.0
+8core-foundation-sys v0.8.7
+8libc v0.2.186
+6security-framework-sys v2.17.0 (*)
+6tempfile v3.27.0
+7fastrand v2.4.1
+7getrandom v0.4.3
+8cfg-if v1.0.4
+8libc v0.2.186
+7once_cell v1.21.4
+7rustix v1.1.4
+8bitflags v2.13.0 (*)
+8errno v0.3.14
+9libc v0.2.186
+8libc v0.2.186
+5rand v0.9.4
+6rand_chacha v0.9.0
+7ppv-lite86 v0.2.21
+8zerocopy v0.8.53
+9zerocopy-derive v0.8.53 (proc-macro)
+10proc-macro2 v1.0.106 (*)
+10quote v1.0.46 (*)
+10syn v2.0.118 (*)
+7rand_core v0.9.5
+8getrandom v0.3.4
+9cfg-if v1.0.4
+9libc v0.2.186
+6rand_core v0.9.5 (*)
+5sha1 v0.10.6
+6cfg-if v1.0.4
+6cpufeatures v0.2.17
+7libc v0.2.186
+6digest v0.10.7
+7block-buffer v0.10.4
+8generic-array v0.14.7
+9typenum v1.20.1
+7crypto-common v0.1.7
+8generic-array v0.14.7 (*)
+8typenum v1.20.1
+5thiserror v2.0.18 (*)
+5utf-8 v0.7.6
+3dioxus-document v0.7.9
+4dioxus-core v0.7.9 (*)
+4dioxus-core-macro v0.7.9 (proc-macro) (*)
+4dioxus-core-types v0.7.9
+4dioxus-html v0.7.9
+5async-trait v0.1.89 (proc-macro) (*)
+5bytes v1.12.0 (*)
+5dioxus-core v0.7.9 (*)
+5dioxus-core-macro v0.7.9 (proc-macro) (*)
+5dioxus-core-types v0.7.9
+5dioxus-hooks v0.7.9
+6dioxus-core v0.7.9 (*)
+6dioxus-signals v0.7.9 (*)
+6futures-channel v0.3.32 (*)
+6futures-util v0.3.32 (*)
+6generational-box v0.7.9 (*)
+6rustversion v1.0.23 (proc-macro)
+6slab v0.4.12
+6tracing v0.1.44 (*)
+5dioxus-html-internal-macro v0.7.9 (proc-macro)
+6convert_case v0.8.0 (*)
+6proc-macro2 v1.0.106 (*)
+6quote v1.0.46 (*)
+6syn v2.0.118 (*)
+5enumset v1.1.13
+6enumset_derive v0.15.0 (proc-macro)
+7darling v0.21.3
+8darling_core v0.21.3
+9fnv v1.0.7
+9ident_case v1.0.1
+9proc-macro2 v1.0.106 (*)
+9quote v1.0.46 (*)
+9syn v2.0.118 (*)
+8darling_macro v0.21.3 (proc-macro)
+9darling_core v0.21.3 (*)
+9quote v1.0.46 (*)
+9syn v2.0.118 (*)
+7proc-macro2 v1.0.106 (*)
+7quote v1.0.46 (*)
+7syn v2.0.118 (*)
+5euclid v0.22.14
+6num-traits v0.2.19
+6serde v1.0.228 (*)
+5futures-channel v0.3.32 (*)
+5futures-util v0.3.32 (*)
+5generational-box v0.7.9 (*)
+5keyboard-types v0.7.0
+6bitflags v2.13.0 (*)
+6serde v1.0.228 (*)
+6unicode-segmentation v1.13.3
+5rustversion v1.0.23 (proc-macro)
+5serde v1.0.228 (*)
+5serde_json v1.0.150 (*)
+5serde_repr v0.1.20 (proc-macro)
+6proc-macro2 v1.0.106 (*)
+6quote v1.0.46 (*)
+6syn v2.0.118 (*)
+5tracing v0.1.44 (*)
+4futures-channel v0.3.32 (*)
+4futures-util v0.3.32 (*)
+4generational-box v0.7.9 (*)
+4serde v1.0.228 (*)
+4serde_json v1.0.150 (*)
+4tracing v0.1.44 (*)
+3dioxus-history v0.7.9
+4dioxus-core v0.7.9 (*)
+4tracing v0.1.44 (*)
+3dioxus-hooks v0.7.9 (*)
+3dioxus-html v0.7.9 (*)
+3dioxus-interpreter-js v0.7.9
+4dioxus-core v0.7.9 (*)
+4dioxus-core-types v0.7.9
+4dioxus-html v0.7.9 (*)
+4rustc-hash v2.1.3
+4serde v1.0.228 (*)
+4sledgehammer_bindgen v0.6.0
+5sledgehammer_bindgen_macro v0.6.5 (proc-macro)
+6quote v1.0.46 (*)
+6syn v2.0.118 (*)
+4sledgehammer_utils v0.3.1
+5rustc-hash v1.1.0
+3dioxus-signals v0.7.9 (*)
+3dunce v1.0.5
+3futures-channel v0.3.32 (*)
+3futures-util v0.3.32 (*)
+3generational-box v0.7.9 (*)
+3global-hotkey v0.7.0
+4crossbeam-channel v0.5.16
+5crossbeam-utils v0.8.22
+4keyboard-types v0.7.0 (*)
+4objc2 v0.6.4
+5objc2-encode v4.1.0
+5objc2-exception-helper v0.1.1
+4objc2-app-kit v0.3.2
+5bitflags v2.13.0 (*)
+5block2 v0.6.2
+6objc2 v0.6.4 (*)
+5objc2 v0.6.4 (*)
+5objc2-core-foundation v0.3.2
+6bitflags v2.13.0 (*)
+6objc2 v0.6.4 (*)
+5objc2-foundation v0.3.2
+6bitflags v2.13.0 (*)
+6block2 v0.6.2 (*)
+6objc2 v0.6.4 (*)
+6objc2-core-foundation v0.3.2 (*)
+4once_cell v1.21.4
+4thiserror v2.0.18 (*)
+3image v0.25.10
+4bytemuck v1.25.0
+4byteorder-lite v0.1.0
+4color_quant v1.1.0
+4exr v1.74.0
+5bit_field v0.10.3
+5half v2.7.1
+6cfg-if v1.0.4
+6zerocopy v0.8.53 (*)
+5lebe v0.5.3
+5miniz_oxide v0.8.9
+6adler2 v2.0.1
+6simd-adler32 v0.3.9
+5rayon-core v1.13.0
+6crossbeam-deque v0.8.7
+7crossbeam-epoch v0.9.20
+8crossbeam-utils v0.8.22
+7crossbeam-utils v0.8.22
+6crossbeam-utils v0.8.22
+5smallvec v1.15.2
+5zune-inflate v0.2.54
+6simd-adler32 v0.3.9
+4gif v0.14.2
+5color_quant v1.1.0
+5weezl v0.1.12
+4image-webp v0.2.4
+5byteorder-lite v0.1.0
+5quick-error v2.0.1
+4moxcms v0.8.1
+5num-traits v0.2.19
+5pxfm v0.1.30
+4num-traits v0.2.19
+4png v0.18.1
+5bitflags v2.13.0 (*)
+5crc32fast v1.5.0
+6cfg-if v1.0.4
+5fdeflate v0.3.7
+6simd-adler32 v0.3.9
+5flate2 v1.1.9
+6crc32fast v1.5.0 (*)
+6miniz_oxide v0.8.9 (*)
+5miniz_oxide v0.8.9 (*)
+4qoi v0.4.1
+5bytemuck v1.25.0
+4ravif v0.13.0
+5avif-serialize v0.8.9
+6arrayvec v0.7.8
+5imgref v1.12.2
+5loop9 v0.1.5
+6imgref v1.12.2
+5quick-error v2.0.1
+5rav1e v0.8.1
+6aligned-vec v0.6.4
+7equator v0.4.2
+8equator-macro v0.4.2 (proc-macro)
+9proc-macro2 v1.0.106 (*)
+9quote v1.0.46 (*)
+9syn v2.0.118 (*)
+6arg_enum_proc_macro v0.3.4 (proc-macro)
+7proc-macro2 v1.0.106 (*)
+7quote v1.0.46 (*)
+7syn v2.0.118 (*)
+6arrayvec v0.7.8
+6av-scenechange v0.14.1
+7aligned v0.4.3
+8as-slice v0.2.1
+9stable_deref_trait v1.2.1
+7anyhow v1.0.103
+7arg_enum_proc_macro v0.3.4 (proc-macro) (*)
+7arrayvec v0.7.8
+7log v0.4.33
+7num-rational v0.4.2
+8num-bigint v0.4.8
+9num-integer v0.1.46
+10num-traits v0.2.19
+9num-traits v0.2.19
+8num-integer v0.1.46 (*)
+8num-traits v0.2.19
+7num-traits v0.2.19
+7pastey v0.1.1 (proc-macro)
+7rayon v1.12.0
+8either v1.16.0
+8rayon-core v1.13.0 (*)
+7thiserror v2.0.18 (*)
+7v_frame v0.3.9
+8aligned-vec v0.6.4 (*)
+8num-traits v0.2.19
+7y4m v0.8.0
+6av1-grain v0.2.5
+7anyhow v1.0.103
+7arrayvec v0.7.8
+7log v0.4.33
+7nom v8.0.0
+8memchr v2.8.2
+7num-rational v0.4.2 (*)
+7v_frame v0.3.9 (*)
+6bitstream-io v4.10.0
+7no_std_io2 v0.9.4
+8memchr v2.8.2
+6cfg-if v1.0.4
+6itertools v0.14.0
+7either v1.16.0
+6libc v0.2.186
+6log v0.4.33
+6maybe-rayon v0.1.1
+7cfg-if v1.0.4
+7rayon v1.12.0 (*)
+6new_debug_unreachable v1.0.6
+6noop_proc_macro v0.3.0 (proc-macro)
+6num-derive v0.4.2 (proc-macro)
+7proc-macro2 v1.0.106 (*)
+7quote v1.0.46 (*)
+7syn v2.0.118 (*)
+6num-traits v0.2.19
+6paste v1.0.15 (proc-macro)
+6profiling v1.0.18
+7profiling-procmacros v1.0.18 (proc-macro)
+8quote v1.0.46 (*)
+8syn v2.0.118 (*)
+6simd_helpers v0.1.0 (proc-macro)
+7quote v1.0.46 (*)
+6thiserror v2.0.18 (*)
+6v_frame v0.3.9 (*)
+5rayon v1.12.0 (*)
+5rgb v0.8.53
+4rayon v1.12.0 (*)
+4rgb v0.8.53
+4tiff v0.11.3
+5fax v0.2.7
+5flate2 v1.1.9 (*)
+5half v2.7.1 (*)
+5quick-error v2.0.1
+5weezl v0.1.12
+5zune-jpeg v0.5.15
+6zune-core v0.5.1
+4zune-core v0.5.1
+4zune-jpeg v0.5.15 (*)
+3infer v0.19.0 (*)
+3libc v0.2.186
+3muda v0.17.2
+4crossbeam-channel v0.5.16 (*)
+4dpi v0.1.2
+4keyboard-types v0.7.0 (*)
+4objc2 v0.6.4 (*)
+4objc2-app-kit v0.3.2 (*)
+4objc2-core-foundation v0.3.2 (*)
+4objc2-foundation v0.3.2 (*)
+4once_cell v1.21.4
+4png v0.17.16
+5bitflags v1.3.2
+5crc32fast v1.5.0 (*)
+5fdeflate v0.3.7 (*)
+5flate2 v1.1.9 (*)
+5miniz_oxide v0.8.9 (*)
+4thiserror v2.0.18 (*)
+3objc v0.2.7 (*)
+3percent-encoding v2.3.2
+3rand v0.9.4 (*)
+3rfd v0.17.2
+4block2 v0.6.2 (*)
+4dispatch2 v0.3.1
+5bitflags v2.13.0 (*)
+5block2 v0.6.2 (*)
+5libc v0.2.186
+5objc2 v0.6.4 (*)
+4log v0.4.33
+4objc2 v0.6.4 (*)
+4objc2-app-kit v0.3.2 (*)
+4objc2-core-foundation v0.3.2 (*)
+4objc2-foundation v0.3.2 (*)
+4raw-window-handle v0.6.2
+3rustc-hash v2.1.3
+3serde v1.0.228 (*)
+3serde_json v1.0.150 (*)
+3signal-hook v0.3.18
+4libc v0.2.186
+4signal-hook-registry v1.4.8
+5errno v0.3.14 (*)
+5libc v0.2.186
+3slab v0.4.12
+3subtle v2.6.1
+3tao v0.34.8
+4bitflags v2.13.0 (*)
+4block2 v0.6.2 (*)
+4core-foundation v0.10.1 (*)
+4core-graphics v0.25.0
+5bitflags v2.13.0 (*)
+5core-foundation v0.10.1 (*)
+5core-graphics-types v0.2.0 (*)
+5foreign-types v0.5.0 (*)
+5libc v0.2.186
+4crossbeam-channel v0.5.16 (*)
+4dispatch2 v0.3.1 (*)
+4dpi v0.1.2
+4libc v0.2.186
+4log v0.4.33
+4objc2 v0.6.4 (*)
+4objc2-app-kit v0.3.2 (*)
+4objc2-foundation v0.3.2 (*)
+4once_cell v1.21.4
+4raw-window-handle v0.5.2
+4raw-window-handle v0.6.2
+4url v2.5.8
+5form_urlencoded v1.2.2
+6percent-encoding v2.3.2
+5idna v1.1.0
+6idna_adapter v1.2.2
+7icu_normalizer v2.2.0
+8icu_collections v2.2.0
+9displaydoc v0.2.6 (proc-macro)
+10proc-macro2 v1.0.106 (*)
+10quote v1.0.46 (*)
+10syn v2.0.118 (*)
+9potential_utf v0.1.5
+10zerovec v0.11.6
+11yoke v0.8.3
+12stable_deref_trait v1.2.1
+12yoke-derive v0.8.2 (proc-macro)
+13proc-macro2 v1.0.106 (*)
+13quote v1.0.46 (*)
+13syn v2.0.118 (*)
+13synstructure v0.13.2
+14proc-macro2 v1.0.106 (*)
+14quote v1.0.46 (*)
+14syn v2.0.118 (*)
+12zerofrom v0.1.8
+13zerofrom-derive v0.1.7 (proc-macro)
+14proc-macro2 v1.0.106 (*)
+14quote v1.0.46 (*)
+14syn v2.0.118 (*)
+14synstructure v0.13.2 (*)
+11zerofrom v0.1.8 (*)
+11zerovec-derive v0.11.3 (proc-macro)
+12proc-macro2 v1.0.106 (*)
+12quote v1.0.46 (*)
+12syn v2.0.118 (*)
+9utf8_iter v1.0.4
+9yoke v0.8.3 (*)
+9zerofrom v0.1.8 (*)
+9zerovec v0.11.6 (*)
+8icu_normalizer_data v2.2.0
+8icu_provider v2.2.0
+9displaydoc v0.2.6 (proc-macro) (*)
+9icu_locale_core v2.2.0
+10displaydoc v0.2.6 (proc-macro) (*)
+10litemap v0.8.2
+10tinystr v0.8.3
+11displaydoc v0.2.6 (proc-macro) (*)
+11zerovec v0.11.6 (*)
+10writeable v0.6.3
+10zerovec v0.11.6 (*)
+9writeable v0.6.3
+9yoke v0.8.3 (*)
+9zerofrom v0.1.8 (*)
+9zerotrie v0.2.4
+10displaydoc v0.2.6 (proc-macro) (*)
+10yoke v0.8.3 (*)
+10zerofrom v0.1.8 (*)
+9zerovec v0.11.6 (*)
+8smallvec v1.15.2
+8zerovec v0.11.6 (*)
+7icu_properties v2.2.0
+8icu_collections v2.2.0 (*)
+8icu_locale_core v2.2.0 (*)
+8icu_properties_data v2.2.0
+8icu_provider v2.2.0 (*)
+8zerotrie v0.2.4 (*)
+8zerovec v0.11.6 (*)
+6smallvec v1.15.2
+6utf8_iter v1.0.4
+5percent-encoding v2.3.2
+3thiserror v2.0.18 (*)
+3tokio v1.52.3 (*)
+3tracing v0.1.44 (*)
+3tray-icon v0.21.3
+4crossbeam-channel v0.5.16 (*)
+4muda v0.17.2 (*)
+4objc2 v0.6.4 (*)
+4objc2-app-kit v0.3.2 (*)
+4objc2-core-foundation v0.3.2 (*)
+4objc2-core-graphics v0.3.2
+5bitflags v2.13.0 (*)
+5objc2-core-foundation v0.3.2 (*)
+4objc2-foundation v0.3.2 (*)
+4once_cell v1.21.4
+4png v0.17.16 (*)
+4thiserror v2.0.18 (*)
+3tungstenite v0.28.0 (*)
+3webbrowser v1.2.1
+4core-foundation v0.10.1 (*)
+4log v0.4.33
+4url v2.5.8 (*)
+3wry v0.53.5
+4block2 v0.6.2 (*)
+4cookie v0.18.1
+5time v0.3.53
+6deranged v0.5.8
+6num-conv v0.2.2
+6powerfmt v0.2.0
+6time-core v0.1.9
+6time-macros v0.2.31 (proc-macro)
+7num-conv v0.2.2
+7time-core v0.1.9
+4dirs v6.0.0
+5dirs-sys v0.5.0
+6libc v0.2.186
+6option-ext v0.2.0
+4dpi v0.1.2
+4http v1.4.2 (*)
+4objc2 v0.6.4 (*)
+4objc2-app-kit v0.3.2 (*)
+4objc2-core-foundation v0.3.2 (*)
+4objc2-foundation v0.3.2 (*)
+4objc2-web-kit v0.3.2
+5bitflags v2.13.0 (*)
+5block2 v0.6.2 (*)
+5objc2 v0.6.4 (*)
+5objc2-app-kit v0.3.2 (*)
+5objc2-core-foundation v0.3.2 (*)
+5objc2-foundation v0.3.2 (*)
+4once_cell v1.21.4
+4raw-window-handle v0.6.2
+4thiserror v2.0.18 (*)
+4url v2.5.8 (*)
+2dioxus-devtools v0.7.9 (*)
+2dioxus-document v0.7.9 (*)
+2dioxus-history v0.7.9 (*)
+2dioxus-hooks v0.7.9 (*)
+2dioxus-html v0.7.9 (*)
+2dioxus-logger v0.7.9
+3dioxus-cli-config v0.7.9
+3tracing v0.1.44 (*)
+3tracing-subscriber v0.3.23
+4matchers v0.2.0
+5regex-automata v0.4.14
+6regex-syntax v0.8.11
+4once_cell v1.21.4
+4regex-automata v0.4.14 (*)
+4sharded-slab v0.1.7
+5lazy_static v1.5.0
+4thread_local v1.1.9
+5cfg-if v1.0.4
+4tracing v0.1.44 (*)
+4tracing-core v0.1.36 (*)
+2dioxus-signals v0.7.9 (*)
+2dioxus-stores v0.7.9
+3dioxus-core v0.7.9 (*)
+3dioxus-signals v0.7.9 (*)
+3dioxus-stores-macro v0.7.9 (proc-macro)
+4convert_case v0.8.0 (*)
+4proc-macro2 v1.0.106 (*)
+4quote v1.0.46 (*)
+4syn v2.0.118 (*)
+3generational-box v0.7.9 (*)
+2manganis v0.7.9
+3const-serialize v0.7.2
+4const-serialize-macro v0.7.2 (proc-macro)
+5proc-macro2 v1.0.106 (*)
+5quote v1.0.46 (*)
+5syn v2.0.118 (*)
+3const-serialize v0.8.0-alpha.0
+4const-serialize v0.7.2 (*)
+4const-serialize-macro v0.8.0-alpha.0 (proc-macro)
+5proc-macro2 v1.0.106 (*)
+5quote v1.0.46 (*)
+5syn v2.0.118 (*)
+4serde v1.0.228 (*)
+3manganis-core v0.7.9
+4const-serialize v0.7.2 (*)
+4const-serialize v0.8.0-alpha.0 (*)
+4dioxus-cli-config v0.7.9
+4dioxus-core-types v0.7.9
+4serde v1.0.228 (*)
+4winnow v0.7.15
+3manganis-macro v0.7.9 (proc-macro)
+4dunce v1.0.5
+4macro-string v0.1.4
+5proc-macro2 v1.0.106 (*)
+5quote v1.0.46 (*)
+5syn v2.0.118 (*)
+4manganis-core v0.7.9
+5const-serialize v0.7.2 (*)
+5const-serialize v0.8.0-alpha.0 (*)
+5serde v1.0.228
+6serde_core v1.0.228
+6serde_derive v1.0.228 (proc-macro) (*)
+5winnow v0.7.15
+4proc-macro2 v1.0.106 (*)
+4quote v1.0.46 (*)
+4syn v2.0.118 (*)
+3objc2 v0.6.4 (*)
+3thiserror v2.0.18 (*)
+2subsecond v0.7.9 (*)
+2warnings v0.2.1 (*)

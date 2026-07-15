@@ -1,0 +1,363 @@
+0iced-app v0.1.0 (/Users/mpl4/Desktop/workspace/self_learning/rust/gui-ecosystem-research/apps/iced-app)
+1iced v0.14.0
+2iced_core v0.14.0
+3bitflags v2.13.0
+3bytes v1.12.0
+3glam v0.25.0
+3lilt v0.8.1
+4web-time v1.1.0
+3log v0.4.33
+3num-traits v0.2.19
+4libm v0.2.16
+3rustc-hash v2.1.3
+3smol_str v0.2.2
+3thiserror v2.0.18
+4thiserror-impl v2.0.18 (proc-macro)
+5proc-macro2 v1.0.106
+6unicode-ident v1.0.24
+5quote v1.0.46
+6proc-macro2 v1.0.106 (*)
+5syn v2.0.118
+6proc-macro2 v1.0.106 (*)
+6quote v1.0.46 (*)
+6unicode-ident v1.0.24
+3web-time v1.1.0
+2iced_debug v0.14.0
+3iced_core v0.14.0 (*)
+3iced_futures v0.14.0
+4futures v0.3.32
+5futures-channel v0.3.32
+6futures-core v0.3.32
+6futures-sink v0.3.32
+5futures-core v0.3.32
+5futures-executor v0.3.32
+6futures-core v0.3.32
+6futures-task v0.3.32
+6futures-util v0.3.32
+7futures-channel v0.3.32 (*)
+7futures-core v0.3.32
+7futures-io v0.3.32
+7futures-macro v0.3.32 (proc-macro)
+8proc-macro2 v1.0.106 (*)
+8quote v1.0.46 (*)
+8syn v2.0.118 (*)
+7futures-sink v0.3.32
+7futures-task v0.3.32
+7memchr v2.8.2
+7pin-project-lite v0.2.17
+7slab v0.4.12
+5futures-io v0.3.32
+5futures-sink v0.3.32
+5futures-task v0.3.32
+5futures-util v0.3.32 (*)
+4iced_core v0.14.0 (*)
+4log v0.4.33
+4rustc-hash v2.1.3
+3log v0.4.33
+2iced_futures v0.14.0 (*)
+2iced_renderer v0.14.0
+3iced_graphics v0.14.0
+4bitflags v2.13.0
+4bytemuck v1.25.0
+5bytemuck_derive v1.10.2 (proc-macro)
+6proc-macro2 v1.0.106 (*)
+6quote v1.0.46 (*)
+6syn v2.0.118 (*)
+4cosmic-text v0.15.0
+5bitflags v2.13.0
+5fontdb v0.23.0
+6log v0.4.33
+6memmap2 v0.9.11
+7libc v0.2.186
+6slotmap v1.1.1
+6tinyvec v1.11.0
+7tinyvec_macros v0.1.1
+6ttf-parser v0.25.1
+7core_maths v0.1.1
+8libm v0.2.16
+5harfrust v0.3.2
+6bitflags v2.13.0
+6bytemuck v1.25.0 (*)
+6core_maths v0.1.1 (*)
+6read-fonts v0.35.0
+7bytemuck v1.25.0 (*)
+7core_maths v0.1.1 (*)
+7font-types v0.10.1
+8bytemuck v1.25.0 (*)
+6smallvec v1.15.2
+5linebender_resource_handle v0.1.1
+5log v0.4.33
+5rangemap v1.7.1
+5rustc-hash v1.1.0
+5self_cell v1.2.2
+5skrifa v0.37.0
+6bytemuck v1.25.0 (*)
+6read-fonts v0.35.0 (*)
+5smol_str v0.2.2
+5swash v0.2.9
+6skrifa v0.42.1
+7bytemuck v1.25.0 (*)
+7read-fonts v0.39.2
+8bytemuck v1.25.0 (*)
+8font-types v0.11.3
+9bytemuck v1.25.0 (*)
+6yazi v0.2.1
+6zeno v0.3.3
+5sys-locale v0.3.2
+5unicode-bidi v0.3.18
+5unicode-linebreak v0.1.5
+5unicode-script v0.5.8
+5unicode-segmentation v1.13.3
+4half v2.7.1
+5cfg-if v1.0.4
+5num-traits v0.2.19 (*)
+5zerocopy v0.8.53
+6zerocopy-derive v0.8.53 (proc-macro)
+7proc-macro2 v1.0.106 (*)
+7quote v1.0.46 (*)
+7syn v2.0.118 (*)
+4iced_core v0.14.0 (*)
+4iced_futures v0.14.0 (*)
+4log v0.4.33
+4raw-window-handle v0.6.2
+4rustc-hash v2.1.3
+4thiserror v2.0.18 (*)
+4unicode-segmentation v1.13.3
+3iced_tiny_skia v0.14.0
+4bytemuck v1.25.0 (*)
+4cosmic-text v0.15.0 (*)
+4iced_debug v0.14.0 (*)
+4iced_graphics v0.14.0 (*)
+4kurbo v0.10.4
+5arrayvec v0.7.8
+5smallvec v1.15.2
+4log v0.4.33
+4rustc-hash v2.1.3
+4softbuffer v0.4.8
+5objc2 v0.6.4
+6objc2-encode v4.1.0
+5objc2-core-foundation v0.3.2
+6bitflags v2.13.0
+6objc2 v0.6.4 (*)
+5objc2-core-graphics v0.3.2
+6bitflags v2.13.0
+6objc2 v0.6.4 (*)
+6objc2-core-foundation v0.3.2 (*)
+5objc2-foundation v0.3.2
+6bitflags v2.13.0
+6objc2 v0.6.4 (*)
+6objc2-core-foundation v0.3.2 (*)
+5objc2-quartz-core v0.3.2
+6bitflags v2.13.0
+6objc2 v0.6.4 (*)
+6objc2-core-foundation v0.3.2 (*)
+6objc2-foundation v0.3.2 (*)
+5raw-window-handle v0.6.2
+5tracing v0.1.44
+6pin-project-lite v0.2.17
+6tracing-attributes v0.1.31 (proc-macro)
+7proc-macro2 v1.0.106 (*)
+7quote v1.0.46 (*)
+7syn v2.0.118 (*)
+6tracing-core v0.1.36
+7once_cell v1.21.4
+4tiny-skia v0.11.4
+5arrayref v0.3.9
+5arrayvec v0.7.8
+5bytemuck v1.25.0 (*)
+5cfg-if v1.0.4
+5log v0.4.33
+5tiny-skia-path v0.11.4
+6arrayref v0.3.9
+6bytemuck v1.25.0 (*)
+6strict-num v0.1.1
+3iced_wgpu v0.14.0
+4bitflags v2.13.0
+4bytemuck v1.25.0 (*)
+4cryoglyph v0.1.0
+5cosmic-text v0.15.0 (*)
+5etagere v0.2.15
+6euclid v0.22.14
+7num-traits v0.2.19 (*)
+6svg_fmt v0.4.5
+5lru v0.16.4
+5rustc-hash v2.1.3
+5wgpu v27.0.1
+6arrayvec v0.7.8
+6bitflags v2.13.0
+6cfg-if v1.0.4
+6document-features v0.2.12 (proc-macro)
+7litrs v1.0.0
+6hashbrown v0.16.1
+7foldhash v0.2.0
+6log v0.4.33
+6parking_lot v0.12.5
+7lock_api v0.4.14
+8scopeguard v1.2.0
+7parking_lot_core v0.9.12
+8cfg-if v1.0.4
+8libc v0.2.186
+8smallvec v1.15.2
+6profiling v1.0.18
+6raw-window-handle v0.6.2
+6smallvec v1.15.2
+6static_assertions v1.1.0
+6wgpu-core v27.0.3
+7arrayvec v0.7.8
+7bit-set v0.8.0
+8bit-vec v0.8.0
+7bit-vec v0.8.0
+7bitflags v2.13.0
+7bytemuck v1.25.0 (*)
+7document-features v0.2.12 (proc-macro) (*)
+7hashbrown v0.16.1 (*)
+7indexmap v2.14.0
+8equivalent v1.0.2
+8hashbrown v0.17.1
+7log v0.4.33
+7naga v27.0.3
+8arrayvec v0.7.8
+8bit-set v0.8.0 (*)
+8bitflags v2.13.0
+8cfg-if v1.0.4
+8codespan-reporting v0.12.0
+9unicode-width v0.2.2
+8half v2.7.1 (*)
+8hashbrown v0.16.1 (*)
+8hexf-parse v0.2.1
+8indexmap v2.14.0 (*)
+8libm v0.2.16
+8log v0.4.33
+8num-traits v0.2.19 (*)
+8once_cell v1.21.4
+8rustc-hash v1.1.0
+8thiserror v2.0.18 (*)
+8unicode-ident v1.0.24
+7once_cell v1.21.4
+7parking_lot v0.12.5 (*)
+7profiling v1.0.18
+7raw-window-handle v0.6.2
+7rustc-hash v1.1.0
+7smallvec v1.15.2
+7thiserror v2.0.18 (*)
+7wgpu-core-deps-apple v27.0.0
+8wgpu-hal v27.0.4
+9arrayvec v0.7.8
+9bitflags v2.13.0
+9block v0.1.6
+9cfg-if v1.0.4
+9core-graphics-types v0.2.0
+10bitflags v2.13.0
+10core-foundation v0.10.1
+11core-foundation-sys v0.8.7
+11libc v0.2.186
+10libc v0.2.186
+9hashbrown v0.16.1 (*)
+9libc v0.2.186
+9log v0.4.33
+9metal v0.32.0
+10bitflags v2.13.0
+10block v0.1.6
+10core-graphics-types v0.2.0 (*)
+10foreign-types v0.5.0
+11foreign-types-macros v0.2.3 (proc-macro)
+12proc-macro2 v1.0.106 (*)
+12quote v1.0.46 (*)
+12syn v2.0.118 (*)
+11foreign-types-shared v0.3.1
+10log v0.4.33
+10objc v0.2.7
+11malloc_buf v0.0.6
+12libc v0.2.186
+10paste v1.0.15 (proc-macro)
+9naga v27.0.3 (*)
+9objc v0.2.7 (*)
+9parking_lot v0.12.5 (*)
+9profiling v1.0.18
+9raw-window-handle v0.6.2
+9thiserror v2.0.18 (*)
+9wgpu-types v27.0.1
+10bitflags v2.13.0
+10bytemuck v1.25.0 (*)
+10log v0.4.33
+10thiserror v2.0.18 (*)
+7wgpu-hal v27.0.4 (*)
+7wgpu-types v27.0.1 (*)
+6wgpu-hal v27.0.4 (*)
+6wgpu-types v27.0.1 (*)
+4futures v0.3.32 (*)
+4glam v0.25.0
+4guillotiere v0.6.2
+5euclid v0.22.14 (*)
+5svg_fmt v0.4.5
+4iced_debug v0.14.0 (*)
+4iced_graphics v0.14.0 (*)
+4log v0.4.33
+4rustc-hash v2.1.3
+4thiserror v2.0.18 (*)
+4wgpu v27.0.1 (*)
+3log v0.4.33
+3thiserror v2.0.18 (*)
+2iced_runtime v0.14.0
+3bytes v1.12.0
+3iced_core v0.14.0 (*)
+3iced_futures v0.14.0 (*)
+3raw-window-handle v0.6.2
+3thiserror v2.0.18 (*)
+2iced_widget v0.14.2
+3iced_renderer v0.14.0 (*)
+3log v0.4.33
+3num-traits v0.2.19 (*)
+3rustc-hash v2.1.3
+3thiserror v2.0.18 (*)
+3unicode-segmentation v1.13.3
+2iced_winit v0.14.0
+3iced_debug v0.14.0 (*)
+3iced_program v0.14.0
+4iced_graphics v0.14.0 (*)
+4iced_runtime v0.14.0 (*)
+3log v0.4.33
+3rustc-hash v2.1.3
+3thiserror v2.0.18 (*)
+3tracing v0.1.44 (*)
+3window_clipboard v0.5.1
+4clipboard_macos v0.1.1
+5objc2 v0.5.2
+6objc-sys v0.3.5
+6objc2-encode v4.1.0
+5objc2-app-kit v0.2.2
+6bitflags v2.13.0
+6objc2 v0.5.2 (*)
+6objc2-foundation v0.2.2
+7bitflags v2.13.0
+7block2 v0.5.1
+8objc2 v0.5.2 (*)
+7dispatch v0.2.0
+7objc2 v0.5.2 (*)
+5objc2-foundation v0.2.2 (*)
+4raw-window-handle v0.6.2
+4thiserror v2.0.18 (*)
+3winit v0.30.13
+4bitflags v2.13.0
+4block2 v0.5.1 (*)
+4core-foundation v0.9.4
+5core-foundation-sys v0.8.7
+5libc v0.2.186
+4core-graphics v0.23.2
+5bitflags v1.3.2
+5core-foundation v0.9.4 (*)
+5core-graphics-types v0.1.3
+6bitflags v1.3.2
+6core-foundation v0.9.4 (*)
+6libc v0.2.186
+5foreign-types v0.5.0 (*)
+5libc v0.2.186
+4cursor-icon v1.2.0
+4dpi v0.1.2
+4objc2 v0.5.2 (*)
+4objc2-app-kit v0.2.2 (*)
+4objc2-foundation v0.2.2 (*)
+4raw-window-handle v0.6.2
+4smol_str v0.2.2
+4tracing v0.1.44 (*)
+2thiserror v2.0.18 (*)

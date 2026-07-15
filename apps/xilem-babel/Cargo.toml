@@ -1,0 +1,13 @@
+[package]
+name = "xilem-babel"
+version = "0.1.0"
+edition = "2021"
+publish = false
+
+# Independent crate — deliberately NOT a workspace member.
+[workspace]
+
+[dependencies]
+# Same pinned framework version as iteration 1. No helper crates: the text
+# stack (parley + fontique + vello) is the thing under test.
+xilem = "=0.4.0"

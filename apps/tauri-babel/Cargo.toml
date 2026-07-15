@@ -1,0 +1,18 @@
+# Babel (Tauri) — SPEC-5 text & i18n stress test.
+# Same manual plain-cargo Tauri v2 setup as ../tauri-app (no Node / npm /
+# tauri-cli). No helper crates beyond iteration 1's set: all text shaping,
+# BiDi, font fallback and editing come from WKWebView itself.
+[package]
+name = "tauri-babel"
+version = "0.1.0"
+edition = "2021"
+description = "Babel i18n stress-test mini-app (RCN GUI ecosystem research, SPEC-5) built with Tauri v2"
+license = "MIT"
+
+[build-dependencies]
+tauri-build = { version = "=2.6.3", features = [] }
+
+[dependencies]
+tauri = { version = "=2.11.5", features = [] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"

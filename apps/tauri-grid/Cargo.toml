@@ -1,0 +1,23 @@
+# Grid (Tauri) — SPEC-7 100k-row data table, manual no-Node Tauri v2 setup.
+#
+# Feature flags: tauri default features only (wry webview runtime +
+# Windows-only common-controls-v6). serde/serde_json are required by
+# #[tauri::command] (de)serialization across the IPC bridge.
+# No `rand`: the seeded PRNG is a 12-line xorshift64*.
+[package]
+name = "tauri-grid"
+version = "0.1.0"
+edition = "2021"
+description = "Grid mini-app (RCN GUI ecosystem research, SPEC-7) built with Tauri v2"
+license = "MIT"
+
+[build-dependencies]
+tauri-build = { version = "=2.6.3", features = [] }
+
+[dependencies]
+tauri = { version = "=2.11.5", features = [] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+
+[profile.release]
+# Same as the other apps in the study: default release profile.

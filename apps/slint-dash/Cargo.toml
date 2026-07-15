@@ -1,0 +1,12 @@
+[package]
+name = "slint-dash"
+version = "0.1.0"
+edition = "2021"
+
+# Same pin as iteration 1 (apps/slint-app). Default features: winit backend,
+# femtovg + software renderers, accessibility.
+[dependencies]
+slint = "=1.17.1"
+
+[build-dependencies]
+slint-build = "=1.17.1"

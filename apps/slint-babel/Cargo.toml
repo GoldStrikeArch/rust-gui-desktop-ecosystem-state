@@ -1,0 +1,13 @@
+[package]
+name = "slint-babel"
+version = "0.1.0"
+edition = "2021"
+
+# Default features only: winit backend, femtovg renderer. Text is laid out by
+# parley + fontique (shared text stack since 1.14) with system font fallback,
+# so no fonts need to be bundled.
+[dependencies]
+slint = "=1.17.1"
+
+[build-dependencies]
+slint-build = "=1.17.1"
