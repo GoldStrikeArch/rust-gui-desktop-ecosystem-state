@@ -1,0 +1,18 @@
+# Same git pin as apps/floem-app (see the DEVIATION note there): floem's
+# crates.io release (0.2.0, Nov 2024) is stale and the maintained `main`
+# cannot be published because it depends on the forked `floem-winit` via git.
+# Rev 778bb5f2 (2026-06-21) is pinned identically across all 8 floem apps.
+#
+# Default features kept. floem has NO table widget — the grid is composed
+# from flex rows — but it DOES ship real list virtualization (`VirtualStack`,
+# understory_virtual_list underneath), which carries the 100k-row body.
+# No helper crates: deterministic data uses the same 10-line xorshift* PRNG
+# as the sibling apps (no `rand`), and sorting/filtering are std library.
+
+[package]
+name = "floem-grid"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+floem = { git = "https://github.com/lapce/floem", rev = "778bb5f2aa08429e579ee2e6ac97e84fbf18b618" }

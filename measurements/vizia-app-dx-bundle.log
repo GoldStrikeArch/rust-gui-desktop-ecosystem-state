@@ -1,0 +1,241 @@
+  0.00s  INFO Bundling project...
+  0.67s  INFO Compiled [  1/252]: cfg_if
+  0.67s  INFO Compiled [  2/252]: unicode_ident
+  0.70s  INFO Compiled [  3/252]: siphasher
+  0.70s  INFO Compiled [  4/252]: rand_core
+  0.74s  INFO Compiled [  5/252]: log
+  0.79s  INFO Compiled [  6/252]: bitflags
+  0.79s  INFO Compiled [  7/252]: build-script-build
+  0.79s  INFO Compiled [  8/252]: build-script-build
+  0.80s  INFO Compiled [  9/252]: smallvec
+  0.80s  INFO Compiled [ 10/252]: build-script-build
+  0.81s  INFO Compiled [ 11/252]: build-script-build
+  0.81s  INFO Compiled [ 12/252]: phf_shared
+  0.83s  INFO Compiled [ 13/252]: cfg_aliases
+  0.83s  INFO Compiled [ 14/252]: memchr
+  0.84s  INFO Compiled [ 15/252]: build-script-build
+  0.88s  INFO Compiled [ 16/252]: build-script-build
+  0.89s  INFO Compiled [ 17/252]: bitflags
+  0.89s  INFO Compiled [ 18/252]: glob
+  0.90s  INFO Compiled [ 19/252]: rand
+  0.94s  INFO Compiled [ 20/252]: build-script-build
+  0.96s  INFO Compiled [ 22/252]: siphasher
+  0.97s  INFO Compiled [ 23/252]: phf_generator
+  0.97s  INFO Compiled [ 24/252]: build-script-build
+  0.98s  INFO Compiled [ 25/252]: objc2_encode
+  0.99s  INFO Compiled [ 26/252]: objc_sys
+  1.01s  INFO Compiled [ 27/252]: build-script-build
+  1.09s  INFO Compiled [ 28/252]: build-script-build
+  1.16s  INFO Compiled [ 30/252]: core_foundation_sys
+  1.21s  INFO Compiled [ 31/252]: build-script-build
+  1.25s  INFO Compiled [ 33/252]: minimal_lexical
+  1.50s  INFO Compiled [ 35/252]: aho_corasick
+  1.55s  INFO Compiled [ 38/252]: objc2
+  1.63s  INFO Compiled [ 39/252]: block2
+  1.72s  INFO Compiled [ 40/252]: proc_macro2
+  1.72s  INFO Compiled [ 41/252]: quote
+  1.73s  INFO Compiled [ 42/252]: libc
+  1.75s  INFO Compiled [ 43/252]: libc
+  1.78s  INFO Compiled [ 44/252]: errno
+  1.82s  INFO Compiled [ 46/252]: nom
+  1.84s  INFO Compiled [ 47/252]: libloading
+  1.93s  INFO Compiled [ 49/252]: build-script-build
+  1.99s  INFO Compiled [ 50/252]: dispatch
+  2.01s  INFO Compiled [ 51/252]: serde_core
+  2.05s  INFO Compiled [ 52/252]: simd_adler32
+  2.06s  INFO Compiled [ 53/252]: proc_macro_hack
+  2.06s  INFO Compiled [ 54/252]: build-script-build
+  2.08s  INFO Compiled [ 55/252]: either
+  2.09s  INFO Compiled [ 56/252]: adler2
+  2.18s  INFO Compiled [ 58/252]: regex_syntax
+  2.18s  INFO Compiled [ 60/252]: build-script-build
+  2.20s  INFO Compiled [ 61/252]: winnow
+  2.29s  INFO Compiled [ 62/252]: toml_datetime
+  2.36s  INFO Compiled [ 64/252]: miniz_oxide
+  2.42s  INFO Compiled [ 65/252]: serde_spanned
+  2.46s  INFO Compiled [ 66/252]: zmij
+  2.47s  INFO Compiled [ 68/252]: itertools
+  2.47s  INFO Compiled [ 69/252]: toml_parser
+  2.53s  INFO Compiled [ 70/252]: crc32fast
+  2.55s  INFO Compiled [ 71/252]: filetime
+  2.59s  INFO Compiled [ 72/252]: rustc_hash
+  2.62s  INFO Compiled [ 74/252]: rustix
+  2.64s  INFO Compiled [ 75/252]: rustc_hash
+  2.64s  INFO Compiled [ 76/252]: xattr
+  2.67s  INFO Compiled [ 77/252]: cfg_if
+  2.69s  INFO Compiled [ 78/252]: toml_writer
+  2.73s  INFO Compiled [ 79/252]: find_msvc_tools
+  2.75s  INFO Compiled [ 81/252]: shlex
+  2.77s  INFO Compiled [ 82/252]: shlex
+  2.80s  INFO Compiled [ 83/252]: itoa
+  2.82s  INFO Compiled [ 84/252]: cexpr
+  2.87s  INFO Compiled [ 85/252]: regex
+  2.98s  INFO Compiled [ 87/252]: phf_shared
+  3.01s  INFO Compiled [ 88/252]: flate2
+  3.13s  INFO Compiled [ 89/252]: phf_shared
+  3.23s  INFO Compiled [ 90/252]: tar
+  3.28s  INFO Compiled [ 91/252]: regex_automata
+  3.29s  INFO Compiled [ 92/252]: dtoa
+  3.31s  INFO Compiled [ 93/252]: build-script-build
+  3.32s  INFO Compiled [ 94/252]: equivalent
+  3.34s  INFO Compiled [ 95/252]: syn
+  3.40s  INFO Compiled [ 96/252]: fastrand
+  3.41s  INFO Compiled [ 97/252]: heck
+  3.42s  INFO Compiled [ 98/252]: serde_json
+  3.47s  INFO Compiled [ 99/252]: toml
+  3.48s  INFO Compiled [100/252]: cc
+  3.51s  INFO Compiled [101/252]: phf_generator
+  3.56s  INFO Compiled [102/252]: pkg_config
+  3.56s  INFO Compiled [103/252]: dtoa_short
+  3.61s  INFO Compiled [104/252]: phf_codegen
+  3.61s  INFO Compiled [105/252]: prettyplease
+  3.65s  INFO Compiled [106/252]: foreign_types_shared
+  3.71s  INFO Compiled [107/252]: foldhash
+  3.72s  INFO Compiled [108/252]: foreign_types_macros
+  3.76s  INFO Compiled [109/252]: bitflags
+  3.78s  INFO Compiled [111/252]: core_foundation
+  3.81s  INFO Compiled [112/252]: displaydoc
+  3.81s  INFO Compiled [113/252]: build-script-build
+  3.83s  INFO Compiled [114/252]: build-script-build
+  3.86s  INFO Compiled [115/252]: tinyvec_macros
+  3.87s  INFO Compiled [116/252]: objc2
+  3.90s  INFO Compiled [117/252]: itoa
+  3.92s  INFO Compiled [118/252]: syn
+  3.98s  INFO Compiled [119/252]: autocfg
+  3.98s  INFO Compiled [120/252]: allocator_api2
+  4.01s  INFO Compiled [121/252]: uuid
+  4.10s  INFO Compiled [122/252]: tinyvec
+  4.11s  INFO Compiled [123/252]: build-script-build
+  4.20s  INFO Compiled [124/252]: tinystr
+  4.20s  INFO Compiled [125/252]: tinystr
+  4.21s  INFO Compiled [126/252]: cssparser_macros
+  4.26s  INFO Compiled [127/252]: accesskit
+  4.26s  INFO Compiled [128/252]: clang_sys
+  4.28s  INFO Compiled [129/252]: phf_macros
+  4.34s  INFO Compiled [131/252]: khronos_api
+  4.34s  INFO Compiled [132/252]: unic_langid_impl
+  4.35s  INFO Compiled [133/252]: core_graphics_types
+  4.42s  INFO Compiled [134/252]: hashbrown
+  4.47s  INFO Compiled [135/252]: phf_codegen
+  4.57s  INFO Compiled [137/252]: build-script-build
+  4.66s  INFO Compiled [138/252]: derive_more_impl
+  4.68s  INFO Compiled [139/252]: build-script-build
+  4.70s  INFO Compiled [140/252]: scopeguard
+  4.70s  INFO Compiled [141/252]: raw_window_handle
+  4.72s  INFO Compiled [142/252]: stable_deref_trait
+  4.76s  INFO Compiled [143/252]: pin_project_lite
+  4.77s  INFO Compiled [144/252]: unic_langid_impl
+  4.78s  INFO Compiled [145/252]: entities
+  4.79s  INFO Compiled [146/252]: phf
+  4.82s  INFO Compiled [147/252]: vizia_id
+  4.84s  INFO Compiled [148/252]: thiserror_impl
+  4.97s  INFO Compiled [149/252]: build-script-build
+  5.02s  INFO Compiled [150/252]: foreign_types
+  5.03s  INFO Compiled [151/252]: build-script-build
+  5.13s  INFO Compiled [152/252]: objc2_core_foundation
+  5.14s  INFO Compiled [153/252]: tracing_core
+  5.15s  INFO Compiled [154/252]: tracing
+  5.22s  INFO Compiled [155/252]: xml
+  5.23s  INFO Compiled [156/252]: servo_arc
+  5.32s  INFO Compiled [157/252]: lock_api
+  5.34s  INFO Compiled [158/252]: core_graphics
+  5.39s  INFO Compiled [159/252]: gl_generator
+  5.48s  INFO Compiled [160/252]: unic_langid_macros_impl
+  5.56s  INFO Compiled [161/252]: parking_lot_core
+  5.65s  INFO Compiled [162/252]: objc2_foundation
+  5.85s  INFO Compiled [163/252]: thiserror
+  5.92s  INFO Compiled [164/252]: unicode_normalization
+  6.05s  INFO Compiled [165/252]: skia_svg_macros
+  6.06s  INFO Compiled [166/252]: type_map
+  6.07s  INFO Compiled [167/252]: bindgen
+  6.18s  INFO Compiled [169/252]: phf_shared
+  6.26s  INFO Compiled [170/252]: cssparser
+  6.26s  INFO Compiled [171/252]: build-script-build
+  6.29s  INFO Compiled [172/252]: precomputed_hash
+  6.31s  INFO Compiled [173/252]: smol_str
+  6.32s  INFO Compiled [174/252]: debug_unreachable
+  6.36s  INFO Compiled [175/252]: cursor_icon
+  6.42s  INFO Compiled [177/252]: percent_encoding
+  6.45s  INFO Compiled [178/252]: dpi
+  6.45s  INFO Compiled [179/252]: byteorder
+  6.46s  INFO Compiled [180/252]: self_cell
+  6.49s  INFO Compiled [181/252]: base64
+  6.49s  INFO Compiled [182/252]: self_cell
+  6.49s  INFO Compiled [183/252]: fxhash
+  6.53s  INFO Compiled [184/252]: log
+  6.56s  INFO Compiled [185/252]: keyboard_types
+  6.64s  INFO Compiled [186/252]: phf
+  6.66s  INFO Compiled [187/252]: vizia_input
+  6.66s  INFO Compiled [188/252]: build-script-build
+  6.67s  INFO Compiled [189/252]: derive_more
+  6.68s  INFO Compiled [190/252]: jetscii
+  6.90s  INFO Compiled [191/252]: fluent_syntax
+  7.02s  INFO Compiled [193/252]: cssparser_color
+  7.15s  INFO Compiled [194/252]: objc2_foundation
+  7.16s  INFO Compiled [195/252]: caseless
+  7.18s  INFO Compiled [196/252]: unic_langid_macros
+  7.22s  INFO Compiled [197/252]: unic_langid
+  7.22s  INFO Compiled [198/252]: objc2_app_kit
+  7.37s  INFO Compiled [199/252]: build-script-build
+  7.37s  INFO Compiled [200/252]: fluent_langneg
+  7.42s  INFO Compiled [201/252]: parking_lot
+  7.44s  INFO Compiled [202/252]: intl_memoizer
+  7.48s  INFO Compiled [203/252]: cgl
+  7.51s  INFO Compiled [204/252]: libloading
+  7.54s  INFO Compiled [206/252]: iana_time_zone
+  7.59s  INFO Compiled [207/252]: dispatch2
+  7.65s  INFO Compiled [208/252]: typed_arena
+  7.69s  INFO Compiled [209/252]: objc2_app_kit
+  7.72s  INFO Compiled [210/252]: morphorm
+  7.73s  INFO Compiled [212/252]: build-script-build
+  7.78s  INFO Compiled [213/252]: intl_pluralrules
+  7.78s  INFO Compiled [214/252]: rustc_hash
+  7.83s  INFO Compiled [215/252]: once_cell
+  7.88s  INFO Compiled [216/252]: finl_unicode
+  7.91s  INFO Compiled [217/252]: num_traits
+  7.91s  INFO Compiled [218/252]: selectors
+  7.98s  INFO Compiled [219/252]: xxhash_rust
+  8.03s  INFO Compiled [220/252]: hashbrown
+  8.12s  INFO Compiled [221/252]: qfilter
+  8.36s  INFO Compiled [222/252]: glutin
+  8.42s  INFO Compiled [224/252]: indexmap
+  8.52s  INFO Compiled [225/252]: vizia_window
+  8.56s  INFO Compiled [226/252]: copypasta
+  8.63s  INFO Compiled [227/252]: vizia_storage
+  8.64s  INFO Compiled [228/252]: open
+  8.67s  INFO Compiled [230/252]: web_time
+  8.73s  INFO Compiled [231/252]: sys_locale
+  8.90s  INFO Compiled [232/252]: glutin_winit
+  8.99s  INFO Compiled [233/252]: accesskit_winit
+  9.07s  INFO Compiled [234/252]: fluent_bundle
+  9.08s  INFO Compiled [235/252]: unicode_segmentation
+  9.26s  INFO Compiled [236/252]: winit
+  9.42s  INFO Compiled [237/252]: accesskit_consumer
+  9.46s  INFO Compiled [238/252]: accesskit_macos
+  9.49s  INFO Compiled [239/252]: unicode_bidi
+  9.58s  INFO Compiled [241/252]: vizia_reactive
+  9.60s  INFO Compiled [242/252]: chrono
+ 10.42s  INFO Compiled [244/252]: gl
+ 10.43s  INFO Compiled [245/252]: comrak
+ 10.85s  INFO Compiled [246/252]: skia_bindings
+ 13.36s  INFO Compiled [247/252]: skia_safe
+ 13.65s  INFO Compiled [248/252]: vizia_style
+ 15.42s  INFO Compiled [249/252]: vizia
+ 16.16s  INFO Compiled [250/252]: vizia_winit
+ 17.36s  INFO Compiled [251/252]: vizia_core
+ 18.48s  INFO Compiled [252/252]: vizia-app
+ 18.48s  INFO Bundling app...
+ 18.50s  INFO Running package bundler...
+ 18.50s  INFO Creating macOS .app bundle at /Users/mpl4/Desktop/workspace/self_learning/rust/gui-ecosystem-research/apps/vizia-app/target/dx/vizia-app/bundle/macos/macos/ViziaApp.app
+ 18.50s  INFO Copying existing .icns file: /Users/mpl4/Desktop/workspace/self_learning/rust/gui-ecosystem-research/apps/vizia-app/icon.icns
+ 18.51s  INFO Creating DMG at /Users/mpl4/Desktop/workspace/self_learning/rust/gui-ecosystem-research/apps/vizia-app/target/dx/vizia-app/bundle/macos/macos/ViziaApp_0.1.0_aarch64.dmg
+created: /Users/mpl4/Desktop/workspace/self_learning/rust/gui-ecosystem-research/apps/vizia-app/target/dx/vizia-app/bundle/macos/macos/ViziaApp_0.1.0_aarch64.dmg
+ 23.56s  INFO DMG created at /Users/mpl4/Desktop/workspace/self_learning/rust/gui-ecosystem-research/apps/vizia-app/target/dx/vizia-app/bundle/macos/macos/ViziaApp_0.1.0_aarch64.dmg
+ 23.56s  INFO Bundled: /Users/mpl4/Desktop/workspace/self_learning/rust/gui-ecosystem-research/apps/vizia-app/target/dx/vizia-app/bundle/macos/macos/ViziaApp.app
+ 23.56s  INFO Bundled: /Users/mpl4/Desktop/workspace/self_learning/rust/gui-ecosystem-research/apps/vizia-app/target/dx/vizia-app/bundle/macos/macos/ViziaApp_0.1.0_aarch64.dmg
+Bundled 2 bundles:
+/Users/mpl4/Desktop/workspace/self_learning/rust/gui-ecosystem-research/apps/vizia-app/target/dx/vizia-app/bundle/macos/macos/ViziaApp.app
+/Users/mpl4/Desktop/workspace/self_learning/rust/gui-ecosystem-research/apps/vizia-app/target/dx/vizia-app/bundle/macos/macos/ViziaApp_0.1.0_aarch64.dmg
+real 23.59
+user 112.46
+sys 8.66

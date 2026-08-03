@@ -1,0 +1,484 @@
+0freya-app v0.1.0 (/Users/mpl4/Desktop/workspace/self_learning/rust/gui-ecosystem-research/apps/freya-app)
+1freya v0.4.0
+2cfg-if v1.0.4
+2freya-animation v0.4.1
+3async-io v2.6.0
+4cfg-if v1.0.4
+4concurrent-queue v2.5.0
+5crossbeam-utils v0.8.22
+4futures-io v0.3.33
+4futures-lite v2.6.1
+5fastrand v2.5.0
+5futures-core v0.3.33
+5futures-io v0.3.33
+5parking v2.2.1
+5pin-project-lite v0.2.17
+4parking v2.2.1
+4polling v3.11.0
+5cfg-if v1.0.4
+5rustix v1.1.4
+6bitflags v2.13.1
+6errno v0.3.14
+7libc v0.2.189
+6libc v0.2.189
+4rustix v1.1.4 (*)
+4slab v0.4.12
+3easer v0.3.0
+4num-traits v0.2.19
+3freya-core v0.4.1
+4accesskit v0.24.1
+5uuid v1.24.0
+4async-watch v0.3.1
+5event-listener v2.5.3
+4bitflags v2.13.1
+4bytes v1.12.1
+4cursor-icon v1.2.0
+4freya-engine v0.4.1
+5freya-skia-safe v0.98.1
+6base64 v0.22.1
+6bitflags v2.13.1
+6freya-skia-bindings v0.98.1
+6freya-skia-svg-macros v0.1.0 (proc-macro)
+7proc-macro2 v1.0.107
+8unicode-ident v1.0.24
+7quote v1.0.47
+8proc-macro2 v1.0.107 (*)
+7syn v2.0.119
+8proc-macro2 v1.0.107 (*)
+8quote v1.0.47 (*)
+8unicode-ident v1.0.24
+6percent-encoding v2.3.2
+4futures-channel v0.3.33
+5futures-core v0.3.33
+4futures-lite v2.6.1 (*)
+4futures-util v0.3.33
+5futures-core v0.3.33
+5futures-macro v0.3.33 (proc-macro)
+6proc-macro2 v1.0.107 (*)
+6quote v1.0.47 (*)
+6syn v2.0.119 (*)
+5futures-task v0.3.33
+5pin-project-lite v0.2.17
+5slab v0.4.12
+4generational-box v0.7.10
+5parking_lot v0.12.5
+6lock_api v0.4.14
+7scopeguard v1.2.0
+6parking_lot_core v0.9.12
+7cfg-if v1.0.4
+7libc v0.2.189
+7smallvec v1.15.2
+5tracing v0.1.44
+6pin-project-lite v0.2.17
+6tracing-attributes v0.1.31 (proc-macro)
+7proc-macro2 v1.0.107 (*)
+7quote v1.0.47 (*)
+7syn v2.0.119 (*)
+6tracing-core v0.1.36
+7once_cell v1.21.4
+4hotpath v0.15.1
+5hotpath-macros v0.15.1 (proc-macro)
+4itertools v0.14.0
+5either v1.17.0
+4keyboard-types v0.8.3
+5bitflags v2.13.1
+4mundy v0.2.3
+5beul v1.0.0
+5cfg-if v1.0.4
+5futures-channel v0.3.33 (*)
+5futures-lite v2.6.1 (*)
+5objc2 v0.6.4
+6objc2-encode v4.1.0
+5objc2-app-kit v0.3.2
+6bitflags v2.13.1
+6block2 v0.6.2
+7objc2 v0.6.4 (*)
+6libc v0.2.189
+6objc2 v0.6.4 (*)
+6objc2-cloud-kit v0.3.2
+7bitflags v2.13.1
+7objc2 v0.6.4 (*)
+7objc2-foundation v0.3.2
+8bitflags v2.13.1
+8block2 v0.6.2 (*)
+8libc v0.2.189
+8objc2 v0.6.4 (*)
+8objc2-core-foundation v0.3.2
+9bitflags v2.13.1
+9block2 v0.6.2 (*)
+9dispatch2 v0.3.1
+10bitflags v2.13.1
+10block2 v0.6.2 (*)
+10libc v0.2.189
+10objc2 v0.6.4 (*)
+9libc v0.2.189
+9objc2 v0.6.4 (*)
+6objc2-core-data v0.3.2
+7bitflags v2.13.1
+7objc2 v0.6.4 (*)
+7objc2-foundation v0.3.2 (*)
+6objc2-core-foundation v0.3.2 (*)
+6objc2-core-graphics v0.3.2
+7bitflags v2.13.1
+7objc2 v0.6.4 (*)
+7objc2-core-foundation v0.3.2 (*)
+6objc2-core-image v0.3.2
+7objc2 v0.6.4 (*)
+7objc2-foundation v0.3.2 (*)
+6objc2-core-text v0.3.2
+7bitflags v2.13.1
+7objc2 v0.6.4 (*)
+7objc2-core-foundation v0.3.2 (*)
+6objc2-core-video v0.3.2
+7bitflags v2.13.1
+7objc2 v0.6.4 (*)
+7objc2-core-foundation v0.3.2 (*)
+6objc2-foundation v0.3.2 (*)
+6objc2-quartz-core v0.3.2
+7bitflags v2.13.1
+7block2 v0.6.2 (*)
+7libc v0.2.189
+7objc2 v0.6.4 (*)
+7objc2-core-foundation v0.3.2 (*)
+7objc2-core-graphics v0.3.2 (*)
+7objc2-core-video v0.3.2 (*)
+7objc2-foundation v0.3.2 (*)
+7objc2-metal v0.3.2
+8bitflags v2.13.1
+8block2 v0.6.2 (*)
+8dispatch2 v0.3.1 (*)
+8objc2 v0.6.4 (*)
+8objc2-core-foundation v0.3.2 (*)
+8objc2-foundation v0.3.2 (*)
+5objc2-foundation v0.3.2 (*)
+5pin-project-lite v0.2.17
+4paste v1.0.15 (proc-macro)
+4pathgraph v0.4.1
+4ragnarok v0.4.1
+5euclid v0.22.14
+6num-traits v0.2.19
+5hotpath v0.15.1 (*)
+5itertools v0.14.0 (*)
+5rustc-hash v2.1.3
+5tracing v0.1.44 (*)
+4rustc-hash v2.1.3
+4smallvec v1.15.2
+4torin v0.4.1
+5euclid v0.22.14 (*)
+5itertools v0.14.0 (*)
+5rustc-hash v2.1.3
+5tracing v0.1.44 (*)
+4tracing v0.1.44 (*)
+2freya-clipboard v0.4.2
+3copypasta v0.10.2
+4objc2 v0.5.2
+5objc-sys v0.3.5
+5objc2-encode v4.1.0
+4objc2-app-kit v0.2.2
+5bitflags v2.13.1
+5objc2 v0.5.2 (*)
+5objc2-foundation v0.2.2
+6bitflags v2.13.1
+6block2 v0.5.1
+7objc2 v0.5.2 (*)
+6dispatch v0.2.0
+6objc2 v0.5.2 (*)
+4objc2-foundation v0.2.2 (*)
+3freya-core v0.4.1 (*)
+2freya-components v0.4.1
+3accesskit v0.24.1 (*)
+3anyhow v1.0.104
+3async-io v2.6.0 (*)
+3async-lock v3.4.2
+4event-listener v5.4.2
+5parking v2.2.1
+5pin-project-lite v0.2.17
+4event-listener-strategy v0.5.4
+5event-listener v5.4.2 (*)
+5pin-project-lite v0.2.17
+4pin-project-lite v0.2.17
+3blocking v1.6.2
+4async-channel v2.5.0
+5concurrent-queue v2.5.0 (*)
+5event-listener-strategy v0.5.4 (*)
+5futures-core v0.3.33
+5pin-project-lite v0.2.17
+4async-task v4.7.1
+4futures-io v0.3.33
+4futures-lite v2.6.1 (*)
+4piper v0.2.5
+5atomic-waker v1.1.2
+5fastrand v2.5.0
+5futures-io v0.3.33
+3bytes v1.12.1
+3cfg-if v1.0.4
+3euclid v0.22.14 (*)
+3freya-animation v0.4.1 (*)
+3freya-core v0.4.1 (*)
+3freya-edit v0.4.1
+4bitflags v2.13.1
+4freya-clipboard v0.4.2 (*)
+4freya-core v0.4.1 (*)
+4keyboard-types v0.8.3 (*)
+4ropey v1.6.1
+5smallvec v1.15.2
+5str_indices v0.4.4
+4torin v0.4.1 (*)
+4unicode-segmentation v1.13.3
+3freya-engine v0.4.1 (*)
+3freya-sdk v0.4.1
+4async-io v2.6.0 (*)
+4freya-core v0.4.1 (*)
+3paste v1.0.15 (proc-macro)
+3rustc-hash v2.1.3
+3thiserror v2.0.19
+4thiserror-impl v2.0.19 (proc-macro)
+5proc-macro2 v1.0.107 (*)
+5quote v1.0.47 (*)
+5syn v3.0.3
+6proc-macro2 v1.0.107 (*)
+6quote v1.0.47 (*)
+6unicode-ident v1.0.24
+3torin v0.4.1 (*)
+3tracing v0.1.44 (*)
+2freya-core v0.4.1 (*)
+2freya-edit v0.4.1 (*)
+2freya-engine v0.4.1 (*)
+2freya-performance-plugin v0.4.1
+3freya-core v0.4.1 (*)
+3freya-engine v0.4.1 (*)
+3freya-winit v0.4.1
+4accesskit v0.24.1 (*)
+4accesskit_winit v0.33.2
+5accesskit v0.24.1 (*)
+5accesskit_macos v0.26.3
+6accesskit v0.24.1 (*)
+6accesskit_consumer v0.38.0
+7accesskit v0.24.1 (*)
+7hashbrown v0.16.1
+8foldhash v0.2.0
+6hashbrown v0.16.1 (*)
+6objc2 v0.5.2 (*)
+6objc2-app-kit v0.2.2 (*)
+6objc2-foundation v0.2.2 (*)
+5raw-window-handle v0.6.2
+5winit v0.30.13
+6bitflags v2.13.1
+6block2 v0.5.1 (*)
+6core-foundation v0.9.4
+7core-foundation-sys v0.8.7
+7libc v0.2.189
+6core-graphics v0.23.2
+7bitflags v1.3.2
+7core-foundation v0.9.4 (*)
+7core-graphics-types v0.1.3
+8bitflags v1.3.2
+8core-foundation v0.9.4 (*)
+8libc v0.2.189
+7foreign-types v0.5.0
+8foreign-types-macros v0.2.4 (proc-macro)
+9proc-macro2 v1.0.107 (*)
+9quote v1.0.47 (*)
+9syn v3.0.3 (*)
+8foreign-types-shared v0.3.1
+7libc v0.2.189
+6cursor-icon v1.2.0
+6dpi v0.1.2
+6objc2 v0.5.2 (*)
+6objc2-app-kit v0.2.2 (*)
+6objc2-foundation v0.2.2 (*)
+6raw-window-handle v0.6.2
+6smol_str v0.2.2
+6tracing v0.1.44 (*)
+4bytes v1.12.1
+4freya-clipboard v0.4.2 (*)
+4freya-components v0.4.1 (*)
+4freya-core v0.4.1 (*)
+4freya-engine v0.4.1 (*)
+4futures-channel v0.3.33 (*)
+4futures-lite v2.6.1 (*)
+4futures-util v0.3.33 (*)
+4hotpath v0.15.1 (*)
+4image v0.25.10
+5bytemuck v1.25.2
+5byteorder-lite v0.1.0
+5color_quant v1.1.0
+5exr v1.74.2
+6bit_field v0.10.3
+6half v2.7.1
+7cfg-if v1.0.4
+7zerocopy v0.8.55
+8zerocopy-derive v0.8.55 (proc-macro)
+9proc-macro2 v1.0.107 (*)
+9quote v1.0.47 (*)
+9syn v2.0.119 (*)
+6lebe v0.5.3
+6miniz_oxide v0.8.9
+7adler2 v2.0.1
+7simd-adler32 v0.3.10
+6num-complex v0.4.6
+7bytemuck v1.25.2
+7num-traits v0.2.19
+6pulp v0.22.3
+7bytemuck v1.25.2
+7cfg-if v1.0.4
+7libm v0.2.16
+7num-complex v0.4.6 (*)
+7paste v1.0.15 (proc-macro)
+7pulp-wasm-simd-flag v0.1.1
+7reborrow v0.5.5
+6rayon-core v1.13.0
+7crossbeam-deque v0.8.7
+8crossbeam-epoch v0.9.20
+9crossbeam-utils v0.8.22
+8crossbeam-utils v0.8.22
+7crossbeam-utils v0.8.22
+6smallvec v1.15.2
+6zune-inflate v0.2.54
+7simd-adler32 v0.3.10
+5gif v0.14.2
+6color_quant v1.1.0
+6weezl v0.1.12
+5image-webp v0.2.4
+6byteorder-lite v0.1.0
+6quick-error v2.0.1
+5moxcms v0.8.1
+6num-traits v0.2.19
+6pxfm v0.1.30
+5num-traits v0.2.19
+5png v0.18.1
+6bitflags v2.13.1
+6crc32fast v1.5.0
+7cfg-if v1.0.4
+6fdeflate v0.3.7
+7simd-adler32 v0.3.10
+6flate2 v1.1.9
+7crc32fast v1.5.0 (*)
+7miniz_oxide v0.8.9 (*)
+6miniz_oxide v0.8.9 (*)
+5qoi v0.4.1
+6bytemuck v1.25.2
+5ravif v0.13.0
+6avif-serialize v0.8.9
+7arrayvec v0.7.8
+6imgref v1.12.2
+6loop9 v0.1.5
+7imgref v1.12.2
+6quick-error v2.0.1
+6rav1e v0.8.1
+7aligned-vec v0.6.4
+8equator v0.4.2
+9equator-macro v0.4.2 (proc-macro)
+10proc-macro2 v1.0.107 (*)
+10quote v1.0.47 (*)
+10syn v2.0.119 (*)
+7arg_enum_proc_macro v0.3.4 (proc-macro)
+8proc-macro2 v1.0.107 (*)
+8quote v1.0.47 (*)
+8syn v2.0.119 (*)
+7arrayvec v0.7.8
+7av-scenechange v0.14.1
+8aligned v0.4.3
+9as-slice v0.2.1
+10stable_deref_trait v1.2.1
+8anyhow v1.0.104
+8arg_enum_proc_macro v0.3.4 (proc-macro) (*)
+8arrayvec v0.7.8
+8log v0.4.33
+8num-rational v0.4.2
+9num-bigint v0.4.8
+10num-integer v0.1.46
+11num-traits v0.2.19
+10num-traits v0.2.19
+9num-integer v0.1.46 (*)
+9num-traits v0.2.19
+8num-traits v0.2.19
+8pastey v0.1.1 (proc-macro)
+8rayon v1.12.0
+9either v1.17.0
+9rayon-core v1.13.0 (*)
+8thiserror v2.0.19 (*)
+8v_frame v0.3.9
+9aligned-vec v0.6.4 (*)
+9num-traits v0.2.19
+8y4m v0.8.0
+7av1-grain v0.2.5
+8anyhow v1.0.104
+8arrayvec v0.7.8
+8log v0.4.33
+8nom v8.0.0
+9memchr v2.8.3
+8num-rational v0.4.2 (*)
+8v_frame v0.3.9 (*)
+7bitstream-io v4.10.0
+8no_std_io2 v0.9.4
+9memchr v2.8.3
+7cfg-if v1.0.4
+7itertools v0.14.0 (*)
+7libc v0.2.189
+7log v0.4.33
+7maybe-rayon v0.1.1
+8cfg-if v1.0.4
+8rayon v1.12.0 (*)
+7new_debug_unreachable v1.0.6
+7noop_proc_macro v0.3.0 (proc-macro)
+7num-derive v0.4.2 (proc-macro)
+8proc-macro2 v1.0.107 (*)
+8quote v1.0.47 (*)
+8syn v2.0.119 (*)
+7num-traits v0.2.19
+7paste v1.0.15 (proc-macro)
+7profiling v1.0.18
+8profiling-procmacros v1.0.18 (proc-macro)
+9quote v1.0.47 (*)
+9syn v2.0.119 (*)
+7simd_helpers v0.1.0 (proc-macro)
+8quote v1.0.47 (*)
+7thiserror v2.0.19 (*)
+7v_frame v0.3.9 (*)
+6rayon v1.12.0 (*)
+6rgb v0.8.53
+5rayon v1.12.0 (*)
+5rgb v0.8.53
+5tiff v0.11.3
+6fax v0.2.7
+6flate2 v1.1.9 (*)
+6half v2.7.1 (*)
+6quick-error v2.0.1
+6weezl v0.1.12
+6zune-jpeg v0.5.15
+7zune-core v0.5.1
+5zune-core v0.5.1
+5zune-jpeg v0.5.15 (*)
+4keyboard-types v0.8.3 (*)
+4mundy v0.2.3 (*)
+4objc2 v0.6.4 (*)
+4objc2-app-kit v0.3.2 (*)
+4objc2-core-foundation v0.3.2 (*)
+4objc2-metal v0.3.2 (*)
+4objc2-quartz-core v0.3.2 (*)
+4ragnarok v0.4.1 (*)
+4raw-window-handle v0.6.2
+4rfd v0.17.2
+5block2 v0.6.2 (*)
+5dispatch2 v0.3.1 (*)
+5log v0.4.33
+5objc2 v0.6.4 (*)
+5objc2-app-kit v0.3.2 (*)
+5objc2-core-foundation v0.3.2 (*)
+5objc2-foundation v0.3.2 (*)
+5raw-window-handle v0.6.2
+4rustc-hash v2.1.3
+4softbuffer v0.4.8
+5objc2 v0.6.4 (*)
+5objc2-core-foundation v0.3.2 (*)
+5objc2-core-graphics v0.3.2 (*)
+5objc2-foundation v0.3.2 (*)
+5objc2-quartz-core v0.3.2 (*)
+5raw-window-handle v0.6.2
+5tracing v0.1.44 (*)
+4torin v0.4.1 (*)
+4tracing v0.1.44 (*)
+4winit v0.30.13 (*)
+2freya-winit v0.4.1 (*)
+2torin v0.4.1 (*)

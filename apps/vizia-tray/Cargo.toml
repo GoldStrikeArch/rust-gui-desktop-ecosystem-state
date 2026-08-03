@@ -1,0 +1,47 @@
+[package]
+name = "vizia-tray"
+version = "0.1.0"
+edition = "2024"
+
+# Same pinned version as iteration 1 (apps/vizia-app). Default features only
+# — `["winit", "clipboard", "x11", "wayland", "markdown", "accesskit"]`:
+#   * `winit`     — desktop windowing backend; also the source of the
+#                   `DroppedFile` event vizia surfaces as
+#                   `WindowEvent::Drop(DropData::File(..))` (file drop).
+#   * `clipboard` — TEXT clipboard for the note editor (`TextEvent::Copy /
+#                   Cut / Paste / SelectAll`); genuinely used here, and the
+#                   reason the hand-routed Edit menu works at all.
+#   * `x11`/`wayland` — Linux-only, no-ops on macOS.
+#   * `markdown`  — default-on; unused here.
+#   * `accesskit` — default-on platform accessibility tree.
+# vizia has no tray, no global hotkey, no NATIVE menubar (it ships an
+# in-window `MenuBar` view, which is not what SPEC-4 asks for), no file
+# dialogs, no image clipboard and no notifications, so every helper crate
+# below fills a hole:
+[dependencies]
+vizia = "=0.4.0"
+
+# NSStatusItem tray icon + its menu. Re-exports `muda` under
+# `tray_icon::menu`; the NATIVE MENUBAR is built from that re-export on
+# purpose — a separately resolved `muda` would have its OWN static
+# `MenuEvent` channel and would silently swallow every menu click.
+tray-icon = "0.24"
+
+# Carbon `RegisterEventHotKey` wrapper for the system-wide Cmd+Shift+9.
+# Works without accessibility permission, unlike a CGEventTap.
+global-hotkey = "0.7"
+
+# Native NSOpenPanel/NSSavePanel. The blocking (`FileDialog`) API is used
+# rather than the async one: vizia has no async executor to await on, and
+# the model's `event` already runs on the main thread.
+rfd = "0.17"
+
+# Image clipboard. vizia's clipboard integration (copypasta) is text-only.
+arboard = "3.6"
+
+# Encodes the pasted clipboard RGBA into PNG bytes that `cx.load_image`
+# can hand to Skia, and builds the 32x32 RGBA tray icon.
+image = { version = "0.25", default-features = false, features = ["png"] }
+
+# System notification on save (mac-notification-sys underneath).
+notify-rust = "4"

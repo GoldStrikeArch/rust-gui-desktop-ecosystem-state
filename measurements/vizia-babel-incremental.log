@@ -1,0 +1,5 @@
+   Compiling vizia-babel v0.1.0 (/Users/mpl4/Desktop/workspace/self_learning/rust/gui-ecosystem-research/apps/vizia-babel)
+    Finished `release` profile [optimized] target(s) in 1.12s
+real 1.15
+user 4.90
+sys 0.25

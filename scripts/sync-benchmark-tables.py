@@ -16,11 +16,12 @@ from pathlib import Path
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--check", action="store_true", help="fail instead of writing if generated blocks drift")
+parser.add_argument("--cohort", help="cohort directory holding the canonical CSVs (defaults to measurements/)")
 args = parser.parse_args()
 
 
 ROOT = Path(__file__).resolve().parents[1]
-MEASUREMENTS = ROOT / "measurements"
+MEASUREMENTS = Path(args.cohort).expanduser().resolve() if args.cohort else ROOT / "measurements"
 MIB = 1024 * 1024
 VERSIONS = {
     "iced": "0.14.0",
@@ -30,6 +31,10 @@ VERSIONS = {
     "dioxus": "0.7.9",
     "slint": "1.17.1",
     "gpui": "0.2.2",
+    "freya": "0.4.0",
+    "vizia": "0.4.0",
+    # floem's crates.io release is stale; the cohort pins a git rev of main.
+    "floem": "git-778bb5f2",
 }
 
 
@@ -73,7 +78,7 @@ def report10_table() -> str:
         "| App | Clean build | Incremental | Binary (raw MiB) | Binary (stripped MiB) | Unique crate names | AccessKit in tree | LoC (Rust) | LoC (other UI) | Process survived 8 s |",
         "|---|---:|---:|---:|---:|---:|---|---:|---:|---|",
     ]
-    for name in ("iced", "egui", "xilem", "tauri", "dioxus", "slint", "gpui"):
+    for name in ("iced", "egui", "xilem", "tauri", "dioxus", "slint", "gpui", "freya", "vizia", "floem"):
         row = iter1_rows[name]
         incr = row["incremental_secs"] + ("²" if name == "tauri" else "")
         accesskit = "**yes**" if int(row["accesskit_in_deps"]) else "no"
@@ -104,8 +109,11 @@ def report00_table() -> str:
         "dioxus": "no (browser-derived a11y)",
         "slint": "**yes**",
         "gpui": "no (merged upstream, unreleased)",
+        "freya": "**yes**",
+        "vizia": "**yes**",
+        "floem": "no (not integrated)",
     }
-    for name in ("iced", "egui", "xilem", "tauri", "dioxus", "slint", "gpui"):
+    for name in ("iced", "egui", "xilem", "tauri", "dioxus", "slint", "gpui", "freya", "vizia", "floem"):
         row = iter1_rows[name]
         recorded_loc = int(row["loc_rust"]) + int(row["loc_other_ui"])
         result = "approximated²" if name == "gpui" else "source-complete"
@@ -122,7 +130,7 @@ def report11_table() -> str:
         "| App | Clean | Incr | Binary (stripped MiB) | Unique names | | App | Clean | Incr | Binary (stripped MiB) | Unique names |",
         "|---|---:|---:|---:|---:|---|---|---:|---:|---:|---:|",
     ]
-    for name in ("iced", "egui", "gpui", "tauri", "xilem", "slint", "dioxus"):
+    for name in ("iced", "egui", "gpui", "tauri", "xilem", "slint", "dioxus", "freya", "vizia", "floem"):
         dash = iter2_rows[f"{name}-dash"]
         board = iter2_rows[f"{name}-board"]
         lines.append(

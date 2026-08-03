@@ -1,0 +1,4 @@
+[bundle]
+identifier = "org.rcn.freyaapp"
+publisher = "RCN Research"
+icon = ["icon.icns"]

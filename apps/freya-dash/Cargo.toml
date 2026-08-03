@@ -1,0 +1,20 @@
+[package]
+name = "freya-dash"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+# Same pinned version as iteration 1 (apps/freya-app).
+# `engine` re-exports the Skia types (`Paint`, `SkPath`, `SkColor`, ...) that the
+# `canvas()` element's render callback hands you — without it the callback is
+# uncallable because `CanvasContext.canvas` has an unnameable type. Everything
+# else this spec needs (DragZone/DropZone, Slider, Button, animations) is in the
+# default `winit` feature.
+freya = { version = "=0.4.0", features = ["engine"] }
+
+# Freya's executor is async-io based but exposes no timer/interval primitive of
+# its own (`spawn` takes a bare future). `async_io::Timer` is what freya-animation
+# itself uses internally for its animation clock, so it is already in the
+# dependency tree — adding it explicitly is the documented way to drive the
+# 10 Hz synthetic-data loop. Version matches the one Freya 0.4 resolves.
+async-io = "2.6.0"

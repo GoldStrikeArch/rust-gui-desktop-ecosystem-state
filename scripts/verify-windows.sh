@@ -108,11 +108,11 @@ printf 'timestamp_utc\tapp\tcapability\tbuild_status\tpid\tprocess_survived_8s\t
 
 suffixes=()
 case "$ROUND" in
-  iter1) suffixes=(app); expected_apps=7 ;;
-  iter2) suffixes=(dash board); expected_apps=14 ;;
-  iter3) suffixes=(tray babel); expected_apps=14 ;;
-  iter4) suffixes=(grid fetch peek); expected_apps=21 ;;
-  all) suffixes=(app dash board tray babel grid fetch peek); expected_apps=56 ;;
+  iter1) suffixes=(app); expected_apps=10 ;;
+  iter2) suffixes=(dash board); expected_apps=20 ;;
+  iter3) suffixes=(tray babel); expected_apps=20 ;;
+  iter4) suffixes=(grid fetch peek); expected_apps=30 ;;
+  all) suffixes=(app dash board tray babel grid fetch peek); expected_apps=80 ;;
 esac
 
 apps=()

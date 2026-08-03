@@ -1,0 +1,604 @@
+floem-grid v0.1.0 (/Users/mpl4/Desktop/workspace/self_learning/rust/gui-ecosystem-research/apps/floem-grid)
+floem v0.2.0 (https://github.com/lapce/floem?rev=778bb5f2aa08429e579ee2e6ac97e84fbf18b618#778bb5f2)
+bitflags v2.13.1
+serde_core v1.0.229
+copypasta v0.10.2
+objc2 v0.5.2
+objc-sys v0.3.5
+objc2-encode v4.1.0
+objc2-app-kit v0.2.2
+bitflags v2.13.1 (*)
+objc2 v0.5.2 (*)
+objc2-foundation v0.2.2
+bitflags v2.13.1 (*)
+objc2 v0.5.2 (*)
+objc2-foundation v0.2.2 (*)
+dispatch2 v0.3.1
+bitflags v2.13.1 (*)
+block2 v0.6.2
+objc2 v0.6.4
+objc2-encode v4.1.0
+libc v0.2.189
+objc2 v0.6.4 (*)
+dpi v0.1.2
+educe v0.6.0 (proc-macro)
+enum-ordinalize v4.4.2
+enum-ordinalize-derive v4.4.2 (proc-macro)
+proc-macro2 v1.0.107
+unicode-ident v1.0.24
+quote v1.0.47
+proc-macro2 v1.0.107 (*)
+syn v3.0.3
+proc-macro2 v1.0.107 (*)
+quote v1.0.47 (*)
+unicode-ident v1.0.24
+proc-macro2 v1.0.107 (*)
+quote v1.0.47 (*)
+syn v2.0.119
+proc-macro2 v1.0.107 (*)
+quote v1.0.47 (*)
+unicode-ident v1.0.24
+floem-editor-core v0.2.0 (https://github.com/lapce/floem?rev=778bb5f2aa08429e579ee2e6ac97e84fbf18b618#778bb5f2)
+bitflags v2.13.1 (*)
+itertools v0.14.0
+either v1.17.0
+lapce-xi-rope v0.4.0
+bytecount v0.6.9
+memchr v2.8.3
+regex v1.13.1
+aho-corasick v1.1.5
+memchr v2.8.3
+memchr v2.8.3
+regex-automata v0.4.16
+aho-corasick v1.1.5 (*)
+memchr v2.8.3
+regex-syntax v0.8.11
+regex-syntax v0.8.11
+serde v1.0.229
+serde_core v1.0.229
+serde_derive v1.0.229 (proc-macro)
+proc-macro2 v1.0.107 (*)
+quote v1.0.47 (*)
+syn v3.0.3 (*)
+unicode-segmentation v1.13.3
+memchr v2.8.3
+serde v1.0.229 (*)
+strum v0.28.0
+strum_macros v0.28.0 (proc-macro)
+heck v0.5.0
+proc-macro2 v1.0.107 (*)
+quote v1.0.47 (*)
+syn v2.0.119 (*)
+strum_macros v0.28.0 (proc-macro) (*)
+ui-events v0.3.0
+dpi v0.1.2
+keyboard-types v0.8.3
+bitflags v2.13.1 (*)
+serde v1.0.229 (*)
+kurbo v0.13.1
+arrayvec v0.7.8
+polycool v0.4.0
+arrayvec v0.7.8
+serde v1.0.229 (*)
+smallvec v1.15.2
+serde v1.0.229 (*)
+floem-winit v25.10.0 (https://github.com/lapce/winit?rev=133268de675a4fda70816d78a7a1435eb972fea1#133268de)
+bitflags v2.13.1 (*)
+cursor-icon v1.2.0
+serde v1.0.229 (*)
+dpi v0.1.2 (https://github.com/lapce/winit?rev=133268de675a4fda70816d78a7a1435eb972fea1#133268de)
+serde v1.0.229 (*)
+floem-winit-appkit v25.10.0 (https://github.com/lapce/winit?rev=133268de675a4fda70816d78a7a1435eb972fea1#133268de)
+bitflags v2.13.1 (*)
+block2 v0.6.2 (*)
+dispatch2 v0.3.1 (*)
+dpi v0.1.2 (https://github.com/lapce/winit?rev=133268de675a4fda70816d78a7a1435eb972fea1#133268de) (*)
+floem-winit-common v25.10.0 (https://github.com/lapce/winit?rev=133268de675a4fda70816d78a7a1435eb972fea1#133268de)
+floem-winit-core v25.10.0 (https://github.com/lapce/winit?rev=133268de675a4fda70816d78a7a1435eb972fea1#133268de)
+bitflags v2.13.1 (*)
+cursor-icon v1.2.0 (*)
+dpi v0.1.2 (https://github.com/lapce/winit?rev=133268de675a4fda70816d78a7a1435eb972fea1#133268de) (*)
+keyboard-types v0.8.3 (*)
+raw-window-handle v0.6.2
+serde v1.0.229 (*)
+smol_str v0.3.6
+serde_core v1.0.229
+objc2 v0.6.4 (*)
+objc2-core-foundation v0.3.2
+bitflags v2.13.1 (*)
+block2 v0.6.2 (*)
+objc2 v0.6.4 (*)
+tracing v0.1.44
+pin-project-lite v0.2.17
+tracing-core v0.1.36
+floem-winit-core v25.10.0 (https://github.com/lapce/winit?rev=133268de675a4fda70816d78a7a1435eb972fea1#133268de) (*)
+objc2 v0.6.4 (*)
+objc2-app-kit v0.3.2
+bitflags v2.13.1 (*)
+block2 v0.6.2 (*)
+libc v0.2.189
+objc2 v0.6.4 (*)
+objc2-cloud-kit v0.3.2
+bitflags v2.13.1 (*)
+objc2 v0.6.4 (*)
+objc2-foundation v0.3.2
+bitflags v2.13.1 (*)
+block2 v0.6.2 (*)
+objc2 v0.6.4 (*)
+objc2-core-foundation v0.3.2 (*)
+objc2-core-data v0.3.2
+bitflags v2.13.1 (*)
+objc2 v0.6.4 (*)
+objc2-foundation v0.3.2 (*)
+objc2-core-foundation v0.3.2 (*)
+objc2-core-graphics v0.3.2
+bitflags v2.13.1 (*)
+libc v0.2.189
+objc2 v0.6.4 (*)
+objc2-core-foundation v0.3.2 (*)
+objc2-core-image v0.3.2
+objc2 v0.6.4 (*)
+objc2-foundation v0.3.2 (*)
+objc2-core-text v0.3.2
+bitflags v2.13.1 (*)
+objc2 v0.6.4 (*)
+objc2-core-foundation v0.3.2 (*)
+objc2-core-video v0.3.2
+bitflags v2.13.1 (*)
+objc2 v0.6.4 (*)
+objc2-core-foundation v0.3.2 (*)
+objc2-core-graphics v0.3.2 (*)
+objc2-foundation v0.3.2 (*)
+objc2-quartz-core v0.3.2
+bitflags v2.13.1 (*)
+objc2 v0.6.4 (*)
+objc2-core-foundation v0.3.2 (*)
+objc2-foundation v0.3.2 (*)
+objc2-core-foundation v0.3.2 (*)
+objc2-core-graphics v0.3.2 (*)
+objc2-core-video v0.3.2 (*)
+objc2-foundation v0.3.2 (*)
+raw-window-handle v0.6.2
+smol_str v0.3.6 (*)
+tracing v0.1.44 (*)
+floem-winit-core v25.10.0 (https://github.com/lapce/winit?rev=133268de675a4fda70816d78a7a1435eb972fea1#133268de) (*)
+raw-window-handle v0.6.2
+serde v1.0.229 (*)
+smol_str v0.3.6 (*)
+tracing v0.1.44 (*)
+floem_reactive v0.2.0 (https://github.com/lapce/floem?rev=778bb5f2aa08429e579ee2e6ac97e84fbf18b618#778bb5f2)
+parking_lot v0.12.5
+lock_api v0.4.14
+scopeguard v1.2.0
+parking_lot_core v0.9.12
+cfg-if v1.0.4
+libc v0.2.189
+smallvec v1.15.2 (*)
+smallvec v1.15.2 (*)
+floem_renderer v0.2.0 (https://github.com/lapce/floem?rev=778bb5f2aa08429e579ee2e6ac97e84fbf18b618#778bb5f2)
+floem-winit v25.10.0 (https://github.com/lapce/winit?rev=133268de675a4fda70816d78a7a1435eb972fea1#133268de) (*)
+fontique v0.7.0
+bytemuck v1.25.2
+bytemuck_derive v1.11.0 (proc-macro)
+proc-macro2 v1.0.107 (*)
+quote v1.0.47 (*)
+syn v2.0.119 (*)
+hashbrown v0.16.1
+allocator-api2 v0.2.21
+equivalent v1.0.2
+foldhash v0.2.0
+icu_locale_core v2.2.0
+displaydoc v0.2.7 (proc-macro)
+proc-macro2 v1.0.107 (*)
+quote v1.0.47 (*)
+syn v3.0.3 (*)
+litemap v0.8.2
+tinystr v0.8.3
+displaydoc v0.2.7 (proc-macro) (*)
+writeable v0.6.3
+linebender_resource_handle v0.1.1
+serde v1.0.229 (*)
+serde_bytes v0.11.19
+serde_core v1.0.229
+memmap2 v0.9.11
+libc v0.2.189
+objc2 v0.6.4 (*)
+objc2-core-foundation v0.3.2 (*)
+objc2-core-text v0.3.2 (*)
+objc2-foundation v0.3.2 (*)
+read-fonts v0.35.0
+bytemuck v1.25.2 (*)
+core_maths v0.1.1
+libm v0.2.16
+font-types v0.10.1
+bytemuck v1.25.2 (*)
+smallvec v1.15.2 (*)
+futures v0.3.33
+futures-channel v0.3.33
+futures-core v0.3.33
+futures-sink v0.3.33
+futures-core v0.3.33
+futures-executor v0.3.33
+futures-core v0.3.33
+futures-task v0.3.33
+futures-util v0.3.33
+futures-channel v0.3.33 (*)
+futures-core v0.3.33
+futures-io v0.3.33
+futures-macro v0.3.33 (proc-macro)
+proc-macro2 v1.0.107 (*)
+quote v1.0.47 (*)
+syn v2.0.119 (*)
+futures-sink v0.3.33
+futures-task v0.3.33
+memchr v2.8.3
+pin-project-lite v0.2.17
+slab v0.4.12
+futures-io v0.3.33
+futures-sink v0.3.33
+futures-task v0.3.33
+futures-util v0.3.33 (*)
+parking_lot v0.12.5 (*)
+parley v0.7.0
+fontique v0.7.0 (*)
+harfrust v0.3.2
+bitflags v2.13.1 (*)
+bytemuck v1.25.2 (*)
+core_maths v0.1.1 (*)
+read-fonts v0.35.0 (*)
+smallvec v1.15.2 (*)
+hashbrown v0.16.1 (*)
+linebender_resource_handle v0.1.1 (*)
+skrifa v0.37.0
+bytemuck v1.25.2 (*)
+read-fonts v0.35.0 (*)
+swash v0.2.10
+skrifa v0.44.0
+bytemuck v1.25.2 (*)
+read-fonts v0.41.0
+bytemuck v1.25.2 (*)
+font-types v0.12.2
+bytemuck v1.25.2 (*)
+once_cell v1.21.4
+yazi v0.2.1
+zeno v0.3.3
+peniko v0.6.1
+color v0.3.3
+serde v1.0.229 (*)
+kurbo v0.13.1 (*)
+linebender_resource_handle v0.1.1 (*)
+serde v1.0.229 (*)
+smallvec v1.15.2 (*)
+resvg v0.46.0
+gif v0.14.2
+color_quant v1.1.0
+weezl v0.1.12
+image-webp v0.2.4
+byteorder-lite v0.1.0
+quick-error v2.0.1
+log v0.4.33
+pico-args v0.5.0
+rgb v0.8.53
+bytemuck v1.25.2 (*)
+svgtypes v0.16.1
+kurbo v0.13.1 (*)
+siphasher v1.0.3
+tiny-skia v0.11.4
+arrayref v0.3.9
+arrayvec v0.7.8
+bytemuck v1.25.2 (*)
+cfg-if v1.0.4
+log v0.4.33
+png v0.17.16
+bitflags v1.3.2
+crc32fast v1.5.0
+cfg-if v1.0.4
+fdeflate v0.3.7
+simd-adler32 v0.3.10
+flate2 v1.1.9
+crc32fast v1.5.0 (*)
+miniz_oxide v0.8.9
+adler2 v2.0.1
+simd-adler32 v0.3.10
+miniz_oxide v0.8.9 (*)
+tiny-skia-path v0.11.4
+arrayref v0.3.9
+bytemuck v1.25.2 (*)
+strict-num v0.1.1
+float-cmp v0.9.0
+usvg v0.46.0
+base64 v0.22.1
+data-url v0.3.2
+flate2 v1.1.9 (*)
+fontdb v0.23.0
+log v0.4.33
+memmap2 v0.9.11 (*)
+slotmap v1.1.1
+tinyvec v1.12.0
+tinyvec_macros v0.1.1
+ttf-parser v0.25.1
+core_maths v0.1.1 (*)
+imagesize v0.14.0
+kurbo v0.13.1 (*)
+log v0.4.33
+pico-args v0.5.0
+roxmltree v0.21.1
+memchr v2.8.3
+rustybuzz v0.20.1
+bitflags v2.13.1 (*)
+bytemuck v1.25.2 (*)
+core_maths v0.1.1 (*)
+log v0.4.33
+smallvec v1.15.2 (*)
+ttf-parser v0.25.1 (*)
+unicode-bidi-mirroring v0.4.0
+unicode-ccc v0.4.0
+unicode-properties v0.1.4
+unicode-script v0.5.8
+simplecss v0.2.2
+log v0.4.33
+siphasher v1.0.3
+strict-num v0.1.1 (*)
+svgtypes v0.16.1 (*)
+tiny-skia-path v0.11.4 (*)
+unicode-bidi v0.3.18
+unicode-script v0.5.8
+unicode-vo v0.1.0
+xmlwriter v0.1.0
+zune-jpeg v0.5.15
+zune-core v0.5.1
+wgpu v27.0.1
+arrayvec v0.7.8
+bitflags v2.13.1 (*)
+cfg-if v1.0.4
+document-features v0.2.12 (proc-macro)
+litrs v1.0.0
+hashbrown v0.16.1 (*)
+log v0.4.33
+parking_lot v0.12.5 (*)
+profiling v1.0.18
+raw-window-handle v0.6.2
+smallvec v1.15.2 (*)
+static_assertions v1.1.0
+wgpu-core v27.0.3
+arrayvec v0.7.8
+bit-set v0.8.0
+bit-vec v0.8.0
+bit-vec v0.8.0
+bitflags v2.13.1 (*)
+bytemuck v1.25.2 (*)
+document-features v0.2.12 (proc-macro) (*)
+hashbrown v0.16.1 (*)
+indexmap v2.14.0
+equivalent v1.0.2
+hashbrown v0.17.1
+log v0.4.33
+naga v27.0.3
+arrayvec v0.7.8
+bit-set v0.8.0 (*)
+bitflags v2.13.1 (*)
+cfg-if v1.0.4
+codespan-reporting v0.12.0
+unicode-width v0.2.2
+half v2.7.1
+cfg-if v1.0.4
+num-traits v0.2.19
+libm v0.2.16
+zerocopy v0.8.55
+zerocopy-derive v0.8.55 (proc-macro)
+proc-macro2 v1.0.107 (*)
+quote v1.0.47 (*)
+syn v2.0.119 (*)
+hashbrown v0.16.1 (*)
+hexf-parse v0.2.1
+indexmap v2.14.0 (*)
+libm v0.2.16
+log v0.4.33
+num-traits v0.2.19 (*)
+once_cell v1.21.4
+rustc-hash v1.1.0
+thiserror v2.0.19
+thiserror-impl v2.0.19 (proc-macro)
+proc-macro2 v1.0.107 (*)
+quote v1.0.47 (*)
+syn v3.0.3 (*)
+unicode-ident v1.0.24
+once_cell v1.21.4
+parking_lot v0.12.5 (*)
+profiling v1.0.18
+raw-window-handle v0.6.2
+rustc-hash v1.1.0
+smallvec v1.15.2 (*)
+thiserror v2.0.19 (*)
+wgpu-core-deps-apple v27.0.0
+wgpu-hal v27.0.4
+arrayvec v0.7.8
+bitflags v2.13.1 (*)
+block v0.1.6
+cfg-if v1.0.4
+core-graphics-types v0.2.0
+bitflags v2.13.1 (*)
+core-foundation v0.10.1
+core-foundation-sys v0.8.7
+libc v0.2.189
+libc v0.2.189
+hashbrown v0.16.1 (*)
+libc v0.2.189
+log v0.4.33
+metal v0.32.0
+bitflags v2.13.1 (*)
+block v0.1.6
+core-graphics-types v0.2.0 (*)
+foreign-types v0.5.0
+foreign-types-macros v0.2.4 (proc-macro)
+proc-macro2 v1.0.107 (*)
+quote v1.0.47 (*)
+syn v3.0.3 (*)
+foreign-types-shared v0.3.1
+log v0.4.33
+objc v0.2.7
+malloc_buf v0.0.6
+libc v0.2.189
+paste v1.0.15 (proc-macro)
+naga v27.0.3 (*)
+objc v0.2.7 (*)
+parking_lot v0.12.5 (*)
+profiling v1.0.18
+raw-window-handle v0.6.2
+thiserror v2.0.19 (*)
+wgpu-types v27.0.1
+bitflags v2.13.1 (*)
+bytemuck v1.25.2 (*)
+log v0.4.33
+thiserror v2.0.19 (*)
+wgpu-hal v27.0.4 (*)
+wgpu-types v27.0.1 (*)
+wgpu-hal v27.0.4 (*)
+wgpu-types v27.0.1 (*)
+floem_tiny_skia_renderer v0.2.0 (https://github.com/lapce/floem?rev=778bb5f2aa08429e579ee2e6ac97e84fbf18b618#778bb5f2)
+anyhow v1.0.104
+floem_renderer v0.2.0 (https://github.com/lapce/floem?rev=778bb5f2aa08429e579ee2e6ac97e84fbf18b618#778bb5f2) (*)
+parley v0.7.0 (*)
+peniko v0.6.1 (*)
+raw-window-handle v0.6.2
+resvg v0.46.0 (*)
+rustc-hash v2.1.3
+softbuffer v0.4.8
+objc2 v0.6.4 (*)
+objc2-core-foundation v0.3.2 (*)
+objc2-core-graphics v0.3.2 (*)
+objc2-foundation v0.3.2 (*)
+objc2-quartz-core v0.3.2 (*)
+raw-window-handle v0.6.2
+tracing v0.1.44 (*)
+swash v0.2.10 (*)
+floem_vger_renderer v0.2.0 (https://github.com/lapce/floem?rev=778bb5f2aa08429e579ee2e6ac97e84fbf18b618#778bb5f2)
+anyhow v1.0.104
+floem-vger v0.3.2 (https://github.com/lapce/vger-rs?rev=54ab8135d9d870a4ac2b84fc6b9846b3b03ec919#54ab8135)
+euclid v0.22.14
+num-traits v0.2.19 (*)
+fontdue v0.9.4
+hashbrown v0.15.5
+allocator-api2 v0.2.21
+equivalent v1.0.2
+foldhash v0.1.5
+ttf-parser v0.25.1 (*)
+linebender_resource_handle v0.1.1 (*)
+rect_packer v0.2.1
+wgpu v27.0.1 (*)
+floem_renderer v0.2.0 (https://github.com/lapce/floem?rev=778bb5f2aa08429e579ee2e6ac97e84fbf18b618#778bb5f2) (*)
+image v0.25.10
+bytemuck v1.25.2 (*)
+byteorder-lite v0.1.0
+image-webp v0.2.4 (*)
+moxcms v0.8.1
+num-traits v0.2.19 (*)
+pxfm v0.1.30
+num-traits v0.2.19 (*)
+png v0.18.1
+bitflags v2.13.1 (*)
+crc32fast v1.5.0 (*)
+fdeflate v0.3.7 (*)
+flate2 v1.1.9 (*)
+miniz_oxide v0.8.9 (*)
+zune-core v0.5.1
+zune-jpeg v0.5.15 (*)
+parley v0.7.0 (*)
+peniko v0.6.1 (*)
+resvg v0.46.0 (*)
+swash v0.2.10 (*)
+wgpu v27.0.1 (*)
+futures v0.3.33 (*)
+image v0.25.10 (*)
+imbl v7.0.1
+archery v1.2.2
+bitmaps v3.2.1
+equivalent v1.0.2
+imbl-sized-chunks v0.1.3
+bitmaps v3.2.1
+rand_core v0.9.5
+rand_xoshiro v0.7.0
+rand_core v0.9.5
+wide v0.7.33
+bytemuck v1.25.2 (*)
+safe_arch v0.7.4
+bytemuck v1.25.2 (*)
+indexmap v2.14.0 (*)
+lapce-xi-rope v0.4.0 (*)
+muda v0.17.2
+crossbeam-channel v0.5.16
+crossbeam-utils v0.8.22
+dpi v0.1.2
+keyboard-types v0.7.0
+bitflags v2.13.1 (*)
+serde v1.0.229 (*)
+unicode-segmentation v1.13.3
+objc2 v0.6.4 (*)
+objc2-app-kit v0.3.2 (*)
+objc2-core-foundation v0.3.2 (*)
+objc2-foundation v0.3.2 (*)
+once_cell v1.21.4
+png v0.17.16 (*)
+thiserror v2.0.19 (*)
+objc2 v0.6.4 (*)
+objc2-app-kit v0.3.2 (*)
+objc2-foundation v0.3.2 (*)
+parking_lot v0.12.5 (*)
+parley v0.7.0 (*)
+paste v1.0.15 (proc-macro)
+peniko v0.6.1 (*)
+raw-window-handle v0.6.2
+rfd v0.17.2
+block2 v0.6.2 (*)
+dispatch2 v0.3.1 (*)
+log v0.4.33
+objc2 v0.6.4 (*)
+objc2-app-kit v0.3.2 (*)
+objc2-core-foundation v0.3.2 (*)
+objc2-foundation v0.3.2 (*)
+raw-window-handle v0.6.2
+rustc-hash v2.1.3
+serde v1.0.229 (*)
+serde_json v1.0.151
+itoa v1.0.18
+memchr v2.8.3
+serde_core v1.0.229
+zmij v1.0.23
+sha2 v0.10.9
+cfg-if v1.0.4
+cpufeatures v0.2.17
+libc v0.2.189
+digest v0.10.7
+block-buffer v0.10.4
+generic-array v0.14.7
+typenum v1.20.1
+crypto-common v0.1.7
+generic-array v0.14.7 (*)
+typenum v1.20.1
+slotmap v1.1.1
+smallvec v1.15.2 (*)
+strum v0.28.0 (*)
+strum_macros v0.28.0 (proc-macro) (*)
+taffy v0.9.2
+arrayvec v0.7.8
+grid v1.0.1
+slotmap v1.1.1
+ui-events v0.3.0 (*)
+ui-events-floem-winit v0.2.0 (https://github.com/lapce/floem?rev=778bb5f2aa08429e579ee2e6ac97e84fbf18b618#778bb5f2)
+dpi v0.1.2
+floem-winit v25.10.0 (https://github.com/lapce/winit?rev=133268de675a4fda70816d78a7a1435eb972fea1#133268de) (*)
+ui-events v0.3.0 (*)
+understory_box_tree v0.0.1 (https://github.com/jrmoulton/understory?rev=2c2abb8c4bd9#2c2abb8c)
+bitflags v2.13.1 (*)
+kurbo v0.13.1 (*)
+understory_index v0.0.1 (https://github.com/jrmoulton/understory?rev=2c2abb8c4bd9#2c2abb8c)
+hashbrown v0.16.1 (*)
+smallvec v1.15.2 (*)
+understory_event_state v0.1.0 (https://github.com/jrmoulton/understory?rev=2c2abb8c4bd9#2c2abb8c)
+kurbo v0.13.1 (*)
+understory_focus v0.1.0 (https://github.com/jrmoulton/understory?rev=2c2abb8c4bd9#2c2abb8c)
+kurbo v0.13.1 (*)
+understory_index v0.0.1 (https://github.com/jrmoulton/understory?rev=2c2abb8c4bd9#2c2abb8c) (*)
+understory_virtual_list v0.1.0 (https://github.com/jrmoulton/understory?rev=2c2abb8c4bd9#2c2abb8c)
+unicode-segmentation v1.13.3
+wgpu v27.0.1 (*)

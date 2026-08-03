@@ -1,0 +1,19 @@
+[package]
+name = "vizia-dash"
+version = "0.1.0"
+edition = "2024"
+
+# Same pinned version as iteration 1 (apps/vizia-app). Default features only
+# — `["winit", "clipboard", "x11", "wayland", "markdown", "accesskit"]`:
+#   * `winit`     — desktop windowing backend.
+#   * `clipboard` — default-on; unused here.
+#   * `x11`/`wayland` — Linux-only, no-ops on macOS.
+#   * `markdown`  — default-on; unused here.
+#   * `accesskit` — default-on platform accessibility tree.
+# Nothing extra was needed for SPEC-2: vizia's timers (`cx.add_timer`) are in
+# core with no executor feature to pick, drag-and-drop is in core
+# (`on_drag`/`on_drop`), and custom drawing is in core because vizia's
+# renderer *is* Skia — `vizia::vg` re-exports `skia-safe`, so the charts are
+# drawn with the same canvas the framework itself uses. No helper crates.
+[dependencies]
+vizia = "=0.4.0"

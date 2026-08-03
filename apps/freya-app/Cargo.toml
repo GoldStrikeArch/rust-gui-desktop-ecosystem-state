@@ -1,0 +1,21 @@
+[package]
+name = "freya-app"
+version = "0.1.0"
+edition = "2024"
+
+# Latest stable Freya on crates.io as of 2026-08-03 that the whole cohort is
+# pinned to (`=0.4.0`), so every iteration measures the same code.
+# Default features only (`winit`): that single flag pulls the winit shell, the
+# Skia/Metal renderer, the built-in component library (Button, Input,
+# ScrollView, ...), the reactive runtime and the AccessKit bridge — everything
+# SPEC.md asks for. No extra feature flag and no helper crate is needed here.
+[dependencies]
+freya = "=0.4.0"
+
+# Packaging experiment (iteration 3): minimal cargo-bundle config.
+# icon.icns copied from apps/iced-app/icon.icns so every framework's bundle
+# uses byte-identical artwork.
+[package.metadata.bundle]
+name = "Freya Tasks"
+identifier = "org.rcn.freyaapp"
+icon = ["icon.icns"]

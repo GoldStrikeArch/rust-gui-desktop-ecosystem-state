@@ -1,0 +1,5 @@
+   Compiling freya-grid v0.1.0 (/Users/mpl4/Desktop/workspace/self_learning/rust/gui-ecosystem-research/apps/freya-grid)
+    Finished `release` profile [optimized] target(s) in 1.31s
+real 1.34
+user 3.78
+sys 0.26

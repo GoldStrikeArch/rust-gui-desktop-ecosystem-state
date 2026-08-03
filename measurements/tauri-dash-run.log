@@ -1,1 +1,0 @@
-[pulse] rate=10Hz ticks=49 | interval mean=100.14ms max=110.00ms sd=3.56ms | emit->JS latency mean=-0.26ms max=0.30ms

@@ -128,9 +128,12 @@ authoritative 26.37-second observation):
 | egui-dash | 26 s | 1 s | 10.9 | 162 | | egui-board | 24 s | 1 s | 10.6 | 156 |
 | gpui-dash | 54 s | 2 s | 4.5 | 391 | | gpui-board | 54 s | 2 s | 4.3 | 391 |
 | tauri-dash | 35 s | 9 s | 6.3 | 204 | | tauri-board | 36 s | 9 s | 6.4 | 204 |
-| xilem-dash | 28 s | 2 s | 9.7 | 143 | | xilem-board | 26 s | 2 s | 9.9 | 143 |
+| xilem-dash | 28 s | 2 s | 9.7 | 143 | | xilem-board | 34 s | 2 s | 9.9 | 143 |
 | slint-dash | 40 s | 3 s | 11.2 | 302 | | slint-board | 48 s | 7 s | 13.6 | 302 |
 | dioxus-dash | 33 s | 1 s | 5.0 | 279 | | dioxus-board | 31 s | 1 s | 5.0 | 279 |
+| freya-dash | 29 s | 1 s | 18.0 | 192 | | freya-board | 30 s | 1 s | 18.5 | 192 |
+| vizia-dash | 19 s | 1 s | 19.5 | 128 | | vizia-board | 17 s | 1 s | 19.6 | 128 |
+| floem-dash | 42 s | 1 s | 14.4 | 226 | | floem-board | 42 s | 1 s | 14.3 | 226 |
 <!-- END GENERATED: iter2-builds -->
 
 Moving from the todo app to these interaction-heavy implementations moved most

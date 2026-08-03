@@ -321,6 +321,154 @@ FRICTION:
 - kittest type_text silently no-ops unless you focus() the node first.
 - List deletion requires the deferred-index idiom — boilerplate every list UI pays.
 
+## freya
+
+(Added 2026-08-03 with the three-framework expansion cohort. Every field below
+is sourced from `apps/freya-*` — Cargo manifests, the committed `Cargo.lock` /
+`deps-flat.txt`, GAPS.md and the eight FRICTION.md files. Fields that require
+upstream ecosystem research was deferred; a 2026-08-04 follow-up check filled
+license, maintainer concentration and download/star counts, and the fields still
+marked `pending_upstream_research` — governance, production users, platform/
+wasm/mobile support, docs quality — remain unresearched rather than guessed.)
+
+```yaml
+framework: Freya
+version_tested: "=0.4.0 (freya 0.4.0; freya-core/components/winit/edit/engine/animation/sdk 0.4.1, freya-clipboard 0.4.2)"
+license: MIT (confirmed 2026-08-04: crates.io + cargo metadata)
+paradigm: "Signal-based reactive. Freya 0.4 is NOT the RSX/Dioxus-macro library it was in 0.2/0.3: components are plain values built with a chained builder API (rect().horizontal().spacing(10.)) and reactivity is State<T> (Copy). No Message enum, no central update function — handlers mutate signals directly. Async is a first-party SINGLE-THREADED executor on the UI thread (spawn -> TaskHandle, spawn_forever, use_future)."
+windowing: "winit 0.30.13 via freya-winit 0.4.1"
+renderer: "Skia through the freya-skia-safe / freya-skia-bindings 0.98.1 FORK (Metal on macOS). The first build of the cohort downloads a prebuilt Skia archive; later app crates reuse the cached download. render_pipeline.rs still carries `// TODO: Use incremental rendering` — every painted frame redraws the entire tree."
+text_stack: "Skia textlayout (HarfBuzz shaping + ICU BiDi) over SkFontMgr/CoreText for discovery and per-script fallback; editing model is freya-edit 0.4.1 (ropey 1.6.1 + unicode-segmentation). LaunchConfig::with_font / with_fallback_font exist for the cases system discovery misses."
+layout: "torin 0.4.1 — Freya's own layout engine (NOT taffy). Vocabulary traps recorded: Size::flex(1.) silently no-ops unless the parent opts into .content(Content::flex())."
+widget_set: "freya-components 0.4.1: Button, Input, ScrollView, VirtualScrollView, Table (a LAYOUT helper — one element per cell, does not virtualize), Slider (percentage-only, no range/step), ProgressBar, DragZone/DropZone (typed DnD with framework-painted ghost), ImageViewer, CameraViewer (behind the `camera` feature), canvas() exposing the raw skia_safe::Canvas. Notable holes: Input is hard-wired to max_lines(1) so a text area must be assembled from the low-level use_editable hook (~90-110 LoC), and there is no double-click event."
+a11y_status: "AccessKit in the default tree (accesskit 0.24.1, accesskit_consumer 0.38.0, accesskit_macos 0.26.3, accesskit_winit 0.33.2) with INLINE per-element attributes (a11y_role, a11y_alt, AccessibilityRole::ColumnHeader/Row), so the a11y tree needs no second data model. on_press unifies mouse/touch/keyboard activation. Screen-reader depth not exercised in this cohort."
+os_integration_summary: "Strong first-party surface: `tray` feature (Freya itself owns the GLOBAL tray-icon/muda handlers and forwards both into one callback), on_file_drop as an ELEMENT event with a PathBuf payload, live system theme via a reactive Platform::preferred_theme, multi-window (launch_window/close_window/focus_window/with_window/post_callback), close interception (with_on_close -> CloseDecision::KeepOpen), plus optional `camera`, `plot` (plotters backend) and `query` (TanStack-Query-style cache) features. Missing: global hotkeys, file dialogs (rfd is a transitive dep but not re-exported), notifications, ANY timer/interval primitive, window screenshot, and any way to signal the reactive runtime from a platform callback."
+platforms: pending_upstream_research
+wasm: pending_upstream_research
+mobile: pending_upstream_research
+production_users: pending_upstream_research
+backing: "solo project: marc2332 wrote 611 of last-12-mo commits (next contributor: 6), no employer stated; 36.5k all-time crates.io downloads, 2.9k stars (2026-08-04); no org/sponsor backing found"
+build_ok: true      # all 8 apps build clean in release; --locked --release reproduces
+launch_ok: true     # release binary alive >8 s with a visible window, clean SIGTERM, nothing on stdout/stderr
+spec_gaps: "none for SPEC.md — every requirement maps onto stock 0.4 elements/components with default features (Input::on_submit gives Enter-to-add, ScrollView gives overflow scrolling). List reconciliation wants explicit .key(index) on repeated rows."
+app_loc: 90
+deps_total: 258     # unique crates in the todo app's normal-dependency tree, incl. the full image codec set, rfd, clipboard glue and AccessKit
+clean_build_secs_rough: 41   # freya-app release build with the prebuilt Skia archive already cached; not a canonical measurement
+binary_size_mb: pending_new_cohort
+docs_quality_1to5: pending_upstream_research
+```
+
+TOP FINDINGS:
+- Freya is the only framework in the study that ships a first-party CAMERA integration (`use_camera` + `CameraViewer` behind the `camera` feature, nokhwa underneath) and a stock virtualized scroll view, so two of the study's most expensive capabilities are single component calls.
+- Its async model is the inverse of the Elm-shaped frameworks: a single-threaded executor ON the UI thread means `await` then assign to a signal, with no channel, no Send bound and no message enum; `TaskHandle::cancel()` is simultaneously debounce, stale-guard and protocol-level cancellation.
+- The `tray` feature makes Freya own the global muda/tray-icon event handlers, which structurally prevents the channel-splitting trap that bites iced, egui and dioxus.
+- The framework's own Skia fork (freya-skia-safe 0.98.1) is a real divergence point: it pins the app to that fork's API generation (PathBuilder, not Path::move_to) and to a prebuilt-binary download on first build.
+- Editing is the weak layer: freya-edit moves the caret by UTF-16 code unit, so a ZWJ emoji cluster can be split and corrupted by one Backspace — in a crate that already depends on unicode-segmentation.
+
+FRICTION:
+- Release-only panic hook: freya_winit::launch installs (in release builds only) a hook that shows an rfd "Fatal Error" dialog, chains to the previous hook, then exit(1) — a panic in release is a frozen window plus a modal alert with nothing on stderr. Diagnosis requires a debug build.
+- `Ref` (from State::peek()/read()) held across a write() panics, and via the hook above that becomes a hung app; `x.set(*x.peek() + 1)` is enough to trigger it.
+- Canvas elements diff as UNCHANGED unless they carry an event handler (RenderCallback's PartialEq returns true unconditionally), so a data-only canvas silently never repaints.
+- No timer primitive: five of the eight apps depend on async-io purely for `Timer::after`.
+- Debug builds silently inject freya-performance-plugin's FPS overlay.
+
+## vizia
+
+(Added 2026-08-03 with the three-framework expansion cohort. Sourced from
+`apps/vizia-*`; upstream ecosystem fields not researched in this pass are marked
+`pending_upstream_research`.)
+
+```yaml
+framework: Vizia
+version_tested: "=0.4.0 (vizia 0.4.0 = vizia_core/_reactive/_style/_storage/_input/_window/_id/_winit 0.4.0). Default features: winit, clipboard, x11, wayland, markdown, accesskit"
+license: MIT (confirmed 2026-08-04: crates.io + cargo metadata)
+paradigm: "Neither immediate-mode nor whole-tree-rebuild. The builder closure passed to Application::new runs ONCE; reactivity is fine-grained via Signal<T>/Memo from vizia_reactive (Label::new(cx, signal) subscribes that one label; List diffs by value and 0.4's ListItemsBinding keeps a per-item Signal so a value change costs no entity rebuild). State mutation goes through an Elm-ish Model::event + typed event enum, so the code shape is close to iced's update, but there is no view function to re-run. Model has NO Send bound and Model::event runs on the main thread, which is what makes !Send OS handles (TrayIcon, cpal streams) easy to home."
+windowing: "winit 0.30.13 via vizia_winit 0.4.0, with glutin 0.32.3 / glutin-winit 0.5.0 for the GL context"
+renderer: "Skia via skia-safe 0.93.1 (built with metal + gl + textlayout + svg), statically linked — the dominant term in the ~21.8-22.3 MiB release binaries. The first build downloads a PREBUILT skia-bindings binary rather than compiling Skia from source; on a cold machine that is the long pole and needs network access. vizia::vg RE-EXPORTS skia-safe, so a custom View::draw receives the same skia_safe::Canvas the framework draws with, already in view coordinates."
+text_stack: "Skia SkParagraph (skia-safe textlayout feature) over CoreText's system font manager on macOS: shaping (HarfBuzz inside Skia), BiDi resolution and per-script fallback are all the platform's. There is no cosmic-text/fontdb layer to configure and no font database to warm up. vizia_core::text::EditableText uses unicode-segmentation."
+layout: "morphorm 0.8.0 plus a REAL CSS engine (vizia_style 0.4.0) — the only framework in this cohort with stylesheets, CSS transitions/@keyframes and Morphorm units (1s, auto). cx.add_stylesheet is the idiomatic home for shared layout constants."
+widget_set: "vizia_core views: Label, Button, Textbox, Slider (always normalised 0.0-1.0), ProgressBar, ScrollView, List, Image, MenuBar (an IN-WINDOW view drawn by Skia, not a native menu bar), Resizable, VirtualList and VirtualTable — a genuine data grid with sort_state/sort_cycle/resizable_columns/selectable/selected_row_ids modifiers and on_sort/on_row_select callbacks. Core drag-and-drop (on_drag/on_over/on_drop/has_drop_data) is part of the view API, not a widget."
+a11y_status: "AccessKit is a DEFAULT feature (accesskit 0.24.1, accesskit_consumer 0.38.0, accesskit_macos 0.26.3, accesskit_winit 0.32.2). VirtualTable sets Role::Table, so the grid is exposed to assistive tech for free. Full IME plumbing exists (WindowEvent::{ImeActivate,ImePreedit,ImeCommit,SetImeCursorArea} + Textbox preedit_backup) but was unexercised — no CJK input source on the reference machine."
+os_integration_summary: "Windowing-level only: multi-window (Window::new inside a Binding, with on_close/title/inner_size), file drop for free (winit DroppedFile surfaced as WindowEvent::Drop(DropData::File) through the SAME on_drop modifier used for in-app dragging), text clipboard via the default `clipboard` feature (copypasta) exposed as ADDRESSABLE EVENTS (cx.emit_to(widget, TextEvent::Paste)), and automatic light/dark theme following ThemeChanged. Missing: system tray, global hotkeys, a NATIVE menu bar, file dialogs, notifications, window-visibility getters, window screenshot, and any async executor at all."
+platforms: pending_upstream_research
+wasm: pending_upstream_research
+mobile: pending_upstream_research
+production_users: pending_upstream_research
+backing: "geom3trik (Dr George Atkinson) wrote 285 of last-12-mo commits (next: 14, 13), no employer stated; 6.3k all-time crates.io downloads — smallest ecosystem in the cohort — 2.2k stars (2026-08-04)"
+build_ok: true      # all 8 apps build clean in release with no warnings; --locked --release reproduces; no future-incompatibility warnings reported by cargo
+launch_ok: true     # release binary shows a window titled "Tasks (vizia)", alive past the 10 s bar, clean SIGTERM, nothing on stdout/stderr
+spec_gaps: "none for SPEC.md — every requirement maps onto stock 0.4 views (Textbox::on_submit for Enter-to-add, List wraps its items in a ScrollView internally). Trap: events emitted from a Model propagate UP the tree and never reach a child view, so clearing the input after Add is done by writing the model signal rather than emitting TextEvent::Clear."
+app_loc: 162
+deps_total: 169     # unique crates in the todo app's normal-dependency tree
+clean_build_secs_rough: pending_new_cohort
+binary_size_mb: 21.8
+docs_quality_1to5: pending_upstream_research
+```
+
+TOP FINDINGS:
+- vizia is the only framework in the study with a genuine virtualized, sortable, resizable, selectable TABLE widget in core (VirtualTable): iced's `table` materialises O(rows × cols) widgets and egui/xilem/gpui/floem all hand-roll windowing.
+- It is also the only one with a real CSS engine, and `transition: height` animates a LAYOUT property — the kanban's insertion gap genuinely opens and closes, where most of the cohort animates paint only.
+- Core drag-and-drop (on_drag/on_over/on_drop) is ~14 lines of modifiers AND the same API receives Finder file drops as DropData::File(PathBuf) — one drop path for in-app and OS drags.
+- The renderer being Skia and being EXPOSED (vizia::vg) removes the texture/image layer entirely: a camera preview is a custom View::draw building a raster image from raw RGBA, with no framework image handle and no image feature flag.
+- The cost side is memory: ≈82 KiB RSS per one-line Label (11,000 Labels = 114.9 → 1005.2 MiB), and grid RSS grows 140 → 290 MiB over a full 100k-row sweep as Skia's paragraph/glyph caches and per-entity style stores fill (it plateaus rather than leaking linearly).
+- vizia has NO executor: cx.spawn is a raw std::thread plus a ContextProxy (Send, NOT Sync) whose emit posts an event through winit's user-event proxy. Every networked app re-invents the same ~30 lines — but there is also no executor MISMATCH to get wrong at runtime.
+
+FRICTION:
+- The framework is unusually silent about mistakes. An action only fires when the acted-on view is the HOVERED entity (cx.current == meta.target), so children must be .hoverable(false) — and inside the built-in VirtualTable the only reachable fix is a CSS rule (`.table-row, .table-cell { pointer-events: none; }`) against undocumented class names.
+- Event coordinates (on_mouse_move, cx.bounds()) are PHYSICAL pixels while Pixels(..) is logical — a 2× display doubles every hand-computed overlay position until divided by cx.scale_factor().
+- on_drop runs while WindowEvent::MouseUp is still propagating and only QUEUES the app event, so a root MouseUp handler that clears drag state inline makes every drop a silent no-op.
+- Context::load_image takes &'static [u8] and is unreachable from an EventContext; ContextProxy::load_image only accepts ENCODED bytes, so both obvious entry points point away from the path that works for video.
+- notify-rust from inside vizia's event dispatch ABORTS the process (NotificationHandle::drop spins the Cocoa run loop and re-enters winit's handler inside a non-unwinding block) — it must be sent from a background thread.
+
+## floem
+
+(Added 2026-08-03 with the three-framework expansion cohort. Sourced from
+`apps/floem-*`; upstream ecosystem fields not researched in this pass are marked
+`pending_upstream_research`.)
+
+```yaml
+framework: floem (lapce)
+version_tested: "git-778bb5f2 — rev 778bb5f2aa08429e579ee2e6ac97e84fbf18b618 of lapce/floem `main` (2026-06-21), pinned identically in all 8 apps. The crates report themselves as 0.2.0 from git."
+version_deviation: "SPEC.md requires the latest crates.io release pinned =x.y.z. Floem's latest crates.io release is 0.2.0 (2024-11) — 20 MONTHS STALE at measurement time, with a substantially different API (winit re-export, cosmic-text text stack, no typed event listeners). The maintainers direct users to `main`, and `main` CANNOT BE PUBLISHED because it depends on a forked winit (floem-winit, github.com/lapce/winit rev 133268de) and on understory_* crates, both via git. The git pin is therefore the maintainer-recommended path and the unpublishable-main situation is itself a headline ecosystem finding."
+license: MIT (confirmed 2026-08-04: crates.io + cargo metadata)
+paradigm: "Fine-grained reactive (floem_reactive: RwSignal/Memo/Effect, Leptos-lineage) over a retained view tree, with TYPED event listeners (listener::Click, DoubleClick, PointerMove, FileDragDrop, WindowCloseRequested, ThemeChanged) and typed custom events (TextInputEnter, SliderChanged). Paint closures inside `canvas` are signal-tracked, so custom drawing repaints reactively with zero cache/damage bookkeeping. There is NO executor; ExtSendTrigger/create_ext_action/update_signal_from_channel are first-class foreign-thread wakeup primitives."
+windowing: "floem-winit 25.10.0 — a FORK of winit (github.com/lapce/winit rev 133268de), split into floem-winit-core/-common/-appkit, plus ui-events-floem-winit. Not upstream winit."
+renderer: "floem_vger_renderer over floem-vger 0.3.2 (a fork of vger-rs, github.com/lapce/vger-rs rev 54ab8135) on wgpu 27.0.1, with floem_tiny_skia_renderer (tiny-skia 0.11.4 + softbuffer 0.4.8) as the software fallback; resvg 0.46 for SVG. A vello path is discussed upstream but is NOT in this rev's default dependency tree. HEADLINE DEFECT: vger's image path is a single colour ATLAS keyed by content hash, pack failures are dropped silently without cleanup and do not count toward the 70% self-heal threshold, so any image above roughly a third of the atlas dimension wedges image drawing permanently — a camera preview goes black after ~3 frames above ~320x180."
+text_stack: "parley 0.7 + fontique 0.7 (system font discovery/fallback) + swash 0.2.10 + harfrust 0.3.2, on kurbo 0.13.1 / peniko 0.6.1. This is a WHOLE-STACK SWAP on main — the stale crates.io 0.2.0 used cosmic-text. Editor pane is the Lapce editor core (floem-editor-core + lapce-xi-rope 0.4.0), which gives grapheme-atomic caret motion and a real ClipboardCut/Copy/Paste/SelectAll command surface. macOS gap at this rev: fontique fails to resolve PingFang/Hiragino, so Han and kana render as PURE TOFU (Hangul, Devanagari, Thai and BiDi are fine), as do regional-indicator flag pairs and the ⌘/⇧ symbols."
+layout: "taffy 0.9.2 (shared ecosystem crate) — with a load-bearing trap: taffy's default min_height:auto lets a scroll grow to min-content, which silently DISABLES VirtualStack virtualization (100k rows → 16 GiB RSS and no window; 11k lines → 1.9 GiB). One min_height(0) on the scroll's flex ancestors is the fix and nothing warns."
+widget_set: "floem views plus understory_* crates (understory_virtual_list for VirtualStack, understory_focus, understory_box_tree, understory_index, understory_event_state). Present: Button, Label (+Label::derived), TextInput, Slider::new_ranged (a real range, unlike freya/vizia), scroll, dyn_stack/dyn_container, VirtualStack, canvas, img (ENCODED bytes only — no raw-RGBA view), draggable_with_config with an automatic framework-painted ghost and spring release, debounce_action. Missing: table/data grid, progress bar, window-capture API, interval timer (only one-shot exec_after). API CHURN: at this rev the free-function constructors used by ALL published documentation (v_stack, h_stack, button, label, static_label, text_input) are DEPRECATED in favour of struct constructors, and some in-source doc examples do not compile against the same rev."
+a11y_status: "NONE. `deps-flat.txt` contains no accesskit at all — floem has no accessibility integration, where iced (stable), egui, xilem, slint, vizia and freya all ship or wire AccessKit. IME plumbing exists (ImePreedit/ImeCommit events, set_ime_allowed/set_ime_cursor_area, an editor preedit field) but was unexercised."
+os_integration_summary: "The most complete shell integration of this three-framework cohort, and mostly undocumented outside the source: NATIVE MENUBAR built in (floem::Menu builds muda 0.17.2 menus with per-item action CLOSURES; set_window_menu installs them on NSApp — no MenuId bookkeeping, no event channel), native file DIALOGS built in (rfd 0.17.2 is a floem dependency; floem::open_file/save_as with the callback delivered on the UI thread via create_ext_action), typed FILE DROP (listener::FileDragDrop with paths: Rc<[PathBuf]>), live DARK MODE (dark_mode() style selector re-resolved on OS ThemeChanged), MULTI-WINDOW (new_window/close_window), close interception (WindowCloseRequested + cx.prevent_default(), and macOS AppConfig defaults exit_on_close:false), and DOCK-ICON REOPEN (AppEvent::Reopen / applicationShouldHandleReopen) which iced structurally cannot do. Missing: system tray, global hotkeys, notifications, image clipboard (Clipboard is text + file-list only), window screenshot."
+platforms: pending_upstream_research
+wasm: pending_upstream_research
+mobile: pending_upstream_research
+production_users: "Lapce is the parent project (floem lives under the lapce org and the editor core in the dependency tree is Lapce's); no independent production-user survey was done in this pass — pending_upstream_research"
+backing: "Lapce-project crate (founded by dzhou121); 5 contributors >5 commits/12mo, led by jrmoulton (75); 28.8k all-time crates.io downloads, 4.2k stars (2026-08-04); crates.io release 21 months stale while the repo stays active"
+build_ok: true      # all 8 apps build clean in release; locked rebuilds reproduce
+launch_ok: true     # release binary alive >8 s with a visible window, killed cleanly, nothing on stdout/stderr
+spec_gaps: "none for SPEC.md — every requirement maps onto stock views (TextInputEnter typed event for Enter-to-add, dyn_stack keyed diffing for rows, .scroll() for overflow)."
+app_loc: 91
+deps_total: 315     # unique crates; the default feature set compiles the vger GPU renderer, the tiny-skia software fallback, the full Lapce editor core and the parley/fontique text stack
+clean_build_secs_rough: pending_new_cohort
+binary_size_mb: pending_new_cohort   # floem-peek's release binary measured 19.9 MiB, but that app carries the camera/audio stack
+docs_quality_1to5: pending_upstream_research
+```
+
+TOP FINDINGS:
+- The version story is the finding: crates.io is 20 months stale, `main` is structurally unpublishable (forked winit + git-only understory crates), and the maintainer-recommended path is a git rev. Every consumer inherits the fork and the churn — including a deprecated constructor surface that all published docs still use.
+- Floem forks aggressively at the bottom of the stack (floem-winit, floem-vger) while sharing at the middle (taffy, parley/fontique/swash/harfrust, wgpu, kurbo/peniko) — the inverse of gpui, which forks the renderer/windowing but shares layout.
+- It is the only framework in the study with a built-in `debounce_action`, and its ExtSendTrigger/create_ext_action/update_signal_from_channel trio is the cleanest foreign-thread→UI bridge measured here, despite floem shipping no executor at all.
+- Built-in drag-and-drop with an automatic ghost and spring release made the study's hardest interactive capability the easiest cell in two separate apps (~25-30 LoC).
+- Two silent, catastrophic traps live in the shared layers: taffy's min-content default disables VirtualStack virtualization (16 GiB, no window), and vger's content-hash atlas wedges image drawing permanently above ~320x180.
+- No AccessKit anywhere in the tree, and macOS Han/kana fallback is broken at this rev — two of the sharpest "missing layer" findings in the study.
+
+FRICTION:
+- Discovering what is built-in requires reading floem's source: menubar, dialogs, dock reopen and prevent_default-on-close are all undocumented at this rev.
+- The muda version minefield: floem pins muda =0.17 and claims that instance's single global MenuEvent handler slot; tray-icon 0.24's muda 0.19 is a separate compiled instance whose slot happens to be free. Had the versions unified, floem's handler would silently swallow every tray-menu click. Two copies of muda ship in the binary.
+- No raw-RGBA image view: floem's `img` takes encoded bytes only, so clipboard images must be PNG-encoded in memory, and raw drawing needs a direct dependency on floem's internal `floem_renderer` crate (the Img struct is not re-exported).
+- No progress bar, no table widget, no window-capture API and no interval timer — the framework's own timer example hand-rolls a re-arming exec_after chain.
+- Same `block v0.1.6` future-incompatibility warning as iced, here via floem's copypasta clipboard dependency.
+
 ## shared-infra (ecosystem map agent)
 
 ```yaml

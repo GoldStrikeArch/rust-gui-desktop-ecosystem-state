@@ -26,6 +26,9 @@ tauri 2.11.5 · xilem 0.4.0 · slint 1.17.1 · dioxus 0.7.9 (desktop).
 | dioxus | 40 s | 1 s | 5.7 | 4.9 | 279 | no³ | 90 | 0 | yes |
 | slint | 42 s | 4 s | 14.7 | 13.2 | 302 | **yes** | 42 | 52 (.slint) | yes |
 | gpui | 56 s | 1 s | 5.0 | 4.3 | 391 | no⁴ | 230 | 0 | yes |
+| freya | 28 s | 1 s | 20.3 | 18.3 | 192 | **yes** | 90 | 0 | yes |
+| vizia | 22 s | 1 s | 21.8 | 19.6 | 128 | **yes** | 162 | 0 | yes |
+| floem | 42 s | 1 s | 16.8 | 14.2 | 226 | no | 91 | 0 | yes |
 <!-- END GENERATED: iter1-headline -->
 
 ¹ 105 LoC app + optional 63-line AccessKit-driven `egui_kittest` test module.

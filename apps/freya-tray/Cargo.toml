@@ -1,0 +1,45 @@
+[package]
+name = "freya-tray"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+# Same pinned version as iteration 1 (apps/freya-app).
+#
+# `tray` turns on `freya-winit/tray`, pulls in
+# `tray-icon` 0.21 (which re-exports muda 0.17 as `tray_icon::menu`) and — the
+# important part — makes Freya register the *global* `MenuEvent`/`TrayIconEvent`
+# handlers itself and forward both into `LaunchConfig::with_tray`'s callback as
+# `TrayEvent::Menu` / `TrayEvent::Icon`. Because the framework owns that
+# channel, the app never links its own muda/tray-icon copy, which is what
+# silently eats menu events in other toolkits.
+#
+# `engine` re-exports the Skia `AlphaType` enum, which is required to name the
+# argument of `ImageHandle::from_rgba` when turning clipboard RGBA into an
+# image element. (The `image()` element is available without the flag; its
+# constructor argument type is not.)
+freya = { version = "=0.4.0", features = ["tray", "engine"] }
+
+# Freya's executor has no timer primitive, so the 80 ms loop that drains the
+# tray/menu queue and the global-hotkey channel needs one. Same crate Freya's
+# own animation clock uses, already in the tree.
+async-io = "2.6.0"
+
+# Helper crates — each fills a hole Freya does not cover:
+# - global-hotkey: Carbon `RegisterEventHotKey` wrapper (no accessibility
+#   permission) for the system-wide Cmd+Shift+9. Freya has no global shortcuts.
+# - rfd: native NSOpenPanel/NSSavePanel. Freya has no file dialogs (it does
+#   depend on rfd transitively, but does not re-export it).
+# - arboard: image clipboard. Freya's built-in `Clipboard` (freya-clipboard →
+#   copypasta) is text-only.
+# - notify-rust: system notifications. Freya has none.
+global-hotkey = "0.7"
+rfd = "0.17"
+arboard = "3.6"
+notify-rust = "4"
+
+# NOT needed, unlike the other frameworks in this cohort: a `tray-icon`/`muda`
+# dependency (re-exported through `freya::tray`), `bytes` (`Bytes` is in
+# Freya's prelude), `ropey` (`Rope` is re-exported by `freya::text_edit`) and
+# `image` (`ImageHandle::from_rgba` takes raw RGBA, and the tray icon is
+# generated in code).

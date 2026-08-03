@@ -1,0 +1,35 @@
+[package]
+name = "vizia-fetch"
+version = "0.1.0"
+edition = "2024"
+
+# Same pinned version as iteration 1 (apps/vizia-app). Default features only
+# — `["winit", "clipboard", "x11", "wayland", "markdown", "accesskit"]`:
+#   * `winit`     — desktop windowing backend.
+#   * `clipboard` — default-on; used by the search `Textbox`.
+#   * `x11`/`wayland` — Linux-only, no-ops on macOS.
+#   * `markdown`  — default-on; unused here.
+#   * `accesskit` — default-on platform accessibility tree.
+# There is no async feature to pick because **vizia has no executor at all**:
+# `cx.spawn`/`ContextProxy` give you a raw OS thread and a channel back to
+# the UI thread, and anything with futures is bring-your-own runtime.
+[dependencies]
+vizia = "=0.4.0"
+
+# The runtime. vizia ships none, so the app owns a multi-threaded tokio
+# runtime and hands `ContextProxy` clones into the tasks; results come back
+# as ordinary vizia events. `rt-multi-thread` + `time` (the 250 ms debounce
+# sleep) + `macros` are all that is needed.
+tokio = { version = "1", features = ["rt-multi-thread", "time", "macros"] }
+
+# HTTP client. default-features = false: plain HTTP to 127.0.0.1 needs no
+# TLS stack. `json` for /search + /flaky bodies, `stream` for
+# `bytes_stream()` on /download (progress + real mid-body cancellation).
+reqwest = { version = "=0.12.24", default-features = false, features = ["json", "stream"] }
+
+# `StreamExt::next` for the download's `bytes_stream()`. Already in the tree
+# via reqwest, so declaring it directly adds nothing to the build.
+futures-util = { version = "0.3", default-features = false }
+
+# Deserializing the /search and /flaky JSON bodies into typed values.
+serde = { version = "1", features = ["derive"] }

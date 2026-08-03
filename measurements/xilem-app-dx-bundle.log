@@ -1,0 +1,218 @@
+  0.00s  INFO Bundling project...
+  0.70s  INFO Compiled [  1/226]: cfg_if
+  0.71s  INFO Compiled [  2/226]: cfg_aliases
+  0.72s  INFO Compiled [  3/226]: unicode_ident
+  0.72s  INFO Compiled [  4/226]: equivalent
+  0.80s  INFO Compiled [  5/226]: smallvec
+  0.80s  INFO Compiled [  6/226]: core_foundation_sys
+  0.82s  INFO Compiled [  7/226]: once_cell
+  0.85s  INFO Compiled [  8/226]: build-script-build
+  0.85s  INFO Compiled [  9/226]: build-script-build
+  0.87s  INFO Compiled [ 10/226]: build-script-build
+  0.88s  INFO Compiled [ 11/226]: autocfg
+  0.88s  INFO Compiled [ 12/226]: build-script-build
+  0.88s  INFO Compiled [ 13/226]: allocator_api2
+  0.89s  INFO Compiled [ 14/226]: build-script-build
+  0.89s  INFO Compiled [ 15/226]: build-script-build
+  0.91s  INFO Compiled [ 16/226]: foldhash
+  0.91s  INFO Compiled [ 17/226]: arrayvec
+  0.91s  INFO Compiled [ 18/226]: build-script-build
+  0.91s  INFO Compiled [ 19/226]: foreign_types_shared
+  0.96s  INFO Compiled [ 20/226]: build-script-build
+  0.99s  INFO Compiled [ 21/226]: log
+  1.01s  INFO Compiled [ 22/226]: build-script-build
+  1.01s  INFO Compiled [ 23/226]: build-script-build
+  1.10s  INFO Compiled [ 25/226]: build-script-build
+  1.12s  INFO Compiled [ 26/226]: objc2_encode
+  1.15s  INFO Compiled [ 27/226]: hashbrown
+  1.18s  INFO Compiled [ 28/226]: scopeguard
+  1.23s  INFO Compiled [ 30/226]: build-script-build
+  1.28s  INFO Compiled [ 31/226]: raw_window_handle
+  1.36s  INFO Compiled [ 34/226]: lock_api
+  1.44s  INFO Compiled [ 35/226]: proc_macro2
+  1.46s  INFO Compiled [ 36/226]: quote
+  1.68s  INFO Compiled [ 38/226]: libm
+  1.71s  INFO Compiled [ 40/226]: core_maths
+  1.88s  INFO Compiled [ 43/226]: libc
+  1.91s  INFO Compiled [ 44/226]: malloc_buf
+  1.95s  INFO Compiled [ 45/226]: build-script-build
+  2.05s  INFO Compiled [ 46/226]: bit_vec
+  2.08s  INFO Compiled [ 47/226]: bitflags
+  2.10s  INFO Compiled [ 49/226]: libm
+  2.11s  INFO Compiled [ 50/226]: core_foundation
+  2.14s  INFO Compiled [ 51/226]: pin_project_lite
+  2.18s  INFO Compiled [ 52/226]: unicode_width
+  2.20s  INFO Compiled [ 53/226]: bit_set
+  2.28s  INFO Compiled [ 55/226]: tracing_core
+  2.33s  INFO Compiled [ 57/226]: serde_core
+  2.39s  INFO Compiled [ 58/226]: hashbrown
+  2.41s  INFO Compiled [ 59/226]: objc
+  2.42s  INFO Compiled [ 60/226]: num_traits
+  2.43s  INFO Compiled [ 61/226]: core_graphics_types
+  2.47s  INFO Compiled [ 63/226]: bitflags
+  2.48s  INFO Compiled [ 65/226]: parking_lot_core
+  2.49s  INFO Compiled [ 66/226]: objc_sys
+  2.56s  INFO Compiled [ 67/226]: hexf_parse
+  2.60s  INFO Compiled [ 69/226]: codespan_reporting
+  2.64s  INFO Compiled [ 70/226]: rustc_hash
+  2.65s  INFO Compiled [ 71/226]: build-script-build
+  2.65s  INFO Compiled [ 72/226]: build-script-build
+  2.67s  INFO Compiled [ 73/226]: unicode_width
+  2.69s  INFO Compiled [ 74/226]: unicode_ident
+  2.71s  INFO Compiled [ 75/226]: linebender_resource_handle
+  2.71s  INFO Compiled [ 76/226]: foldhash
+  2.74s  INFO Compiled [ 77/226]: equivalent
+  2.75s  INFO Compiled [ 78/226]: indexmap
+  2.77s  INFO Compiled [ 79/226]: block
+  2.77s  INFO Compiled [ 80/226]: cfg_if
+  2.77s  INFO Compiled [ 81/226]: bit_vec
+  2.82s  INFO Compiled [ 83/226]: bit_set
+  2.84s  INFO Compiled [ 84/226]: paste
+  2.89s  INFO Compiled [ 85/226]: hashbrown
+  2.90s  INFO Compiled [ 86/226]: parking_lot
+  2.95s  INFO Compiled [ 87/226]: codespan_reporting
+  2.96s  INFO Compiled [ 89/226]: hashbrown
+  2.97s  INFO Compiled [ 90/226]: block2
+  2.98s  INFO Compiled [ 91/226]: bitflags
+  3.00s  INFO Compiled [ 92/226]: rustc_hash
+  3.02s  INFO Compiled [ 93/226]: log
+  3.05s  INFO Compiled [ 94/226]: num_traits
+  3.05s  INFO Compiled [ 95/226]: once_cell
+  3.06s  INFO Compiled [ 96/226]: dispatch
+  3.07s  INFO Compiled [ 97/226]: simd_adler32
+  3.08s  INFO Compiled [ 98/226]: profiling
+  3.09s  INFO Compiled [ 99/226]: build-script-build
+  3.09s  INFO Compiled [100/226]: hexf_parse
+  3.11s  INFO Compiled [101/226]: objc2
+  3.14s  INFO Compiled [102/226]: indexmap
+  3.14s  INFO Compiled [103/226]: arrayvec
+  3.15s  INFO Compiled [104/226]: build-script-build
+  3.18s  INFO Compiled [105/226]: syn
+  3.26s  INFO Compiled [107/226]: svg_fmt
+  3.27s  INFO Compiled [108/226]: build-script-build
+  3.35s  INFO Compiled [109/226]: litrs
+  3.38s  INFO Compiled [110/226]: euclid
+  3.52s  INFO Compiled [112/226]: foreign_types_macros
+  3.53s  INFO Compiled [113/226]: dpi
+  3.69s  INFO Compiled [114/226]: bytemuck_derive
+  3.71s  INFO Compiled [116/226]: displaydoc
+  3.76s  INFO Compiled [117/226]: adler2
+  3.83s  INFO Compiled [118/226]: thiserror_impl
+  3.84s  INFO Compiled [119/226]: accesskit
+  3.86s  INFO Compiled [121/226]: zerocopy_derive
+  3.88s  INFO Compiled [122/226]: color
+  3.89s  INFO Compiled [123/226]: tracing_attributes
+  3.93s  INFO Compiled [124/226]: kurbo
+  3.95s  INFO Compiled [125/226]: crc32fast
+  4.10s  INFO Compiled [126/226]: foreign_types
+  4.26s  INFO Compiled [127/226]: guillotiere
+  4.42s  INFO Compiled [128/226]: bytemuck
+  4.50s  INFO Compiled [129/226]: document_features
+  4.53s  INFO Compiled [130/226]: miniz_oxide
+  4.57s  INFO Compiled [131/226]: font_types
+  4.64s  INFO Compiled [132/226]: objc2
+  4.65s  INFO Compiled [133/226]: font_types
+  4.66s  INFO Compiled [134/226]: tinystr
+  4.81s  INFO Compiled [135/226]: peniko
+  4.90s  INFO Compiled [136/226]: thiserror
+  4.90s  INFO Compiled [137/226]: thiserror
+  5.04s  INFO Compiled [138/226]: objc2_core_foundation
+  5.09s  INFO Compiled [139/226]: core_foundation
+  5.17s  INFO Compiled [140/226]: time_core
+  5.27s  INFO Compiled [141/226]: build-script-build
+  5.28s  INFO Compiled [142/226]: foldhash
+  5.33s  INFO Compiled [143/226]: cursor_icon
+  5.39s  INFO Compiled [144/226]: num_conv
+  5.48s  INFO Compiled [145/226]: litemap
+  5.54s  INFO Compiled [146/226]: writeable
+  5.54s  INFO Compiled [147/226]: tracing
+  5.56s  INFO Compiled [148/226]: objc2_foundation
+  6.32s  INFO Compiled [151/226]: time_macros
+  6.32s  INFO Compiled [152/226]: hashbrown
+  6.40s  INFO Compiled [153/226]: core_graphics_types
+  6.46s  INFO Compiled [154/226]: objc2_core_text
+  6.46s  INFO Compiled [155/226]: wgpu_types
+  6.67s  INFO Compiled [156/226]: zerocopy
+  6.77s  INFO Compiled [157/226]: flate2
+  6.84s  INFO Compiled [158/226]: half
+  6.85s  INFO Compiled [159/226]: zerocopy
+  6.91s  INFO Compiled [160/226]: objc2_foundation
+  7.04s  INFO Compiled [161/226]: memmap2
+  7.07s  INFO Compiled [162/226]: half
+  7.09s  INFO Compiled [163/226]: fdeflate
+  7.16s  INFO Compiled [164/226]: num_conv
+  7.20s  INFO Compiled [165/226]: lazy_static
+  7.29s  INFO Compiled [166/226]: keyboard_types
+  7.32s  INFO Compiled [167/226]: build-script-build
+  7.42s  INFO Compiled [168/226]: time_core
+  7.49s  INFO Compiled [169/226]: futures_core
+  7.58s  INFO Compiled [170/226]: objc2_app_kit
+  7.62s  INFO Compiled [171/226]: static_assertions
+  7.76s  INFO Compiled [172/226]: powerfmt
+  7.81s  INFO Compiled [173/226]: deranged
+  8.04s  INFO Compiled [174/226]: futures_intrusive
+  8.38s  INFO Compiled [176/226]: matchers
+  8.71s  INFO Compiled [177/226]: sharded_slab
+  8.86s  INFO Compiled [178/226]: icu_locale_core
+  9.01s  INFO Compiled [179/226]: metal
+  9.23s  INFO Compiled [180/226]: time
+  9.67s  INFO Compiled [181/226]: regex_syntax
+  9.77s  INFO Compiled [182/226]: ui_events
+ 11.31s  INFO Compiled [183/226]: png
+ 11.48s  INFO Compiled [184/226]: vello_encoding
+ 11.60s  INFO Compiled [185/226]: fontique
+ 11.71s  INFO Compiled [186/226]: naga
+ 11.79s  INFO Compiled [187/226]: core_graphics
+ 11.84s  INFO Compiled [188/226]: tracing_log
+ 11.99s  INFO Compiled [189/226]: thread_local
+ 12.00s  INFO Compiled [190/226]: regex_automata
+ 12.03s  INFO Compiled [191/226]: anymore
+ 12.17s  INFO Compiled [192/226]: nu_ansi_term
+ 12.18s  INFO Compiled [193/226]: smol_str
+ 12.24s  INFO Compiled [194/226]: build-script-build
+ 12.80s  INFO Compiled [196/226]: wgpu_core_deps_apple
+ 13.83s  INFO Compiled [197/226]: parley
+ 14.30s  INFO Compiled [198/226]: swash
+ 14.44s  INFO Compiled [199/226]: tree_arena
+ 14.81s  INFO Compiled [200/226]: vello_shaders
+ 14.89s  INFO Compiled [201/226]: anymap3
+ 15.09s  INFO Compiled [202/226]: wgpu_hal
+ 15.24s  INFO Compiled [203/226]: winit
+ 15.30s  INFO Compiled [204/226]: ui_events_winit
+ 15.33s  INFO Compiled [205/226]: accesskit_winit
+ 15.42s  INFO Compiled [206/226]: pollster
+ 15.44s  INFO Compiled [207/226]: copypasta
+ 15.89s  INFO Compiled [208/226]: tracing_subscriber
+ 16.06s  INFO Compiled [209/226]: xilem_core
+ 16.11s  INFO Compiled [210/226]: read_fonts
+ 16.17s  INFO Compiled [211/226]: accesskit_consumer
+ 16.36s  INFO Compiled [212/226]: accesskit_macos
+ 16.53s  INFO Compiled [213/226]: read_fonts
+ 16.77s  INFO Compiled [214/226]: skrifa
+ 17.04s  INFO Compiled [215/226]: skrifa
+ 17.24s  INFO Compiled [216/226]: harfrust
+ 17.84s  INFO Compiled [217/226]: tokio
+ 19.95s  INFO Compiled [218/226]: naga
+ 20.02s  INFO Compiled [219/226]: wgpu
+ 20.37s  INFO Compiled [220/226]: vello
+ 21.16s  INFO Compiled [221/226]: wgpu_core
+ 21.64s  INFO Compiled [222/226]: masonry_core
+ 21.72s  INFO Compiled [223/226]: masonry_winit
+ 22.38s  INFO Compiled [224/226]: xilem
+ 22.45s  INFO Compiled [225/226]: masonry
+ 23.83s  INFO Compiled [226/226]: xilem-app
+ 23.84s  INFO Bundling app...
+ 23.85s  INFO Running package bundler...
+ 23.85s  INFO Creating macOS .app bundle at /Users/mpl4/Desktop/workspace/self_learning/rust/gui-ecosystem-research/apps/xilem-app/target/dx/xilem-app/bundle/macos/macos/XilemApp.app
+ 23.85s  INFO Copying existing .icns file: /Users/mpl4/Desktop/workspace/self_learning/rust/gui-ecosystem-research/apps/xilem-app/icon.icns
+ 23.86s  INFO Creating DMG at /Users/mpl4/Desktop/workspace/self_learning/rust/gui-ecosystem-research/apps/xilem-app/target/dx/xilem-app/bundle/macos/macos/XilemApp_0.1.0_aarch64.dmg
+created: /Users/mpl4/Desktop/workspace/self_learning/rust/gui-ecosystem-research/apps/xilem-app/target/dx/xilem-app/bundle/macos/macos/XilemApp_0.1.0_aarch64.dmg
+ 27.90s  INFO DMG created at /Users/mpl4/Desktop/workspace/self_learning/rust/gui-ecosystem-research/apps/xilem-app/target/dx/xilem-app/bundle/macos/macos/XilemApp_0.1.0_aarch64.dmg
+ 27.90s  INFO Bundled: /Users/mpl4/Desktop/workspace/self_learning/rust/gui-ecosystem-research/apps/xilem-app/target/dx/xilem-app/bundle/macos/macos/XilemApp.app
+ 27.90s  INFO Bundled: /Users/mpl4/Desktop/workspace/self_learning/rust/gui-ecosystem-research/apps/xilem-app/target/dx/xilem-app/bundle/macos/macos/XilemApp_0.1.0_aarch64.dmg
+Bundled 2 bundles:
+/Users/mpl4/Desktop/workspace/self_learning/rust/gui-ecosystem-research/apps/xilem-app/target/dx/xilem-app/bundle/macos/macos/XilemApp.app
+/Users/mpl4/Desktop/workspace/self_learning/rust/gui-ecosystem-research/apps/xilem-app/target/dx/xilem-app/bundle/macos/macos/XilemApp_0.1.0_aarch64.dmg
+real 27.92
+user 217.83
+sys 9.90

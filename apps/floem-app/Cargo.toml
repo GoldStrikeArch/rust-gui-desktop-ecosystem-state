@@ -1,0 +1,32 @@
+# DEVIATION from the "=x.y.z crates.io pin" rule (SPEC.md): Floem's latest
+# crates.io release is 0.2.0 (Nov 2024) — 20 months stale at the time of this
+# experiment and missing most of the current API (typed event listeners,
+# parley text stack, taffy 0.9 grid, understory box tree...). The maintainers
+# recommend building against `main`, and `main` CANNOT be published to
+# crates.io because it depends on a forked winit (`floem-winit`) via git.
+# We therefore pin a git dependency at a fixed rev (2026-06-21) so the
+# measurement is still reproducible. This unpublishable-main situation is
+# itself a research finding.
+#
+# Default features are kept: they include the `vger` GPU renderer (with a
+# tiny-skia software fallback always compiled in), the Lapce `editor` core,
+# `serde`, and jpeg/png/ico/webp image decoding. Nothing in SPEC.md needs
+# more, and trimming features (e.g. dropping `editor`) would deviate from the
+# out-of-the-box profile every other framework was measured with.
+#
+# No helper crates: every SPEC.md requirement maps onto stock floem views.
+
+[package]
+name = "floem-app"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+floem = { git = "https://github.com/lapce/floem", rev = "778bb5f2aa08429e579ee2e6ac97e84fbf18b618" }
+
+# Packaging experiment (iteration 3): minimal cargo-bundle config.
+# icon.icns copied from apps/iced-app/icon.icns (same source artwork).
+[package.metadata.bundle]
+name = "Floem Tasks"
+identifier = "org.rcn.floemapp"
+icon = ["icon.icns"]

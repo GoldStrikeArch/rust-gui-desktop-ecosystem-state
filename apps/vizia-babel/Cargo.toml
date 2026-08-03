@@ -1,0 +1,25 @@
+[package]
+name = "vizia-babel"
+version = "0.1.0"
+edition = "2024"
+
+# Same pinned version as iteration 1 (apps/vizia-app). Default features only
+# — `["winit", "clipboard", "x11", "wayland", "markdown", "accesskit"]`:
+#   * `winit`     — desktop windowing backend.
+#   * `clipboard` — the copy/paste round-trip SPEC-5 asks for in the editing
+#                   pane; genuinely used here.
+#   * `x11`/`wayland` — Linux-only, no-ops on macOS.
+#   * `markdown`  — default-on; unused here.
+#   * `accesskit` — default-on; also what exposes the text to VoiceOver.
+# No text/i18n helper crates: vizia's text stack is Skia's `SkParagraph`
+# (`skia-safe` with the `textlayout` feature) plus CoreText's system font
+# manager, so shaping, BiDi and per-script fallback come from the platform.
+# Nothing is bundled.
+[dependencies]
+vizia = "=0.4.0"
+
+# Verification only (the BABEL_SELFTEST probes): grapheme-cluster counts for
+# the corpus lines and the ZWJ family emoji. Already present in vizia's own
+# dependency tree (vizia_core uses it for `EditableText`), so declaring it
+# directly adds nothing to the build.
+unicode-segmentation = "1"

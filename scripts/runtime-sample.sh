@@ -46,8 +46,8 @@ for app in "${apps[@]}"; do
   normalized_apps+=("$app")
 done
 apps=("${normalized_apps[@]}")
-if ((using_defaults && ${#apps[@]} != 7)); then
-  echo "expected seven dashboard apps, found ${#apps[@]}" >&2
+if ((using_defaults && ${#apps[@]} != 10)); then
+  echo "expected ten dashboard apps, found ${#apps[@]}" >&2
   exit 1
 fi
 

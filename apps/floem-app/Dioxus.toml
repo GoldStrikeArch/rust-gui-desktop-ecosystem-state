@@ -1,0 +1,4 @@
+[bundle]
+identifier = "org.rcn.floemapp"
+publisher = "RCN Research"
+icon = ["icon.icns"]

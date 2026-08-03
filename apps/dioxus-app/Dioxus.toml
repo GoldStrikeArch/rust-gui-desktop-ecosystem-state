@@ -1,0 +1,4 @@
+[bundle]
+identifier = "org.rcn.dioxusapp"
+publisher = "RCN Research"
+icon = ["icon.icns"]

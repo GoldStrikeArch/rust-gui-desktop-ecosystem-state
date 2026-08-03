@@ -1,0 +1,17 @@
+[package]
+name = "freya-babel"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+# Same pinned version as iteration 1 (apps/freya-app). Default features only.
+#
+# No text/i18n helper crates: Freya renders text through Skia's
+# `skia_safe::textlayout` (HarfBuzz shaping + ICU BiDi + SkFontMgr system font
+# discovery with per-script fallback), and `freya-edit` (ropey +
+# unicode-segmentation) provides the editing model. Nothing had to be bundled.
+freya = "=0.4.0"
+
+# Freya's executor has no timer; the scripted screenshot/scroll delay needs one.
+# Verification-only.
+async-io = "2.6.0"

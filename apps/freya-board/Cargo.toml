@@ -1,0 +1,13 @@
+[package]
+name = "freya-board"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+# Same pinned version as iteration 1 (apps/freya-app). Default features only:
+# everything SPEC-3 needs is first-party — `DragZone`/`DropZone` for the
+# cross-column drag-and-drop, `ScrollView` for the independently scrolling
+# columns, `Input` for the inline editors, and `freya::animation` (always
+# compiled, not feature-gated) for the drop transition. No `engine` feature is
+# needed because nothing here draws to the raw Skia canvas.
+freya = "=0.4.0"

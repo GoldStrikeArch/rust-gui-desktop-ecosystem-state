@@ -22,7 +22,7 @@ Two questions drove this work:
 - **[report/20-how-to-build.md](report/20-how-to-build.md)** — the decision
   guide (decision tree, paradigm tradeoff ledger, shipping steps).
 - **[report/10-empirical-results.md](report/10-empirical-results.md)** — one
-  identical app built in 7 frameworks: build times, binary sizes, dep trees,
+  identical app built in 10 frameworks: build times, binary sizes, dep trees,
   overlap analysis.
 - `dashboard.html` — shareable one-page summary of all of the above.
 
@@ -37,17 +37,30 @@ Two questions drove this work:
 | [report/05-linebender.md](report/05-linebender.md) | xilem / Linebender stack | 0.4.0 |
 | [report/06-slint.md](report/06-slint.md) | Slint | 1.17.1 |
 | [report/07-dioxus.md](report/07-dioxus.md) | Dioxus (+ Blitz) | 0.7.9 |
+| *(deep dive pending)* | Freya | 0.4.0 |
+| *(deep dive pending)* | Vizia | 0.4.0 |
+| *(deep dive pending)* | Floem | git-778bb5f2¹ |
+
+¹ Floem's crates.io release (0.2.0, Nov 2024) is 20 months stale and
+API-incompatible with current documentation; upstream recommends `main`, which
+cannot be published because it depends on a forked winit. The cohort therefore
+pins git rev `778bb5f2aa08429e579ee2e6ac97e84fbf18b618` — a research finding in
+itself.
 
 `report/data/stack-rows.md` holds the raw structured comparison rows returned
 by each research agent.
 
-## The experiments (56 apps + packaging round)
+## The experiments (80 apps + packaging round)
 
 Eight specs, each implemented as an **independent crate per framework** with
-pinned versions. All 56 produced release binaries, survived the central
-eight-second launch check on macOS, and exposed a visible window in the
-retained 2026-07-10 audit. Capability-level interaction evidence still varies
-by app as documented in the FRICTION/GAPS files and evidence manifest:
+pinned versions — 10 frameworks × 8 specs = 80 apps. The original 56 produced
+release binaries, survived the central eight-second launch check on macOS, and
+exposed a visible window in the retained 2026-07-10 audit. The 24 apps added in
+the **2026-08-03 expansion round** (Freya, Vizia, Floem) build `--locked` on
+the same pinned toolchain and pass their per-spec self-tests; their full
+launch/window audit lands with the next complete cohort run. Capability-level
+interaction evidence varies by app as documented in the FRICTION/GAPS files
+and evidence manifest:
 
 - `apps/SPEC.md` — "Tasks" todo app (forms/lists baseline) → `apps/<fw>-app/`
   with `GAPS.md` per app.
@@ -74,7 +87,7 @@ by app as documented in the FRICTION/GAPS files and evidence manifest:
   server in `tools/fetcher-server/` (debounce, stale protection, streamed
   progress, server-verified cancellation) → `apps/<fw>-fetch/`.
 
-Plus a **packaging round**: all seven todo apps bundled into ad-hoc-signed
+Plus a **packaging round**: the todo apps bundled into ad-hoc-signed
 `.app` + `.dmg` artifacts under `dist/` —
 [report/14-packaging-results.md](report/14-packaging-results.md).
 Results for the later rounds:
@@ -93,14 +106,14 @@ Round-4 results:
 Reproduce the measurements:
 
 ```sh
-./measure.sh --round iter1      # seven todo apps → timestamped rerun CSV
+./measure.sh --round iter1      # ten todo apps → timestamped rerun CSV
 ./measure.sh --round iter2      # dashboard + board → timestamped rerun CSV
 ./measure.sh --round iter3      # tray + Babel → timestamped rerun CSV
 ./measure.sh --round iter4      # Peek + Grid + Fetcher → timestamped rerun CSV
 ./scripts/runtime-sample.sh     # new dashboard CPU/RSS summary + raw-sample sibling
-python3 scripts/overlap.py --round iter1  # seven-todo dependency overlap
+python3 scripts/overlap.py --round iter1  # todo-app dependency overlap
 ./scripts/verify-iter3.sh       # serial window/self-test evidence for tray+Babel
-./scripts/verify-windows.sh     # serial visible-window evidence for all 56 apps
+./scripts/verify-windows.sh     # serial visible-window evidence for all 80 apps
 ./scripts/sync-benchmark-tables.py --check  # detect report/dashboard drift
 ./scripts/generate-evidence-manifest.py --check  # verify artifact provenance hashes
 ```
@@ -145,9 +158,11 @@ sustainability: [report/30-primer.md](report/30-primer.md),
    framework-side renderer families** targeting a mix of wgpu, platform GPU
    APIs, OpenGL/Skia, and software paths; 3 windowing layers (winit / tao fork /
    gpui); widgets and styling re-implemented everywhere.
-3. **These small baseline apps built quickly on the test machine**: all seven
-   clean-built in 22–56 s on the M4 Pro with warm registries and empty target
-   directories, then rebuilt in 1–4 s. This is not a general large-app ranking.
+3. **These small baseline apps built quickly on the test machine**: the
+   original seven clean-built in 22–56 s on the M4 Pro with warm registries and
+   empty target directories, then rebuilt in 1–4 s; the 2026-08-03 expansion
+   round's measurements are recorded in `measurements/reruns/`. This is not a
+   general large-app ranking.
 4. The shared foundation has high **recent author concentration**, while its
    support ranges from employers and time-bounded grants through umbrella or
    personal funding to no public source found. Sustainability remains a major

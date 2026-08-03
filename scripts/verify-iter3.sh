@@ -88,10 +88,10 @@ printf 'timestamp_utc\tapp\tcapability\tbuild_status\tpid\tprocess_survived_8s\t
 
 apps=()
 if [[ "$ROUND" == tray || "$ROUND" == all ]]; then
-  apps+=(iced-tray egui-tray gpui-tray tauri-tray xilem-tray slint-tray dioxus-tray)
+  apps+=(iced-tray egui-tray gpui-tray tauri-tray xilem-tray slint-tray dioxus-tray freya-tray vizia-tray floem-tray)
 fi
 if [[ "$ROUND" == babel || "$ROUND" == all ]]; then
-  apps+=(iced-babel egui-babel gpui-babel tauri-babel xilem-babel slint-babel dioxus-babel)
+  apps+=(iced-babel egui-babel gpui-babel tauri-babel xilem-babel slint-babel dioxus-babel freya-babel vizia-babel floem-babel)
 fi
 
 for app in "${apps[@]}"; do
@@ -121,11 +121,11 @@ for app in "${apps[@]}"; do
   hook=none
   env_args=()
   case "$app" in
-    iced-babel|tauri-babel)
+    iced-babel|tauri-babel|freya-babel|vizia-babel|floem-babel)
       hook=BABEL_SELFTEST
       env_args+=(BABEL_SELFTEST=1)
       ;;
-    dioxus-tray|tauri-tray)
+    dioxus-tray|tauri-tray|freya-tray|vizia-tray|floem-tray)
       hook=TRAY_SELFTEST
       env_args+=(TRAY_SELFTEST=1)
       ;;

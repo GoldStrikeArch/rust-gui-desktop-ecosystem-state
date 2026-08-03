@@ -1,0 +1,5 @@
+   Compiling vizia-app v0.1.0 (/Users/mpl4/Desktop/workspace/self_learning/rust/gui-ecosystem-research/apps/vizia-app)
+    Finished `release` profile [optimized] target(s) in 1.23s
+real 1.25
+user 5.71
+sys 0.26

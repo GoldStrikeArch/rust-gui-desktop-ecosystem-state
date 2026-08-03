@@ -1,0 +1,28 @@
+[package]
+name = "freya-peek"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+# Same pinned version as iteration 1 (apps/freya-app), plus two features that
+# turn out to cover most of SPEC-6 first-party:
+# - `camera`: re-exports `freya-camera`, which wraps **nokhwa 0.10**
+#   (`input-native` = AVFoundation on macOS) behind a `use_camera` hook and a
+#   `CameraViewer` component. The frame → `ImageHandle` → element path is the
+#   framework's, not the app's.
+# - `engine`: names the Skia `AlphaType` used when building an `ImageHandle`
+#   from raw RGBA (the synthetic-camera verification hook).
+# `ImageViewer` + `ImageSource::Path` (default features) handle the gallery:
+# async load, decode-to-layout-size and caching are built in.
+freya = { version = "=0.4.0", features = ["camera", "engine"] }
+
+# Mic input (RMS meter). 0.17.3 matches the version rodio 0.22.2 pins, so the
+# CoreAudio binding stack is deduped instead of compiled twice.
+cpal = "=0.17.3"
+
+# Audio out (beep). 0.22 is the current API generation (DeviceSinkBuilder).
+rodio = "0.22.2"
+
+# Freya's executor has no timer; the fps counter, the 20 Hz VU sampler and the
+# self-test's 1 Hz log line all need one.
+async-io = "2.6.0"

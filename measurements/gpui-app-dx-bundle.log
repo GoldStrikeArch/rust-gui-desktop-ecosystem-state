@@ -1,0 +1,577 @@
+  0.00s  INFO Bundling project...
+  1.06s  INFO Compiled [  1/630]: cfg_if
+  1.07s  INFO Compiled [  2/630]: unicode_ident
+  1.09s  INFO Compiled [  3/630]: pin_project_lite
+  1.16s  INFO Compiled [  4/630]: futures_core
+  1.18s  INFO Compiled [  5/630]: build-script-build
+  1.18s  INFO Compiled [  6/630]: build-script-build
+  1.19s  INFO Compiled [  7/630]: build-script-build
+  1.22s  INFO Compiled [  8/630]: bitflags
+  1.22s  INFO Compiled [  9/630]: build-script-build
+  1.23s  INFO Compiled [ 10/630]: build-script-build
+  1.24s  INFO Compiled [ 11/630]: build-script-build
+  1.24s  INFO Compiled [ 12/630]: autocfg
+  1.24s  INFO Compiled [ 13/630]: build-script-build
+  1.25s  INFO Compiled [ 14/630]: build-script-build
+  1.28s  INFO Compiled [ 15/630]: futures_io
+  1.33s  INFO Compiled [ 16/630]: memchr
+  1.34s  INFO Compiled [ 17/630]: version_check
+  1.36s  INFO Compiled [ 19/630]: build-script-build
+  1.39s  INFO Compiled [ 20/630]: slab
+  1.41s  INFO Compiled [ 21/630]: core_foundation_sys
+  1.43s  INFO Compiled [ 22/630]: memchr
+  1.43s  INFO Compiled [ 23/630]: arrayvec
+  1.44s  INFO Compiled [ 24/630]: stable_deref_trait
+  1.45s  INFO Compiled [ 25/630]: cfg_aliases
+  1.48s  INFO Compiled [ 26/630]: cfg_if
+  1.50s  INFO Compiled [ 27/630]: parking
+  1.52s  INFO Compiled [ 28/630]: smallvec
+  1.54s  INFO Compiled [ 29/630]: build-script-build
+  1.56s  INFO Compiled [ 30/630]: build-script-build
+  1.58s  INFO Compiled [ 31/630]: find_msvc_tools
+  1.58s  INFO Compiled [ 32/630]: shlex
+  1.62s  INFO Compiled [ 34/630]: typeid
+  1.64s  INFO Compiled [ 35/630]: once_cell
+  1.67s  INFO Compiled [ 36/630]: simd_adler32
+  1.72s  INFO Compiled [ 37/630]: adler2
+  1.72s  INFO Compiled [ 38/630]: fastrand
+  1.77s  INFO Compiled [ 39/630]: build-script-build
+  1.87s  INFO Compiled [ 41/630]: futures_sink
+  1.88s  INFO Compiled [ 42/630]: build-script-build
+  1.91s  INFO Compiled [ 43/630]: atomic_waker
+  1.91s  INFO Compiled [ 44/630]: equivalent
+  1.99s  INFO Compiled [ 45/630]: hashbrown
+  2.03s  INFO Compiled [ 46/630]: build-script-build
+  2.09s  INFO Compiled [ 47/630]: cc
+  2.30s  INFO Compiled [ 49/630]: futures_lite
+  2.54s  INFO Compiled [ 52/630]: proc_macro2
+  2.63s  INFO Compiled [ 54/630]: aho_corasick
+  2.64s  INFO Compiled [ 55/630]: quote
+  2.65s  INFO Compiled [ 56/630]: bytes
+  2.68s  INFO Compiled [ 57/630]: miniz_oxide
+  2.71s  INFO Compiled [ 58/630]: log
+  2.75s  INFO Compiled [ 59/630]: build-script-build
+  2.81s  INFO Compiled [ 60/630]: itoa
+  2.84s  INFO Compiled [ 61/630]: build-script-build
+  2.87s  INFO Compiled [ 63/630]: crossbeam_utils
+  2.89s  INFO Compiled [ 64/630]: concurrent_queue
+  2.95s  INFO Compiled [ 65/630]: either
+  2.97s  INFO Compiled [ 66/630]: serde_core
+  3.00s  INFO Compiled [ 67/630]: event_listener
+  3.03s  INFO Compiled [ 68/630]: serde_fmt
+  3.07s  INFO Compiled [ 69/630]: event_listener_strategy
+  3.17s  INFO Compiled [ 70/630]: futures_channel
+  3.19s  INFO Compiled [ 72/630]: libm
+  3.19s  INFO Compiled [ 73/630]: libc
+  3.20s  INFO Compiled [ 74/630]: value_bag_serde1
+  3.21s  INFO Compiled [ 75/630]: erased_serde
+  3.25s  INFO Compiled [ 76/630]: errno
+  3.33s  INFO Compiled [ 77/630]: heck
+  3.33s  INFO Compiled [ 78/630]: indexmap
+  3.38s  INFO Compiled [ 79/630]: core_foundation
+  3.48s  INFO Compiled [ 81/630]: build-script-build
+  3.48s  INFO Compiled [ 82/630]: regex_syntax
+  3.51s  INFO Compiled [ 83/630]: num_traits
+  3.52s  INFO Compiled [ 84/630]: value_bag
+  3.53s  INFO Compiled [ 85/630]: build-script-build
+  3.53s  INFO Compiled [ 86/630]: log
+  3.58s  INFO Compiled [ 87/630]: libc
+  3.59s  INFO Compiled [ 88/630]: build-script-build
+  3.61s  INFO Compiled [ 89/630]: equivalent
+  3.63s  INFO Compiled [ 90/630]: build-script-build
+  3.67s  INFO Compiled [ 92/630]: futures_task
+  3.73s  INFO Compiled [ 93/630]: build-script-build
+  3.79s  INFO Compiled [ 95/630]: build-script-build
+  3.80s  INFO Compiled [ 96/630]: build-script-build
+  3.86s  INFO Compiled [ 97/630]: crc32fast
+  3.87s  INFO Compiled [ 98/630]: socket2
+  3.87s  INFO Compiled [ 99/630]: build-script-build
+  3.91s  INFO Compiled [100/630]: mio
+  4.00s  INFO Compiled [101/630]: hashbrown
+  4.07s  INFO Compiled [103/630]: synstructure
+  4.08s  INFO Compiled [104/630]: flate2
+  4.34s  INFO Compiled [106/630]: regex_automata
+  4.41s  INFO Compiled [107/630]: serde_core
+  4.45s  INFO Compiled [109/630]: crossbeam_epoch
+  4.49s  INFO Compiled [110/630]: syn
+  4.52s  INFO Compiled [111/630]: bitflags
+  4.52s  INFO Compiled [112/630]: build-script-build
+  4.67s  INFO Compiled [114/630]: indexmap
+  5.00s  INFO Compiled [116/630]: zerofrom_derive
+  5.01s  INFO Compiled [117/630]: thiserror_impl
+  5.05s  INFO Compiled [118/630]: yoke_derive
+  5.27s  INFO Compiled [120/630]: zerocopy_derive
+  5.33s  INFO Compiled [121/630]: displaydoc
+  5.35s  INFO Compiled [122/630]: zerovec_derive
+  5.46s  INFO Compiled [124/630]: futures_macro
+  5.47s  INFO Compiled [125/630]: bytemuck_derive
+  5.49s  INFO Compiled [126/630]: async_task
+  5.60s  INFO Compiled [127/630]: typenum
+  5.61s  INFO Compiled [128/630]: polling
+  5.62s  INFO Compiled [129/630]: glob
+  5.64s  INFO Compiled [130/630]: serde_derive
+  5.69s  INFO Compiled [132/630]: rustix
+  5.70s  INFO Compiled [133/630]: build-script-build
+  5.76s  INFO Compiled [134/630]: build-script-build
+  5.84s  INFO Compiled [135/630]: crossbeam_deque
+  5.84s  INFO Compiled [136/630]: rustversion
+  5.92s  INFO Compiled [137/630]: async_channel
+  5.96s  INFO Compiled [139/630]: anyhow
+  6.08s  INFO Compiled [140/630]: piper
+  6.12s  INFO Compiled [142/630]: build-script-build
+  6.15s  INFO Compiled [143/630]: generic_array
+  6.18s  INFO Compiled [144/630]: zeroize
+  6.20s  INFO Compiled [145/630]: zerofrom
+  6.25s  INFO Compiled [146/630]: build-script-build
+  6.35s  INFO Compiled [147/630]: typenum
+  6.39s  INFO Compiled [148/630]: build-script-build
+  6.42s  INFO Compiled [149/630]: litemap
+  6.45s  INFO Compiled [150/630]: thiserror
+  6.46s  INFO Compiled [151/630]: rustc_hash
+  6.48s  INFO Compiled [152/630]: writeable
+  6.49s  INFO Compiled [153/630]: objc2_encode
+  6.52s  INFO Compiled [154/630]: async_io
+  6.68s  INFO Compiled [155/630]: generic_array
+  6.79s  INFO Compiled [156/630]: bytemuck
+  6.86s  INFO Compiled [157/630]: rustls_pki_types
+  6.91s  INFO Compiled [158/630]: blocking
+  7.13s  INFO Compiled [159/630]: foreign_types_macros
+  7.37s  INFO Compiled [161/630]: equator_macro
+  7.40s  INFO Compiled [162/630]: serde
+  7.69s  INFO Compiled [164/630]: async_lock
+  7.92s  INFO Compiled [165/630]: yoke
+  7.97s  INFO Compiled [166/630]: futures_util
+  8.06s  INFO Compiled [167/630]: objc2
+  8.09s  INFO Compiled [168/630]: foreign_types_shared
+  8.14s  INFO Compiled [169/630]: utf8_iter
+  8.23s  INFO Compiled [171/630]: http
+  8.26s  INFO Compiled [172/630]: build-script-build
+  8.27s  INFO Compiled [173/630]: build-script-build
+  8.31s  INFO Compiled [174/630]: minimal_lexical
+  8.35s  INFO Compiled [175/630]: build-script-build
+  8.36s  INFO Compiled [176/630]: build-script-build
+  8.39s  INFO Compiled [178/630]: rayon_core
+  8.41s  INFO Compiled [179/630]: tokio
+  8.42s  INFO Compiled [180/630]: build-script-build
+  8.91s  INFO Compiled [181/630]: nom
+  9.16s  INFO Compiled [183/630]: serde
+  9.45s  INFO Compiled [185/630]: strum_macros
+  9.49s  INFO Compiled [186/630]: block_buffer
+  9.53s  INFO Compiled [187/630]: crypto_common
+  9.74s  INFO Compiled [188/630]: zerovec
+  9.85s  INFO Compiled [189/630]: tinystr
+  9.95s  INFO Compiled [191/630]: zerotrie
+  9.95s  INFO Compiled [192/630]: thiserror_impl
+  9.99s  INFO Compiled [193/630]: potential_utf
+ 10.13s  INFO Compiled [195/630]: getrandom
+ 10.15s  INFO Compiled [196/630]: num_integer
+ 10.18s  INFO Compiled [197/630]: signal_hook_registry
+ 10.31s  INFO Compiled [198/630]: icu_collections
+ 10.31s  INFO Compiled [199/630]: core_foundation
+ 10.37s  INFO Compiled [201/630]: libloading
+ 10.48s  INFO Compiled [203/630]: build-script-build
+ 10.53s  INFO Compiled [204/630]: either
+ 10.56s  INFO Compiled [205/630]: untrusted
+ 10.58s  INFO Compiled [206/630]: icu_provider
+ 10.61s  INFO Compiled [207/630]: build-script-build
+ 10.63s  INFO Compiled [208/630]: bitflags
+ 10.65s  INFO Compiled [209/630]: tracing_core
+ 10.66s  INFO Compiled [210/630]: build-script-build
+ 10.97s  INFO Compiled [212/630]: foreign_types
+ 11.02s  INFO Compiled [213/630]: itertools
+ 11.20s  INFO Compiled [215/630]: icu_locale_core
+ 11.22s  INFO Compiled [216/630]: paste
+ 11.28s  INFO Compiled [217/630]: equator
+ 11.37s  INFO Compiled [218/630]: aligned_vec
+ 11.86s  INFO Compiled [220/630]: zmij
+ 11.90s  INFO Compiled [221/630]: object
+ 11.94s  INFO Compiled [222/630]: icu_normalizer_data
+ 12.01s  INFO Compiled [223/630]: tracing
+ 12.08s  INFO Compiled [225/630]: icu_properties_data
+ 12.16s  INFO Compiled [226/630]: digest
+ 12.17s  INFO Compiled [227/630]: async_signal
+ 12.48s  INFO Compiled [229/630]: cexpr
+ 12.57s  INFO Compiled [231/630]: http_body
+ 12.60s  INFO Compiled [232/630]: aho_corasick
+ 12.63s  INFO Compiled [233/630]: block_buffer
+ 12.65s  INFO Compiled [234/630]: crypto_common
+ 12.66s  INFO Compiled [235/630]: clang_sys
+ 12.77s  INFO Compiled [236/630]: prettyplease
+ 12.78s  INFO Compiled [237/630]: thiserror
+ 12.84s  INFO Compiled [238/630]: cpufeatures
+ 12.98s  INFO Compiled [239/630]: zerocopy
+ 12.98s  INFO Compiled [240/630]: objc2_core_foundation
+ 13.02s  INFO Compiled [241/630]: regex
+ 13.05s  INFO Compiled [242/630]: malloc_buf
+ 13.08s  INFO Compiled [243/630]: async_executor
+ 13.17s  INFO Compiled [244/630]: build-script-build
+ 13.18s  INFO Compiled [245/630]: euclid
+ 13.24s  INFO Compiled [247/630]: same_file
+ 13.24s  INFO Compiled [248/630]: pin_project_internal
+ 13.25s  INFO Compiled [249/630]: build-script-build
+ 13.26s  INFO Compiled [250/630]: half
+ 13.27s  INFO Compiled [251/630]: tokio_util
+ 13.28s  INFO Compiled [252/630]: bstr
+ 13.31s  INFO Compiled [253/630]: block
+ 13.32s  INFO Compiled [254/630]: try_lock
+ 13.32s  INFO Compiled [255/630]: same_file
+ 13.32s  INFO Compiled [256/630]: shlex
+ 13.33s  INFO Compiled [257/630]: fnv
+ 13.33s  INFO Compiled [258/630]: itoa
+ 13.35s  INFO Compiled [259/630]: ring
+ 13.42s  INFO Compiled [260/630]: build-script-build
+ 13.43s  INFO Compiled [261/630]: want
+ 13.44s  INFO Compiled [262/630]: build-script-build
+ 13.46s  INFO Compiled [263/630]: semver
+ 13.53s  INFO Compiled [264/630]: rayon
+ 13.54s  INFO Compiled [265/630]: rustc_version
+ 13.78s  INFO Compiled [267/630]: walkdir
+ 13.81s  INFO Compiled [268/630]: globset
+ 13.83s  INFO Compiled [269/630]: serde_json
+ 13.88s  INFO Compiled [270/630]: walkdir
+ 14.05s  INFO Compiled [272/630]: sha2
+ 14.08s  INFO Compiled [273/630]: objc
+ 14.15s  INFO Compiled [274/630]: digest
+ 14.19s  INFO Compiled [275/630]: num_bigint
+ 14.27s  INFO Compiled [277/630]: libm
+ 14.47s  INFO Compiled [278/630]: pin_project
+ 14.51s  INFO Compiled [279/630]: httparse
+ 14.63s  INFO Compiled [280/630]: regex_syntax
+ 14.76s  INFO Compiled [281/630]: v_frame
+ 14.87s  INFO Compiled [283/630]: num_rational
+ 14.88s  INFO Compiled [284/630]: toml_datetime
+ 14.93s  INFO Compiled [285/630]: serde_spanned
+ 14.95s  INFO Compiled [286/630]: block2
+ 14.97s  INFO Compiled [287/630]: ar_archive_writer
+ 14.99s  INFO Compiled [288/630]: icu_properties
+ 15.00s  INFO Compiled [289/630]: async_process
+ 15.01s  INFO Compiled [290/630]: icu_normalizer
+ 15.02s  INFO Compiled [291/630]: errno
+ 15.05s  INFO Compiled [292/630]: core_graphics_types
+ 15.06s  INFO Compiled [293/630]: profiling_procmacros
+ 15.07s  INFO Compiled [294/630]: cpufeatures
+ 15.08s  INFO Compiled [296/630]: security_framework_sys
+ 15.10s  INFO Compiled [298/630]: core_maths
+ 15.14s  INFO Compiled [299/630]: as_slice
+ 15.22s  INFO Compiled [302/630]: unicase
+ 15.27s  INFO Compiled [303/630]: build-script-build
+ 15.31s  INFO Compiled [304/630]: tower_service
+ 15.33s  INFO Compiled [305/630]: once_cell
+ 15.34s  INFO Compiled [306/630]: percent_encoding
+ 15.40s  INFO Compiled [307/630]: subtle
+ 15.40s  INFO Compiled [308/630]: build-script-build
+ 15.46s  INFO Compiled [309/630]: float_cmp
+ 15.47s  INFO Compiled [310/630]: bstr
+ 15.52s  INFO Compiled [311/630]: build-script-build
+ 15.56s  INFO Compiled [312/630]: toml_write
+ 15.57s  INFO Compiled [313/630]: build-script-build
+ 15.62s  INFO Compiled [314/630]: fdeflate
+ 15.66s  INFO Compiled [315/630]: compression_core
+ 15.67s  INFO Compiled [316/630]: deflate64
+ 15.67s  INFO Compiled [317/630]: build-script-build
+ 15.69s  INFO Compiled [318/630]: build-script-build
+ 15.77s  INFO Compiled [319/630]: itertools
+ 15.78s  INFO Compiled [320/630]: build-script-build
+ 15.82s  INFO Compiled [321/630]: built
+ 15.84s  INFO Compiled [322/630]: build-script-build
+ 15.84s  INFO Compiled [323/630]: bindgen
+ 15.85s  INFO Compiled [324/630]: ryu
+ 15.85s  INFO Compiled [325/630]: build-script-build
+ 15.95s  INFO Compiled [326/630]: build-script-build
+ 15.98s  INFO Compiled [327/630]: objc2_foundation
+ 16.01s  INFO Compiled [328/630]: webpki
+ 16.03s  INFO Compiled [329/630]: compression_codecs
+ 16.06s  INFO Compiled [331/630]: strict_num
+ 16.31s  INFO Compiled [333/630]: winnow
+ 16.54s  INFO Compiled [335/630]: form_urlencoded
+ 16.70s  INFO Compiled [336/630]: build-script-build
+ 16.74s  INFO Compiled [338/630]: h2
+ 16.75s  INFO Compiled [339/630]: getrandom
+ 16.76s  INFO Compiled [340/630]: getrandom
+ 16.78s  INFO Compiled [341/630]: aligned
+ 16.93s  INFO Compiled [342/630]: zmij
+ 17.46s  INFO Compiled [345/630]: toml_edit
+ 17.66s  INFO Compiled [347/630]: regex_automata
+ 17.81s  INFO Compiled [349/630]: globset
+ 17.85s  INFO Compiled [350/630]: sha2
+ 17.88s  INFO Compiled [351/630]: idna_adapter
+ 17.89s  INFO Compiled [352/630]: build-script-build
+ 17.95s  INFO Compiled [354/630]: slotmap
+ 17.97s  INFO Compiled [355/630]: rust_embed_utils
+ 18.01s  INFO Compiled [356/630]: rustix
+ 18.10s  INFO Compiled [357/630]: build-script-build
+ 18.11s  INFO Compiled [358/630]: zerocopy
+ 18.19s  INFO Compiled [359/630]: num_traits
+ 18.20s  INFO Compiled [360/630]: profiling
+ 18.21s  INFO Compiled [361/630]: lyon_geom
+ 18.23s  INFO Compiled [362/630]: futures_executor
+ 18.28s  INFO Compiled [363/630]: ref_cast_impl
+ 18.32s  INFO Compiled [364/630]: no_std_io2
+ 18.41s  INFO Compiled [365/630]: build-script-build
+ 18.41s  INFO Compiled [366/630]: build-script-build
+ 18.42s  INFO Compiled [367/630]: arg_enum_proc_macro
+ 18.43s  INFO Compiled [368/630]: build-script-build
+ 18.45s  INFO Compiled [369/630]: leak
+ 18.49s  INFO Compiled [370/630]: event_listener
+ 18.56s  INFO Compiled [371/630]: build-script-build
+ 18.58s  INFO Compiled [372/630]: serde_derive_internals
+ 18.59s  INFO Compiled [373/630]: y4m
+ 18.60s  INFO Compiled [374/630]: arrayref
+ 18.62s  INFO Compiled [375/630]: bit_vec
+ 18.65s  INFO Compiled [376/630]: scopeguard
+ 18.67s  INFO Compiled [377/630]: build-script-build
+ 18.70s  INFO Compiled [378/630]: quick_error
+ 18.71s  INFO Compiled [379/630]: pastey
+ 18.73s  INFO Compiled [380/630]: unicode_width
+ 18.74s  INFO Compiled [381/630]: tinyvec_macros
+ 18.75s  INFO Compiled [382/630]: unicode_width
+ 18.76s  INFO Compiled [383/630]: termcolor
+ 18.76s  INFO Compiled [384/630]: bit_vec
+ 18.81s  INFO Compiled [385/630]: security_framework
+ 18.83s  INFO Compiled [386/630]: foldhash
+ 18.86s  INFO Compiled [387/630]: fastrand
+ 18.88s  INFO Compiled [388/630]: foldhash
+ 18.93s  INFO Compiled [389/630]: unicase
+ 18.93s  INFO Compiled [390/630]: termcolor
+ 19.00s  INFO Compiled [391/630]: bit_set
+ 19.01s  INFO Compiled [392/630]: tempfile
+ 19.03s  INFO Compiled [393/630]: base64
+ 19.08s  INFO Compiled [394/630]: hashbrown
+ 19.17s  INFO Compiled [395/630]: tinyvec
+ 19.20s  INFO Compiled [396/630]: hashbrown
+ 19.24s  INFO Compiled [397/630]: codespan_reporting
+ 19.29s  INFO Compiled [398/630]: lock_api
+ 19.37s  INFO Compiled [399/630]: bit_set
+ 19.41s  INFO Compiled [400/630]: objc2_quartz_core
+ 19.60s  INFO Compiled [402/630]: codespan_reporting
+ 19.63s  INFO Compiled [403/630]: leaky_cow
+ 19.75s  INFO Compiled [404/630]: ttf_parser
+ 19.85s  INFO Compiled [406/630]: nom
+ 19.87s  INFO Compiled [407/630]: objc2_metal
+ 19.90s  INFO Compiled [408/630]: av_scenechange
+ 19.93s  INFO Compiled [409/630]: async_channel
+ 19.95s  INFO Compiled [410/630]: schemars_derive
+ 20.03s  INFO Compiled [411/630]: tiny_skia_path
+ 20.08s  INFO Compiled [412/630]: hyper
+ 20.09s  INFO Compiled [413/630]: half
+ 20.12s  INFO Compiled [415/630]: futures
+ 20.15s  INFO Compiled [416/630]: bitstream_io
+ 20.30s  INFO Compiled [417/630]: lyon_path
+ 20.38s  INFO Compiled [419/630]: rust_embed_impl
+ 20.44s  INFO Compiled [420/630]: tokio_rustls
+ 20.47s  INFO Compiled [421/630]: hyper_util
+ 20.73s  INFO Compiled [423/630]: rust_embed_utils
+ 20.73s  INFO Compiled [424/630]: nix
+ 20.77s  INFO Compiled [425/630]: thiserror
+ 20.84s  INFO Compiled [426/630]: toml
+ 20.85s  INFO Compiled [427/630]: ref_cast
+ 20.88s  INFO Compiled [428/630]: system_configuration_sys
+ 21.01s  INFO Compiled [429/630]: parking_lot_core
+ 21.02s  INFO Compiled [430/630]: rustls_native_certs
+ 21.12s  INFO Compiled [431/630]: av1_grain
+ 21.15s  INFO Compiled [433/630]: maybe_rayon
+ 21.19s  INFO Compiled [434/630]: core_graphics_types
+ 21.23s  INFO Compiled [435/630]: rustix
+ 21.24s  INFO Compiled [436/630]: async_compression
+ 21.30s  INFO Compiled [437/630]: idna
+ 21.44s  INFO Compiled [438/630]: rgb
+ 21.45s  INFO Compiled [439/630]: core_graphics
+ 21.66s  INFO Compiled [442/630]: kv_log_macro
+ 21.67s  INFO Compiled [443/630]: cgl
+ 21.69s  INFO Compiled [444/630]: syn
+ 21.73s  INFO Compiled [445/630]: dirs_sys
+ 21.74s  INFO Compiled [446/630]: async_fs
+ 21.79s  INFO Compiled [447/630]: memmap2
+ 21.81s  INFO Compiled [448/630]: num_derive
+ 21.87s  INFO Compiled [449/630]: sync_wrapper
+ 21.87s  INFO Compiled [450/630]: proc_macro_error_attr2
+ 21.88s  INFO Compiled [451/630]: simd_helpers
+ 21.89s  INFO Compiled [453/630]: build-script-build
+ 21.92s  INFO Compiled [454/630]: option_ext
+ 21.93s  INFO Compiled [455/630]: rustc_hash
+ 21.95s  INFO Compiled [456/630]: unicode_ident
+ 21.96s  INFO Compiled [457/630]: hexf_parse
+ 21.96s  INFO Compiled [458/630]: tower_layer
+ 21.96s  INFO Compiled [459/630]: arrayvec
+ 21.97s  INFO Compiled [460/630]: waker_fn
+ 21.99s  INFO Compiled [461/630]: debug_unreachable
+ 21.99s  INFO Compiled [462/630]: rustc_hash
+ 22.06s  INFO Compiled [463/630]: imgref
+ 22.10s  INFO Compiled [464/630]: zune_core
+ 22.11s  INFO Compiled [465/630]: async_net
+ 22.17s  INFO Compiled [466/630]: unicode_ccc
+ 22.17s  INFO Compiled [467/630]: async_global_executor
+ 22.18s  INFO Compiled [468/630]: strum
+ 22.18s  INFO Compiled [469/630]: strum
+ 22.18s  INFO Compiled [470/630]: dtor_proc_macro
+ 22.19s  INFO Compiled [471/630]: home
+ 22.21s  INFO Compiled [472/630]: unicode_properties
+ 22.22s  INFO Compiled [473/630]: pin_utils
+ 22.22s  INFO Compiled [474/630]: mime
+ 22.25s  INFO Compiled [475/630]: rustc_hash
+ 22.25s  INFO Compiled [476/630]: hexf_parse
+ 22.26s  INFO Compiled [477/630]: unicode_bidi_mirroring
+ 22.27s  INFO Compiled [478/630]: unicode_script
+ 22.28s  INFO Compiled [479/630]: dyn_clone
+ 22.30s  INFO Compiled [480/630]: gpui_collections
+ 22.30s  INFO Compiled [481/630]: fastrand
+ 22.33s  INFO Compiled [482/630]: siphasher
+ 22.34s  INFO Compiled [483/630]: heck
+ 22.39s  INFO Compiled [484/630]: noop_proc_macro
+ 22.49s  INFO Compiled [485/630]: serde_json
+ 22.66s  INFO Compiled [486/630]: futures_lite
+ 22.84s  INFO Compiled [487/630]: weezl
+ 22.94s  INFO Compiled [488/630]: which
+ 23.11s  INFO Compiled [489/630]: dtor
+ 23.41s  INFO Compiled [490/630]: mime_guess
+ 23.46s  INFO Compiled [491/630]: svgtypes
+ 23.47s  INFO Compiled [492/630]: loop9
+ 23.55s  INFO Compiled [493/630]: dirs_sys
+ 23.67s  INFO Compiled [494/630]: tower
+ 23.75s  INFO Compiled [495/630]: kurbo
+ 23.87s  INFO Compiled [496/630]: zune_jpeg
+ 23.93s  INFO Compiled [497/630]: dirs
+ 24.12s  INFO Compiled [499/630]: hidden_trait
+ 24.15s  INFO Compiled [500/630]: io_surface
+ 24.17s  INFO Compiled [501/630]: psm
+ 24.43s  INFO Compiled [502/630]: proc_macro_error2
+ 24.46s  INFO Compiled [503/630]: cbindgen
+ 24.56s  INFO Compiled [504/630]: fontdb
+ 24.64s  INFO Compiled [505/630]: pathfinder_simd
+ 24.87s  INFO Compiled [506/630]: system_configuration
+ 25.01s  INFO Compiled [507/630]: async_zip
+ 25.07s  INFO Compiled [508/630]: smol
+ 25.10s  INFO Compiled [509/630]: parking_lot
+ 25.23s  INFO Compiled [510/630]: rust_embed
+ 25.41s  INFO Compiled [511/630]: hyper_rustls
+ 25.60s  INFO Compiled [512/630]: command_fds
+ 25.71s  INFO Compiled [513/630]: nix
+ 25.77s  INFO Compiled [514/630]: schemars
+ 25.78s  INFO Compiled [515/630]: async_std
+ 25.92s  INFO Compiled [516/630]: serde_urlencoded
+ 26.14s  INFO Compiled [517/630]: build-script-build
+ 26.28s  INFO Compiled [518/630]: tempfile
+ 26.58s  INFO Compiled [519/630]: tokio_socks
+ 26.64s  INFO Compiled [520/630]: objc2_app_kit
+ 26.71s  INFO Compiled [521/630]: http_body_util
+ 26.77s  INFO Compiled [522/630]: url
+ 26.82s  INFO Compiled [523/630]: gpui_collections
+ 26.85s  INFO Compiled [524/630]: rustls_pemfile
+ 26.89s  INFO Compiled [525/630]: naga
+ 26.99s  INFO Compiled [526/630]: filetime
+ 27.01s  INFO Compiled [527/630]: core_graphics2
+ 27.05s  INFO Compiled [528/630]: xattr
+ 27.20s  INFO Compiled [529/630]: rustls
+ 27.27s  INFO Compiled [530/630]: take_until
+ 27.36s  INFO Compiled [531/630]: zune_inflate
+ 27.37s  INFO Compiled [532/630]: serde_json_lenient
+ 27.40s  INFO Compiled [533/630]: png
+ 27.40s  INFO Compiled [534/630]: dunce
+ 27.43s  INFO Compiled [535/630]: convert_case
+ 27.51s  INFO Compiled [536/630]: raw_window_handle
+ 27.53s  INFO Compiled [537/630]: regex
+ 27.56s  INFO Compiled [538/630]: shlex
+ 27.60s  INFO Compiled [539/630]: bit_field
+ 27.60s  INFO Compiled [540/630]: avif_serialize
+ 27.60s  INFO Compiled [541/630]: mint
+ 27.61s  INFO Compiled [542/630]: xmlwriter
+ 27.68s  INFO Compiled [543/630]: simplecss
+ 27.69s  INFO Compiled [544/630]: byteorder_lite
+ 27.70s  INFO Compiled [545/630]: unicode_vo
+ 27.75s  INFO Compiled [546/630]: build-script-build
+ 27.79s  INFO Compiled [547/630]: ctor_proc_macro
+ 27.85s  INFO Compiled [548/630]: color_quant
+ 27.91s  INFO Compiled [549/630]: pico_args
+ 27.92s  INFO Compiled [550/630]: fax
+ 27.98s  INFO Compiled [551/630]: metal
+ 28.01s  INFO Compiled [552/630]: lebe
+ 28.06s  INFO Compiled [553/630]: float_next_after
+ 28.26s  INFO Compiled [554/630]: data_url
+ 28.46s  INFO Compiled [555/630]: unicode_bidi
+ 28.55s  INFO Compiled [556/630]: imagesize
+ 28.70s  INFO Compiled [557/630]: roxmltree
+ 28.77s  INFO Compiled [558/630]: ipnet
+ 28.82s  INFO Compiled [559/630]: rustybuzz
+ 28.85s  INFO Compiled [560/630]: rav1e
+ 29.02s  INFO Compiled [561/630]: ctor
+ 29.80s  INFO Compiled [563/630]: lyon_tessellation
+ 29.98s  INFO Compiled [564/630]: gif
+ 30.35s  INFO Compiled [565/630]: encoding_rs
+ 30.65s  INFO Compiled [566/630]: tiff
+ 30.99s  INFO Compiled [567/630]: image_webp
+ 31.35s  INFO Compiled [568/630]: derive_more
+ 31.42s  INFO Compiled [569/630]: zed_async_tar
+ 31.56s  INFO Compiled [570/630]: gpui_perf
+ 31.60s  INFO Compiled [571/630]: core_video
+ 31.67s  INFO Compiled [572/630]: build-script-build
+ 31.80s  INFO Compiled [573/630]: pathfinder_geometry
+ 32.03s  INFO Compiled [574/630]: stacksafe_macro
+ 32.11s  INFO Compiled [575/630]: stacker
+ 32.19s  INFO Compiled [576/630]: dirs
+ 32.20s  INFO Compiled [577/630]: exr
+ 32.55s  INFO Compiled [578/630]: core_text
+ 32.85s  INFO Compiled [579/630]: gpui_util
+ 33.00s  INFO Compiled [580/630]: lyon_algorithms
+ 33.14s  INFO Compiled [581/630]: qoi
+ 33.24s  INFO Compiled [582/630]: blade_graphics
+ 33.66s  INFO Compiled [583/630]: gpui_derive_refineable
+ 33.69s  INFO Compiled [584/630]: cocoa_foundation
+ 33.75s  INFO Compiled [585/630]: float_ord
+ 33.75s  INFO Compiled [586/630]: crossbeam_queue
+ 33.80s  INFO Compiled [587/630]: lazy_static
+ 33.84s  INFO Compiled [588/630]: static_assertions
+ 33.87s  INFO Compiled [589/630]: byteorder
+ 33.94s  INFO Compiled [590/630]: pollster
+ 34.01s  INFO Compiled [591/630]: grid
+ 34.10s  INFO Compiled [592/630]: atomic
+ 34.10s  INFO Compiled [593/630]: sha1_smol
+ 34.23s  INFO Compiled [594/630]: pxfm
+ 34.25s  INFO Compiled [595/630]: svg_fmt
+ 34.26s  INFO Compiled [596/630]: strum_macros
+ 34.34s  INFO Compiled [597/630]: png
+ 34.36s  INFO Compiled [598/630]: postage
+ 34.51s  INFO Compiled [599/630]: etagere
+ 34.61s  INFO Compiled [600/630]: strum
+ 34.72s  INFO Compiled [601/630]: uuid
+ 34.89s  INFO Compiled [602/630]: gpui_refineable
+ 35.50s  INFO Compiled [603/630]: taffy
+ 35.55s  INFO Compiled [604/630]: lyon
+ 35.58s  INFO Compiled [605/630]: tiny_skia
+ 35.86s  INFO Compiled [606/630]: zed_font_kit
+ 36.13s  INFO Compiled [607/630]: gpui_util_macros
+ 36.29s  INFO Compiled [608/630]: resvg
+ 36.30s  INFO Compiled [609/630]: stacksafe
+ 36.43s  INFO Compiled [610/630]: blade_util
+ 36.54s  INFO Compiled [611/630]: cocoa
+ 36.57s  INFO Compiled [612/630]: gpui_sum_tree
+ 36.60s  INFO Compiled [613/630]: gpui_semantic_version
+ 36.67s  INFO Compiled [614/630]: num_cpus
+ 36.73s  INFO Compiled [615/630]: inventory
+ 36.75s  INFO Compiled [616/630]: usvg
+ 36.86s  INFO Compiled [617/630]: seahash
+ 36.87s  INFO Compiled [618/630]: blade_macros
+ 37.16s  INFO Compiled [621/630]: gpui_media
+ 37.33s  INFO Compiled [622/630]: gpui_macros
+ 38.27s  INFO Compiled [623/630]: moxcms
+ 38.79s  INFO Compiled [624/630]: gpui_http_client
+ 39.16s  INFO Compiled [625/630]: zed_reqwest
+ 39.72s  INFO Compiled [626/630]: naga
+ 41.11s  INFO Compiled [627/630]: ravif
+ 43.01s  INFO Compiled [628/630]: image
+ 48.58s  INFO Compiled [629/630]: gpui
+ 49.27s  INFO Compiled [630/630]: gpui-app
+ 49.28s  INFO Bundling app...
+ 49.29s  INFO Running package bundler...
+ 49.29s  INFO Creating macOS .app bundle at /Users/mpl4/Desktop/workspace/self_learning/rust/gui-ecosystem-research/apps/gpui-app/target/dx/gpui-app/bundle/macos/macos/GpuiApp.app
+ 49.29s  INFO Copying existing .icns file: /Users/mpl4/Desktop/workspace/self_learning/rust/gui-ecosystem-research/apps/gpui-app/icon.icns
+ 49.30s  INFO Creating DMG at /Users/mpl4/Desktop/workspace/self_learning/rust/gui-ecosystem-research/apps/gpui-app/target/dx/gpui-app/bundle/macos/macos/GpuiApp_0.1.0_aarch64.dmg
+created: /Users/mpl4/Desktop/workspace/self_learning/rust/gui-ecosystem-research/apps/gpui-app/target/dx/gpui-app/bundle/macos/macos/GpuiApp_0.1.0_aarch64.dmg
+ 53.33s  INFO DMG created at /Users/mpl4/Desktop/workspace/self_learning/rust/gui-ecosystem-research/apps/gpui-app/target/dx/gpui-app/bundle/macos/macos/GpuiApp_0.1.0_aarch64.dmg
+ 53.33s  INFO Bundled: /Users/mpl4/Desktop/workspace/self_learning/rust/gui-ecosystem-research/apps/gpui-app/target/dx/gpui-app/bundle/macos/macos/GpuiApp.app
+ 53.33s  INFO Bundled: /Users/mpl4/Desktop/workspace/self_learning/rust/gui-ecosystem-research/apps/gpui-app/target/dx/gpui-app/bundle/macos/macos/GpuiApp_0.1.0_aarch64.dmg
+Bundled 2 bundles:
+/Users/mpl4/Desktop/workspace/self_learning/rust/gui-ecosystem-research/apps/gpui-app/target/dx/gpui-app/bundle/macos/macos/GpuiApp.app
+/Users/mpl4/Desktop/workspace/self_learning/rust/gui-ecosystem-research/apps/gpui-app/target/dx/gpui-app/bundle/macos/macos/GpuiApp_0.1.0_aarch64.dmg
+real 53.36
+user 391.03
+sys 24.21

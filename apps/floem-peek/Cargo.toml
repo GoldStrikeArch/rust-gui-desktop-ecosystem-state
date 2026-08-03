@@ -1,0 +1,43 @@
+# Same git pin as apps/floem-app (see the DEVIATION note there): floem's
+# crates.io release (0.2.0, Nov 2024) is stale and the maintained `main`
+# cannot be published because it depends on the forked `floem-winit` via git.
+# Rev 778bb5f2 (2026-06-21) is pinned identically across all 8 floem apps.
+#
+# floem_renderer (same git rev, same compiled crate as floem's internal dep):
+# needed ONLY for the `Img { img, hash }` struct passed to
+# `Renderer::draw_img` — floem re-exports the Renderer trait and the Svg
+# type but NOT Img, so raw-RGBA drawing (camera frames, thumbnails through
+# `canvas`) cannot be expressed with floem alone. Papercut recorded in
+# FRICTION.md. (floem's `img` view is useless here: it only accepts ENCODED
+# image bytes and decodes them itself.)
+#
+# Helper crates (mirroring apps/iced-peek's pins so the hardware stack is
+# identical across frameworks):
+# - nokhwa 0.10.11 (`input-avfoundation`): camera capture + YUYV→RGBA
+#   (default `decoding` feature). AVFoundation backend is feature-gated.
+# - cpal =0.17.3: mic input. Pinned one generation behind current on purpose:
+#   rodio 0.22.2 still depends on cpal 0.17, matching avoids compiling two
+#   CoreAudio binding stacks.
+# - rodio 0.22.2: beep (DeviceSinkBuilder/Mixer API generation).
+# - image 0.25: JPEG decode + thumbnail() downscale for the gallery (same
+#   major version floem's default image features already pull in).
+# No tokio here: floem has no executor to feed anyway; gallery decoding runs
+# on a hand-rolled 8-thread pool and results cross to the UI thread via
+# floem's ExtSendTrigger (same primitive the sibling apps use).
+
+[package]
+name = "floem-peek"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+floem = { git = "https://github.com/lapce/floem", rev = "778bb5f2aa08429e579ee2e6ac97e84fbf18b618" }
+floem_renderer = { git = "https://github.com/lapce/floem", rev = "778bb5f2aa08429e579ee2e6ac97e84fbf18b618" }
+nokhwa = { version = "0.10.11", features = ["input-avfoundation"] }
+cpal = "=0.17.3"
+rodio = "0.22.2"
+image = "0.25"
+# Verification-only (same as floem-babel): resolve the NSWindow windowNumber
+# so `screencapture -l` captures JUST this window on the shared desktop.
+raw-window-handle = "0.6"
+objc2 = "0.6"

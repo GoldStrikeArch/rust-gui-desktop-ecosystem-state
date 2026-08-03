@@ -274,6 +274,9 @@ frameworks and measured serially on the same machine (Apple M4 Pro, macOS
 | dioxus 0.7.9 | 40 s | 1 s | 4.9 | 279 | no (browser-derived a11y) | 90 | source-complete |
 | slint 1.17.1 | 42 s | 4 s | 13.2 | 302 | **yes** | 94 | source-complete |
 | gpui 0.2.2 | 56 s | 1 s | 4.3 | 391 | no (merged upstream, unreleased) | 230 | approximated² |
+| freya 0.4.0 | 28 s | 1 s | 18.3 | 192 | **yes** | 90 | source-complete |
+| vizia 0.4.0 | 22 s | 1 s | 19.6 | 128 | **yes** | 162 | source-complete |
+| floem git-778bb5f2 | 42 s | 1 s | 14.2 | 226 | no (not integrated) | 91 | source-complete |
 <!-- END GENERATED: iter1-ecosystem -->
 
 ¹ Recorded source counts include verification hooks stored in measured source

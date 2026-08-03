@@ -12,21 +12,31 @@ import argparse
 import csv
 import hashlib
 import io
+import json
 from datetime import datetime
 from pathlib import Path
+
+from artifact_hash import artifact_sha256
 
 
 ROOT = Path(__file__).resolve().parents[1]
 MEASUREMENTS = ROOT / "measurements"
 OUTPUT = MEASUREMENTS / "artifact-manifest.tsv"
 MACHINE = "Apple M4 Pro; 24 GiB; macOS 26.5.2 (25F84); rustc/cargo 1.96.1"
+# Repository-level build inputs that are part of every app's identity: the
+# toolchain pin changes every binary, so it is hashed into every input hash.
+COHORT_BUILD_INPUTS = (ROOT / "rust-toolchain.toml",)
 RUN_DATES = {
     "iter1": "2026-07-07",
     "iter2": "2026-07-07",
     "iter3": "2026-07-09",
     "iter4": "2026-07-10",
 }
-EXPECTED_ROUND_COUNTS = {"iter1": 7, "iter2": 14, "iter3": 14, "iter4": 21}
+EXPECTED_ROUND_COUNTS = {"iter1": 10, "iter2": 20, "iter3": 20, "iter4": 30}
+# 80 build-benchmark + 10 runtime-summary + 100 launch-verification
+# (20 iter3 + 80 all) + 80 launch-binary-snapshot + 2 capability-audit-rerun
+# + 10 babel-gallery. Skia build-cache rows are added per registered cache.
+FRESH_MANIFEST_BASE_ROWS = 282
 IGNORED_INPUT_SUFFIXES = {".log", ".md"}
 IGNORED_INPUT_NAMES = {"Cargo.lock", "screenshot.png"}
 GENERATED_IMAGE_MARKERS = (
@@ -46,7 +56,27 @@ parser.add_argument(
     action="store_true",
     help="fail without writing if the retained manifest is out of date",
 )
+parser.add_argument(
+    "--cohort",
+    help="cohort directory (contains cohort.json); defaults to the legacy measurements/ layout",
+)
 args = parser.parse_args()
+
+# Legacy measurements/ nests verification results one level deeper than the
+# cohort layout produced by scripts/cohort.py.
+VERIFICATION_SUBDIR = "current/"
+SKIA_CACHES: dict[str, Path] = {}
+if args.cohort:
+    MEASUREMENTS = Path(args.cohort).expanduser().resolve()
+    OUTPUT = MEASUREMENTS / "artifact-manifest.tsv"
+    VERIFICATION_SUBDIR = ""
+    cohort_metadata_path = MEASUREMENTS / "cohort.json"
+    if cohort_metadata_path.is_file():
+        cohort_artifacts = json.loads(cohort_metadata_path.read_text()).get("artifacts", {})
+        for cache_key in ("freya-skia-cache", "vizia-skia-cache"):
+            entry = cohort_artifacts.get(cache_key)
+            if isinstance(entry, dict) and entry.get("path"):
+                SKIA_CACHES[cache_key] = Path(entry["path"]).expanduser().resolve()
 
 
 def sha256(path: Path) -> str:
@@ -71,7 +101,7 @@ def app_input_hash(app_name: str) -> str:
         roots.append(ROOT / "apps/babel-assets")
     if app_name.endswith("-peek"):
         roots.append(ROOT / "apps/peek-assets")
-    files = []
+    files: list[Path] = [required(path) for path in COHORT_BUILD_INPUTS]
     for tree in roots:
         files.extend(
             path
@@ -182,8 +212,8 @@ for round_name in ("iter1", "iter2", "iter3", "iter4"):
             )
 
 all_apps = {record["app"] for records in round_records.values() for record in records}
-if len(all_apps) != 56:
-    raise SystemExit(f"canonical round union: expected 56 apps, got {len(all_apps)}")
+if len(all_apps) != 80:
+    raise SystemExit(f"canonical round union: expected 80 apps, got {len(all_apps)}")
 
 runtime = required(MEASUREMENTS / "runtime.csv")
 with runtime.open(newline="") as handle:
@@ -214,12 +244,12 @@ for record in runtime_records:
 
 verifications = (
     (
-        MEASUREMENTS / "verification-iter3/current/results.tsv",
+        MEASUREMENTS / f"verification-iter3/{VERIFICATION_SUBDIR}results.tsv",
         "iter3",
         "./scripts/verify-iter3.sh --duration 8",
     ),
     (
-        MEASUREMENTS / "verification-all/current/results.tsv",
+        MEASUREMENTS / f"verification-all/{VERIFICATION_SUBDIR}results.tsv",
         "all",
         "./scripts/verify-windows.sh --duration 8",
     ),
@@ -274,7 +304,9 @@ for verification, verification_round, verification_command in verifications:
             }
         )
 
-binary_inventory = required(MEASUREMENTS / "verification-all/current/binary-inventory.tsv")
+binary_inventory = required(
+    MEASUREMENTS / f"verification-all/{VERIFICATION_SUBDIR}binary-inventory.tsv"
+)
 inventory_hash = sha256(binary_inventory)
 with binary_inventory.open(newline="") as handle:
     inventory_records = list(csv.DictReader(handle, delimiter="\t"))
@@ -368,7 +400,7 @@ expected_babel_apps = {
     record["app"] for record in round_records["iter3"] if record["app"].endswith("-babel")
 }
 if {screenshot.parent.name for screenshot in screenshots} != expected_babel_apps:
-    raise SystemExit("Babel screenshot set does not match the seven canonical Babel apps")
+    raise SystemExit("Babel screenshot set does not match the ten canonical Babel apps")
 for screenshot in screenshots:
     app = screenshot.parent.name
     input_hash, lock_hash = app_identity(app)
@@ -388,6 +420,35 @@ for screenshot in screenshots:
             "notes": f"corpus_sha256={sha256(corpus)}; raw OCR/caret traces were not all retained",
         }
     )
+
+for cache_key, artifact in sorted(SKIA_CACHES.items()):
+    required(artifact)
+    rows.append(
+        {
+            **dict(
+                record_type="build-cache",
+                round="all",
+                app=cache_key,
+                run_date_utc="",
+                reproduction_command="scripts/cohort.py record (skia cache registration)",
+                machine=MACHINE,
+                current_input_hash_sha256="",
+                lockfile_sha256="",
+                artifact=str(artifact),
+                verification_level="cohort-internal-cache",
+                notes=(
+                    "Per-framework prebuilt-Skia archive consumed via "
+                    f"{cache_key.split('-')[0].upper()}_SKIA_BINARIES_URL; a global "
+                    "SKIA_BINARIES_URL is rejected by cohort validation."
+                ),
+            ),
+            "artifact_sha256": artifact_sha256(artifact),
+        }
+    )
+
+expected_rows = FRESH_MANIFEST_BASE_ROWS + len(SKIA_CACHES)
+if args.cohort and len(rows) != expected_rows:
+    raise SystemExit(f"manifest row count drift: expected {expected_rows}, got {len(rows)}")
 
 for app, recorded_identity in IDENTITIES.items():
     lock = ROOT / "apps" / app / "Cargo.lock"

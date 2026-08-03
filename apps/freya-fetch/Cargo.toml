@@ -1,0 +1,30 @@
+[package]
+name = "freya-fetch"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+# Same pinned version as iteration 1 (apps/freya-app). Default features only.
+#
+# Freya has its own single-threaded async executor (`spawn`, `use_future`) and
+# the documented way to use Tokio-based crates is to build a Tokio runtime in
+# `main`, hold an `enter()` guard, and keep using **Freya's** `spawn` — futures
+# then run on the UI thread with the Tokio reactor available, so completions
+# mutate signals directly with no channel and no `Send` bound.
+freya = "=0.4.0"
+
+# HTTP client. default-features = false: plain HTTP to 127.0.0.1 needs no TLS
+# stack. `json` for /search + /flaky bodies, `stream` for bytes_stream() on
+# /download (progress + real mid-body cancellation).
+reqwest = { version = "=0.12.24", default-features = false, features = ["json", "stream"] }
+
+# The runtime whose reactor reqwest needs, plus `tokio::time::sleep` for the
+# 250 ms search debounce and the self-test's scripted delays.
+tokio = { version = "1", features = ["rt-multi-thread", "time"] }
+
+# Deserializing the /search JSON array into typed results.
+serde = { version = "1", features = ["derive"] }
+
+# Streamed download progress: `bytes_stream()` yields a `Stream`, and Freya's
+# prelude does not re-export a StreamExt.
+futures-util = { version = "0.3", default-features = false }

@@ -50,11 +50,11 @@ using_default_apps=no
 if [ ${#apps[@]} -eq 0 ]; then
   using_default_apps=yes
   case "$round" in
-    iter1) apps=("$ROOT"/apps/*-app); expected_apps=7 ;;
-    iter2) apps=("$ROOT"/apps/*-dash "$ROOT"/apps/*-board); expected_apps=14 ;;
-    iter3) apps=("$ROOT"/apps/*-tray "$ROOT"/apps/*-babel); expected_apps=14 ;;
-    iter4) apps=("$ROOT"/apps/*-grid "$ROOT"/apps/*-fetch "$ROOT"/apps/*-peek); expected_apps=21 ;;
-    all) apps=("$ROOT"/apps/*-app "$ROOT"/apps/*-dash "$ROOT"/apps/*-board "$ROOT"/apps/*-tray "$ROOT"/apps/*-babel "$ROOT"/apps/*-grid "$ROOT"/apps/*-fetch "$ROOT"/apps/*-peek); expected_apps=56 ;;
+    iter1) apps=("$ROOT"/apps/*-app); expected_apps=10 ;;
+    iter2) apps=("$ROOT"/apps/*-dash "$ROOT"/apps/*-board); expected_apps=20 ;;
+    iter3) apps=("$ROOT"/apps/*-tray "$ROOT"/apps/*-babel); expected_apps=20 ;;
+    iter4) apps=("$ROOT"/apps/*-grid "$ROOT"/apps/*-fetch "$ROOT"/apps/*-peek); expected_apps=30 ;;
+    all) apps=("$ROOT"/apps/*-app "$ROOT"/apps/*-dash "$ROOT"/apps/*-board "$ROOT"/apps/*-tray "$ROOT"/apps/*-babel "$ROOT"/apps/*-grid "$ROOT"/apps/*-fetch "$ROOT"/apps/*-peek); expected_apps=80 ;;
   esac
 fi
 
@@ -157,6 +157,25 @@ for app in "${apps[@]}"; do
   fi
   bin="$target_dir/release/$package_name"
 
+  # Skia-cache protocol: a global SKIA_BINARIES_URL would silently cross-feed
+  # freya's forked skia-safe and vizia's upstream one, so only per-framework
+  # variables are honored, each scoped to its own framework's apps.
+  case "$name" in
+    freya-*)
+      if [ -n "${FREYA_SKIA_BINARIES_URL:-}" ]; then
+        export SKIA_BINARIES_URL="$FREYA_SKIA_BINARIES_URL"
+      else
+        unset SKIA_BINARIES_URL
+      fi ;;
+    vizia-*)
+      if [ -n "${VIZIA_SKIA_BINARIES_URL:-}" ]; then
+        export SKIA_BINARIES_URL="$VIZIA_SKIA_BINARIES_URL"
+      else
+        unset SKIA_BINARIES_URL
+      fi ;;
+    *) unset SKIA_BINARIES_URL ;;
+  esac
+
   # --- clean release build (deps already in ~/.cargo cache; network warm) ---
   cargo clean >/dev/null 2>&1
   if ! /usr/bin/time -p cargo build --locked --release --bin "$package_name" > "$OUT/$name-build.log" 2>&1; then
@@ -242,3 +261,16 @@ CSV_TMP=""
 trap - EXIT HUP INT TERM
 echo
 echo "Results: $CSV"
+
+# Emit the exact reproduction command (with shell-quoted per-framework Skia
+# cache URLs) so `cohort.py record` can store and later validate it.
+reproduction_command="./measure.sh --round $round"
+if [ -n "${VIZIA_SKIA_BINARIES_URL:-}" ]; then
+  vizia_skia_quoted=$(printf '%q' "$VIZIA_SKIA_BINARIES_URL")
+  reproduction_command="VIZIA_SKIA_BINARIES_URL=$vizia_skia_quoted $reproduction_command"
+fi
+if [ -n "${FREYA_SKIA_BINARIES_URL:-}" ]; then
+  freya_skia_quoted=$(printf '%q' "$FREYA_SKIA_BINARIES_URL")
+  reproduction_command="FREYA_SKIA_BINARIES_URL=$freya_skia_quoted $reproduction_command"
+fi
+echo "Reproduction command: $reproduction_command"

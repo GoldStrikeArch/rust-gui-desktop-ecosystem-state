@@ -1,0 +1,19 @@
+[package]
+name = "vizia-board"
+version = "0.1.0"
+edition = "2024"
+
+# Same pinned version as iteration 1 (apps/vizia-app). Default features only
+# — `["winit", "clipboard", "x11", "wayland", "markdown", "accesskit"]`:
+#   * `winit`     — desktop windowing backend.
+#   * `clipboard` — default-on; also what makes copy/paste work inside the
+#                   inline card editor, so it is genuinely used here.
+#   * `x11`/`wayland` — Linux-only, no-ops on macOS.
+#   * `markdown`  — default-on; unused here.
+#   * `accesskit` — default-on platform accessibility tree.
+# No extra features and no helper crates: cross-container drag-and-drop
+# (`on_drag`/`on_drop`/`has_drop_data`), independent scroll containers
+# (`ScrollView`), inline editing (`Textbox` with `on_submit`/`on_cancel`,
+# i.e. Enter/Esc) and drop animation (CSS `transition`) are all in core.
+[dependencies]
+vizia = "=0.4.0"

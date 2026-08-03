@@ -1,0 +1,30 @@
+[package]
+name = "vizia-app"
+version = "0.1.0"
+edition = "2024"
+
+# Latest stable vizia on crates.io (0.4.0, the first release with the
+# Signal-based reactive core that replaced the old Lens/Data derive).
+# Default features only — `["winit", "clipboard", "x11", "wayland",
+# "markdown", "accesskit"]`:
+#   * `winit`     — the desktop windowing backend (the alternative,
+#                   `baseview`, is for audio-plugin parented windows).
+#   * `clipboard` — copy/paste inside `Textbox`; nothing in SPEC.md needs it
+#                   but it is on by default and removing it would deviate
+#                   from "default framework features".
+#   * `x11`/`wayland` — Linux-only, no-ops on macOS.
+#   * `markdown`  — the `Markdown` view; unused here, default-on.
+#   * `accesskit` — platform accessibility tree; default-on and worth
+#                   keeping since it is a differentiator for this cohort.
+# No extra features were enabled: SPEC.md needs no timers, async, or
+# custom drawing.
+[dependencies]
+vizia = "=0.4.0"
+
+# Packaging experiment (iteration 3): minimal cargo-bundle config.
+# icon.icns copied from apps/iced-app/icon.icns so every cohort bundles the
+# same artwork.
+[package.metadata.bundle]
+name = "Vizia Tasks"
+identifier = "org.rcn.viziaapp"
+icon = ["icon.icns"]

@@ -1,0 +1,299 @@
+  0.00s  INFO Bundling project...
+  0.79s  INFO Compiled [  1/318]: cfg_if
+  0.80s  INFO Compiled [  2/318]: unicode_ident
+  0.81s  INFO Compiled [  3/318]: pin_project_lite
+  0.84s  INFO Compiled [  4/318]: cfg_if
+  0.92s  INFO Compiled [  5/318]: build-script-build
+  0.93s  INFO Compiled [  6/318]: build-script-build
+  0.93s  INFO Compiled [  7/318]: build-script-build
+  0.93s  INFO Compiled [  8/318]: build-script-build
+  0.94s  INFO Compiled [  9/318]: build-script-build
+  0.96s  INFO Compiled [ 10/318]: bitflags
+  0.96s  INFO Compiled [ 11/318]: autocfg
+  0.97s  INFO Compiled [ 12/318]: build-script-build
+  0.97s  INFO Compiled [ 13/318]: build-script-build
+  0.99s  INFO Compiled [ 14/318]: glob
+  1.01s  INFO Compiled [ 15/318]: memchr
+  1.03s  INFO Compiled [ 16/318]: bitflags
+  1.04s  INFO Compiled [ 17/318]: build-script-build
+  1.07s  INFO Compiled [ 18/318]: build-script-build
+  1.11s  INFO Compiled [ 19/318]: build-script-build
+  1.13s  INFO Compiled [ 20/318]: build-script-build
+  1.13s  INFO Compiled [ 21/318]: objc2_encode
+  1.14s  INFO Compiled [ 22/318]: either
+  1.49s  INFO Compiled [ 25/318]: proc_macro2
+  1.58s  INFO Compiled [ 26/318]: minimal_lexical
+  1.65s  INFO Compiled [ 27/318]: aho_corasick
+  1.74s  INFO Compiled [ 29/318]: once_cell
+  1.80s  INFO Compiled [ 30/318]: quote
+  1.81s  INFO Compiled [ 31/318]: parking
+  1.96s  INFO Compiled [ 33/318]: build-script-build
+  2.09s  INFO Compiled [ 34/318]: crossbeam_utils
+  2.09s  INFO Compiled [ 36/318]: block2
+  2.16s  INFO Compiled [ 38/318]: objc2
+  2.31s  INFO Compiled [ 39/318]: libc
+  2.31s  INFO Compiled [ 40/318]: libc
+  2.36s  INFO Compiled [ 42/318]: errno
+  2.51s  INFO Compiled [ 43/318]: regex_syntax
+  2.51s  INFO Compiled [ 44/318]: dispatch2
+  2.58s  INFO Compiled [ 46/318]: tracing_core
+  2.64s  INFO Compiled [ 48/318]: libloading
+  2.72s  INFO Compiled [ 49/318]: build-script-build
+  2.73s  INFO Compiled [ 50/318]: nom
+  2.77s  INFO Compiled [ 51/318]: build-script-build
+  2.84s  INFO Compiled [ 52/318]: simd_adler32
+  2.86s  INFO Compiled [ 54/318]: build-script-build
+  2.87s  INFO Compiled [ 55/318]: num_traits
+  2.87s  INFO Compiled [ 56/318]: winnow
+  2.90s  INFO Compiled [ 57/318]: futures_core
+  2.91s  INFO Compiled [ 58/318]: adler2
+  2.93s  INFO Compiled [ 59/318]: either
+  2.98s  INFO Compiled [ 60/318]: build-script-build
+  3.15s  INFO Compiled [ 61/318]: miniz_oxide
+  3.15s  INFO Compiled [ 62/318]: serde_core
+  3.18s  INFO Compiled [ 64/318]: toml_parser
+  3.21s  INFO Compiled [ 65/318]: serde_spanned
+  3.30s  INFO Compiled [ 66/318]: toml_datetime
+  3.33s  INFO Compiled [ 67/318]: regex
+  3.36s  INFO Compiled [ 68/318]: itertools
+  3.46s  INFO Compiled [ 70/318]: objc2_core_foundation
+  3.52s  INFO Compiled [ 71/318]: zmij
+  3.59s  INFO Compiled [ 73/318]: crc32fast
+  3.63s  INFO Compiled [ 74/318]: syn
+  3.67s  INFO Compiled [ 75/318]: filetime
+  3.71s  INFO Compiled [ 76/318]: rustix
+  3.74s  INFO Compiled [ 77/318]: regex_automata
+  3.78s  INFO Compiled [ 78/318]: prettyplease
+  3.78s  INFO Compiled [ 79/318]: xattr
+  3.84s  INFO Compiled [ 81/318]: rustc_hash
+  3.85s  INFO Compiled [ 82/318]: smallvec
+  3.86s  INFO Compiled [ 83/318]: cexpr
+  3.86s  INFO Compiled [ 84/318]: shlex
+  3.86s  INFO Compiled [ 85/318]: shlex
+  3.95s  INFO Compiled [ 86/318]: toml_writer
+  3.95s  INFO Compiled [ 87/318]: itoa
+  3.95s  INFO Compiled [ 88/318]: log
+  3.98s  INFO Compiled [ 90/318]: find_msvc_tools
+  4.21s  INFO Compiled [ 91/318]: flate2
+  4.29s  INFO Compiled [ 93/318]: paste
+  4.40s  INFO Compiled [ 94/318]: tracing_attributes
+  4.41s  INFO Compiled [ 95/318]: tar
+  4.42s  INFO Compiled [ 96/318]: objc2_core_video
+  4.53s  INFO Compiled [ 98/318]: heck
+  4.57s  INFO Compiled [ 99/318]: objc2_core_graphics
+  4.60s  INFO Compiled [100/318]: objc_sys
+  4.65s  INFO Compiled [101/318]: serde_json
+  4.70s  INFO Compiled [102/318]: futures_io
+  4.71s  INFO Compiled [103/318]: build-script-build
+  4.73s  INFO Compiled [104/318]: toml
+  4.76s  INFO Compiled [105/318]: fastrand
+  4.82s  INFO Compiled [106/318]: cc
+  4.94s  INFO Compiled [107/318]: build-script-build
+  5.01s  INFO Compiled [108/318]: pkg_config
+  5.02s  INFO Compiled [109/318]: build-script-build
+  5.06s  INFO Compiled [111/318]: tracing
+  5.08s  INFO Compiled [112/318]: uuid
+  5.24s  INFO Compiled [114/318]: scopeguard
+  5.31s  INFO Compiled [115/318]: objc2_core_text
+  5.35s  INFO Compiled [116/318]: crossbeam_epoch
+  5.42s  INFO Compiled [118/318]: clang_sys
+  5.44s  INFO Compiled [119/318]: block2
+  5.47s  INFO Compiled [120/318]: itertools
+  5.48s  INFO Compiled [121/318]: accesskit
+  5.51s  INFO Compiled [122/318]: dispatch
+  5.53s  INFO Compiled [123/318]: build-script-build
+  5.54s  INFO Compiled [124/318]: crossbeam_deque
+  5.56s  INFO Compiled [125/318]: android_build
+  5.60s  INFO Compiled [126/318]: lock_api
+  5.61s  INFO Compiled [127/318]: futures_lite
+  5.64s  INFO Compiled [128/318]: objc2
+  5.72s  INFO Compiled [129/318]: cursor_icon
+  5.74s  INFO Compiled [131/318]: parking_lot_core
+  5.78s  INFO Compiled [132/318]: build-script-build
+  5.84s  INFO Compiled [133/318]: skia_svg_macros
+  5.85s  INFO Compiled [134/318]: build-script-build
+  5.87s  INFO Compiled [135/318]: syn
+  5.90s  INFO Compiled [136/318]: simd_adler32
+  5.90s  INFO Compiled [137/318]: slab
+  5.92s  INFO Compiled [138/318]: percent_encoding
+  5.92s  INFO Compiled [139/318]: rustc_hash
+  5.94s  INFO Compiled [140/318]: equator_macro
+  5.94s  INFO Compiled [141/318]: hotpath_macros
+  6.02s  INFO Compiled [142/318]: euclid
+  6.14s  INFO Compiled [143/318]: futures_channel
+  6.15s  INFO Compiled [144/318]: base64
+  6.35s  INFO Compiled [146/318]: futures_macro
+  6.37s  INFO Compiled [147/318]: build-script-build
+  6.39s  INFO Compiled [148/318]: event_listener
+  6.44s  INFO Compiled [149/318]: num_integer
+  6.45s  INFO Compiled [150/318]: futures_task
+  6.48s  INFO Compiled [152/318]: beul
+  6.54s  INFO Compiled [153/318]: async_watch
+  6.59s  INFO Compiled [154/318]: parking_lot
+  6.63s  INFO Compiled [155/318]: build-script-build
+  6.81s  INFO Compiled [156/318]: memchr
+  6.85s  INFO Compiled [157/318]: hotpath
+  6.91s  INFO Compiled [158/318]: ragnarok
+  6.97s  INFO Compiled [159/318]: anyhow
+  7.04s  INFO Compiled [160/318]: rayon_core
+  7.11s  INFO Compiled [161/318]: errno
+  7.12s  INFO Compiled [162/318]: equator
+  7.15s  INFO Compiled [163/318]: generational_box
+  7.23s  INFO Compiled [164/318]: concurrent_queue
+  7.23s  INFO Compiled [165/318]: aligned_vec
+  7.43s  INFO Compiled [167/318]: stable_deref_trait
+  7.49s  INFO Compiled [168/318]: bindgen
+  7.51s  INFO Compiled [169/318]: adler2
+  7.51s  INFO Compiled [170/318]: torin
+  7.60s  INFO Compiled [171/318]: pathgraph
+  7.62s  INFO Compiled [172/318]: log
+  7.70s  INFO Compiled [173/318]: thiserror_impl
+  7.73s  INFO Compiled [174/318]: arrayvec
+  7.76s  INFO Compiled [175/318]: keyboard_types
+  7.76s  INFO Compiled [176/318]: as_slice
+  7.81s  INFO Compiled [177/318]: bytes
+  7.89s  INFO Compiled [178/318]: build-script-build
+  7.95s  INFO Compiled [179/318]: v_frame
+  8.38s  INFO Compiled [182/318]: build-script-build
+  8.51s  INFO Compiled [183/318]: thiserror
+  8.68s  INFO Compiled [184/318]: event_listener
+  8.79s  INFO Compiled [185/318]: futures_util
+  8.82s  INFO Compiled [186/318]: num_rational
+  8.84s  INFO Compiled [188/318]: build-script-build
+  8.96s  INFO Compiled [189/318]: miniz_oxide
+  9.00s  INFO Compiled [190/318]: version_check
+  9.01s  INFO Compiled [191/318]: build-script-build
+  9.03s  INFO Compiled [192/318]: build-script-build
+  9.12s  INFO Compiled [193/318]: bytemuck
+  9.12s  INFO Compiled [194/318]: core_foundation_sys
+  9.14s  INFO Compiled [195/318]: objc2_foundation
+  9.20s  INFO Compiled [196/318]: zerocopy_derive
+  9.29s  INFO Compiled [197/318]: built
+  9.36s  INFO Compiled [199/318]: rayon
+  9.38s  INFO Compiled [200/318]: core_foundation
+  9.43s  INFO Compiled [201/318]: build-script-build
+  9.50s  INFO Compiled [202/318]: event_listener_strategy
+  9.50s  INFO Compiled [203/318]: crc32fast
+  9.52s  INFO Compiled [205/318]: build-script-build
+  9.54s  INFO Compiled [206/318]: polling
+  9.54s  INFO Compiled [207/318]: no_std_io2
+  9.55s  INFO Compiled [208/318]: aligned
+  9.66s  INFO Compiled [209/318]: num_bigint
+  9.71s  INFO Compiled [210/318]: quick_error
+  9.73s  INFO Compiled [211/318]: profiling_procmacros
+  9.74s  INFO Compiled [212/318]: foreign_types_shared
+  9.77s  INFO Compiled [213/318]: bitflags
+  9.79s  INFO Compiled [214/318]: cfg_aliases
+  9.81s  INFO Compiled [215/318]: foreign_types_macros
+  9.83s  INFO Compiled [216/318]: arg_enum_proc_macro
+  9.83s  INFO Compiled [217/318]: pastey
+  9.92s  INFO Compiled [218/318]: foldhash
+  9.94s  INFO Compiled [219/318]: raw_window_handle
+  9.96s  INFO Compiled [220/318]: y4m
+ 10.01s  INFO Compiled [221/318]: core_graphics_types
+ 10.05s  INFO Compiled [222/318]: build-script-build
+ 10.16s  INFO Compiled [224/318]: rustix
+ 10.31s  INFO Compiled [225/318]: hashbrown
+ 10.32s  INFO Compiled [226/318]: foreign_types
+ 10.37s  INFO Compiled [227/318]: bitstream_io
+ 10.51s  INFO Compiled [228/318]: copypasta
+ 10.61s  INFO Compiled [229/318]: flate2
+ 10.64s  INFO Compiled [230/318]: maybe_rayon
+ 10.95s  INFO Compiled [232/318]: profiling
+ 10.97s  INFO Compiled [233/318]: num_complex
+ 11.13s  INFO Compiled [234/318]: objc2_app_kit
+ 11.31s  INFO Compiled [236/318]: async_io
+ 11.31s  INFO Compiled [237/318]: nom
+ 11.38s  INFO Compiled [238/318]: av_scenechange
+ 11.39s  INFO Compiled [239/318]: objc2_core_image
+ 11.46s  INFO Compiled [241/318]: objc2_cloud_kit
+ 11.51s  INFO Compiled [242/318]: str_indices
+ 11.53s  INFO Compiled [243/318]: atomic_waker
+ 11.57s  INFO Compiled [244/318]: pulp_wasm_simd_flag
+ 11.58s  INFO Compiled [245/318]: simd_helpers
+ 11.60s  INFO Compiled [246/318]: reborrow
+ 11.63s  INFO Compiled [247/318]: debug_unreachable
+ 11.66s  INFO Compiled [248/318]: objc2_core_data
+ 11.74s  INFO Compiled [249/318]: imgref
+ 11.76s  INFO Compiled [250/318]: zerocopy
+ 11.77s  INFO Compiled [251/318]: noop_proc_macro
+ 11.80s  INFO Compiled [252/318]: zune_core
+ 11.83s  INFO Compiled [253/318]: loop9
+ 11.88s  INFO Compiled [254/318]: skia_bindings
+ 11.90s  INFO Compiled [255/318]: libm
+ 11.95s  INFO Compiled [256/318]: num_derive
+ 12.06s  INFO Compiled [257/318]: half
+ 12.10s  INFO Compiled [258/318]: piper
+ 12.22s  INFO Compiled [259/318]: weezl
+ 12.34s  INFO Compiled [260/318]: core_graphics
+ 12.35s  INFO Compiled [261/318]: async_channel
+ 12.73s  INFO Compiled [262/318]: zune_inflate
+ 12.86s  INFO Compiled [263/318]: zune_jpeg
+ 12.93s  INFO Compiled [265/318]: easer
+ 12.94s  INFO Compiled [266/318]: avif_serialize
+ 13.13s  INFO Compiled [267/318]: build-script-build
+ 13.14s  INFO Compiled [268/318]: rgb
+ 13.28s  INFO Compiled [269/318]: byteorder_lite
+ 13.34s  INFO Compiled [270/318]: av1_grain
+ 13.35s  INFO Compiled [271/318]: color_quant
+ 13.37s  INFO Compiled [272/318]: unicode_segmentation
+ 13.39s  INFO Compiled [273/318]: lebe
+ 13.46s  INFO Compiled [274/318]: async_task
+ 13.47s  INFO Compiled [275/318]: bit_field
+ 13.47s  INFO Compiled [276/318]: fdeflate
+ 13.48s  INFO Compiled [277/318]: dpi
+ 13.65s  INFO Compiled [278/318]: smol_str
+ 13.70s  INFO Compiled [279/318]: fax
+ 13.89s  INFO Compiled [280/318]: blocking
+ 14.92s  INFO Compiled [281/318]: pulp
+ 14.97s  INFO Compiled [282/318]: freya_engine
+ 15.04s  INFO Compiled [283/318]: ropey
+ 15.41s  INFO Compiled [284/318]: gif
+ 15.44s  INFO Compiled [285/318]: accesskit_consumer
+ 16.09s  INFO Compiled [287/318]: image_webp
+ 16.35s  INFO Compiled [288/318]: tiff
+ 17.11s  INFO Compiled [289/318]: objc2_quartz_core
+ 17.29s  INFO Compiled [290/318]: objc2_metal
+ 17.51s  INFO Compiled [291/318]: objc2_foundation
+ 17.55s  INFO Compiled [292/318]: winit
+ 17.64s  INFO Compiled [293/318]: accesskit_winit
+ 17.65s  INFO Compiled [294/318]: qoi
+ 17.84s  INFO Compiled [295/318]: async_lock
+ 17.84s  INFO Compiled [296/318]: png
+ 17.90s  INFO Compiled [297/318]: softbuffer
+ 17.94s  INFO Compiled [298/318]: skia_safe
+ 18.48s  INFO Compiled [299/318]: accesskit_macos
+ 18.67s  INFO Compiled [300/318]: pxfm
+ 18.96s  INFO Compiled [301/318]: rav1e
+ 19.26s  INFO Compiled [302/318]: exr
+ 20.94s  INFO Compiled [303/318]: moxcms
+ 22.89s  INFO Compiled [304/318]: ravif
+ 25.37s  INFO Compiled [305/318]: image
+ 28.14s  INFO Compiled [306/318]: mundy
+ 28.59s  INFO Compiled [307/318]: rfd
+ 29.22s  INFO Compiled [308/318]: freya_clipboard
+ 29.23s  INFO Compiled [309/318]: freya_animation
+ 29.32s  INFO Compiled [310/318]: freya_sdk
+ 29.40s  INFO Compiled [311/318]: objc2_app_kit
+ 29.72s  INFO Compiled [312/318]: freya_edit
+ 30.22s  INFO Compiled [313/318]: freya_core
+ 31.07s  INFO Compiled [314/318]: freya
+ 31.35s  INFO Compiled [315/318]: freya_performance_plugin
+ 33.05s  INFO Compiled [316/318]: freya_winit
+ 33.95s  INFO Compiled [317/318]: freya_components
+ 34.50s  INFO Compiled [318/318]: freya-app
+ 34.50s  INFO Bundling app...
+ 34.52s  INFO Running package bundler...
+ 34.52s  INFO Creating macOS .app bundle at /Users/mpl4/Desktop/workspace/self_learning/rust/gui-ecosystem-research/apps/freya-app/target/dx/freya-app/bundle/macos/macos/FreyaApp.app
+ 34.52s  INFO Copying existing .icns file: /Users/mpl4/Desktop/workspace/self_learning/rust/gui-ecosystem-research/apps/freya-app/icon.icns
+ 34.53s  INFO Creating DMG at /Users/mpl4/Desktop/workspace/self_learning/rust/gui-ecosystem-research/apps/freya-app/target/dx/freya-app/bundle/macos/macos/FreyaApp_0.1.0_aarch64.dmg
+created: /Users/mpl4/Desktop/workspace/self_learning/rust/gui-ecosystem-research/apps/freya-app/target/dx/freya-app/bundle/macos/macos/FreyaApp_0.1.0_aarch64.dmg
+ 39.58s  INFO DMG created at /Users/mpl4/Desktop/workspace/self_learning/rust/gui-ecosystem-research/apps/freya-app/target/dx/freya-app/bundle/macos/macos/FreyaApp_0.1.0_aarch64.dmg
+ 39.58s  INFO Bundled: /Users/mpl4/Desktop/workspace/self_learning/rust/gui-ecosystem-research/apps/freya-app/target/dx/freya-app/bundle/macos/macos/FreyaApp.app
+ 39.58s  INFO Bundled: /Users/mpl4/Desktop/workspace/self_learning/rust/gui-ecosystem-research/apps/freya-app/target/dx/freya-app/bundle/macos/macos/FreyaApp_0.1.0_aarch64.dmg
+Bundled 2 bundles:
+/Users/mpl4/Desktop/workspace/self_learning/rust/gui-ecosystem-research/apps/freya-app/target/dx/freya-app/bundle/macos/macos/FreyaApp.app
+/Users/mpl4/Desktop/workspace/self_learning/rust/gui-ecosystem-research/apps/freya-app/target/dx/freya-app/bundle/macos/macos/FreyaApp_0.1.0_aarch64.dmg
+real 39.60
+user 277.76
+sys 14.86

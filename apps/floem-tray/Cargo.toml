@@ -1,0 +1,46 @@
+# Same git pin as apps/floem-app (see the DEVIATION note there): floem's
+# crates.io release (0.2.0, Nov 2024) is stale and the maintained `main`
+# cannot be published because it depends on the forked `floem-winit` via git.
+# Rev 778bb5f2 (2026-06-21) is pinned identically across all 8 floem apps.
+#
+# floem covers MORE of SPEC-4 built-in than any framework tested so far:
+# native file dialogs (rfd is a floem dependency, `floem::open_file/save_as`),
+# text clipboard (`floem::Clipboard`), file drop (typed `FileDragDrop`
+# listener), live dark mode (style system re-resolves on OS ThemeChanged),
+# multi-window (`new_window`), and even dock-icon reopen (`AppEvent::Reopen`).
+#
+# The NATIVE MENUBAR is floem BUILT-IN: `floem::Menu` builds a muda menu with
+# per-item action CLOSURES (no event channel/polling) and
+# `floem::action::set_window_menu` installs it on NSApp.
+#
+# Helper crates for the holes that remain:
+# - tray-icon 0.24: NSStatusItem tray icon + menu (muda 0.19 re-export under
+#   tray_icon::menu). VERSION-CRITICAL integration finding: floem pins muda
+#   =0.17 and installs the GLOBAL `muda::MenuEvent` handler for its own menu
+#   system at Application::new(); muda has ONE handler slot per compiled crate
+#   instance. tray-icon 0.24's muda 0.19 is a SEPARATE instance, so its
+#   handler slot is free for this app (we hook it with an ExtSendTrigger — no
+#   polling). Had tray-icon depended on muda 0.17.x, cargo would have unified
+#   the crates and floem's handler would silently swallow every tray-menu
+#   click. Two copies of muda are compiled into the binary as the price.
+# - global-hotkey: Carbon RegisterEventHotKey wrapper for system-wide ⌘⇧9
+#   (no accessibility permission needed).
+# - arboard: image clipboard (floem's Clipboard is text + file-list only).
+# - notify-rust: system notification on save.
+# - png (verification-leaning): encodes the arboard RGBA into PNG because
+#   floem's `img` view only accepts ENCODED image bytes (no raw-RGBA path —
+#   itself a finding), and re-used by the self-test screenshot hook.
+# rfd is NOT listed: floem's built-in dialog actions already wrap it.
+
+[package]
+name = "floem-tray"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+floem = { git = "https://github.com/lapce/floem", rev = "778bb5f2aa08429e579ee2e6ac97e84fbf18b618" }
+tray-icon = "0.24"
+global-hotkey = "0.7"
+arboard = "3.6"
+notify-rust = "4"
+png = "0.18"

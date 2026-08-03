@@ -1,0 +1,24 @@
+[package]
+name = "vizia-grid"
+version = "0.1.0"
+edition = "2024"
+
+# Same pinned version as iteration 1 (apps/vizia-app). Default features only
+# — `["winit", "clipboard", "x11", "wayland", "markdown", "accesskit"]`:
+#   * `winit`     — desktop windowing backend.
+#   * `clipboard` — default-on; used by the filter `Textbox`.
+#   * `x11`/`wayland` — Linux-only, no-ops on macOS.
+#   * `markdown`  — default-on; unused here.
+#   * `accesskit` — default-on; `VirtualTable` sets `Role::Table`, so the
+#                   grid is exposed to assistive tech for free.
+# No async and no timers feature to pick: `cx.add_timer` (used only by the
+# GRID_SELFTEST script) is core, and filtering/sorting run synchronously in
+# `Model::event` and are self-timed with `std::time::Instant`.
+# No helper crates: `VirtualTable` (virtualization + sortable, resizable
+# headers + selection) is a built-in view, the PRNG is a 10-line xorshift*,
+# and dates are generated as packed integers so no `chrono` is needed.
+[dependencies]
+vizia = "=0.4.0"
+
+[profile.release]
+debug = false

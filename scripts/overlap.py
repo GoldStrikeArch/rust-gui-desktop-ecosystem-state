@@ -91,8 +91,8 @@ for a in names:
 
 print("\n== Interesting layer crates: who uses what ==")
 LAYER = {
-    "windowing": ["winit", "tao"],
-    "gpu": ["wgpu", "blade-graphics", "glow", "vello", "tiny-skia", "femtovg", "skia-safe", "skia-bindings"],
+    "windowing": ["winit", "tao", "floem-winit"],
+    "gpu": ["wgpu", "blade-graphics", "glow", "vello", "vger", "tiny-skia", "femtovg", "skia-safe", "skia-bindings", "freya-skia-safe"],
     "text": ["cosmic-text", "parley", "swash", "rustybuzz", "harfrust", "ab_glyph", "fontdb", "fontique", "skrifa", "epaint"],
     "layout": ["taffy", "morphorm"],
     "a11y": ["accesskit"],

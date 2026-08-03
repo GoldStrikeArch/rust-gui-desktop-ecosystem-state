@@ -1,7 +1,0 @@
-[pulse] rate=10Hz ticks=48 | interval mean=100.06ms max=109.00ms sd=4.05ms | emit->JS latency mean=-0.01ms max=0.92ms
-[pulse] rate=10Hz ticks=50 | interval mean=100.00ms max=110.00ms sd=4.91ms | emit->JS latency mean=0.01ms max=1.94ms
-[pulse] rate=10Hz ticks=50 | interval mean=99.88ms max=109.00ms sd=4.19ms | emit->JS latency mean=0.14ms max=1.73ms
-[pulse] rate=10Hz ticks=50 | interval mean=100.12ms max=110.00ms sd=5.67ms | emit->JS latency mean=0.01ms max=0.53ms
-[pulse] rate=10Hz ticks=50 | interval mean=99.82ms max=109.00ms sd=5.08ms | emit->JS latency mean=0.06ms max=0.78ms
-[pulse] rate=10Hz ticks=50 | interval mean=99.98ms max=109.00ms sd=4.65ms | emit->JS latency mean=0.11ms max=0.60ms
-[pulse] rate=10Hz ticks=50 | interval mean=100.06ms max=109.00ms sd=5.39ms | emit->JS latency mean=0.08ms max=0.75ms

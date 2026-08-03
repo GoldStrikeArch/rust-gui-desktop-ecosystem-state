@@ -1,0 +1,31 @@
+# Same git pin as apps/floem-app (see the DEVIATION note there): floem's
+# crates.io release (0.2.0, Nov 2024) is stale and the maintained `main`
+# cannot be published because it depends on the forked `floem-winit` via git.
+# Rev 778bb5f2 (2026-06-21) is pinned identically across all 8 floem apps.
+#
+# Async story (the SPEC-8 finding): floem has no executor of its own. The
+# upstream tokio-timer example's sanctioned pattern is used — build a tokio
+# multi-thread Runtime, then `block_on(block_in_place(floem::launch))` so
+# `tokio::spawn` works from UI code. Results cross back to the UI thread via
+# floem's `create_ext_action` / `ExtSendTrigger` (a first-class foreign-thread
+# wakeup primitive); the 250 ms debounce is floem's BUILT-IN `debounce_action`.
+#
+# - reqwest =0.12.24 (same exact pin as iced-fetch): default-features = false
+#   because plain HTTP to 127.0.0.1 needs no TLS stack; `json` for /search +
+#   /flaky bodies; `stream` for bytes_stream() (progress + REAL mid-body
+#   cancellation — dropping the future closes the TCP connection).
+# - tokio: the runtime itself (rt-multi-thread) + `time` for pacing.
+# - serde: typed /search results.
+# - futures: `StreamExt::next` over reqwest's byte stream.
+
+[package]
+name = "floem-fetch"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+floem = { git = "https://github.com/lapce/floem", rev = "778bb5f2aa08429e579ee2e6ac97e84fbf18b618" }
+reqwest = { version = "=0.12.24", default-features = false, features = ["json", "stream"] }
+tokio = { version = "1", features = ["rt-multi-thread", "time"] }
+serde = { version = "1", features = ["derive"] }
+futures = "0.3"

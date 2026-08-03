@@ -1,0 +1,4 @@
+[bundle]
+identifier = "org.rcn.xilemapp"
+publisher = "RCN Research"
+icon = ["icon.icns"]

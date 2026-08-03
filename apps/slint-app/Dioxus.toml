@@ -1,0 +1,4 @@
+[bundle]
+identifier = "org.rcn.slintapp"
+publisher = "RCN Research"
+icon = ["icon.icns"]

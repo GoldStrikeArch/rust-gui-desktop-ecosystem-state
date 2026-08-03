@@ -1,0 +1,36 @@
+[package]
+name = "vizia-peek"
+version = "0.1.0"
+edition = "2024"
+
+# Same pinned version as iteration 1 (apps/vizia-app). Default features only
+# — `["winit", "clipboard", "x11", "wayland", "markdown", "accesskit"]`:
+#   * `winit`     — desktop windowing backend.
+#   * `clipboard` — default-on; unused here.
+#   * `x11`/`wayland` — Linux-only, no-ops on macOS.
+#   * `markdown`  — default-on; unused here.
+#   * `accesskit` — default-on platform accessibility tree.
+# No extra feature is needed for images: vizia's renderer *is* Skia and
+# `vizia::vg` re-exports `skia-safe`, so a custom `View::draw` can build a
+# `vg::Image` straight from a raw RGBA buffer — there is no separate "image"
+# feature or texture pipeline to enable. Timers (`cx.add_timer`) are core.
+[dependencies]
+vizia = "=0.4.0"
+
+# Camera capture. AVFoundation backend on macOS is behind the
+# `input-avfoundation` feature. Same pin as the rest of the cohort so the
+# comparison is like-for-like.
+nokhwa = { version = "0.10.11", features = ["input-avfoundation"] }
+
+# Mic input for the RMS meter. Pinned to 0.17.3 to match what rodio 0.22.2
+# depends on, so only one CoreAudio binding stack is compiled.
+cpal = "=0.17.3"
+
+# Audio out (the beep). 0.22 is the current API generation
+# (`DeviceSinkBuilder` / `mixer()`).
+rodio = "0.22.2"
+
+# Only used for the synthetic-camera verification hook's RGBA buffer and for
+# reading JPEG dimensions; the gallery itself hands encoded JPEG bytes
+# straight to Skia, which does the decode.
+image = { version = "0.25", default-features = false, features = ["jpeg"] }

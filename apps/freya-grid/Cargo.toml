@@ -1,0 +1,22 @@
+[package]
+name = "freya-grid"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+# Same pinned version as iteration 1 (apps/freya-app). Default features only.
+#
+# No table/virtualization helper crate is needed: Freya ships
+# `VirtualScrollView`, which calls its item builder only for the rows that are
+# actually on screen, so the 100k-row body is one stock component. (Freya also
+# ships a `Table` component, but it is a pure *layout* helper — you hand it one
+# element per cell — so it does not virtualize and was not used.)
+freya = "=0.4.0"
+
+# Verification only: the scripted `GRID_SELFTEST=1` pass needs to wait a frame
+# between a programmatic scroll and reading back which rows were built, and
+# Freya's executor has no timer primitive.
+async-io = "2.6.0"
+
+[profile.release]
+debug = false

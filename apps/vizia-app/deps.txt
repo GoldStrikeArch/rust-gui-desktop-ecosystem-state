@@ -1,0 +1,262 @@
+0vizia-app v0.1.0 (/Users/mpl4/Desktop/workspace/self_learning/rust/gui-ecosystem-research/apps/vizia-app)
+1vizia v0.4.0
+2skia-safe v0.93.1
+3base64 v0.22.1
+3bitflags v2.13.1
+3percent-encoding v2.3.2
+3skia-bindings v0.93.1
+3skia-svg-macros v0.1.0 (proc-macro)
+4proc-macro2 v1.0.107
+5unicode-ident v1.0.24
+4quote v1.0.47
+5proc-macro2 v1.0.107 (*)
+4syn v2.0.119
+5proc-macro2 v1.0.107 (*)
+5quote v1.0.47 (*)
+5unicode-ident v1.0.24
+2vizia_core v0.4.0
+3accesskit v0.24.1
+4uuid v1.24.0
+3bitflags v2.13.1
+3chrono v0.4.45
+4iana-time-zone v0.1.65
+5core-foundation-sys v0.8.7
+4num-traits v0.2.19
+3comrak v0.51.0
+4caseless v0.2.2
+5unicode-normalization v0.1.25
+6tinyvec v1.12.0
+7tinyvec_macros v0.1.1
+4finl_unicode v1.4.0
+4jetscii v0.5.3
+4phf v0.13.1
+5phf_shared v0.13.1
+6siphasher v1.0.3
+4rustc-hash v2.1.3
+4smallvec v1.15.2
+4typed-arena v2.0.2
+3copypasta v0.10.2
+4objc2 v0.5.2
+5objc-sys v0.3.5
+5objc2-encode v4.1.0
+4objc2-app-kit v0.2.2
+5bitflags v2.13.1
+5objc2 v0.5.2 (*)
+5objc2-foundation v0.2.2
+6bitflags v2.13.1
+6block2 v0.5.1
+7objc2 v0.5.2 (*)
+6dispatch v0.2.0
+6objc2 v0.5.2 (*)
+4objc2-foundation v0.2.2 (*)
+3cssparser v0.35.0
+4cssparser-macros v0.6.1 (proc-macro)
+5quote v1.0.47 (*)
+5syn v2.0.119 (*)
+4dtoa-short v0.3.5
+5dtoa v1.0.11
+4itoa v1.0.18
+4phf v0.11.3
+5phf_macros v0.11.3 (proc-macro)
+6phf_generator v0.11.3
+7phf_shared v0.11.3
+8siphasher v1.0.3
+7rand v0.8.7
+8rand_core v0.6.4
+6phf_shared v0.11.3 (*)
+6proc-macro2 v1.0.107 (*)
+6quote v1.0.47 (*)
+6syn v2.0.119 (*)
+5phf_shared v0.11.3
+6siphasher v1.0.3
+4smallvec v1.15.2
+3fluent-bundle v0.15.3
+4fluent-langneg v0.13.1
+5unic-langid v0.9.6
+6unic-langid-impl v0.9.6
+7tinystr v0.8.3
+8displaydoc v0.2.7 (proc-macro)
+9proc-macro2 v1.0.107 (*)
+9quote v1.0.47 (*)
+9syn v3.0.3
+10proc-macro2 v1.0.107 (*)
+10quote v1.0.47 (*)
+10unicode-ident v1.0.24
+6unic-langid-macros v0.9.6
+7proc-macro-hack v0.5.20+deprecated (proc-macro)
+7tinystr v0.8.3 (*)
+7unic-langid-impl v0.9.6 (*)
+7unic-langid-macros-impl v0.9.6 (proc-macro)
+8proc-macro-hack v0.5.20+deprecated (proc-macro)
+8quote v1.0.47 (*)
+8syn v2.0.119 (*)
+8unic-langid-impl v0.9.6 (*)
+4fluent-syntax v0.11.1
+5thiserror v1.0.69
+6thiserror-impl v1.0.69 (proc-macro)
+7proc-macro2 v1.0.107 (*)
+7quote v1.0.47 (*)
+7syn v2.0.119 (*)
+4intl-memoizer v0.5.3
+5type-map v0.5.1
+6rustc-hash v2.1.3
+5unic-langid v0.9.6 (*)
+4intl_pluralrules v7.0.2
+5unic-langid v0.9.6 (*)
+4rustc-hash v1.1.0
+4self_cell v0.10.3
+5self_cell v1.3.0
+4smallvec v1.15.2
+4unic-langid v0.9.6 (*)
+3fluent-langneg v0.13.1 (*)
+3fxhash v0.2.1
+4byteorder v1.5.0
+3hashbrown v0.16.1
+4allocator-api2 v0.2.21
+4equivalent v1.0.2
+4foldhash v0.2.0
+3indexmap v2.14.0
+4equivalent v1.0.2
+4hashbrown v0.17.1
+3log v0.4.33
+3morphorm v0.8.0
+4smallvec v1.15.2
+3open v5.4.0
+4libc v0.2.189
+3qfilter v0.2.5
+4xxhash-rust v0.8.18
+3skia-safe v0.93.1 (*)
+3sys-locale v0.3.2
+3unic-langid v0.9.6 (*)
+3unicode-bidi v0.3.18
+3unicode-segmentation v1.13.3
+3vizia_id v0.4.0
+3vizia_input v0.4.0
+4bitflags v2.13.1
+4keyboard-types v0.7.0
+5bitflags v2.13.1
+4vizia_id v0.4.0
+3vizia_reactive v0.4.0
+4parking_lot v0.12.5
+5lock_api v0.4.14
+6scopeguard v1.2.0
+5parking_lot_core v0.9.12
+6cfg-if v1.0.4
+6libc v0.2.189
+6smallvec v1.15.2
+4smallvec v1.15.2
+3vizia_storage v0.4.0
+4vizia_id v0.4.0
+3vizia_style v0.4.0
+4bitflags v2.13.1
+4cssparser v0.35.0 (*)
+4cssparser-color v0.3.0
+5cssparser v0.35.0 (*)
+4fxhash v0.2.1 (*)
+4morphorm v0.8.0 (*)
+4precomputed-hash v0.1.1
+4selectors v0.32.0
+5bitflags v2.13.1
+5cssparser v0.35.0 (*)
+5derive_more v2.1.1
+6derive_more-impl v2.1.1 (proc-macro)
+7proc-macro2 v1.0.107 (*)
+7quote v1.0.47 (*)
+7syn v2.0.119 (*)
+5log v0.4.33
+5new_debug_unreachable v1.0.6
+5phf v0.11.3 (*)
+5precomputed-hash v0.1.1
+5rustc-hash v2.1.3
+5servo_arc v0.4.3
+6stable_deref_trait v1.2.1
+5smallvec v1.15.2
+4skia-safe v0.93.1 (*)
+3vizia_window v0.4.0
+4bitflags v2.13.1
+4vizia_input v0.4.0 (*)
+3web-time v1.1.0
+2vizia_winit v0.4.0
+3accesskit v0.24.1 (*)
+3accesskit_winit v0.32.2
+4accesskit v0.24.1 (*)
+4accesskit_macos v0.26.3
+5accesskit v0.24.1 (*)
+5accesskit_consumer v0.38.0
+6accesskit v0.24.1 (*)
+6hashbrown v0.16.1 (*)
+5hashbrown v0.16.1 (*)
+5objc2 v0.5.2 (*)
+5objc2-app-kit v0.2.2 (*)
+5objc2-foundation v0.2.2 (*)
+4raw-window-handle v0.6.2
+4winit v0.30.13
+5bitflags v2.13.1
+5block2 v0.5.1 (*)
+5core-foundation v0.9.4
+6core-foundation-sys v0.8.7
+6libc v0.2.189
+5core-graphics v0.23.2
+6bitflags v1.3.2
+6core-foundation v0.9.4 (*)
+6core-graphics-types v0.1.3
+7bitflags v1.3.2
+7core-foundation v0.9.4 (*)
+7libc v0.2.189
+6foreign-types v0.5.0
+7foreign-types-macros v0.2.4 (proc-macro)
+8proc-macro2 v1.0.107 (*)
+8quote v1.0.47 (*)
+8syn v3.0.3 (*)
+7foreign-types-shared v0.3.1
+6libc v0.2.189
+5cursor-icon v1.2.0
+5dpi v0.1.2
+5objc2 v0.5.2 (*)
+5objc2-app-kit v0.2.2 (*)
+5objc2-foundation v0.2.2 (*)
+5raw-window-handle v0.6.2
+5smol_str v0.2.2
+5tracing v0.1.44
+6pin-project-lite v0.2.17
+6tracing-core v0.1.36
+3copypasta v0.10.2 (*)
+3gl v0.14.0
+3glutin v0.32.3
+4bitflags v2.13.1
+4cgl v0.3.2
+5libc v0.2.189
+4dispatch2 v0.3.1
+5bitflags v2.13.1
+5objc2 v0.6.4
+6objc2-encode v4.1.0
+4libloading v0.8.9
+5cfg-if v1.0.4
+4objc2 v0.6.4 (*)
+4objc2-app-kit v0.3.2
+5bitflags v2.13.1
+5objc2 v0.6.4 (*)
+5objc2-core-foundation v0.3.2
+6bitflags v2.13.1
+6objc2 v0.6.4 (*)
+5objc2-foundation v0.3.2
+6bitflags v2.13.1
+6objc2 v0.6.4 (*)
+6objc2-core-foundation v0.3.2 (*)
+4objc2-core-foundation v0.3.2 (*)
+4objc2-foundation v0.3.2 (*)
+4once_cell v1.21.4
+4raw-window-handle v0.6.2
+3glutin-winit v0.5.0
+4glutin v0.32.3 (*)
+4raw-window-handle v0.6.2
+4winit v0.30.13 (*)
+3hashbrown v0.16.1 (*)
+3log v0.4.33
+3skia-safe v0.93.1 (*)
+3vizia_core v0.4.0 (*)
+3vizia_id v0.4.0
+3vizia_input v0.4.0 (*)
+3vizia_reactive v0.4.0 (*)
+3vizia_window v0.4.0 (*)
+3winit v0.30.13 (*)

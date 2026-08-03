@@ -321,3 +321,192 @@ TIME_SINK:
 - Layout-constraint semantics: Flex hands non-flex children its full loosened max in both axes and Portal passes viewport max down — "fill if bounded" sizing exploded cards to viewport height; flexed label doesn't push siblings (needs FlexSpacer::Flex).
 - API archaeology: no hosted docs match the 0.4.0 release (git main differs); everything reverse-engineered from vendored sources and bundled examples.
 - The slider goose chase: hours of "clicks do nothing" debugging that ended at the undocumented 200px width clamp — clicks were landing right of the widget.
+
+## freya
+
+(Added 2026-08-03 with the three-framework expansion cohort. Evidence labels
+follow the newer files: observed / self-test / synthetic-input / source-only /
+unexercised. Canonical build numbers are pending the next measurement pass.)
+
+```yaml
+framework: freya
+version: "=0.4.0"
+cohort: 2026-08-03-expansion
+canonical_measurement: pending_new_cohort
+dash:
+  build_ok: true    # cargo build --release clean, --locked --release reproduces
+  launch_ok: true   # alive >12 s; every interaction driven with synthetic CGEventPost mouse events and read back from window-scoped screenshots
+  loc: 624          # single src/main.rs, heavily commented
+  helper_crates: ["async-io 2.6.0", "freya feature `engine` (names the Skia types canvas() callbacks require)"]  # no rand (10-line xorshift*), no DnD crate, no plotting crate
+  repaint_strategy: >-
+    Signal-driven: Freya repaints when a signal a component read is mutated.
+    The tick loop writes `metrics` at the configured rate, so at 10 Hz the whole
+    tree is re-rendered and — per the `// TODO: Use incremental rendering` still
+    in render_pipeline.rs — fully re-painted 10×/s. Hover crosshair writes the
+    `cursor` signal and re-renders MainChart only; use_animation runs its own
+    async-io task for ~160 ms per hover. Self-observed at 10 Hz:
+    4.2–5.2% CPU, RSS ≈ 99.6 MiB.
+  ratings:
+    dnd_reorder: {rating: built-in, evidence: synthetic-input, note: "DragZone::new(payload, child).drag_element(ghost) + DropZone::new(child, on_drop) ship in freya::components. Payloads are TYPED (use_drag::<T>() keys a root-scope context by T), the 4 px threshold is configurable, and the drop handler just gets the payload back. Whole reorder feature ≈30 LoC including the Vec permutation. Verified: dragging the CPU card onto the Memory slot swapped them on screen."}
+    live_data: {rating: assembled, evidence: observed, note: "spawn(async move { loop { … } }) is first-party and updates signals directly from the task (single-threaded reactivity, no channel plumbing). But Freya ships NO timer/interval primitive — the prelude exports nothing time-related — so the loop depends on async-io's Timer::after, which is exactly what freya-animation uses internally and is already in the tree. Rate changes are read with .peek() inside the loop, so re-rating needs no re-subscription."}
+    charts: {rating: hand-rolled, evidence: observed, note: "canvas() hands you the raw skia_safe::Canvas, so scaling, gridlines, area fill and polyline are ~110 LoC of drawing. A first-party charting path EXISTS (the `plot` feature re-exports plotters plus freya-plotters-backend for this same canvas) and was deliberately not used, to measure the drawing story. skia-safe 0.98 moved the path API to PathBuilder + .snapshot()/.detach(); the compile error names Handle<SkPath> and offers no hint."}
+    hover_tooltip: {rating: assembled, evidence: observed, note: "canvas().on_pointer_move(..) gives element_location already in element-local LOGICAL px — no hit-testing, no scroll-offset math. Crosshair and snapped marker are drawn in Skia, but the TOOLTIP IS A REAL ELEMENT (rect + two labels, Position::new_absolute(), Layer::Overlay, interactive(false)) because CanvasContext exposes a FontCollection but no text measurement. Screenshot shows `#131 / 57.05 %`."}
+    slider: {rating: built-in, evidence: synthetic-input, note: "Slider::new(on_moved).value(percent) — one line. Caveat: hard-wired to a 0..100 PERCENTAGE, so a 1–60 Hz control needs its own two mapping expressions, and there are no steps/ticks."}
+    click_select: {rating: built-in, evidence: synthetic-input, note: ".on_press(handler) is the high-level 'activate' event: it fires for left-click, touch AND keyboard activation on a focused element, so a11y comes free. Selection highlight is a Border swap."}
+    animation: {rating: built-in, evidence: observed, note: "use_animation(|conf| { conf.on_change(OnChange::Rerun); AnimNum::new(0., target).time(160).ease(Ease::Out).function(Function::Quad) }) from freya::animation. It owns its own clock (an async-io task), re-runs when a signal read inside the closure changes, and you just read .get().value() — no frame subscription, no Instant threading. There is NO layout/FLIP animation, so the grid reflow on drop snaps (documented gap)."}
+  sharpest_edge: "CANVASES THAT NEVER REPAINT. RenderCallback's PartialEq returns true unconditionally and CanvasElement::changed() is self != other, so a canvas() whose only changing input is data captured by its closure diffs as UNCHANGED: the old element stays in the tree and the pipeline keeps invoking the FIRST closure forever. Observed directly — six sparklines frozen at their seed values while the main chart animated, because the main chart's canvas also carried on_pointer_move/on_sized handlers and Callback::eq returns false unconditionally. Workaround: attach any handler (`canvas(on_render).on_wheel(|_| {})`). Nothing in the docs mentions this and there is no Canvas equivalent of iced's canvas::Cache::clear()."
+board:
+  build_ok: true
+  launch_ok: true   # every capability exercised with synthetic CGEvent mouse events and System Events keystrokes, checked against window-scoped screenshots
+  loc: 462          # single src/main.rs
+  helper_crates: []  # freya "=0.4.0" default features covers DnD, scrolling, inputs, buttons and animation; freya::animation is compiled in unconditionally
+  ratings:
+    cross_column_dnd: {rating: built-in, evidence: synthetic-input, note: "DropZone::new(DragZone::new(card_id, body).drag_element(ghost), on_drop). The payload is typed (u64) and comes straight back in the handler; the whole reorder engine is ~35 LoC of Vec surgery. Observed: a card dragged from Todo into Doing, counts 3/2/1 → 2/3/1."}
+    within_column_reorder: {rating: built-in, evidence: synthetic-input, note: "Same mechanism — every card is wrapped in a DropZone meaning 'insert before me', with an index correction when the source was earlier in the same column. Observed: card dragged from Doing index 2 to index 0."}
+    drop_indicator: {rating: assembled, evidence: synthetic-input, note: "DropZone::on_drag_over(bool) fires on enter/leave ONLY while a drag of that payload type is in flight — exactly the signal you want. It drives a drop_slot signal and a 4→6 px pill between cards (~20 LoC)."}
+    drag_ghost: {rating: built-in, evidence: synthetic-input, note: "DragZone::drag_element(..) renders any element at the cursor, offset by the grab point, on Layer::Overlay with interactive(false) — which correctly propagates to children, so the ghost never eats the drop. show_while_dragging(true) keeps the original in place. Zero code beyond describing the ghost."}
+    inline_edit: {rating: hand-rolled, evidence: synthetic-input, note: "Freya 0.4 has NO double-click event — no on_double_click, no click count in MouseEventData — so it is emulated by remembering (card_id, Instant) of the last press against a 400 ms window. Enter is Input::on_submit; Escape needs Input::on_pre_key_down, which REPLACES the widget's stock key filter, so the app must re-implement the default arms (Enter/Shift pass, Tab skip, everything else stop_propagation + prevent_default) around its own Escape case."}
+    add_delete: {rating: built-in, evidence: synthetic-input, note: "Button + a per-column adding: Option<usize> signal that swaps the button for an auto_focus(true) Input; delete is .on_press on a 20×20 rect carrying a11y_role(Button) + a11y_alt."}
+    animation: {rating: built-in, evidence: observed, note: "use_animation_with_dependencies(&(column, index), ..) with OnChange::Rerun replays an AnimNum scale-in (0.94→1.0, 180 ms, Ease::Out/Function::Back) whenever a card's position changes — i.e. exactly on drop. No frame scheduling, no Instant threading. No layout/FLIP animation, so neighbours snap into their new slots instead of sliding; the moved card is the only thing that animates (documented gap)."}
+    column_scroll: {rating: built-in, evidence: synthetic-input, note: "One ScrollView per column."}
+  traps:
+    - "`Ref` held across a write() ABORTS the app behind a modal dialog. State::peek()/read() return a Ref; writing to the same signal while one is alive panics, and a UI-thread panic surfaces as a blocking CFUserNotificationDisplayAlert 'Fatal Error' panel that freezes the app (window keeps its last frame, every later event queues behind the modal). The trap is `if let Some(x) = *state.peek() { state.write() … }` — the scrutinee temporary is still alive inside the body."
+    - "DropZone cannot cover a container's slack space: it renders rect().width(auto).height(auto) around its child and exposes no size setters, so 'drop anywhere in the empty part of this column' cannot be expressed by sizing a zone (this app uses an explicit 140 px tail zone). The obvious alternative — use_drag::<T>() + on_mouse_up on the column rect — did NOT work: an on_mouse_up listener on an ancestor never fired for clicks in the empty area while on_pointer_down on the same rect fired every time."
+    - "Size::flex silently no-ops: a child sized Size::flex(1.) collapses unless the PARENT opts into .content(Content::flex()). No warning; the first build rendered a single full-width column."
+```
+
+SURPRISES:
+- Drag-and-drop is a first-party TYPED component pair (DragZone/DropZone) with a working ghost and an on_drag_over hook — the least code of any framework in this study for both a sortable dashboard and a cross-container kanban (~30-35 LoC each).
+- use_animation needs no frame scheduling from the app at all, and use_animation_with_dependencies makes "animate when this thing moved" a two-line declaration.
+- on_press unifies mouse/touch/keyboard activation and every element has AccessKit fields (a11y_role, a11y_alt) inline, so a11y is not a separate data model.
+- Against that: canvases silently never repaint unless they carry an event handler, Slider is percentage-only, Input is single-line, there is no double-click event, and a trivial borrow mistake becomes a frozen app behind a system alert.
+- Debug builds silently inject freya-performance-plugin's FPS overlay (cfg(debug_assertions) inside freya::prelude::launch), which is confusing the first time you see it.
+
+TIME_SINK:
+- Canvas staleness: diagnosing why sparklines froze while the main chart updated (the difference was the presence of event handlers).
+- Skia API archaeology (PathBuilder vs Path, Color→SkColor, ctx.size already divided by the scale factor).
+- The empty-column drop target — three attempts, including the Ref-across-write panic that hung the app behind a modal alert — plus double-click emulation and re-implementing Input's default key filter to get Escape.
+
+## vizia
+
+(Added 2026-08-03 with the three-framework expansion cohort.)
+
+```yaml
+framework: vizia
+version: "=0.4.0"
+cohort: 2026-08-03-expansion
+canonical_measurement: pending_new_cohort
+dash:
+  build_ok: true    # cargo build --release and --locked --release clean, no warnings
+  launch_ok: true   # alive well past the 10 s bar; interactions driven with CGEvent clicks/drags scoped to this app's window and verified from window-scoped screencapture -l shots
+  loc: 743          # single src/main.rs, heavily commented; NO verification hooks compiled in (evidence came from external CGEvent synthesis + screenshots). Rough split: ~110 Skia drawing, ~90 CSS, ~150 model/event, ~250 view construction
+  helper_crates: []  # vizia "=0.4.0" default features only; timers, DnD, custom Skia drawing, CSS transitions and the slider are all core; PRNG is a 10-line xorshift*
+  release_binary_mib: 21.9   # Skia statically linked
+  repaint_strategy: >-
+    Fine-grained signal invalidation: every tick writes 6 Signal<VecDeque<f32>>
+    buffers, invalidating 6 sparkline views plus the main chart. vizia repaints
+    only the dirty views but still runs a full style/layout pass per event
+    cycle. Measured 10 × 1 s ps samples at 10 Hz: 6.03% average CPU
+    (range 3.5–6.0%), RSS 106–107 MiB steady.
+  ratings:
+    dnd_reorder: {rating: built-in, evidence: synthetic-input, note: "The standout finding: vizia core has real drag-and-drop. .on_drag(|ex| ex.set_drop_data(ex.current())) marks the view DRAGGABLE and fires when the pointer leaves a PRESSED card; .on_drop(|ex, data| ..) fires on release over any view; ex.has_drop_data() is available inside on_over for the slot highlight. Total DnD mechanics: ~14 lines of modifiers plus the model's order.update(remove/insert). Proven: a synthetic drag of the Memory card from slot 1 to slot 3 reflowed the grid. No helper crate, no hit-testing, no cursor-tracking subscription."}
+    live_data: {rating: built-in, evidence: observed, note: "cx.add_timer(Duration, None, |cx, action| ..) + cx.start_timer/stop_timer is core API with NO feature flag and no executor choice (contrast iced 0.14, where time::every silently doesn't exist without the smol/tokio feature). Rate changes are in-place: cx.modify_timer(t, |s| s.set_interval(d)) — the timer is not torn down and rebuilt. TimerAction::{Start,Stop,Tick(delta)} even gives the elapsed delta."}
+    charts: {rating: assembled, evidence: observed, note: "No plotting crate in the vizia ecosystem, but also no canvas LAYER to set up: vizia renders with Skia and vizia::vg re-exports skia-safe, so `impl View { fn draw(&self, cx: &mut DrawContext, canvas: &Canvas) }` hands you the same skia_safe::Canvas the framework draws with, already transformed into the view's coordinate space. ~100 LoC for both chart types. Redraw is per-view and declarative — .bind(metric.samples, |mut h| h.needs_redraw()) — no cache-invalidation bookkeeping. Trap: skia-safe 0.93's Path is immutable, so geometry goes through vg::PathBuilder + snapshot()/detach(); vg::Path::new() compiles and then has no move_to."}
+    hover_tooltip: {rating: assembled, evidence: synthetic-input, note: ".on_mouse_move(..) on the chart view plus .on_hover_out(..) to clear; index snapping is 3 lines; crosshair and marker are drawn in the same Skia draw(). The TOOLTIP IS A REAL VStack of Labels absolutely positioned over the canvas via left(Pixels(..))/top(Pixels(..)) bound to a signal, so it gets the framework's own text shaping — no measure_text, which is exactly what forces character-count estimates in canvas-only frameworks. Verified: tooltip reads '59.5 / sample 159' with crosshair and dot snapped to the line."}
+    slider: {rating: built-in, evidence: synthetic-input, note: "Slider::new(cx, signal).on_change(..). One catch: vizia's Slider is ALWAYS normalised 0.0–1.0, so a 1–60 Hz range needs mapping in both directions. Verified: dragging the handle set the label to 45 Hz and the timer interval followed."}
+    click_select: {rating: built-in, evidence: synthetic-input, note: ".on_press(..) + .toggle_class(\"selected\", signal.map(..)) and one CSS rule."}
+    animation: {rating: built-in, evidence: observed, note: "vizia has a CSS ANIMATION SYSTEM: `transition: background-color 180ms, border-color 180ms, scale 180ms, shadow 180ms;` on .card, with :hover, .selected and .drop-target variants. No Instant threading, no per-frame subscription, no animation crate — the framework interpolates the style properties itself. @keyframes + cx.play_animation_for(..) exists for imperative one-shots (unused here). The gap, shared with the whole cohort: no layout/FLIP animation, so the grid reflow after a drop snaps."}
+board:
+  build_ok: true
+  launch_ok: true   # every one of SPEC-3's requirements exercised with synthetic input; RSS after the full interaction sequence 99.4 MiB
+  loc: 499          # single src/main.rs; ~150 CSS, ~150 model/events, ~180 view construction. No verification hooks compiled in, so production LoC == total LoC
+  helper_crates: []
+  ratings:
+    cross_column_dnd: {rating: built-in, evidence: synthetic-input, note: "Three modifiers do the whole thing: .on_drag (marks DRAGGABLE, fires when the pointer leaves the pressed card), .on_over gated on ex.has_drop_data(), .on_drop. Proven: 'Draft the RFC' dragged from Todo into Doing, header counts 3/2/1 → 2/3/1."}
+    within_column_reorder: {rating: built-in, evidence: synthetic-input, note: "Exactly the same handler; the model adjusts the target index by one when the source precedes the destination in the same column. Proven: 'Review PR #412' from index 2 to index 0 inside Doing."}
+    drop_indicator: {rating: assembled, evidence: synthetic-input, note: "A zero-height Element between every pair of cards with .toggle_class(\"active\", drop_at.map(..)), plus a .column-active class on the whole column. The insertion POSITION is free because the drop target is the card you are over — no geometry maths."}
+    drag_ghost: {rating: hand-rolled, evidence: synthetic-input, note: "The one genuinely manual part: vizia arms and routes the drag but renders NOTHING, so the ghost is an absolutely positioned Label whose left/top are bound to a cursor signal fed by the root's .on_mouse_move. ~12 lines including the physical→logical scale conversion."}
+    inline_edit: {rating: built-in, evidence: synthetic-input, note: ".on_double_click(..) is a core action modifier; the card's Label is swapped for a Textbox by a Binding on the editing signal, and Textbox gives Enter and Esc directly: on_submit(|cx, text, enter|) where enter == true means the Enter key, and on_cancel is wired to Escape inside the widget. .on_build(|cx| { cx.focus(); cx.emit(TextEvent::StartEdit); }) puts the caret in it and selects the existing text."}
+    add_delete: {rating: built-in, evidence: synthetic-input, note: "'+ Add card' swaps to an inline Textbox under the same Binding pattern; empty/whitespace rejected in the model. Proven: added a card to Done (1 → 2); Esc while typing left the count unchanged; the ✕ button removed a card (Todo 3 → 2)."}
+    animation: {rating: built-in, evidence: observed, note: "CSS: `.drop-line { height: 0px; transition: height 140ms; }` / `.drop-line.active { height: 6px; }` — the framework interpolates a LAYOUT property, so the surrounding cards genuinely slide apart and back. Most retained/immediate-mode toolkits in this cohort animate paint only. The shared gap remains: no FLIP/layout-position animation, so a card that lands in a new column appears there instantly."}
+    column_scroll: {rating: built-in, evidence: synthetic-input, note: "One stock ScrollView per column. Proven: after adding 10 filler cards, wheel scrolling over Todo moved only that column."}
+  traps:
+    - "on_press / on_drag / on_double_click need hoverable(false) children. vizia only runs an action when the acted-on view is the HOVERED entity (cx.current == meta.target), so a click landing on a card's Label or sparkline never reaches the card. Marking non-interactive children .hoverable(false) is the fix and is what vizia's own examples do. Silent failure: no warning, no compile error."
+    - "on_drop ORDERING: on_drop runs while WindowEvent::MouseUp is still propagating to the root model, and it only QUEUES the app event. A root MouseUp handler that cleared drag state inline made every drop a silent no-op. Fix: queue a DragEnd event so the order stays Drop → DragEnd."
+    - "Event coordinates are PHYSICAL pixels; layout units (Pixels(..)) are LOGICAL. On a 2× display the tooltip/ghost rendered at twice the cursor offset until divided by cx.scale_factor()."
+```
+
+SURPRISES:
+- vizia is the only framework in this study where none of SPEC-2's three "hard" capabilities (DnD, live timer, animation) needed a helper crate or hand-rolled mechanics — roughly 30 lines between them.
+- `transition: height` on a layout property actually animates LAYOUT, so the kanban's insertion gap really opens and closes; most of the cohort animates paint only.
+- The same on_drag/on_over/on_drop core API also receives Finder file drops as DropData::File(PathBuf) — one drop API for both in-app and OS drags (used in apps/vizia-tray).
+- Textbox::on_submit's second argument distinguishes Enter from focus loss and on_cancel is Escape, so SPEC-3's "Enter commits, Esc cancels" is two closures.
+- Against that: 6% CPU at 10 Hz is high for what is redrawn (a full style/layout pass per event cycle), and the framework is unusually silent about mistakes — press handlers on containers, event coordinates used as layout coordinates, and drop ordering all compile and do nothing visible.
+
+TIME_SINK:
+- The three silent-failure traps (~60% of board time). Each one compiles, runs, and does nothing.
+- Skia API archaeology: vizia pins skia-safe 0.93 whose Path is immutable, and the vizia examples only use vg::Path::rect(..), so the builder pattern had to be found in skia-safe's source.
+- Coordinate spaces and the hover/target rule in dash — all three had to be found by printing WindowEvents from the model.
+
+## floem
+
+(Added 2026-08-03 with the three-framework expansion cohort. Version pin is the
+git rev `778bb5f2` of lapce/floem main — see the version_deviation note in
+iter4-rows.md and apps/floem-app/GAPS.md.)
+
+```yaml
+framework: floem
+version: "git-778bb5f2"   # rev 778bb5f2aa08429e579ee2e6ac97e84fbf18b618 (2026-06-21); crates.io 0.2.0 is 20 months stale and `main` is unpublishable (forked floem-winit + understory_* git deps)
+cohort: 2026-08-03-expansion
+canonical_measurement: pending_new_cohort
+dash:
+  build_ok: true    # release build clean, locked rebuild too
+  launch_ok: true   # alive after 10 s, killed cleanly
+  loc: 421          # single src/main.rs
+  helper_crates: []  # DnD, animation and slider are built-ins; charts are raw canvas; rand avoided with a 10-line xorshift*
+  repaint_strategy: >-
+    floem repaints only views whose TRACKED SIGNALS changed. Each tick writes 6
+    value signals + 6 sample signals → 6 sparkline canvases + 1 chart canvas +
+    7 labels repaint; everything else is untouched. Crosshair movement writes
+    only the hover signal → only the chart canvas repaints. Hover/drag
+    animations are driven internally by floem's transition system; no app-side
+    frame scheduling exists anywhere in the file. Measured: 2.7% average CPU at
+    10 Hz over a 12 s ps sample (the iced port measured 3.5% over 30 s).
+  ratings:
+    dnd_reorder: {rating: built-in, evidence: observed, note: "floem's standout cell. .draggable_with_config() on the card gives a drag with threshold, an AUTOMATIC GHOST (floem re-paints the dragged view at the cursor; dragging_style styles it), DragTargetEnter events on the other cards carrying the source's custom_data for live grid reflow (the reflowed grid IS the slot indicator), and a release animated with a configurable spring easing. ~25 LoC total, no manual hit-testing, no global pointer subscription — the iced port hand-rolled ~90 LoC for the same interaction."}
+    live_data: {rating: assembled, evidence: observed, note: "floem has NO interval/subscription primitive — only one-shot exec_after(Duration, cb). The upstream `timer` example's own pattern is used: an Effect + exec_after + trigger-signal chain that re-arms itself (~15 LoC), re-reading the rate each round so slider changes just work. Slightly galling that the framework's own example must hand-build an interval."}
+    charts: {rating: hand-rolled, evidence: observed, note: "No chart widget or ecosystem helper at this rev (crates.io chart helpers target floem 0.2). The canvas view + kurbo BezPath through the Renderer trait: scaling, gridlines, axis labels and polylines all manual (~110 LoC). BUT the paint closure is SIGNAL-TRACKED — reading samples.get() inside it makes repaint scheduling fully automatic, with no cache/damage management at all (iced needed 7 explicit canvas::Caches)."}
+    hover_tooltip: {rating: hand-rolled, evidence: observed, note: "Pointer position lands in an RwSignal<Option<Point>> via on_event_cont(listener::PointerMove/PointerLeave); positions are already view-local. The paint closure reads the signal, so the crosshair repaints reactively. Genuine win over iced: TextLayout::new_with_text(..).size() gives REAL text measurement for the tooltip box (iced estimated width from char count). Snapping and edge-flipping are still manual."}
+    slider: {rating: built-in, evidence: observed, note: "Slider::new_ranged(value_fn, 1.0..=60.0).step(1.0) — and unlike freya/vizia it takes a real range. Asterisk: changes arrive as a typed CUSTOM EVENT (on_event_stop(SliderChanged::listener(), ..) reading changed.value), not a plain callback, and the doc example IN THE SOURCE (event.state.value) does not compile against the same rev — the extractor already unwraps to &SliderState."}
+    click_select: {rating: built-in, evidence: observed, note: "on_event_stop(listener::Click, ..) plus a reactive border style via a `selected` signal. (on_click_stop exists but is deprecated at this rev.)"}
+    animation: {rating: built-in, evidence: observed, note: "Two primitives used deliberately: style transitions (transition_background(Transition::linear(200.millis())) + hover() styles gives tweened hover elevation with zero scheduling code) and the drag-release spring (easing::Spring::snappy()) that animates the ghost into place. floem also has a full keyframe Animation API (.animation(|a| a.keyframe(..)) with springs/bezier easings), unused here. Animation is clearly a first-class subsystem, unlike iced's schedule-your-own-frames model."}
+board:
+  build_ok: true
+  launch_ok: true   # alive after 10 s, killed cleanly, nothing on stdout/stderr
+  loc: 353          # single src/main.rs
+  helper_crates: []  # everything is stock floem
+  ratings:
+    cross_column_dnd: {rating: built-in, evidence: observed, note: "Cards are .draggable_with_config() with the card id as custom_data; any card or column tail registered for DragTargetEnter receives that id and calls one move_card helper. Cross-container works EXACTLY like within-container — floem's drag system has no notion of container boundaries to fight. ~30 LoC including the model helper."}
+    within_column_reorder: {rating: built-in, evidence: observed, note: "Same DragTargetEnter handler; hovering a sibling card moves the dragged card into its position (live reflow). No index math beyond a position() lookup."}
+    drop_indicator: {rating: assembled, evidence: observed, note: "Live reflow makes the board itself the preview; the dragged card's slot is styled (accent border + tinted background) via a dragging: RwSignal<Option<u64>> set in DragStart/DragEnd/DragCancel listeners. No dedicated insertion-line API, but ~10 LoC of styling on top of the built-in events suffices."}
+    drag_ghost: {rating: built-in, evidence: observed, note: "floem re-paints the dragged view at the cursor automatically; dragging_style styles that ghost (shadow, accent border, translucency). ZERO mechanics code — compare the iced port's pin-in-stack plus global cursor subscription."}
+    inline_edit: {rating: assembled, evidence: observed, note: "dyn_container swaps a card row for a TextInput when editing == Some(id); DoubleClick is a FIRST-CLASS TYPED LISTENER; Enter is the TextInputEnter custom event; Esc is a KeyDown check. ViewId::request_focus() focuses the fresh input (pattern lifted from the upstream todo-complex example)."}
+    add_delete: {rating: built-in, evidence: observed, note: "Buttons + signal updates; the reveal-on-demand add input is the same dyn_container + request_focus pattern, with identical Enter/Esc handling."}
+    animation: {rating: built-in, evidence: observed, note: "On release floem animates the ghost into place with a configurable easing (Spring::snappy() here) — genuinely pleasant and free. Asterisk: the OTHER cards snap when the list reflows mid-drag; there is no FLIP/layout animation for reflow (same gap as every other framework tested)."}
+    column_scroll: {rating: built-in, evidence: observed, note: "Each column body is .scroll() with flex_grow(1). One layout papercut: the inner stack needs min_height_full() so the tail drop target fills short columns."}
+  design_caveats:
+    - "LIVE-REFLOW COMMIT MODEL: the card is moved in the model while dragging, so releasing anywhere 'commits' the last hovered slot, and Esc (which floem treats as drag-cancel) does NOT restore the original order. Matches the iced port's behaviour and is acceptable per spec, but a transactional model would need to defer the move until DragTargetDrop."
+    - "Card text inside a keyed dyn_stack row must be re-derived reactively (Label::derived + signal lookup) or an inline edit won't refresh the row, since keyed diffing keeps the old view — the classic fine-grained-reactivity gotcha."
+```
+
+SURPRISES:
+- Built-in drag-and-drop with an automatic ghost and a spring release is unique among the frameworks measured: the spec's hardest capability was the easiest cell in both apps, and cross-container DnD costs exactly the same as within-container.
+- Signal-tracked canvas paint closures give reactive repaint for custom drawing with zero bookkeeping — the whole cache/invalidation layer iced needed simply does not exist here.
+- Real text measurement (TextLayout::size()) is usable inside canvas code, which is what lets the tooltip box be sized correctly rather than estimated from character counts.
+- A typed DoubleClick listener exists (several frameworks make you hand-time double clicks).
+- Against that: no interval timer primitive (the framework's own example hand-rolls a re-arming exec_after chain), no transactional drop or FLIP reflow animation, and heavy doc/example drift on `main` — deprecated constructors everywhere the docs still use them, and in-source doc examples that don't compile against the same rev.
+
+TIME_SINK:
+- API archaeology against a moving `main`: this rev deprecates the documented API surface (empty() → Empty::new(), on_click_stop → typed Click listener) and the slider's change-event shape had to be read from the source.
+- Chart drawing — the usual manual-plotting work, though signal-tracked canvases removed the entire cache/invalidation layer.
+- Editing/adding state choreography (which signal owns the buffer, commit vs cancel, focusing the freshly created input) and getting scroll + tail-drop-target + min_height_full to cooperate in taffy flexbox. DnD itself took minutes, not hours.

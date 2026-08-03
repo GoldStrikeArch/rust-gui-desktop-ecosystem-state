@@ -1,0 +1,4 @@
+app,avg_cpu_pct,peak_cpu_pct,max_rss_mib,helper_procs
+freya-dash,4.5,5.9,100,0
+vizia-dash,6.0,7.1,108,0
+floem-dash,3.0,3.7,95,0

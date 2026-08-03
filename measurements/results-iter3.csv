@@ -1,0 +1,7 @@
+app,crate_root,clean_build_secs,incremental_secs,binary_bytes,binary_stripped_bytes,deps_unique,accesskit_in_deps,loc_rust,loc_other_ui,process_survived_8s
+freya-tray,apps/freya-tray,33,1,23951696,21480920,208,4,865,0,yes
+freya-babel,apps/freya-babel,31,1,21383904,19248296,192,4,530,0,yes
+vizia-tray,apps/vizia-tray,21,1,24152848,21688728,168,4,720,0,yes
+vizia-babel,apps/vizia-babel,17,1,22677568,20418376,128,4,241,0,yes
+floem-tray,apps/floem-tray,45,1,20880880,17699048,240,0,610,0,yes
+floem-babel,apps/floem-babel,44,1,18772016,15915896,226,0,326,0,yes
