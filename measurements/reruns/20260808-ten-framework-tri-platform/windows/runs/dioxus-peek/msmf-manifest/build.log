@@ -1,0 +1,94 @@
+   Compiling zerovec-derive v0.11.3
+   Compiling zerocopy-derive v0.8.54
+   Compiling displaydoc v0.2.6
+   Compiling equator-macro v0.4.2
+   Compiling pin-project-internal v1.1.13
+   Compiling warnings-macro v0.2.0
+   Compiling serde v1.0.228
+   Compiling thiserror v2.0.18
+   Compiling yoke-derive v0.8.2
+   Compiling tracing v0.1.44
+   Compiling windows-core v0.61.2
+   Compiling profiling-procmacros v1.0.18
+   Compiling zerofrom v0.1.8
+   Compiling const-serialize-macro v0.7.2
+   Compiling arg_enum_proc_macro v0.3.4
+   Compiling windows-core v0.62.2
+   Compiling darling_macro v0.21.3
+   Compiling num-derive v0.4.2
+   Compiling const-serialize-macro v0.8.0-alpha.0
+   Compiling dioxus-core-macro v0.7.9
+   Compiling schannel v0.1.29
+   Compiling dioxus-html-internal-macro v0.7.9
+   Compiling async-trait v0.1.89
+   Compiling serde_repr v0.1.20
+   Compiling webview2-com-sys v0.38.2
+   Compiling generational-box v0.7.9
+   Compiling profiling v1.0.18
+   Compiling windows-numerics v0.2.0
+   Compiling windows-future v0.2.1
+   Compiling windows-collections v0.2.0
+   Compiling darling v0.21.3
+   Compiling const-serialize v0.7.2
+   Compiling windows-future v0.3.2
+   Compiling bytes v1.12.1
+   Compiling subsecond-types v0.7.9
+   Compiling slotmap v1.1.1
+   Compiling keyboard-types v0.7.0
+   Compiling enumset_derive v0.15.0
+   Compiling equator v0.4.2
+   Compiling euclid v0.22.14
+   Compiling subsecond v0.7.9
+   Compiling windows v0.61.3
+   Compiling windows-collections v0.3.2
+   Compiling windows-numerics v0.3.1
+   Compiling const-serialize v0.8.0-alpha.0
+   Compiling native-tls v0.2.18
+   Compiling aligned-vec v0.6.4
+   Compiling mozjpeg-sys v2.2.3
+   Compiling tokio-macros v2.7.0
+   Compiling sledgehammer_bindgen_macro v0.6.5
+   Compiling pin-project v1.1.13
+   Compiling webview2-com-macros v0.8.1
+   Compiling objc2 v0.6.4
+   Compiling manganis-core v0.7.9
+   Compiling v_frame v0.3.9
+   Compiling warnings v0.2.1
+   Compiling cookie v0.18.1
+   Compiling mozjpeg v0.10.13
+   Compiling http v1.4.2
+error: `objc2` only works on Apple platforms. Pass `--target aarch64-apple-darwin` or similar to compile for macOS.
+       (If you're absolutely certain that you're using GNUStep, you can specify that with the `gnustep-x-y` Cargo feature instead).
+   --> C:\Users\M.Pertsev\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\objc2-0.6.4\src\lib.rs:219:1
+    |
+219 | compile_error!("`objc2` only works on Apple platforms. Pass `--target aarch64-apple-darwin` or similar to compile for macOS.\n(If you're absolutely certain that you're using GNUStep, you can specify that with the `gnustep-x-y` Cargo feature instead).");
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+   Compiling yoke v0.8.3
+   Compiling windows v0.62.2
+   Compiling av1-grain v0.2.5
+   Compiling av-scenechange v0.14.1
+   Compiling zerovec v0.11.6
+   Compiling dioxus-core v0.7.9
+   Compiling zerotrie v0.2.4
+   Compiling zerocopy v0.8.54
+   Compiling matchers v0.2.0
+   Compiling macro-string v0.1.4
+   Compiling dioxus-desktop v0.7.9
+   Compiling tokio v1.52.3
+   Compiling muda v0.17.2
+   Compiling getrandom v0.2.17
+   Compiling thread_local v1.1.9
+   Compiling raw-window-handle v0.5.2
+   Compiling cpal v0.17.3
+   Compiling winnow v0.7.15
+   Compiling dunce v1.0.5
+   Compiling nanorand v0.7.0
+   Compiling enumset v1.1.13
+   Compiling tracing-subscriber v0.3.23
+   Compiling global-hotkey v0.7.0
+   Compiling manganis-macro v0.7.9
+   Compiling rfd v0.17.2
+   Compiling rav1e v0.8.1
+error: could not compile `objc2` (lib) due to 1 previous error
+warning: build failed, waiting for other jobs to finish...

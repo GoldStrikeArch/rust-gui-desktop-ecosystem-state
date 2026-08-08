@@ -26,20 +26,20 @@ Two questions drove this work:
   overlap analysis.
 - `dashboard.html` — shareable one-page summary of all of the above.
 
-## Deep dives (one per framework, source-linked)
+## Per-framework research (source-linked)
 
-| Report | Framework | Version tested |
-|---|---|---|
-| [report/01-iced.md](report/01-iced.md) | iced | 0.14.0 |
-| [report/02-egui.md](report/02-egui.md) | egui/eframe | 0.35.0 |
-| [report/03-gpui.md](report/03-gpui.md) | gpui (Zed) | 0.2.2 |
-| [report/04-tauri.md](report/04-tauri.md) | Tauri | 2.11.5 |
-| [report/05-linebender.md](report/05-linebender.md) | xilem / Linebender stack | 0.4.0 |
-| [report/06-slint.md](report/06-slint.md) | Slint | 1.17.1 |
-| [report/07-dioxus.md](report/07-dioxus.md) | Dioxus (+ Blitz) | 0.7.9 |
-| *(deep dive pending)* | Freya | 0.4.0 |
-| *(deep dive pending)* | Vizia | 0.4.0 |
-| *(deep dive pending)* | Floem | git-778bb5f2¹ |
+| Report | Framework | Version tested | Depth |
+|---|---|---|---|
+| [report/01-iced.md](report/01-iced.md) | iced | 0.14.0 | full deep dive |
+| [report/02-egui.md](report/02-egui.md) | egui/eframe | 0.35.0 | full deep dive |
+| [report/03-gpui.md](report/03-gpui.md) | gpui (Zed) | 0.2.2 | full deep dive |
+| [report/04-tauri.md](report/04-tauri.md) | Tauri | 2.11.5 | full deep dive |
+| [report/05-linebender.md](report/05-linebender.md) | xilem / Linebender stack | 0.4.0 | full deep dive |
+| [report/06-slint.md](report/06-slint.md) | Slint | 1.17.1 | full deep dive |
+| [report/07-dioxus.md](report/07-dioxus.md) | Dioxus (+ Blitz) | 0.7.9 | full deep dive |
+| [report/data/stack-rows.md#freya](report/data/stack-rows.md#freya) | Freya | 0.4.0 | cohort-derived² |
+| [report/data/stack-rows.md#vizia](report/data/stack-rows.md#vizia) | Vizia | 0.4.0 | cohort-derived² |
+| [report/data/stack-rows.md#floem](report/data/stack-rows.md#floem) | Floem | git-778bb5f2¹ | cohort-derived² |
 
 ¹ Floem's crates.io release (0.2.0, Nov 2024) is 20 months stale and
 API-incompatible with current documentation; upstream recommends `main`, which
@@ -47,8 +47,22 @@ cannot be published because it depends on a forked winit. The cohort therefore
 pins git rev `778bb5f2aa08429e579ee2e6ac97e84fbf18b618` — a research finding in
 itself.
 
+² The three frameworks added in the **2026-08-03 expansion round** were
+researched through the cohort itself rather than as standalone upstream deep
+dives. Their stack rows are sourced from the 24 app crates (`apps/freya-*`,
+`apps/vizia-*`, `apps/floem-*` — manifests, committed `Cargo.lock` /
+`deps-flat.txt`, `GAPS.md`, and the eight `FRICTION.md` files per framework),
+and they appear on equal footing with the other seven in the ecosystem map,
+the duplication matrix, `dashboard.html`, and every measured round
+(iter1–iter4, packaging, Linux, Windows). What they do *not* yet have is the
+prose-page treatment of `report/01`–`07`: a few upstream-ecosystem fields
+(governance, production users, wasm/mobile support, docs quality) are marked
+`pending_upstream_research` rather than guessed. A 2026-08-04 follow-up filled
+license, maintainer concentration, and download/star counts for Freya.
+
 `report/data/stack-rows.md` holds the raw structured comparison rows returned
-by each research agent.
+by each research agent, one `##` section per framework — including the ten-way
+`shared-infra` row set.
 
 ## The experiments (80 apps + packaging round)
 
@@ -98,6 +112,13 @@ Round-5 (Linux reality check — Docker/Xvfb, software GPU):
 [report/18-linux-reality-results.md](report/18-linux-reality-results.md),
 environment `measurements/linux-env.txt`, matrix `measurements/results-linux.csv`,
 artifacts `linux-results/`, probes `linux/probes/`.
+Round-6 (Windows reality check — one x64 machine: AMD Ryzen AI 9 HX 370 /
+Radeon 890M, Windows 11 Home 26200.7171, rustc 1.96.1):
+[report/21-windows-reality-results.md](report/21-windows-reality-results.md),
+raw rows `report/data/windows-rows.md`, environment
+`measurements/reruns/20260808-ten-framework-tri-platform/windows/environment.txt`,
+matrix `measurements/reruns/20260808-ten-framework-tri-platform/windows/results.csv`
+(runtime, selftest and packaging CSVs live beside it).
 Round-4 results:
 [report/15-media-hardware-results.md](report/15-media-hardware-results.md),
 [report/16-data-grid-results.md](report/16-data-grid-results.md),
@@ -118,6 +139,17 @@ python3 scripts/overlap.py --round iter1  # todo-app dependency overlap
 ./scripts/generate-evidence-manifest.py --check  # verify artifact provenance hashes
 ```
 
+**Windows campaign:** executed 2026-08-08 — the full Windows-machine run (all
+80 apps, runtime sampling, selftests, and the MSI/NSIS/WiX packaging
+head-to-head) per the runbook at [WINDOWS-RUN.md](WINDOWS-RUN.md), driven by
+the PowerShell harness under `windows/` and recorded into the cohort as the
+`windows` artifact arm; results in
+[report/21-windows-reality-results.md](report/21-windows-reality-results.md)
+(MSI install verification is pending one elevated re-run; the NVDA pass was
+not performed).
+Note that `scripts/verify-windows.sh` above verifies *visible windows* on
+macOS — it is unrelated to Microsoft Windows.
+
 `measure.sh` deliberately refuses non-macOS hosts because its binary-size,
 stripping, and launch measurements use BSD/Mach-O/macOS assumptions. It builds
 the package-named benchmark target with `--locked`, writes each destination CSV
@@ -125,7 +157,8 @@ atomically only after a successful serial pass, defaults to a timestamped path
 under `measurements/reruns/`, and resolves custom relative app paths from the
 directory where it was invoked. Pass `--output` only when intentionally
 selecting another destination. Use the separate Round-5 workflow above for
-Linux evidence.
+Linux evidence; Windows evidence comes from the separate serial PowerShell
+driver `windows/run-cohort.ps1` (see [WINDOWS-RUN.md](WINDOWS-RUN.md)).
 
 Round CSVs and per-app logs land in `measurements/`. The historical
 `runtime.csv` summary predates raw-sample preservation: its published averages

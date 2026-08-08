@@ -1,0 +1,7 @@
+### cargo-packager --release --formats wix (cwd=C:\Users\M.Pertsev\Desktop\workspace\OSS\rust-gui-desktop-ecosystem-state\apps\iced-app timeout=900s timed_out=False exit=0)
+ INFO Running candle for "C:\\Users\\M.Pertsev\\Desktop\\workspace\\OSS\\rust-gui-desktop-ecosystem-state\\apps\\iced-app\\target\\release\\packager\\.cargo-packager\\wix\\x64\\main.wxs"
+ INFO Running light.exe to produce C:\Users\M.Pertsev\Desktop\workspace\OSS\rust-gui-desktop-ecosystem-state\apps\iced-app\target\release\packager\iced-app_0.1.0_x64_en-US.msi
+ INFO Finished packaging 1 package at:
+        C:\Users\M.Pertsev\Desktop\workspace\OSS\rust-gui-desktop-ecosystem-state\apps\iced-app\target\release\packager\iced-app_0.1.0_x64_en-US.msi
+
+

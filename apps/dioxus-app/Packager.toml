@@ -1,0 +1,10 @@
+name = "dioxus-app"
+identifier = "org.rcn.dioxusapp"
+product-name = "dioxus-app"
+version = "0.1.0"
+out-dir = "target/packager"
+binaries-dir = "target/release"
+
+[[binaries]]
+path = "dioxus-app"
+main = true

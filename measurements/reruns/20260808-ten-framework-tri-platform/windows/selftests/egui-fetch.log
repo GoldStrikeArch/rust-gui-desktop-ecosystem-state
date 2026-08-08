@@ -1,0 +1,15 @@
+SELFTEST_START
+SEARCH_FIRE gen=1 q="amber"
+SEARCH_APPLY gen=1 q="amber" results=20
+SELFTEST_STALE_DEMO slow="coral"(273 ms) fast="amber"(154 ms)
+SEARCH_FIRE gen=2 q="coral"
+SEARCH_FIRE gen=3 q="amber"
+SEARCH_APPLY gen=3 q="amber" results=20
+SEARCH_STALE_DROP gen=2 applied_gen=3
+DOWNLOAD_START
+SELFTEST_CANCEL_REQUESTED
+DOWNLOAD_CANCELLED received_bytes=2359296
+FLAKY_RESULT try=1 status=500
+FLAKY_RESULT try=2 status=500
+FLAKY_RESULT try=3 status=200 attempt=3
+SELFTEST_DONE

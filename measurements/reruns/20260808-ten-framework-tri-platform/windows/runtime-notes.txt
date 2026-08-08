@@ -1,0 +1,6 @@
+# runtime-sample.ps1 sidecar — 2026-08-08T14:26:14Z
+# cpu_semantics=per-core-percent; source=Win32_PerfFormattedData_PerfProc_Process.PercentProcessorTime summed over {main_pid + msedgewebview2.exe descendants}; values can exceed 100 on multi-core (same convention as macOS `ps -o %cpu`); NOT divided by logical core count and NOT multiplied by NUMBER_OF_PROCESSORS (the counter is already core-seconds per wall-second x 100)
+# logical_cores=24
+# rss_semantics=WorkingSet64/1024 KiB summed over the same PID set (Get-Process)
+# helper_attribution=msedgewebview2.exe descendants of the main PID via Win32_Process ParentProcessId walk, re-discovered each sample (best-effort, PID reuse accepted)
+# cadence=5s warmup, then exactly 30 samples at ~1s intervals (Start-Sleep 1 between samples; query time makes intervals slightly longer)

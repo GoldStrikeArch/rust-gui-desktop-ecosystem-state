@@ -1,0 +1,1 @@
+[2026-08-08T09:50:45Z] egui-tray [wgpu-dx12] compile=reused alive10s=no window=no windows=0 build=s bin=14495232 pdb=5984256 exit=101 env=WGPU_BACKEND=dx12

@@ -1,0 +1,2 @@
+app	variant	compile_ok	run_alive_10s	visible_window	clean_build_secs	binary_bytes	pdb_bytes	exit_code	env_overrides	notes
+egui-fetch	wgpu-dx12	reused	yes	yes		16247296	6885376	na	WGPU_BACKEND=dx12	

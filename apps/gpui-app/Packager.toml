@@ -1,0 +1,10 @@
+name = "gpui-app"
+identifier = "org.rcn.gpuiapp"
+product-name = "gpui-app"
+version = "0.1.0"
+out-dir = "target/packager"
+binaries-dir = "target/release"
+
+[[binaries]]
+path = "gpui-app"
+main = true

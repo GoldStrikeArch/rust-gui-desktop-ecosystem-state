@@ -1,0 +1,17 @@
+BUILD_MS 33.77
+FILTER_MS 1 4.40
+FILTER_MS 2 6.96
+FILTER_MS 3 7.83
+FILTER_MS 4 8.17
+FILTER_MS 0 0.81
+SORT name asc first_id=70664 ms=24.67
+SORT name desc first_id=28613 ms=5.43
+SORT id asc first_id=0 ms=4.94
+SELECT count=1 clicked_id=5
+SELECT count=4 clicked_id=8
+SELECT count=1 clicked_id=2
+RESIZE col=id width=125
+WINDOW first=30 y=800
+WINDOW first=10000 y=260000
+WINDOW first=0 y=0
+SELFTEST DONE pass=14 fail=0

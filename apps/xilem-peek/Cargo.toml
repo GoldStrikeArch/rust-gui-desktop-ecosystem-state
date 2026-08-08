@@ -12,7 +12,7 @@ publish = false
 xilem = "=0.4.0"
 
 # Camera capture (AVFoundation backend on macOS). Latest stable as of 2026-07.
-nokhwa = { version = "=0.10.11", features = ["input-avfoundation"] }
+# nokhwa moved to target-gated tables at the end of this file (Windows campaign).
 
 # Mic input. 0.17.x matches what rodio 0.22 uses, so only one cpal in the tree.
 cpal = "=0.17.3"
@@ -25,3 +25,15 @@ image = { version = "0.25", default-features = false, features = ["jpeg"] }
 
 [profile.release]
 # Match the other xilem apps (defaults; nothing exotic).
+
+# Camera backend is target-gated for the Windows campaign (see WINDOWS-RUN.md):
+# macOS keeps the measured `input-avfoundation` backend — feature resolution
+# and binaries are unchanged because cargo's dependency tree is host-filtered —
+# while Windows resolves the MediaFoundation backend instead. Sources that use
+# AVFoundation-only helpers (nokhwa_initialize/nokhwa_check) may still fail to
+# compile on Windows; that outcome is recorded as a finding, not patched.
+[target.'cfg(target_os = "macos")'.dependencies]
+nokhwa = { version = "=0.10.11", features = ["input-avfoundation"] }
+
+[target.'cfg(windows)'.dependencies]
+nokhwa = { version = "=0.10.11", features = ["input-msmf"] }

@@ -1,0 +1,1 @@
+NVDA 2026.1.1 (scoop portable), 2026-08-08, ru_RU locale. Probe: launch app from target/release, Tab x8 + Down x4 + Shift-Tab focus walk driven by SendKeys, NVDA debug log filtered to 'Speaking' lines. Full debug logs not retained (contain machine noise); these are the verbatim speech utterances.

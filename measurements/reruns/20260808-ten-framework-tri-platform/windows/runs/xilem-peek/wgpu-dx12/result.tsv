@@ -1,0 +1,2 @@
+app	variant	compile_ok	run_alive_10s	visible_window	clean_build_secs	binary_bytes	pdb_bytes	exit_code	env_overrides	notes
+xilem-peek	wgpu-dx12	reused	yes	yes		13246464	6639616	na	WGPU_BACKEND=dx12	

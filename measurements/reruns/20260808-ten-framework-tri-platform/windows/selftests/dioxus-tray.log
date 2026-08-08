@@ -1,0 +1,5 @@
+[tray-notes] clipboard image failed: The clipboard contents were not available in the requested format or the clipboard is empty.
+[selftest] paste_image -> No clipboard image: The clipboard contents were not available in the requested format or the clipboard is empty.
+[selftest] wrote C:\Users\M5453~1.PER\AppData\Local\Temp\dx-tray-selftest.txt
+[tray-notes] notification posted via notify-rust
+[selftest] about window requested

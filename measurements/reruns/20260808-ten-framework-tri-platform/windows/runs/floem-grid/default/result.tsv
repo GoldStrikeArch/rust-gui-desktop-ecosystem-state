@@ -1,0 +1,2 @@
+app	variant	compile_ok	run_alive_10s	visible_window	clean_build_secs	binary_bytes	pdb_bytes	exit_code	env_overrides	notes
+floem-grid	default	yes	no	no	126.88	18429952	7286784	101		process exited before 10s (exit=101)

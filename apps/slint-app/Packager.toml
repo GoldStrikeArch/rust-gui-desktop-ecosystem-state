@@ -1,0 +1,10 @@
+name = "slint-app"
+identifier = "org.rcn.slintapp"
+product-name = "slint-app"
+version = "0.1.0"
+out-dir = "target/packager"
+binaries-dir = "target/release"
+
+[[binaries]]
+path = "slint-app"
+main = true

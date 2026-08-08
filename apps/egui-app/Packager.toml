@@ -1,0 +1,10 @@
+name = "egui-app"
+identifier = "org.rcn.eguiapp"
+product-name = "egui-app"
+version = "0.1.0"
+out-dir = "target/packager"
+binaries-dir = "target/release"
+
+[[binaries]]
+path = "egui-app"
+main = true

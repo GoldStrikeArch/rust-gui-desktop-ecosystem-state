@@ -242,7 +242,7 @@
   <p class="sub">Seven frameworks deep-dived against primary sources — plus freya, vizia and floem added 2026-08-03 with a narrower upstream check — eight comparable specifications built in each of the ten (80 apps),
   and the dependency trees compared by experiment round — to answer two questions: <strong>where exactly is the fragmentation</strong>,
   and <strong>how do you actually ship a cross-platform desktop app in Rust today?</strong></p>
-  <div class="meta">core research 2026-07-07 · experiments reconciled through 2026-07-10 · freya/vizia/floem expansion round measured 2026-08-03 on the same machine · apple m4 pro · rustc 1.96.1 · methodology &amp; full reports: gui-ecosystem-research repo</div>
+  <div class="meta">core research 2026-07-07 · experiments reconciled through 2026-07-10 · freya/vizia/floem expansion round measured 2026-08-03 on the same machine · apple m4 pro · rustc 1.96.1 · windows round measured 2026-08-08 · ryzen ai 9 hx 370 / radeon 890m · windows 11 home 26200.7171 · methodology &amp; full reports: gui-ecosystem-research repo</div>
 </header>
 
 <section>
@@ -377,7 +377,7 @@
       <tr><th>IME</th>
         <td><span class="chip c-shared">winit</span><span class="note">since 0.14</span></td>
         <td><span class="chip c-shared">winit</span></td>
-        <td><span class="chip c-house">platform</span><span class="note">windows rough</span></td>
+        <td><span class="chip c-house">platform</span><span class="note">windows rough; 2026-08-08 run: 7/8 apps alive+window, IME itself unexercised</span></td>
         <td><span class="chip c-web">webview</span></td>
         <td><span class="chip c-shared">winit</span></td>
         <td><span class="chip c-shared">winit</span></td>
@@ -1082,6 +1082,46 @@
 </section>
 
 <section>
+  <div class="sec-head"><h2>Windows reality check</h2><span class="k">round 6 · Ryzen AI 9 HX 370 · Radeon 890M/32.0.13058.2 · Windows 11 Home 26200.7171 · rustc 1.96.1</span></div>
+  <p class="lede">The 80 apps, rebuilt and launch-probed on one real Windows 11 x64 laptop (MSVC toolset pinned to 14.34,
+  200% DPI, WebView2 151.0.4129.59). <strong>28 of 80 apps fail <code>cargo build --release</code> as-is</strong> — including
+  three entire frameworks at 0/8 (tauri, freya, vizia), all three on packaging/distribution infrastructure rather than
+  framework Rust code — while <strong>36 reached a visible window on the default env</strong> and <code>WGPU_BACKEND=dx12</code>
+  rescued all 14 of the intermittent wgpu/Vulkan surface deaths. Verbatim logs, per-variant runs, screenshots and CSVs
+  retained. Full report: <code>report/21-windows-reality-results.md</code>.</p>
+  <div class="fn" style="font-size:13px;line-height:1.65;max-width:90ch">
+    <strong>Default render paths:</strong> iced (wgpu) and slint (FemtoVG/GL) went a perfect 8/8 build + 8/8 run; gpui&rsquo;s
+    in-house Direct3D 11 and dioxus&rsquo;s WebView2 ran 7/7 of their built apps with zero render-path flakiness; egui, xilem
+    and floem defaults died intermittently on wgpu&rsquo;s Vulkan <code>FailedToCreateSurfaceForAnyBackend</code> (floem 0/6 on
+    default) — <code>WGPU_BACKEND=dx12</code> rescued all 14 surface deaths.<br>
+    <strong>The build fault line is infrastructure, not Rust:</strong> tauri 0/8 — the build script hard-fails on a missing
+    <code>icons/icon.ico</code> before any app code compiles; freya 0/8 — its prebuilt-Skia download dies on curl(3) and the
+    source fallback demands LLVM; vizia 0/8 — LNK1120, five unresolved <code>__std_*</code> externals linking skia-safe&rsquo;s
+    prebuilt skia.lib against the pinned 14.34 MSVC STL.<br>
+    <strong>Camera, split verdict:</strong> the predicted nokhwa build break mostly did not happen — iced-peek and slint-peek
+    built and ran as-is, and the msmf-manifest rebuild put all four buildable frameworks&rsquo; camera apps on screen; gpui-peek
+    is the confirmed permanent no-Windows-path (Apple-only <code>core-foundation</code>).<br>
+    <strong>Tray/toast/hotkey reality:</strong> every built tray app&rsquo;s Cmd+Shift+9 registration failed
+    <code>AlreadyRegistered</code> (Win+Shift+9 is an OS taskbar shortcut held on this desktop) — egui-tray and xilem-tray
+    <code>.unwrap()</code> and die; the other five log the failure and keep running. iced-tray captured the campaign&rsquo;s only
+    tray screenshot; dioxus-tray posted a real toast via notify-rust from a bare unsigned exe.<br>
+    <strong>Runtime numbers:</strong> slint-dash is the CPU outlier at 15.8% avg / 38% peak (per-core) — consistent with the
+    macOS re-tessellation finding; gpui-dash is the memory floor at 98 MiB max RSS vs xilem-dash&rsquo;s 495 MiB and
+    dioxus-dash&rsquo;s 489 MiB (which carried 6 msedgewebview2.exe helper processes).<br>
+    <strong>Selftest reality:</strong> only 2 of 50 suites hit the canonical done-marker with a clean exit (both floem — grid
+    14/14, fetch 10/10); most of the rest did the work but were scored timeout/no-marker on macOS-shaped marker and exit
+    conventions. iced-babel produced the campaign&rsquo;s only babel PNG and reproduced the macOS ZWJ-backspace corruption on
+    Windows.<br>
+    <strong>Packaging:</strong> cargo-packager&rsquo;s WiX route built an MSI from all 7 buildable apps, and all 7 installed and
+    uninstalled cleanly in an elevated verification pass (6/7 passed the post-install launch check); cargo-bundle MSI and
+    cargo-packager NSIS went 0/10 each (Component-table error; vendored-makensis plugin-path leakage); dx bundle emitted an NSIS
+    exe rather than the expected MSI — its silent install/uninstall worked but the installed copy failed the launch check, and
+    the MSI-installed dioxus-app failed the same check: three independent installed copies of dioxus-app fail to launch while
+    the same exe runs fine from target\release.
+  </div>
+</section>
+
+<section>
   <div class="sec-head"><h2>Framework verdicts</h2><span class="k">from the deep dives · versions tested</span></div>
   <div class="cards">
     <div class="card">
@@ -1204,14 +1244,14 @@
       <a href="https://github.com/axodotdev/cargo-dist">dist</a> is CLI-shaped. A 2026-08-08 test adds the strongest measured candidate:
       <a href="https://github.com/DioxusLabs/dioxus">dx bundle</a> (officially any-Rust-project since 0.7.0) packaged all nine
       non-Tauri apps 9/9 with a first-try-working DMG step and in-code signing/notarization automation — at the cost of its own
-      config file and build profile, with Windows/Linux formats untested here. Improve a shared composition around dx or cargo-packager, or
+      config file and build profile, with Linux formats untested here — the 2026-08-08 Windows round measured its Windows path: an NSIS exe (not the documented MSI) whose silent install/uninstall worked but whose installed copy failed the launch check, while cargo-packager&rsquo;s WiX route built an MSI from every buildable app (all seven installed and uninstalled cleanly; the MSI-installed dioxus-app copy failed the same launch check) and both cargo-bundle MSI and cargo-packager NSIS went 0/10. Improve a shared composition around dx or cargo-packager, or
       standardize on <a href="https://github.com/velopack/velopack">Velopack</a> (official Rust crate) + rcodesign.</li>
   </ol>
 </section>
 
 <footer>
-  <p><strong>Method.</strong> External research was snapshotted 2026-07-07 and the original empirical work reconciled through 2026-07-10; the freya/vizia/floem expansion round was built and measured on 2026-08-03 on the same machine and toolchain. <strong>80 apps built and survived the scripted launch check on macOS</strong> — 56 in July (round-4 empirical work ran 2026-07-09..10; round 5 re-ran 11 of them on Linux in a headless container, 2026-07-10) plus 24 on 2026-08-03 — all on one Apple M4 Pro (24 GiB, macOS 26.5.2, rustc 1.96.1). A retained serial audit observed an on-screen layer-0 window for all 56 July binaries; its structured results and per-app logs are documented in <a href="measurements/EVIDENCE.md">measurements/EVIDENCE.md</a>. Each of the 24 expansion apps was separately launch-checked and window-observed in its own round, with build, binary-size and dependency figures from <code>measurements/reruns/2026-08-03-expansion/</code>. CPU/RSS was sampled for all ten live dashboards; camera-preview figures are reported app observations at stated resolutions, with raw per-sample CPU data retained only for Dioxus. Per-capability evidence ranges from source/API-path review through app self-tests and synthetic input, as marked in the reports; not every narrative interaction has a standalone retained harness. All ten todo `.app` bundles were ad-hoc sealed and placed in `hdiutil`-verified DMGs, not distribution-signed/notarized (seven in July; freya, vizia and floem completed 2026-08-08, when a nine-app `dx bundle` comparison also ran). Builds were serial with a warm registry cache and cold target directories.</p>
-  <p><strong>Caveats.</strong> Primary measurements came from one macOS machine; Round 5 adds a limited headless Linux-container check that predates the expansion round, while Windows claims remain source-verified rather than locally tested. GPUI was measured at its last crates.io release (0.2.2); Zed main has since moved (wgpu on Linux, AccessKit) without publishing. Floem was measured at git rev <code>778bb5f2</code> of lapce/floem <code>main</code> rather than a published release, because crates.io 0.2.0 was 20 months stale at measurement and <code>main</code> cannot be published; its numbers describe that rev only. Upstream ecosystem fields for the three additions were checked on 2026-08-04 for license, maintainer concentration and download/star counts (freya: solo maintainer, 36.5k downloads; vizia: 3 active contributors, 6.3k; floem: 5 active contributors, 28.8k, crates.io 21 months stale vs an active repo); governance, production users and platform/wasm/mobile support remain unresearched and are deliberately absent rather than guessed. Numbers describe these small implementations; they neither establish a general framework ranking nor predict your app.
+  <p><strong>Method.</strong> External research was snapshotted 2026-07-07 and the original empirical work reconciled through 2026-07-10; the freya/vizia/floem expansion round was built and measured on 2026-08-03 on the same machine and toolchain. <strong>80 apps built and survived the scripted launch check on macOS</strong> — 56 in July (round-4 empirical work ran 2026-07-09..10; round 5 re-ran 11 of them on Linux in a headless container, 2026-07-10) plus 24 on 2026-08-03 — all on one Apple M4 Pro (24 GiB, macOS 26.5.2, rustc 1.96.1). On 2026-08-08 the same 80 apps were probed on Windows 11 x64 (AMD Ryzen AI 9 HX 370, Radeon 890M, Windows 11 Home 26200.7171, rustc 1.96.1) by the serial PowerShell harness in <code>windows/</code> — 36 alive+window / 28 build-failed / 16 died on the default env, with the workaround-ladder, runtime, selftest and packaging phases recorded in <code>report/21-windows-reality-results.md</code>. A retained serial audit observed an on-screen layer-0 window for all 56 July binaries; its structured results and per-app logs are documented in <a href="measurements/EVIDENCE.md">measurements/EVIDENCE.md</a>. Each of the 24 expansion apps was separately launch-checked and window-observed in its own round, with build, binary-size and dependency figures from <code>measurements/reruns/2026-08-03-expansion/</code>. CPU/RSS was sampled for all ten live dashboards; camera-preview figures are reported app observations at stated resolutions, with raw per-sample CPU data retained only for Dioxus. Per-capability evidence ranges from source/API-path review through app self-tests and synthetic input, as marked in the reports; not every narrative interaction has a standalone retained harness. All ten todo `.app` bundles were ad-hoc sealed and placed in `hdiutil`-verified DMGs, not distribution-signed/notarized (seven in July; freya, vizia and floem completed 2026-08-08, when a nine-app `dx bundle` comparison also ran). Builds were serial with a warm registry cache and cold target directories.</p>
+  <p><strong>Caveats.</strong> Primary measurements came from one macOS machine; Round 5 adds a limited headless Linux-container check that predates the expansion round, while the Windows campaign (harness in <code>windows/</code>, runbook in <code>WINDOWS-RUN.md</code>) was executed 2026-08-08 on one x64 machine — one integrated GPU and driver (Radeon 890M, 32.0.13058.2), one live desktop session, so its results are that machine&rsquo;s reality rather than &ldquo;Windows&rdquo; — with results in <code>report/21-windows-reality-results.md</code>; WiX MSI install verification completed in a supplemental elevated pass (7/7 installed and uninstalled, 6/7 launched — the dioxus installed-copy anomaly). GPUI was measured at its last crates.io release (0.2.2); Zed main has since moved (wgpu on Linux, AccessKit) without publishing. Floem was measured at git rev <code>778bb5f2</code> of lapce/floem <code>main</code> rather than a published release, because crates.io 0.2.0 was 20 months stale at measurement and <code>main</code> cannot be published; its numbers describe that rev only. Upstream ecosystem fields for the three additions were checked on 2026-08-04 for license, maintainer concentration and download/star counts (freya: solo maintainer, 36.5k downloads; vizia: 3 active contributors, 6.3k; floem: 5 active contributors, 28.8k, crates.io 21 months stale vs an active repo); governance, production users and platform/wasm/mobile support remain unresearched and are deliberately absent rather than guessed. Numbers describe these small implementations; they neither establish a general framework ranking nor predict your app.
   Two ecosystem-level dimensions were <strong>not measured at all</strong>: system-compositor integration and vsync frame pacing. No app in this sample uses a zero-copy/compositor-layer presentation path — every camera preview observed here CPU-uploads frames into the framework's own texture pipeline (the ~27–31% single-core cost in the round-4 chart above is consistent with that), so power-efficient video-style rendering remains an open, unmeasured gap across the ecosystem. Mobile platform capability (biometrics, push, payments, store packaging) was likewise out of scope for this desktop benchmark; question 4 above reflects documented upstream paths, not measurements.</p>
 </footer>
 </div>

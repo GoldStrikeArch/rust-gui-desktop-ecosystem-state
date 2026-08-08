@@ -16,7 +16,7 @@ iced = { version = "=0.14.0", features = ["image", "tokio"] }
 # Camera capture. AVFoundation backend on macOS is behind the
 # `input-avfoundation` feature (verified against 0.10.11 on crates.io).
 # Default `decoding` feature stays on for MJPEG/YUV -> RGBA conversion.
-nokhwa = { version = "0.10.11", features = ["input-avfoundation"] }
+# nokhwa moved to target-gated tables at the end of this file (Windows campaign).
 
 # Mic input (RMS meter). 0.18.1 is current stable, but rodio 0.22.2 still
 # pins cpal 0.17.x — pinning ours to match dedupes the CoreAudio binding
@@ -33,3 +33,15 @@ image = "0.25"
 # Direct dep so we can call `tokio::task::spawn_blocking` + `sync::Semaphore`
 # from Tasks; the runtime itself is the one iced's tokio feature drives.
 tokio = { version = "1", features = ["rt", "sync"] }
+
+# Camera backend is target-gated for the Windows campaign (see WINDOWS-RUN.md):
+# macOS keeps the measured `input-avfoundation` backend — feature resolution
+# and binaries are unchanged because cargo's dependency tree is host-filtered —
+# while Windows resolves the MediaFoundation backend instead. Sources that use
+# AVFoundation-only helpers (nokhwa_initialize/nokhwa_check) may still fail to
+# compile on Windows; that outcome is recorded as a finding, not patched.
+[target.'cfg(target_os = "macos")'.dependencies]
+nokhwa = { version = "0.10.11", features = ["input-avfoundation"] }
+
+[target.'cfg(windows)'.dependencies]
+nokhwa = { version = "0.10.11", features = ["input-msmf"] }

@@ -1,0 +1,2 @@
+app	variant	compile_ok	run_alive_10s	visible_window	clean_build_secs	binary_bytes	pdb_bytes	exit_code	env_overrides	notes
+xilem-peek	msmf-manifest	yes	yes	yes	36.68	13379584	6688768	na		

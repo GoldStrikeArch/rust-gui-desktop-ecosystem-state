@@ -1,0 +1,2 @@
+app	variant	compile_ok	run_alive_10s	visible_window	clean_build_secs	binary_bytes	pdb_bytes	exit_code	env_overrides	notes
+xilem-babel	default	yes	no	no	82.05	12342272	5836800	101		process exited before 10s (exit=101)

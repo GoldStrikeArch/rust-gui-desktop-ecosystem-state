@@ -1,0 +1,72 @@
+{
+  "artifacts": {
+    "windows": {
+      "command": "pwsh windows/run-cohort.ps1 -Cohort measurements/reruns/20260808-ten-framework-tri-platform (default pass; then -Only *-peek -Variant msmf-manifest)",
+      "completed_at_utc": "2026-08-08T14:14:22Z",
+      "path": "measurements/reruns/20260808-ten-framework-tri-platform/windows/results.csv",
+      "started_at_utc": "2026-08-08T09:31:58Z"
+    },
+    "windows-packaging": {
+      "command": "pwsh windows/package-windows.ps1 -Cohort measurements/reruns/20260808-ten-framework-tri-platform (run 3, elevated; install columns from windows/verify-msi-install.ps1 -> install-verify.csv; exact times not retained in logs)",
+      "completed_at_utc": "2026-08-08",
+      "path": "measurements/reruns/20260808-ten-framework-tri-platform/windows/packaging/results.csv",
+      "started_at_utc": "2026-08-08"
+    }
+  },
+  "cargo": "cargo 1.96.1 (356927216 2026-06-26)",
+  "cohort_id": "20260808-ten-framework-tri-platform",
+  "created_at_utc": "2026-08-08T08:44:53Z",
+  "frameworks": [
+    {
+      "name": "iced",
+      "version": "0.14.0"
+    },
+    {
+      "name": "egui",
+      "version": "0.35.0"
+    },
+    {
+      "name": "gpui",
+      "version": "0.2.2"
+    },
+    {
+      "name": "tauri",
+      "version": "2.11.5"
+    },
+    {
+      "name": "xilem",
+      "version": "0.4.0"
+    },
+    {
+      "name": "slint",
+      "version": "1.17.1"
+    },
+    {
+      "name": "dioxus",
+      "version": "0.7.9"
+    },
+    {
+      "name": "freya",
+      "version": "0.4.0"
+    },
+    {
+      "name": "vizia",
+      "version": "0.4.0"
+    },
+    {
+      "name": "floem",
+      "version": "git-778bb5f2"
+    }
+  ],
+  "machine": {
+    "architecture": "arm64",
+    "hardware": "Apple M4 Pro",
+    "memory_bytes": "25769803776",
+    "os": "macOS",
+    "os_build": "25G76",
+    "os_version": "26.6.1"
+  },
+  "rustc": "rustc 1.96.1 (31fca3adb 2026-06-26)",
+  "schema_version": 1,
+  "status": "in-progress"
+}

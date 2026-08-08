@@ -1,0 +1,11 @@
+app,avg_cpu_pct,peak_cpu_pct,max_rss_mib,helper_procs
+iced-dash,1.4,11.0,220,0
+egui-dash,4.3,11.0,346,0
+gpui-dash,3.3,16.0,98,0
+tauri-dash,DIED,,,
+xilem-dash,3.0,17.0,495,0
+slint-dash,15.8,38.0,153,0
+dioxus-dash,9.2,26.0,489,6
+freya-dash,DIED,,,
+vizia-dash,DIED,,,
+floem-dash,1.0,11.0,327,0

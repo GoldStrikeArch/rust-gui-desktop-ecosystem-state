@@ -1,0 +1,17 @@
+### dx bundle --release (cwd=C:\Users\M.Pertsev\Desktop\workspace\OSS\rust-gui-desktop-ecosystem-state\apps\dioxus-app timeout=2400s timed_out=False exit=0)
+  0.00s  INFO Bundling project...
+  0.61s ERROR 🚫dx and dioxus versions are incompatible!
+                  • dx version: 0.7.10
+                  • dioxus versions: [0.7.9]
+  1.83s  INFO Bundling app...
+  1.84s  INFO Running package bundler...
+  1.87s  INFO Running makensis to build NSIS installer...
+  7.59s  INFO NSIS installer created: C:\Users\M.Pertsev\Desktop\workspace\OSS\rust-gui-desktop-ecosystem-state\apps\dioxus-app\target\dx\dioxus-app\bundle\windows\nsis\DioxusApp_0.1.0_x64-setup.exe
+  7.59s  INFO Bundled: C:\Users\M.Pertsev\Desktop\workspace\OSS\rust-gui-desktop-ecosystem-state\apps\dioxus-app\target\dx\dioxus-app\bundle\windows\nsis\DioxusApp_0.1.0_x64-setup.exe
+Bundled 1 bundles:
+C:\Users\M.Pertsev\Desktop\workspace\OSS\rust-gui-desktop-ecosystem-state\apps\dioxus-app\target\dx\dioxus-app\bundle\windows\nsis\DioxusApp_0.1.0_x64-setup.exe
+
+### C:\Users\M.Pertsev\Desktop\workspace\OSS\rust-gui-desktop-ecosystem-state\apps\dioxus-app\target\dx\dioxus-app\bundle\windows\nsis\DioxusApp_0.1.0_x64-setup.exe /S (cwd=C:\Users\M.Pertsev\Desktop\workspace\OSS\rust-gui-desktop-ecosystem-state timeout=300s timed_out=False exit=0)
+
+### C:\Users\M.Pertsev\AppData\Local\Programs\DioxusApp\uninstall.exe /S (cwd=C:\Users\M.Pertsev\Desktop\workspace\OSS\rust-gui-desktop-ecosystem-state timeout=300s timed_out=False exit=0)
+

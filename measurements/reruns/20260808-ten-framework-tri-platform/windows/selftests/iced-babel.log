@@ -1,0 +1,8 @@
+
+--- stderr ---
+selftest caret columns over a|family|b: [0, 1, 26, 27]
+selftest backspace over family: "aЁЯСи\u{200d}ЁЯСй\u{200d}ЁЯСз\u{200d}" (len 7) -> CORRUPTED/partial
+selftest select 16x right: Some("[MIXED] Mixed: H")
+selftest select 22x right (into Arabic): Some("[MIXED] Mixed: Hello ф╕Ц")
+selftest paste round-trip: "start ╫й╫Ь╫Х╫Э ф╕ЦчХМ ЁЯСи\u{200d}ЁЯСй\u{200d}ЁЯСз\u{200d}ЁЯСж"
+screenshot: saved C:\Users\M.Pertsev\Desktop\workspace\OSS\rust-gui-desktop-ecosystem-state\measurements\reruns\20260808-ten-framework-tri-platform\windows\babel-shots\iced-babel.png

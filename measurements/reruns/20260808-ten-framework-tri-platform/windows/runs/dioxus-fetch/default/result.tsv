@@ -1,0 +1,2 @@
+app	variant	compile_ok	run_alive_10s	visible_window	clean_build_secs	binary_bytes	pdb_bytes	exit_code	env_overrides	notes
+dioxus-fetch	default	yes	yes	yes	86.48	6316032	4444160	na		

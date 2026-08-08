@@ -5,6 +5,7 @@ on:
     branches: [main]
     paths:
       - dashboard.html
+      - shell-facade.html
       - report/**
       - measurements/**
       - .github/workflows/deploy-pages.yml
@@ -32,6 +33,7 @@ jobs:
         run: |
           mkdir -p _site
           cp dashboard.html _site/index.html
+          cp shell-facade.html _site/shell-facade.html
           # keep the dashboard's relative report/measurements links resolvable
           cp -R report _site/report
           cp -R measurements _site/measurements

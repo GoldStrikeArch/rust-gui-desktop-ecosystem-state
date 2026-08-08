@@ -1,0 +1,2 @@
+app	variant	compile_ok	run_alive_10s	visible_window	clean_build_secs	binary_bytes	pdb_bytes	exit_code	env_overrides	notes
+floem-board	default	yes	no	no	128.84	18264576	7262208	101		process exited before 10s (exit=101)

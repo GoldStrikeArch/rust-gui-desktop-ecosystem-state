@@ -1,0 +1,10 @@
+### rustup run 1.96.1 cargo bundle --release --format msi (cwd=C:\Users\M.Pertsev\Desktop\workspace\OSS\rust-gui-desktop-ecosystem-state\apps\dioxus-app timeout=1800s timed_out=False exit=1)
+
+--- stderr ---
+    Finished `release` profile [optimized] target(s) in 0.42s
+[1m[33mwarning:[0m MSI bundle support is still experimental.
+[1m[32m    Bundling[0m Dioxus Tasks.msi
+[1m[31merror:[0m[1m Failed to generate Component table
+[0m  Caused by: "dioxus-app.exe" is not a valid value for column "KeyPath"
+<disabled>
+

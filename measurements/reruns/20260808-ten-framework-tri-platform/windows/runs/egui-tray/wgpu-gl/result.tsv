@@ -1,0 +1,2 @@
+app	variant	compile_ok	run_alive_10s	visible_window	clean_build_secs	binary_bytes	pdb_bytes	exit_code	env_overrides	notes
+egui-tray	wgpu-gl	reused	no	no		14495232	5984256	101	WGPU_BACKEND=gl	process exited before 10s (exit=101)

@@ -1,0 +1,3 @@
+
+--- stderr ---
+[peek] gallery: 200 thumbs decoded + downscaled in 243 ms (4 threads)

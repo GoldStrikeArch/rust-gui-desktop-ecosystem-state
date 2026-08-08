@@ -1,0 +1,4 @@
+
+thread 'main' (18148) panicked at C:\Users\M.Pertsev\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\masonry_winit-0.4.0\src\event_loop_runner.rs:971:6:
+called `Result::unwrap()` on an `Err` value: WgpuCreateSurfaceError(CreateSurfaceError { inner: Hal(FailedToCreateSurfaceForAnyBackend({})) })
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
