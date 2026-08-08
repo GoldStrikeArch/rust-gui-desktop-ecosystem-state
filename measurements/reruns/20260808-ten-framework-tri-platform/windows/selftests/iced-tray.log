@@ -1,0 +1,6 @@
+
+--- stderr ---
+shell setup FAILED: hotkey register: HotKey already registered: HotKey { mods: Modifiers(SHIFT | SUPER), key: Digit9, id: 570425358 }
+theme-changed: Dark
+screenshot: capturing window Id(1)
+screenshot: saved C:\Users\M.Pertsev\Desktop\workspace\OSS\rust-gui-desktop-ecosystem-state\measurements\reruns\20260808-ten-framework-tri-platform\windows\tray-shots\iced-tray.png

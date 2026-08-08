@@ -1,0 +1,8 @@
+app,tool,format,artifact,install_exit,install_ok,launch_after_install,uninstall_exit,uninstall_ok,notes
+iced-app,cargo-packager,wix,apps/iced-app/target/release/packager/iced-app_0.1.0_x64_en-US.msi,0,yes,yes,0,yes,installed_exe=C:\Program Files\Iced Tasks\iced-app.exe
+egui-app,cargo-packager,wix,apps/egui-app/target/packager/egui-app_0.1.0_x64_en-US.msi,0,yes,yes,0,yes,installed_exe=C:\Program Files\egui-app\egui-app.exe
+gpui-app,cargo-packager,wix,apps/gpui-app/target/packager/gpui-app_0.1.0_x64_en-US.msi,0,yes,yes,0,yes,installed_exe=C:\Program Files\gpui-app\gpui-app.exe
+xilem-app,cargo-packager,wix,apps/xilem-app/target/packager/xilem-app_0.1.0_x64_en-US.msi,0,yes,yes,0,yes,installed_exe=C:\Program Files\xilem-app\xilem-app.exe
+slint-app,cargo-packager,wix,apps/slint-app/target/packager/slint-app_0.1.0_x64_en-US.msi,0,yes,yes,0,yes,installed_exe=C:\Program Files\slint-app\slint-app.exe
+dioxus-app,cargo-packager,wix,apps/dioxus-app/target/packager/dioxus-app_0.1.0_x64_en-US.msi,0,yes,no,0,yes,installed_exe=C:\Program Files\dioxus-app\dioxus-app.exe
+floem-app,cargo-packager,wix,apps/floem-app/target/packager/floem-app_0.1.0_x64_en-US.msi,0,yes,yes,0,yes,installed_exe=C:\Program Files\floem-app\floem-app.exe

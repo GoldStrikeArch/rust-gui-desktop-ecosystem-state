@@ -1,0 +1,10 @@
+name = "floem-app"
+identifier = "org.rcn.floemapp"
+product-name = "floem-app"
+version = "0.1.0"
+out-dir = "target/packager"
+binaries-dir = "target/release"
+
+[[binaries]]
+path = "floem-app"
+main = true

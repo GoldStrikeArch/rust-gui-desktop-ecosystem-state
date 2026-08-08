@@ -1,0 +1,27 @@
+   Compiling windows-strings v0.5.1
+   Compiling windows-result v0.4.1
+   Compiling webview2-com-sys v0.38.2
+   Compiling windows-threading v0.2.1
+   Compiling tao v0.35.3
+   Compiling tauri-peek v0.1.0 (C:\Users\M.Pertsev\Desktop\workspace\OSS\rust-gui-desktop-ecosystem-state\apps\tauri-peek)
+error: failed to run custom build command for `tauri-peek v0.1.0 (C:\Users\M.Pertsev\Desktop\workspace\OSS\rust-gui-desktop-ecosystem-state\apps\tauri-peek)`
+
+Caused by:
+  process didn't exit successfully: `C:\Users\M.Pertsev\Desktop\workspace\OSS\rust-gui-desktop-ecosystem-state\apps\tauri-peek\target\release\build\tauri-peek-5f76af6344756fc6\build-script-build` (exit code: 1)
+  --- stdout
+  cargo:rerun-if-env-changed=TAURI_CONFIG
+  cargo:rustc-check-cfg=cfg(desktop)
+  cargo:rustc-cfg=desktop
+  cargo:rustc-check-cfg=cfg(mobile)
+  cargo:rerun-if-changed=C:\Users\M.Pertsev\Desktop\workspace\OSS\rust-gui-desktop-ecosystem-state\apps\tauri-peek\tauri.conf.json
+  cargo:rustc-env=TAURI_ANDROID_PACKAGE_NAME_APP_NAME=tauripeek
+  cargo:rustc-env=TAURI_ANDROID_PACKAGE_NAME_PREFIX=org_rcn
+  cargo:rustc-check-cfg=cfg(dev)
+  cargo:rustc-cfg=dev
+  cargo:PERMISSION_FILES_PATH=C:\Users\M.Pertsev\Desktop\workspace\OSS\rust-gui-desktop-ecosystem-state\apps\tauri-peek\target\release\build\tauri-peek-f30519aae5c34fb3\out\app-manifest\__app__-permission-files
+  cargo:rerun-if-changed=capabilities
+  cargo:rerun-if-env-changed=REMOVE_UNUSED_COMMANDS
+  cargo:rustc-env=TAURI_ENV_TARGET_TRIPLE=x86_64-pc-windows-msvc
+  package.metadata does not exist
+  `icons/icon.ico` not found; required for generating a Windows Resource file during tauri-build
+warning: build failed, waiting for other jobs to finish...

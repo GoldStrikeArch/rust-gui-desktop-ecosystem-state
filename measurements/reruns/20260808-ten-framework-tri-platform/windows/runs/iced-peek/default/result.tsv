@@ -1,0 +1,2 @@
+app	variant	compile_ok	run_alive_10s	visible_window	clean_build_secs	binary_bytes	pdb_bytes	exit_code	env_overrides	notes
+iced-peek	default	yes	yes	yes	125.51	19508224	7376896	na		

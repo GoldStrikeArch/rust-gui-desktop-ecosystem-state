@@ -33,7 +33,7 @@ edition = "2024"
 [dependencies]
 floem = { git = "https://github.com/lapce/floem", rev = "778bb5f2aa08429e579ee2e6ac97e84fbf18b618" }
 floem_renderer = { git = "https://github.com/lapce/floem", rev = "778bb5f2aa08429e579ee2e6ac97e84fbf18b618" }
-nokhwa = { version = "0.10.11", features = ["input-avfoundation"] }
+# nokhwa moved to target-gated tables at the end of this file (Windows campaign).
 cpal = "=0.17.3"
 rodio = "0.22.2"
 image = "0.25"
@@ -41,3 +41,15 @@ image = "0.25"
 # so `screencapture -l` captures JUST this window on the shared desktop.
 raw-window-handle = "0.6"
 objc2 = "0.6"
+
+# Camera backend is target-gated for the Windows campaign (see WINDOWS-RUN.md):
+# macOS keeps the measured `input-avfoundation` backend — feature resolution
+# and binaries are unchanged because cargo's dependency tree is host-filtered —
+# while Windows resolves the MediaFoundation backend instead. Sources that use
+# AVFoundation-only helpers (nokhwa_initialize/nokhwa_check) may still fail to
+# compile on Windows; that outcome is recorded as a finding, not patched.
+[target.'cfg(target_os = "macos")'.dependencies]
+nokhwa = { version = "0.10.11", features = ["input-avfoundation"] }
+
+[target.'cfg(windows)'.dependencies]
+nokhwa = { version = "0.10.11", features = ["input-msmf"] }

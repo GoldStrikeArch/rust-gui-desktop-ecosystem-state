@@ -20,7 +20,7 @@ vizia = "=0.4.0"
 # Camera capture. AVFoundation backend on macOS is behind the
 # `input-avfoundation` feature. Same pin as the rest of the cohort so the
 # comparison is like-for-like.
-nokhwa = { version = "0.10.11", features = ["input-avfoundation"] }
+# nokhwa moved to target-gated tables at the end of this file (Windows campaign).
 
 # Mic input for the RMS meter. Pinned to 0.17.3 to match what rodio 0.22.2
 # depends on, so only one CoreAudio binding stack is compiled.
@@ -34,3 +34,15 @@ rodio = "0.22.2"
 # reading JPEG dimensions; the gallery itself hands encoded JPEG bytes
 # straight to Skia, which does the decode.
 image = { version = "0.25", default-features = false, features = ["jpeg"] }
+
+# Camera backend is target-gated for the Windows campaign (see WINDOWS-RUN.md):
+# macOS keeps the measured `input-avfoundation` backend — feature resolution
+# and binaries are unchanged because cargo's dependency tree is host-filtered —
+# while Windows resolves the MediaFoundation backend instead. Sources that use
+# AVFoundation-only helpers (nokhwa_initialize/nokhwa_check) may still fail to
+# compile on Windows; that outcome is recorded as a finding, not patched.
+[target.'cfg(target_os = "macos")'.dependencies]
+nokhwa = { version = "0.10.11", features = ["input-avfoundation"] }
+
+[target.'cfg(windows)'.dependencies]
+nokhwa = { version = "0.10.11", features = ["input-msmf"] }

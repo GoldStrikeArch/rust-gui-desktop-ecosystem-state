@@ -1,0 +1,2 @@
+app	variant	compile_ok	run_alive_10s	visible_window	clean_build_secs	binary_bytes	pdb_bytes	exit_code	env_overrides	notes
+floem-peek	default	no	no	no	113.42	0	0	101		build failed: error: `objc2` only works on Apple platforms. Pass `--target aarch64-apple-darwin` or similar to compile for macOS.

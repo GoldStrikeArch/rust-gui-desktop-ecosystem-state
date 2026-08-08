@@ -1,0 +1,23 @@
+   Compiling once_cell v1.21.4
+   Compiling windows v0.62.2
+   Compiling naga v29.0.4
+   Compiling ahash v0.8.12
+   Compiling epaint v0.35.0
+   Compiling egui v0.35.0
+   Compiling wgpu-naga-bridge v29.0.4
+   Compiling gpu-allocator v0.28.0
+   Compiling accesskit_windows v0.32.1
+   Compiling nokhwa-bindings-windows v0.4.6
+   Compiling cpal v0.17.3
+   Compiling rodio v0.22.2
+   Compiling wgpu-hal v29.0.4
+   Compiling accesskit_winit v0.32.2
+   Compiling egui-winit v0.35.0
+   Compiling nokhwa v0.10.11
+   Compiling wgpu-core-deps-windows-linux-android v29.0.4
+   Compiling wgpu-core v29.0.4
+   Compiling wgpu v29.0.4
+   Compiling egui-wgpu v0.35.0
+   Compiling eframe v0.35.0
+   Compiling egui-peek v0.1.0 (C:\Users\M.Pertsev\Desktop\workspace\OSS\rust-gui-desktop-ecosystem-state\apps\egui-peek)
+    Finished `release` profile [optimized] target(s) in 1m 27s

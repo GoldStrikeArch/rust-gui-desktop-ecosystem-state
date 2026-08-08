@@ -1,0 +1,2 @@
+app	variant	compile_ok	run_alive_10s	visible_window	clean_build_secs	binary_bytes	pdb_bytes	exit_code	env_overrides	notes
+egui-peek	msmf-manifest	yes	yes	yes	87.92	15238144	6295552	na		

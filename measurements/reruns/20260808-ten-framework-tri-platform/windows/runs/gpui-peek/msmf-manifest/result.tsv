@@ -1,0 +1,2 @@
+app	variant	compile_ok	run_alive_10s	visible_window	clean_build_secs	binary_bytes	pdb_bytes	exit_code	env_overrides	notes
+gpui-peek	msmf-manifest	no	no	no	5.79	0	0	101		build failed: error[E0433]: cannot find `unix` in `os`

@@ -1,0 +1,2 @@
+app	variant	compile_ok	run_alive_10s	visible_window	clean_build_secs	binary_bytes	pdb_bytes	exit_code	env_overrides	notes
+egui-tray	default	yes	no	no	97.35	14495232	5984256	101		process exited before 10s (exit=101)

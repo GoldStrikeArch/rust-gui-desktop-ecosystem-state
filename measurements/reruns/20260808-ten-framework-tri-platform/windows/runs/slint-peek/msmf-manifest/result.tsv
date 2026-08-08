@@ -1,0 +1,2 @@
+app	variant	compile_ok	run_alive_10s	visible_window	clean_build_secs	binary_bytes	pdb_bytes	exit_code	env_overrides	notes
+slint-peek	msmf-manifest	yes	yes	yes	69.90	15326208	5189632	na		

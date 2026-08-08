@@ -1,0 +1,10 @@
+### cargo-packager --release --formats nsis (cwd=C:\Users\M.Pertsev\Desktop\workspace\OSS\rust-gui-desktop-ecosystem-state\apps\slint-app timeout=900s timed_out=False exit=1)
+ INFO Running makensis.exe to produce C:\Users\M.Pertsev\Desktop\workspace\OSS\rust-gui-desktop-ecosystem-state\apps\slint-app\target\packager\slint-app_0.1.0_x64-setup.exe
+ERROR Error running makensis.exe: failed to run command: "C:\\Users\\M.Pertsev\\AppData\\Local\\.cargo-packager\\NSIS\\makensis.exe" "-V2" "C:\\Users\\M.Pertsev\\Desktop\\workspace\\OSS\\rust-gui-desktop-ecosystem-state\\apps\\slint-app\\target\\packager\\.cargo-packager\\nsis\\x64\\installer.nsi"
+stdout: Plugin directories:
+  C:\Users\M.Pertsev\scoop\apps\nsis\current\Plugins\x86-unicode
+
+stderr: Plugin not found, cannot call nsis_tauri_utils::SemverCompare
+Error in script "C:\Users\M.Pertsev\Desktop\workspace\OSS\rust-gui-desktop-ecosystem-state\apps\slint-app\target\packager\.cargo-packager\nsis\x64\installer.nsi" on line 178 -- aborting creation process
+
+

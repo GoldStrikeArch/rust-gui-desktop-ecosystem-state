@@ -1,0 +1,51 @@
+app,suite,expected,observed,status,notes
+iced-grid,grid,SELFTEST DONE pass=14 fail=0,,timeout,no exit within 120s; tree killed
+egui-grid,grid,SELFTEST DONE pass=14 fail=0,,timeout,no exit within 120s; tree killed
+gpui-grid,grid,SELFTEST DONE pass=14 fail=0,,timeout,no exit within 120s; tree killed
+tauri-grid,grid,SELFTEST DONE pass=14 fail=0,,no-binary,release exe missing (run-cohort builds first)
+xilem-grid,grid,SELFTEST DONE pass=14 fail=0,,timeout,no exit within 120s; tree killed
+slint-grid,grid,SELFTEST DONE pass=14 fail=0,,no-marker,exit=0
+dioxus-grid,grid,SELFTEST DONE pass=14 fail=0,,timeout,no exit within 120s; tree killed
+freya-grid,grid,SELFTEST DONE pass=14 fail=0,,no-binary,release exe missing (run-cohort builds first)
+vizia-grid,grid,SELFTEST DONE pass=14 fail=0,,no-binary,release exe missing (run-cohort builds first)
+floem-grid,grid,SELFTEST DONE pass=14 fail=0,SELFTEST DONE pass=14 fail=0,pass,exit=0
+iced-fetch,fetch,SELFTEST DONE pass=10 fail=0,,timeout,no exit within 120s; tree killed
+egui-fetch,fetch,SELFTEST DONE pass=10 fail=0,,timeout,no exit within 120s; tree killed
+gpui-fetch,fetch,SELFTEST DONE pass=10 fail=0,,timeout,no exit within 120s; tree killed
+tauri-fetch,fetch,SELFTEST DONE pass=10 fail=0,,no-binary,release exe missing (run-cohort builds first)
+xilem-fetch,fetch,SELFTEST DONE pass=10 fail=0,,timeout,no exit within 120s; tree killed
+slint-fetch,fetch,SELFTEST DONE pass=10 fail=0,,no-marker,exit=0
+dioxus-fetch,fetch,SELFTEST DONE pass=10 fail=0,,timeout,no exit within 120s; tree killed
+freya-fetch,fetch,SELFTEST DONE pass=10 fail=0,,no-binary,release exe missing (run-cohort builds first)
+vizia-fetch,fetch,SELFTEST DONE pass=10 fail=0,,no-binary,release exe missing (run-cohort builds first)
+floem-fetch,fetch,SELFTEST DONE pass=10 fail=0,SELFTEST DONE pass=10 fail=0,pass,exit=0
+iced-babel,babel,exit=0 png>10240B,exit= png_bytes=225057,timeout,no exit within 60s; png_bytes=225057
+egui-babel,babel,exit=0 png>10240B,exit= png_bytes=0,timeout,no exit within 60s; png_bytes=0
+gpui-babel,babel,exit=0 png>10240B,exit= png_bytes=0,timeout,no exit within 60s; png_bytes=0
+tauri-babel,babel,exit=0 png>10240B,,no-binary,release exe missing (run-cohort builds first)
+xilem-babel,babel,exit=0 png>10240B,exit= png_bytes=0,timeout,no exit within 60s; png_bytes=0
+slint-babel,babel,exit=0 png>10240B,exit= png_bytes=0,timeout,no exit within 60s; png_bytes=0
+dioxus-babel,babel,exit=0 png>10240B,exit= png_bytes=0,timeout,no exit within 60s; png_bytes=0
+freya-babel,babel,exit=0 png>10240B,,no-binary,release exe missing (run-cohort builds first)
+vizia-babel,babel,exit=0 png>10240B,,no-binary,release exe missing (run-cohort builds first)
+floem-babel,babel,exit=0 png>10240B,,no-binary,release exe missing (run-cohort builds first)
+iced-tray,tray,exit=0,exit=,timeout,no exit within 60s;
+egui-tray,tray,exit=0,exit=101,fail,
+gpui-tray,tray,exit=0,exit=,timeout,no exit within 60s;
+tauri-tray,tray,exit=0,,no-binary,release exe missing (run-cohort builds first)
+xilem-tray,tray,exit=0,exit=101,fail,
+slint-tray,tray,exit=0,exit=,timeout,no exit within 60s;
+dioxus-tray,tray,exit=0,exit=,timeout,no exit within 60s; [selftest] paste_image -> No clipboard image: The clipboard contents were not available in the requested format or the clipboard is empty.; [selftest] wrote C:\Users\M5453~1.PER\AppData\Local\Temp\dx-tray-selftest.txt; [selftest] about window requested
+freya-tray,tray,exit=0,,no-binary,release exe missing (run-cohort builds first)
+vizia-tray,tray,exit=0,,no-binary,release exe missing (run-cohort builds first)
+floem-tray,tray,exit=0,exit=,timeout,no exit within 60s;
+iced-peek,peek,exit=0,exit=,timeout,no exit within 90s;
+egui-peek,peek,exit=0,exit=,timeout,no exit within 90s;
+gpui-peek,peek,exit=0,,no-binary,release exe missing (run-cohort builds first)
+tauri-peek,peek,exit=0,,no-binary,release exe missing (run-cohort builds first)
+xilem-peek,peek,exit=0,exit=,timeout,no exit within 90s;
+slint-peek,peek,exit=0,exit=,timeout,no exit within 90s;
+dioxus-peek,peek,exit=0,,no-binary,release exe missing (run-cohort builds first)
+freya-peek,peek,exit=0,,no-binary,release exe missing (run-cohort builds first)
+vizia-peek,peek,exit=0,,no-binary,release exe missing (run-cohort builds first)
+floem-peek,peek,exit=0,,no-binary,release exe missing (run-cohort builds first)

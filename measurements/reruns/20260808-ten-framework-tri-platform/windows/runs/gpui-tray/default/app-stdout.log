@@ -1,0 +1,2 @@
+[tray-notes] tray icon created (NSStatusItem)
+[tray-notes] hotkey register FAILED: HotKey already registered: HotKey { mods: Modifiers(SHIFT | SUPER), key: Digit9, id: 570425358 }

@@ -242,7 +242,7 @@
   <p class="sub">Requirements and traps for a framework-neutral OS-shell layer — <strong>"Tauri plugins, but for winit"</strong> —
   distilled from one shell-integration app built in <strong>ten Rust GUI frameworks</strong>, plus a headless-Linux probe round.
   Every trap below was observed, not hypothesized.</p>
-  <div class="meta">distilled 2026-08-08 from the SPEC-4 round · 10 frameworks × 11 capabilities · macOS tested · Linux container probed · Windows source-verified only · full spec: report/19-shell-facade-spec.md</div>
+  <div class="meta">distilled 2026-08-08 from the SPEC-4 round · 10 frameworks × 11 capabilities · macOS tested · Linux container probed · Windows tested 2026-08-08 on one machine (report/21) · full spec: report/19-shell-facade-spec.md</div>
 </header>
 
 <section>
@@ -264,26 +264,30 @@
 <section>
   <div class="sec-head"><h2>Acceptance checklist</h2><span class="k">a facade is done when a plain winit app passes all nine</span></div>
   <p class="lede">The corpus's ten implementations are the reference answers — all ten achieved every capability on macOS
-  (zero not-achievable cells). The Linux column is what the facade must fix.</p>
+  (zero not-achievable cells). The Linux column is what the facade must fix. The Windows column (measured 2026-08-08, one
+  machine — report/21) starts further back: three of the ten frameworks' tray apps never compiled, and only the tray,
+  hotkey, toast and dark-mode cells were exercised.</p>
   <div class="scroll">
   <table>
-    <thead><tr><th>Capability</th><th>Acceptance test</th><th>macOS in corpus</th><th>Linux in corpus</th></tr></thead>
+    <thead><tr><th>Capability</th><th>Acceptance test</th><th>macOS in corpus</th><th>Linux in corpus</th><th>Windows in corpus</th></tr></thead>
     <tbody>
-      <tr><th>System tray + menu</th><td>icon visible; clicks delivered; live label update</td><td><span class="chip c-shared">10/10</span></td><td><span class="chip c-miss">panics or silently invisible</span></td></tr>
-      <tr><th>Global hotkey</th><td>chord fires while app unfocused</td><td><span class="chip c-shared">10/10</span></td><td><span class="chip c-web">works on X11</span><span class="note">Wayland unserved</span></td></tr>
-      <tr><th>Native menubar</th><td>real OS menubar; working Edit accelerators</td><td><span class="chip c-shared">10/10 via trap T1</span></td><td><span class="chip c-miss">impossible on plain winit (E0277)</span></td></tr>
-      <tr><th>Native dialogs</th><td>open/save panels without blocking the loop</td><td><span class="chip c-shared">10/10</span></td><td><span class="chip c-house">untested</span><span class="note">rfd XDG-portal is the candidate</span></td></tr>
-      <tr><th>Clipboard text + image</th><td>paste a screenshot into the window</td><td><span class="chip c-shared">10/10</span></td><td><span class="chip c-house">untested</span></td></tr>
-      <tr><th>File drop</th><td>window receives real paths from the file manager</td><td><span class="chip c-shared">10/10 (event-level)</span></td><td><span class="chip c-house">untested</span></td></tr>
-      <tr><th>Notification</th><td>banner attributed to the app</td><td><span class="chip c-web">weakest cell</span><span class="note">traps T10–T12</span></td><td><span class="chip c-house">untested</span></td></tr>
-      <tr><th>Live dark mode</th><td>palette follows the OS without restart</td><td><span class="chip c-shared">10/10</span></td><td><span class="chip c-house">untested</span></td></tr>
-      <tr><th>Close-to-tray + reopen</th><td>close hides; tray/Dock restores; process survives 0 windows</td><td><span class="chip c-shared">10/10</span><span class="note">Dock-reopen: floem/tauri only</span></td><td><span class="chip c-house">untested</span></td></tr>
+      <tr><th>System tray + menu</th><td>icon visible; clicks delivered; live label update</td><td><span class="chip c-shared">10/10</span></td><td><span class="chip c-miss">panics or silently invisible</span></td><td><span class="chip c-web">5/7 built apps ran</span><span class="note">tauri/freya/vizia never built; egui/xilem died on the hotkey panic; icon evidence: iced tray-shot only</span></td></tr>
+      <tr><th>Global hotkey</th><td>chord fires while app unfocused</td><td><span class="chip c-shared">10/10</span></td><td><span class="chip c-web">works on X11</span><span class="note">Wayland unserved</span></td><td><span class="chip c-miss">0/7 registered</span><span class="note">Win+Shift+9 already held by the OS taskbar (desktop-state-dependent); egui/xilem panic, the other five log + continue</span></td></tr>
+      <tr><th>Native menubar</th><td>real OS menubar; working Edit accelerators</td><td><span class="chip c-shared">10/10 via trap T1</span></td><td><span class="chip c-miss">impossible on plain winit (E0277)</span></td><td><span class="chip c-house">untested</span></td></tr>
+      <tr><th>Native dialogs</th><td>open/save panels without blocking the loop</td><td><span class="chip c-shared">10/10</span></td><td><span class="chip c-house">untested</span><span class="note">rfd XDG-portal is the candidate</span></td><td><span class="chip c-house">untested</span></td></tr>
+      <tr><th>Clipboard text + image</th><td>paste a screenshot into the window</td><td><span class="chip c-shared">10/10</span></td><td><span class="chip c-house">untested</span></td><td><span class="chip c-house">untested</span><span class="note">only probe: dioxus paste_image correctly errored on an empty clipboard</span></td></tr>
+      <tr><th>File drop</th><td>window receives real paths from the file manager</td><td><span class="chip c-shared">10/10 (event-level)</span></td><td><span class="chip c-house">untested</span></td><td><span class="chip c-house">untested</span></td></tr>
+      <tr><th>Notification</th><td>banner attributed to the app</td><td><span class="chip c-web">weakest cell</span><span class="note">traps T10–T12</span></td><td><span class="chip c-house">untested</span></td><td><span class="chip c-web">posted (dioxus)</span><span class="note">notify-rust toast from a bare unsigned exe — refutes the AUMID/shortcut risk note</span></td></tr>
+      <tr><th>Live dark mode</th><td>palette follows the OS without restart</td><td><span class="chip c-shared">10/10</span></td><td><span class="chip c-house">untested</span></td><td><span class="chip c-web">dark theme detected (iced, floem)</span><span class="note">theme-changed events logged; no live OS toggle exercised</span></td></tr>
+      <tr><th>Close-to-tray + reopen</th><td>close hides; tray/Dock restores; process survives 0 windows</td><td><span class="chip c-shared">10/10</span><span class="note">Dock-reopen: floem/tauri only</span></td><td><span class="chip c-house">untested</span></td><td><span class="chip c-house">untested</span></td></tr>
     </tbody>
   </table>
   </div>
   <p class="lede" style="margin-top:14px;font-size:13.5px">Cross-cutting criteria the corpus adds: <strong>no silent
   failure</strong> (every Linux failure observed was a panic or a silent success — the facade must return errors with
-  reasons); <strong>a runtime capability probe</strong> so build-only CI cannot lie; and <strong>focus-aware Edit-menu
+  reasons; Windows adds a build-time gate — 28 of 80 apps never compile — plus intermittent surface errors and the same
+  unwrap-culture split: a hotkey collision that egui and xilem treat as fatal while five frameworks log it and survive);
+  <strong>a runtime capability probe</strong> so build-only CI cannot lie; and <strong>focus-aware Edit-menu
   dispatch</strong> — only gpui achieved it; nine frameworks hard-wire the Edit menu to one widget.</p>
 </section>
 
@@ -427,7 +431,7 @@
     <li><b>Where does it live?</b> rust-windowing (winit has wanted to shed this scope since #403), tauri-apps (owns the incumbents, concentration risk), or a neutral org. The study's funding recommendation #2 notes no dedicated public funding source exists for this work today.</li>
     <li><b>Facade vs upstream fixes?</b> Several traps are one-line-ish upstream fixes (muda: return <code>Err</code> without GTK; retain menu items; document the Edit-role constraint). The trap catalog is effectively the issue list — filing it has value independent of any facade.</li>
     <li><b>Specify the fuzzy contracts.</b> Hotkey cross-process contention, TCC permission inheritance, and notification identity were observed behaving inconsistently — the facade must define and test these, not inherit them.</li>
-    <li><b>Windows.</b> Everything here is macOS-tested / Linux-probed; the incumbents' Windows column is source-verified only. The acceptance checklist needs a Windows run before claiming three platforms.</li>
+    <li><b>Windows.</b> The 2026-08-08 campaign (report/21) gives the checklist its first measured Windows column — but from one machine, one GPU/driver, one desktop session, and only the tray/hotkey/toast/dark-mode cells were exercised. Dialogs, file drop, clipboard image, menubar and close-to-tray still need a dedicated Windows pass before claiming three platforms.</li>
   </ol>
 </section>
 
@@ -437,7 +441,9 @@
   slint 1.17.1, dioxus 0.7.9, freya 0.4.0, vizia 0.4.0, floem git-778bb5f2) on one Apple M4 Pro, macOS 26.5–26.6, rustc 1.96.1,
   with a headless arm64 Debian 12 / Xvfb / X11 Linux round and four retained fault-line probes. Every trap cites a per-app
   FRICTION.md with reproduction context; the full requirements document with all citations is
-  <code>report/19-shell-facade-spec.md</code> in the repo. Windows was not tested. Finder drops were verified at the event/code
+  <code>report/19-shell-facade-spec.md</code> in the repo. Windows was tested 2026-08-08 on one x64 machine (Ryzen AI 9 HX 370,
+  Radeon 890M, Windows 11 Home 26200.7171 — <code>report/21-windows-reality-results.md</code>); its column reflects that
+  machine only. Finder drops were verified at the event/code
   level, not by synthesized drags. Notification "weakest cell" reflects macOS behavior from unbundled binaries; a bundled-.app
   round is the specified acceptance path.</p>
 </footer>

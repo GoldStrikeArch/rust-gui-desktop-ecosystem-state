@@ -1,0 +1,7 @@
+   Compiling windows v0.62.2
+   Compiling cpal v0.17.3
+   Compiling nokhwa-bindings-windows v0.4.6
+   Compiling rodio v0.22.2
+   Compiling nokhwa v0.10.11
+   Compiling xilem-peek v0.1.0 (C:\Users\M.Pertsev\Desktop\workspace\OSS\rust-gui-desktop-ecosystem-state\apps\xilem-peek)
+    Finished `release` profile [optimized] target(s) in 36.60s

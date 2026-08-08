@@ -1,0 +1,4 @@
+
+thread 'main' (28992) panicked at C:\Users\M.Pertsev\.cargo\git\checkouts\floem-ab9be4e01bb293da\778bb5f\src\app\handle.rs:100:71:
+called `Result::unwrap()` on an `Err` value: SurfaceCreationError(CreateSurfaceError { inner: Hal(FailedToCreateSurfaceForAnyBackend({})) })
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace

@@ -1,0 +1,2 @@
+app	variant	compile_ok	run_alive_10s	visible_window	clean_build_secs	binary_bytes	pdb_bytes	exit_code	env_overrides	notes
+freya-grid	default	no	no	no	42.15	0	0	101		build failed: error: failed to run custom build command for `freya-skia-bindings v0.98.1`

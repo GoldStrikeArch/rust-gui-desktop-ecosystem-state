@@ -1,0 +1,29 @@
+machine=AMD Ryzen AI 9 HX 370 w/ Radeon 890M; 31 GiB; Windows 11 Home 25H2 (build 26200.7171); rustc/cargo 1.96.1; AMD Radeon(TM) 890M Graphics driver 32.0.13058.2
+run_date=2026-08-08
+
+[rustc_cargo]
+rustc 1.96.1 (31fca3adb 2026-06-26)
+cargo 1.96.1 (356927216 2026-06-26)
+
+[link_exe]
+Microsoft (R) Incremental Linker Version 14.34.31948.0
+
+[webview2_runtime]
+pv=151.0.4129.59
+
+[dpi_scale_primary]
+200% (192 DPI)
+
+[defender_exclusions]
+unavailable
+
+[git]
+rev=5243b25d3e462af9516f7bb24b6bc36296d40cd2
+dirty_lines=4
+
+[pwsh]
+7.6.4
+
+[timezone]
+Russian Standard Time ((UTC+03:00) Москва, Санкт-Петербург)
+

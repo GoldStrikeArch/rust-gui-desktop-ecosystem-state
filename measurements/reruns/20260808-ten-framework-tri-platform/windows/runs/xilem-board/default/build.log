@@ -1,0 +1,212 @@
+   Compiling proc-macro2 v1.0.106
+   Compiling unicode-ident v1.0.24
+   Compiling quote v1.0.46
+   Compiling libm v0.2.16
+   Compiling cfg_aliases v0.2.1
+   Compiling serde_core v1.0.228
+   Compiling autocfg v1.5.1
+   Compiling windows_x86_64_msvc v0.52.6
+   Compiling smallvec v1.15.2
+   Compiling equivalent v1.0.2
+   Compiling zerocopy v0.8.53
+   Compiling allocator-api2 v0.2.21
+   Compiling cfg-if v1.0.4
+   Compiling thiserror v2.0.18
+   Compiling windows-link v0.2.1
+   Compiling once_cell v1.21.4
+   Compiling foldhash v0.1.5
+   Compiling log v0.4.33
+   Compiling arrayvec v0.7.8
+   Compiling khronos_api v3.1.0
+   Compiling xml-rs v0.8.28
+   Compiling parking_lot_core v0.9.12
+   Compiling thiserror v1.0.69
+   Compiling raw-window-handle v0.6.2
+   Compiling scopeguard v1.2.0
+   Compiling windows-link v0.1.3
+   Compiling libc v0.2.186
+   Compiling libloading v0.8.9
+   Compiling naga v26.0.0
+   Compiling lock_api v0.4.14
+   Compiling windows-targets v0.52.6
+   Compiling tracing-core v0.1.36
+   Compiling hashbrown v0.17.1
+   Compiling khronos-egl v6.0.0
+   Compiling ash v0.38.0+1.3.281
+   Compiling windows-result v0.2.0
+   Compiling unicode-width v0.2.2
+   Compiling pin-project-lite v0.2.17
+   Compiling bit-vec v0.8.0
+   Compiling kurbo v0.12.0
+   Compiling wgpu-hal v26.0.6
+   Compiling num-traits v0.2.19
+   Compiling hashbrown v0.15.5
+   Compiling presser v0.3.1
+   Compiling rustc-hash v1.1.0
+   Compiling hexf-parse v0.2.1
+   Compiling windows-strings v0.1.0
+   Compiling parking_lot v0.12.5
+   Compiling bit-set v0.8.0
+   Compiling gl_generator v0.14.0
+   Compiling codespan-reporting v0.12.0
+   Compiling linebender_resource_handle v0.1.1
+   Compiling windows-result v0.3.4
+   Compiling windows-strings v0.4.2
+   Compiling glow v0.16.0
+   Compiling range-alloc v0.1.5
+   Compiling simd-adler32 v0.3.9
+   Compiling indexmap v2.14.0
+   Compiling renderdoc-sys v1.1.0
+   Compiling bitflags v2.13.0
+   Compiling syn v2.0.118
+   Compiling glutin_wgl_sys v0.6.1
+   Compiling profiling v1.0.18
+   Compiling crc32fast v1.5.0
+   Compiling wgpu-core v26.0.1
+   Compiling color v0.3.3
+   Compiling adler2 v2.0.1
+   Compiling svg_fmt v0.4.5
+   Compiling static_assertions v1.1.0
+   Compiling core_maths v0.1.1
+   Compiling accesskit v0.21.1
+   Compiling dpi v0.1.2
+   Compiling litrs v1.0.0
+   Compiling miniz_oxide v0.8.9
+   Compiling wgpu v26.0.1
+   Compiling litemap v0.8.2
+   Compiling cursor-icon v1.2.0
+   Compiling time-core v0.1.9
+   Compiling regex-syntax v0.8.11
+   Compiling writeable v0.6.3
+   Compiling peniko v0.5.0
+   Compiling foldhash v0.2.0
+   Compiling num-conv v0.2.2
+   Compiling fdeflate v0.3.7
+   Compiling windows-threading v0.1.0
+   Compiling time-macros v0.2.31
+   Compiling flate2 v1.1.9
+   Compiling hashbrown v0.16.1
+   Compiling windows-sys v0.61.2
+   Compiling winit v0.30.13
+   Compiling document-features v0.2.12
+   Compiling deranged v0.5.8
+   Compiling powerfmt v0.2.0
+   Compiling ordered-float v5.0.0
+   Compiling euclid v0.22.14
+   Compiling memmap2 v0.9.11
+   Compiling bitflags v1.3.2
+   Compiling lazy_static v1.5.0
+   Compiling futures-core v0.3.32
+   Compiling sharded-slab v0.1.7
+   Compiling png v0.17.16
+   Compiling tracing-log v0.2.0
+   Compiling windows-sys v0.52.0
+   Compiling futures-intrusive v0.5.0
+   Compiling thread_local v1.1.9
+   Compiling anymore v1.0.0
+   Compiling unicode-segmentation v1.13.3
+   Compiling smol_str v0.2.2
+   Compiling spirv v0.3.0+sdk-1.3.268.0
+   Compiling gpu-alloc-types v0.3.1
+   Compiling gpu-descriptor-types v0.2.0
+   Compiling regex-automata v0.4.14
+   Compiling gpu-descriptor v0.3.2
+   Compiling gpu-alloc v0.6.2
+   Compiling guillotiere v0.6.2
+   Compiling keyboard-types v0.8.3
+   Compiling nu-ansi-term v0.50.3
+   Compiling tree_arena v0.2.0
+   Compiling accesskit_consumer v0.31.0
+   Compiling error-code v3.3.2
+   Compiling anymap3 v1.1.0
+   Compiling pollster v0.4.0
+   Compiling clipboard-win v5.4.1
+   Compiling tokio v1.52.3
+   Compiling time v0.3.53
+   Compiling ui-events v0.2.0
+   Compiling copypasta v0.10.2
+   Compiling matchers v0.2.0
+   Compiling bytemuck_derive v1.10.2
+   Compiling zerocopy-derive v0.8.53
+   Compiling thiserror-impl v2.0.18
+   Compiling windows-interface v0.58.0
+   Compiling windows-implement v0.58.0
+   Compiling thiserror-impl v1.0.69
+   Compiling tracing-attributes v0.1.31
+   Compiling windows-interface v0.59.3
+   Compiling windows-implement v0.60.2
+   Compiling displaydoc v0.2.6
+   Compiling windows-core v0.61.2
+   Compiling tinystr v0.8.3
+   Compiling windows-core v0.58.0
+   Compiling icu_locale_core v2.2.0
+   Compiling tracing v0.1.44
+   Compiling bytemuck v1.25.0
+   Compiling windows-future v0.2.1
+   Compiling windows-numerics v0.2.0
+   Compiling windows v0.58.0
+   Compiling font-types v0.10.1
+   Compiling wgpu-types v26.0.0
+   Compiling font-types v0.11.3
+   Compiling windows-collections v0.2.0
+   Compiling tracing-subscriber v0.3.23
+   Compiling xilem_core v0.4.0
+   Compiling read-fonts v0.35.0
+   Compiling windows v0.61.3
+   Compiling read-fonts v0.39.2
+   Compiling ui-events-winit v0.2.0
+   Compiling half v2.7.1
+   Compiling skrifa v0.37.0
+   Compiling harfrust v0.3.2
+   Compiling skrifa v0.42.1
+   Compiling vello_encoding v0.6.0
+   Compiling swash v0.2.9
+   Compiling accesskit_windows v0.29.2
+   Compiling accesskit_winit v0.29.2
+   Compiling vello_shaders v0.6.0
+   Compiling gpu-allocator v0.27.0
+   Compiling fontique v0.6.0
+   Compiling parley v0.6.0
+   Compiling wgpu-core-deps-windows-linux-android v26.0.0
+   Compiling vello v0.6.0
+   Compiling masonry_core v0.4.0
+   Compiling masonry v0.4.0
+   Compiling masonry_winit v0.4.0
+   Compiling xilem v0.4.0
+   Compiling xilem-board v0.1.0 (C:\Users\M.Pertsev\Desktop\workspace\OSS\rust-gui-desktop-ecosystem-state\apps\xilem-board)
+warning: field `origin` is never read
+  --> src\widgets.rs:63:9
+   |
+59 |     DragStart {
+   |     --------- field in this variant
+...
+63 |         origin: Point,
+   |         ^^^^^^
+   |
+   = note: `CardEvent` has a derived impl for the trait `Debug`, but this is intentionally ignored during dead code analysis
+   = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: field `window` is never read
+  --> src\widgets.rs:73:9
+   |
+72 |     DragEnd {
+   |     ------- field in this variant
+73 |         window: Point,
+   |         ^^^^^^
+   |
+   = note: `CardEvent` has a derived impl for the trait `Debug`, but this is intentionally ignored during dead code analysis
+
+warning: methods `selected` and `drop_hint` are never used
+   --> src\widgets.rs:451:12
+    |
+438 | impl<State, V> CardFrameView<State, V> {
+    | -------------------------------------- methods in this implementation
+...
+451 |     pub fn selected(mut self, selected: bool) -> Self {
+    |            ^^^^^^^^
+...
+455 |     pub fn drop_hint(mut self, hint: bool) -> Self {
+    |            ^^^^^^^^^
+
+warning: `xilem-board` (bin "xilem-board") generated 3 warnings
+    Finished `release` profile [optimized] target(s) in 1m 23s

@@ -1,0 +1,19 @@
+STALE_TEST slow="rx"(299ms) fast="s"(152ms)
+SELFTEST_ARMED base=http://127.0.0.1:7878
+SEARCH_APPLIED seq=1 q="am" n=20
+DEBOUNCE_DISPATCHES 1
+SEARCH_APPLIED seq=3 q="s" n=20
+STALE_DROPPED seq=2 q="rx"
+SEARCH_FINAL_STATUS "20 results for \"s\""
+DL_CHUNK 8192/8388608
+DL_CHUNK 1179648/8388608
+CANCEL_ISSUED
+DL_FINAL state=3 status="cancelled" progress=0.33
+FLAKY_ERR 500
+FLAKY_STATUS_1 "HTTP 500 тАФ click Retry"
+FLAKY_ERR 500
+FLAKY_STATUS_2 "HTTP 500 тАФ click Retry"
+FLAKY_OK {"attempt":3}
+FLAKY_STATUS_3 "success: {\"attempt\":3}"
+SNAPSHOT_SAVED C:\Users\M.Pertsev\Desktop\workspace\OSS\rust-gui-desktop-ecosystem-state\apps\slint-fetch\verify-snapshot.ppm 1400x1120
+SELFTEST_DONE

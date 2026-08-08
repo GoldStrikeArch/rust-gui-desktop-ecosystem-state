@@ -9,7 +9,7 @@ slint = "=1.17.1"
 # Camera capture (AVFoundation backend on macOS), per SPEC-6.
 # 0.10.9 does not compile against nokhwa-bindings-macos 0.2.4 (frame channel
 # tuple grew a timestamp); 0.10.11 is the matching release.
-nokhwa = { version = "=0.10.11", features = ["input-avfoundation"] }
+# nokhwa moved to target-gated tables at the end of this file (Windows campaign).
 # Mic input stream for the VU meter.
 cpal = "=0.17.3"
 # Audio output beep. Only the cpal playback path is needed (no decoders).
@@ -22,3 +22,15 @@ image = { version = "=0.25.10", default-features = false, features = ["jpeg", "p
 
 [build-dependencies]
 slint-build = "=1.17.1"
+
+# Camera backend is target-gated for the Windows campaign (see WINDOWS-RUN.md):
+# macOS keeps the measured `input-avfoundation` backend — feature resolution
+# and binaries are unchanged because cargo's dependency tree is host-filtered —
+# while Windows resolves the MediaFoundation backend instead. Sources that use
+# AVFoundation-only helpers (nokhwa_initialize/nokhwa_check) may still fail to
+# compile on Windows; that outcome is recorded as a finding, not patched.
+[target.'cfg(target_os = "macos")'.dependencies]
+nokhwa = { version = "=0.10.11", features = ["input-avfoundation"] }
+
+[target.'cfg(windows)'.dependencies]
+nokhwa = { version = "=0.10.11", features = ["input-msmf"] }

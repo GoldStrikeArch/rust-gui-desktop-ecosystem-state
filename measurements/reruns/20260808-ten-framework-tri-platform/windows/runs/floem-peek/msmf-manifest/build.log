@@ -1,0 +1,12 @@
+   Compiling wgpu v27.0.1
+   Compiling windows v0.62.2
+   Compiling objc2 v0.6.4
+error: `objc2` only works on Apple platforms. Pass `--target aarch64-apple-darwin` or similar to compile for macOS.
+       (If you're absolutely certain that you're using GNUStep, you can specify that with the `gnustep-x-y` Cargo feature instead).
+   --> C:\Users\M.Pertsev\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\objc2-0.6.4\src\lib.rs:219:1
+    |
+219 | compile_error!("`objc2` only works on Apple platforms. Pass `--target aarch64-apple-darwin` or similar to compile for macOS.\n(If you're absolutely certain that you're using GNUStep, you can specify that with the `gnustep-x-y` Cargo feature instead).");
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: could not compile `objc2` (lib) due to 1 previous error
+warning: build failed, waiting for other jobs to finish...

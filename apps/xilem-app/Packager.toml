@@ -1,0 +1,10 @@
+name = "xilem-app"
+identifier = "org.rcn.xilemapp"
+product-name = "xilem-app"
+version = "0.1.0"
+out-dir = "target/packager"
+binaries-dir = "target/release"
+
+[[binaries]]
+path = "xilem-app"
+main = true

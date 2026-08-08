@@ -1,0 +1,2 @@
+shell setup FAILED: hotkey register: HotKey already registered: HotKey { mods: Modifiers(SHIFT | SUPER), key: Digit9, id: 570425358 }
+theme-changed: Dark

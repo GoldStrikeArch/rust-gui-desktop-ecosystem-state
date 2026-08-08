@@ -1,0 +1,45 @@
+   Compiling freya-skia-bindings v0.98.1
+   Compiling mundy v0.2.3
+   Compiling ravif v0.13.0
+   Compiling mozjpeg-sys v2.2.3
+   Compiling accesskit_windows v0.34.0
+   Compiling ash-window v0.13.0
+   Compiling cpal v0.17.3
+error: failed to run custom build command for `freya-skia-bindings v0.98.1`
+
+Caused by:
+  process didn't exit successfully: `C:\Users\M.Pertsev\Desktop\workspace\OSS\rust-gui-desktop-ecosystem-state\apps\freya-peek\target\release\build\freya-skia-bindings-6889db81b5f1a47f\build-script-build` (exit code: 101)
+  --- stdout
+  cargo:rerun-if-env-changed=DOCS_RS
+  cargo:rerun-if-env-changed=SKIA_DEBUG
+  cargo:rerun-if-env-changed=SKIA_SOURCE_DIR
+  cargo:rerun-if-env-changed=FORCE_SKIA_BUILD
+  cargo:rerun-if-env-changed=FORCE_SKIA_BINARIES_DOWNLOAD
+  TRYING TO DOWNLOAD AND INSTALL SKIA BINARIES: 0.98.1/b5756d8613bf27909a64-x86_64-pc-windows-msvc-gl-jpegd-jpege-svg-textlayout-vulkan-webpd-webpe
+  cargo:rerun-if-env-changed=SKIA_BINARIES_URL
+    FROM: https://github.com/marc2332/rust-skia/releases/download/0.98.1/skia-binaries-b5756d8613bf27909a64-x86_64-pc-windows-msvc-gl-jpegd-jpege-svg-textlayout-vulkan-webpd-webpe.tar.gz
+  DOWNLOAD AND INSTALL FAILED: curl error code: "3"
+  curl stderr: "curl: (3) URL using bad/illegal format or missing URL\r\n"
+  STARTING A FULL BUILD
+  HOST: x86_64-pc-windows-msvc
+  cargo:rerun-if-env-changed=CLANGCC
+  cargo:rerun-if-env-changed=CC
+  cargo:rerun-if-env-changed=CLANGCXX
+  cargo:rerun-if-env-changed=CXX
+  cargo:rerun-if-env-changed=OPT_LEVEL
+  cargo:rerun-if-env-changed=SKIA_USE_SYSTEM_LIBRARIES
+  cargo:rerun-if-env-changed=SDKTARGETSYSROOT
+  cargo:rerun-if-env-changed=SDKROOT
+  cargo:rerun-if-env-changed=VCINSTALLDIR
+  cargo:rerun-if-env-changed=LLVM_HOME
+  cargo:rerun-if-env-changed=USERPROFILE
+
+  --- stderr
+  Checking for "C:\\Program Files\\LLVM\\bin\\clang-cl.exe"
+  Checking for "C:\\LLVM\\bin\\clang-cl.exe"
+  Checking for "C:\\Users\\M.Pertsev\\scoop\\apps\\llvm\\current\\bin\\clang-cl.exe"
+
+  thread 'main' (37396) panicked at C:\Users\M.Pertsev\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\freya-skia-bindings-0.98.1\build_support\platform\windows.rs:40:13:
+  Unable to locate LLVM installation
+  note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+warning: build failed, waiting for other jobs to finish...

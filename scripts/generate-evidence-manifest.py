@@ -22,7 +22,7 @@ from artifact_hash import artifact_sha256
 ROOT = Path(__file__).resolve().parents[1]
 MEASUREMENTS = ROOT / "measurements"
 OUTPUT = MEASUREMENTS / "artifact-manifest.tsv"
-MACHINE = "Apple M4 Pro; 24 GiB; macOS 26.5.2 (25F84); rustc/cargo 1.96.1"
+MACOS_MACHINE = "Apple M4 Pro; 24 GiB; macOS 26.5.2 (25F84); rustc/cargo 1.96.1"
 # Repository-level build inputs that are part of every app's identity: the
 # toolchain pin changes every binary, so it is hashed into every input hash.
 COHORT_BUILD_INPUTS = (ROOT / "rust-toolchain.toml",)
@@ -37,6 +37,12 @@ EXPECTED_ROUND_COUNTS = {"iter1": 10, "iter2": 20, "iter3": 20, "iter4": 30}
 # (20 iter3 + 80 all) + 80 launch-binary-snapshot + 2 capability-audit-rerun
 # + 10 babel-gallery. Skia build-cache rows are added per registered cache.
 FRESH_MANIFEST_BASE_ROWS = 282
+# Windows arm (cohort-gated; present only when <cohort>/windows/ exists):
+# one windows-reality row per app plus one windows-packaging row per
+# app x tool x format head-to-head cell (cargo-bundle msi x10 +
+# cargo-packager nsis x10 + wix x10 + tauri msi + tauri nsis + dx msi = 33).
+WINDOWS_REALITY_ROWS = 80
+WINDOWS_PACKAGING_ROWS = 33
 IGNORED_INPUT_SUFFIXES = {".log", ".md"}
 IGNORED_INPUT_NAMES = {"Cargo.lock", "screenshot.png"}
 GENERATED_IMAGE_MARKERS = (
@@ -198,7 +204,7 @@ for round_name in ("iter1", "iter2", "iter3", "iter4"):
                     "app": app,
                     "run_date_utc": RUN_DATES[round_name],
                     "reproduction_command": f"./measure.sh --round {round_name}",
-                    "machine": MACHINE,
+                    "machine": MACOS_MACHINE,
                     "current_input_hash_sha256": input_hash,
                     "lockfile_sha256": lock_hash,
                     "artifact": relative(result),
@@ -232,7 +238,7 @@ for record in runtime_records:
                 "app": app,
                 "run_date_utc": "2026-07-07",
                 "reproduction_command": "./scripts/runtime-sample.sh",
-                "machine": MACHINE,
+                "machine": MACOS_MACHINE,
                 "current_input_hash_sha256": input_hash,
                 "lockfile_sha256": lock_hash,
                 "artifact": relative(runtime),
@@ -291,7 +297,7 @@ for verification, verification_round, verification_command in verifications:
                 "app": app,
                 "run_date_utc": record["timestamp_utc"],
                 "reproduction_command": verification_command,
-                "machine": MACHINE,
+                "machine": MACOS_MACHINE,
                 "current_input_hash_sha256": input_hash,
                 "lockfile_sha256": lock_hash,
                 "artifact": relative(log),
@@ -335,7 +341,7 @@ for record in inventory_records:
             "app": app,
             "run_date_utc": "2026-07-10",
             "reproduction_command": "./scripts/record-binary-inventory.py measurements/verification-all/current/results.tsv",
-            "machine": MACHINE,
+            "machine": MACOS_MACHINE,
             "current_input_hash_sha256": input_hash,
             "lockfile_sha256": lock_hash,
             "artifact": relative(binary_inventory),
@@ -384,7 +390,7 @@ for app, log, command, level in audit_reruns:
             "app": app,
             "run_date_utc": "2026-07-10",
             "reproduction_command": command,
-            "machine": MACHINE,
+            "machine": MACOS_MACHINE,
             "current_input_hash_sha256": input_hash,
             "lockfile_sha256": lock_hash,
             "artifact": relative(log),
@@ -411,7 +417,7 @@ for screenshot in screenshots:
             "app": app,
             "run_date_utc": "2026-07-09",
             "reproduction_command": "per-app screenshot hook; see FRICTION.md",
-            "machine": MACHINE,
+            "machine": MACOS_MACHINE,
             "current_input_hash_sha256": input_hash,
             "lockfile_sha256": lock_hash,
             "artifact": relative(screenshot),
@@ -431,7 +437,7 @@ for cache_key, artifact in sorted(SKIA_CACHES.items()):
                 app=cache_key,
                 run_date_utc="",
                 reproduction_command="scripts/cohort.py record (skia cache registration)",
-                machine=MACHINE,
+                machine=MACOS_MACHINE,
                 current_input_hash_sha256="",
                 lockfile_sha256="",
                 artifact=str(artifact),
@@ -446,7 +452,97 @@ for cache_key, artifact in sorted(SKIA_CACHES.items()):
         }
     )
 
+WINDOWS_DIR = MEASUREMENTS / "windows"
+windows_present = bool(args.cohort) and (WINDOWS_DIR / "results.csv").is_file()
+if windows_present:
+    environment_file = required(WINDOWS_DIR / "environment.txt")
+    environment_lines = environment_file.read_text().splitlines()
+    if not environment_lines or not environment_lines[0].startswith("machine="):
+        raise SystemExit(
+            "windows/environment.txt must start with a 'machine=' line "
+            "(written by windows/capture-environment.ps1)"
+        )
+    windows_machine = environment_lines[0][len("machine="):].strip()
+    windows_run_date = next(
+        (line[len("run_date="):].strip() for line in environment_lines if line.startswith("run_date=")),
+        "",
+    )
+    windows_results = required(WINDOWS_DIR / "results.csv")
+    windows_results_hash = sha256(windows_results)
+    with windows_results.open(newline="") as handle:
+        windows_records = list(csv.DictReader(handle))
+    expected_windows_apps = {
+        record["app"] for records in round_records.values() for record in records
+    }
+    assert_app_set(windows_records, expected_windows_apps, "windows/results.csv")
+    if len(windows_records) != WINDOWS_REALITY_ROWS:
+        raise SystemExit(
+            f"windows/results.csv: expected {WINDOWS_REALITY_ROWS} rows, got {len(windows_records)}"
+        )
+    for record in sorted(windows_records, key=lambda item: item["app"]):
+        app = record["app"]
+        input_hash, lock_hash = app_identity(app)
+        level = (
+            f"compile={record.get('compile_ok', '')};"
+            f"alive={record.get('run_alive_10s_default', '')};"
+            f"window={record.get('visible_window_default', '')};"
+            f"workaround={record.get('workaround_variant', '') or 'none'}"
+        )
+        rows.append(
+            {
+                "record_type": "windows-reality",
+                "round": "windows",
+                "app": app,
+                "run_date_utc": windows_run_date,
+                "reproduction_command": "pwsh windows/run-cohort.ps1 -Cohort <cohort-dir>",
+                "machine": windows_machine,
+                "current_input_hash_sha256": input_hash,
+                "lockfile_sha256": lock_hash,
+                "artifact": relative(windows_results),
+                "artifact_sha256": windows_results_hash,
+                "verification_level": level,
+                "notes": (record.get("notes", "") or "").replace("\t", " "),
+            }
+        )
+
+    windows_packaging = required(WINDOWS_DIR / "packaging/results.csv")
+    windows_packaging_hash = sha256(windows_packaging)
+    with windows_packaging.open(newline="") as handle:
+        packaging_records = list(csv.DictReader(handle))
+    if len(packaging_records) != WINDOWS_PACKAGING_ROWS:
+        raise SystemExit(
+            f"windows/packaging/results.csv: expected {WINDOWS_PACKAGING_ROWS} rows, "
+            f"got {len(packaging_records)}"
+        )
+    for record in sorted(
+        packaging_records, key=lambda item: (item["app"], item.get("tool", ""), item.get("format", ""))
+    ):
+        app = record["app"]
+        input_hash, lock_hash = app_identity(app)
+        rows.append(
+            {
+                "record_type": "windows-packaging",
+                "round": "windows",
+                "app": app,
+                "run_date_utc": windows_run_date,
+                "reproduction_command": "pwsh windows/package-windows.ps1 -Cohort <cohort-dir>",
+                "machine": windows_machine,
+                "current_input_hash_sha256": input_hash,
+                "lockfile_sha256": lock_hash,
+                "artifact": relative(windows_packaging),
+                "artifact_sha256": windows_packaging_hash,
+                "verification_level": (
+                    f"tool={record.get('tool', '')};format={record.get('format', '')};"
+                    f"status={record.get('status', '')};install={record.get('install_ok', '')};"
+                    f"launch={record.get('launch_after_install', '')}"
+                ),
+                "notes": (record.get("notes", "") or "").replace("\t", " "),
+            }
+        )
+
 expected_rows = FRESH_MANIFEST_BASE_ROWS + len(SKIA_CACHES)
+if windows_present:
+    expected_rows += WINDOWS_REALITY_ROWS + WINDOWS_PACKAGING_ROWS
 if args.cohort and len(rows) != expected_rows:
     raise SystemExit(f"manifest row count drift: expected {expected_rows}, got {len(rows)}")
 

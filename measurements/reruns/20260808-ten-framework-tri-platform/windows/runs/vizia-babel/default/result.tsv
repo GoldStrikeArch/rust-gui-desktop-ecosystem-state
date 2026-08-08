@@ -1,0 +1,2 @@
+app	variant	compile_ok	run_alive_10s	visible_window	clean_build_secs	binary_bytes	pdb_bytes	exit_code	env_overrides	notes
+vizia-babel	default	no	no	no	50.70	0	0	101		build failed: error: linking with `link.exe` failed: exit code: 1120

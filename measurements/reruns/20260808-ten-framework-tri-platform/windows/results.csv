@@ -1,0 +1,81 @@
+app,compile_ok,clean_build_secs,binary_bytes,pdb_bytes,run_alive_10s_default,visible_window_default,workaround_variant,workaround_alive_10s,default_result,workaround_result,notes
+dioxus-app,yes,80.82,5047808,3887104,yes,yes,none,not_run,alive+window,not_run,
+dioxus-babel,yes,82.04,5157376,3969024,yes,yes,none,not_run,alive+window,not_run,
+dioxus-board,yes,81.94,5171200,3952640,yes,yes,none,not_run,alive+window,not_run,
+dioxus-dash,yes,81.37,5221888,3969024,yes,yes,none,not_run,alive+window,not_run,
+dioxus-fetch,yes,86.48,6316032,4444160,yes,yes,none,not_run,alive+window,not_run,
+dioxus-grid,yes,84.27,5339136,4018176,yes,yes,none,not_run,alive+window,not_run,
+dioxus-peek,no,29.95,0,0,no,no,msmf-manifest,no,build-failed,build-failed,build failed: error: `objc2` only works on Apple platforms. Pass `--target aarch64-apple-darwin` or similar to compile for macOS. | build failed: error: `objc2` only works on Apple platforms. Pass `--target aarch64-apple-darwin` or similar to compile for macOS.
+dioxus-tray,yes,95.26,6543872,4198400,yes,yes,none,not_run,alive+window,not_run,
+egui-app,yes,88.89,14050304,5795840,yes,yes,none,not_run,alive+window,not_run,
+egui-babel,yes,93.88,33043456,5795840,no,no,wgpu-dx12,yes,died,alive+window,process exited before 10s (exit=1)
+egui-board,yes,93.53,14089216,5804032,yes,yes,none,not_run,alive+window,not_run,
+egui-dash,yes,93.46,14457344,5869568,yes,yes,none,not_run,alive+window,not_run,
+egui-fetch,yes,101.57,16247296,6885376,no,no,wgpu-dx12,yes,died,alive+window,process exited before 10s (exit=1)
+egui-grid,yes,95.60,14175744,5836800,no,no,wgpu-dx12,yes,died,alive+window,process exited before 10s (exit=1)
+egui-peek,yes,109.79,15104000,6238208,no,no,msmf-manifest,yes,died,alive+window,process exited before 10s (exit=1)
+egui-tray,yes,97.35,14495232,5984256,no,no,wgpu-gl,no,died,died,process exited before 10s (exit=101) | process exited before 10s (exit=101) | process exited before 10s (exit=101)
+floem-app,yes,132.28,18121728,7204864,no,no,wgpu-dx12,yes,died,alive+window,process exited before 10s (exit=101)
+floem-babel,no,75.29,0,0,no,no,none,not_run,build-failed,not_run,build failed: error: `objc2` only works on Apple platforms. Pass `--target aarch64-apple-darwin` or similar to compile for macOS.
+floem-board,yes,128.84,18264576,7262208,no,no,wgpu-dx12,yes,died,alive+window,process exited before 10s (exit=101)
+floem-dash,yes,133.66,18348544,7286784,no,no,wgpu-dx12,yes,died,alive+window,process exited before 10s (exit=101)
+floem-fetch,yes,135.04,20083200,7983104,no,no,wgpu-dx12,yes,died,alive+window,process exited before 10s (exit=101)
+floem-grid,yes,126.88,18429952,7286784,no,no,wgpu-dx12,yes,died,alive+window,process exited before 10s (exit=101)
+floem-peek,no,113.42,0,0,no,no,msmf-manifest,no,build-failed,build-failed,build failed: error: `objc2` only works on Apple platforms. Pass `--target aarch64-apple-darwin` or similar to compile for macOS. | build failed: error: `objc2` only works on Apple platforms. Pass `--target aarch64-apple-darwin` or similar to compile for macOS.
+floem-tray,yes,131.02,20294656,8089600,no,no,wgpu-dx12,yes,died,alive+window,process exited before 10s (exit=101)
+freya-app,no,42.89,0,0,no,no,none,not_run,build-failed,not_run,build failed: error: failed to run custom build command for `freya-skia-bindings v0.98.1`
+freya-babel,no,42.85,0,0,no,no,none,not_run,build-failed,not_run,build failed: error: failed to run custom build command for `freya-skia-bindings v0.98.1`
+freya-board,no,42.54,0,0,no,no,none,not_run,build-failed,not_run,build failed: error: failed to run custom build command for `freya-skia-bindings v0.98.1`
+freya-dash,no,41.77,0,0,no,no,none,not_run,build-failed,not_run,build failed: error: failed to run custom build command for `freya-skia-bindings v0.98.1`
+freya-fetch,no,50.61,0,0,no,no,none,not_run,build-failed,not_run,build failed: error: failed to run custom build command for `freya-skia-bindings v0.98.1`
+freya-grid,no,42.15,0,0,no,no,none,not_run,build-failed,not_run,build failed: error: failed to run custom build command for `freya-skia-bindings v0.98.1`
+freya-peek,no,67.36,0,0,no,no,msmf-manifest,no,build-failed,build-failed,build failed: error: failed to run custom build command for `freya-skia-bindings v0.98.1` | build failed: error: failed to run custom build command for `freya-skia-bindings v0.98.1`
+freya-tray,no,45.91,0,0,no,no,none,not_run,build-failed,not_run,build failed: error: failed to run custom build command for `freya-skia-bindings v0.98.1`
+gpui-app,yes,163.05,10431488,4435968,yes,yes,none,not_run,alive+window,not_run,
+gpui-babel,yes,165.32,10972672,4591616,yes,yes,none,not_run,alive+window,not_run,
+gpui-board,yes,172.35,10527232,4468736,yes,yes,none,not_run,alive+window,not_run,
+gpui-dash,yes,162.28,10734080,4517888,yes,yes,none,not_run,alive+window,not_run,
+gpui-fetch,yes,167.62,13224448,5787648,yes,yes,none,not_run,alive+window,not_run,
+gpui-grid,yes,164.34,10781696,4509696,yes,yes,none,not_run,alive+window,not_run,
+gpui-peek,no,72.33,0,0,no,no,msmf-manifest,no,build-failed,build-failed,build failed: error[E0433]: cannot find `unix` in `os` | build failed: error[E0433]: cannot find `unix` in `os`
+gpui-tray,yes,166.54,11970560,4902912,yes,yes,none,not_run,alive+window,not_run,
+iced-app,yes,76.77,11130880,5378048,yes,yes,none,not_run,alive+window,not_run,
+iced-babel,yes,77.58,11565056,5550080,yes,yes,none,not_run,alive+window,not_run,
+iced-board,yes,74.93,11237376,5443584,yes,yes,none,not_run,alive+window,not_run,
+iced-dash,yes,79.21,11481088,5566464,yes,yes,none,not_run,alive+window,not_run,
+iced-fetch,yes,86.90,12793344,6057984,yes,yes,none,not_run,alive+window,not_run,
+iced-grid,yes,75.00,11281920,5435392,yes,yes,none,not_run,alive+window,not_run,
+iced-peek,yes,125.51,19508224,7376896,yes,yes,msmf-manifest,yes,alive+window,alive+window,
+iced-tray,yes,109.66,14852096,6483968,yes,yes,none,not_run,alive+window,not_run,
+slint-app,yes,102.32,14769152,4927488,yes,yes,none,not_run,alive+window,not_run,
+slint-babel,yes,102.70,14786048,4919296,yes,yes,none,not_run,alive+window,not_run,
+slint-board,yes,107.83,15346176,5255168,yes,yes,none,not_run,alive+window,not_run,
+slint-dash,yes,102.33,12403712,4280320,yes,yes,none,not_run,alive+window,not_run,
+slint-fetch,yes,108.88,16268288,5541888,yes,yes,none,not_run,alive+window,not_run,
+slint-grid,yes,103.85,14991872,4984832,yes,yes,none,not_run,alive+window,not_run,
+slint-peek,yes,107.79,15194112,5140480,yes,yes,msmf-manifest,yes,alive+window,alive+window,
+slint-tray,yes,107.31,15219200,5156864,yes,yes,none,not_run,alive+window,not_run,
+tauri-app,no,68.81,0,0,no,no,none,not_run,build-failed,not_run,build failed: error: failed to run custom build command for `tauri-app v0.1.0 (C:\Users\M.Pertsev\Desktop\workspace\OSS\rust-gui-desktop-ecosystem-state\apps\tauri-app)`
+tauri-babel,no,69.20,0,0,no,no,none,not_run,build-failed,not_run,build failed: error: failed to run custom build command for `tauri-babel v0.1.0 (C:\Users\M.Pertsev\Desktop\workspace\OSS\rust-gui-desktop-ecosystem-state\apps\tauri-babel)`
+tauri-board,no,68.98,0,0,no,no,none,not_run,build-failed,not_run,build failed: error: failed to run custom build command for `tauri-board v0.1.0 (C:\Users\M.Pertsev\Desktop\workspace\OSS\rust-gui-desktop-ecosystem-state\apps\tauri-board)`
+tauri-dash,no,69.24,0,0,no,no,none,not_run,build-failed,not_run,build failed: error: failed to run custom build command for `tauri-dash v0.1.0 (C:\Users\M.Pertsev\Desktop\workspace\OSS\rust-gui-desktop-ecosystem-state\apps\tauri-dash)`
+tauri-fetch,no,79.19,0,0,no,no,none,not_run,build-failed,not_run,build failed: error: failed to run custom build command for `tauri-fetch v0.1.0 (C:\Users\M.Pertsev\Desktop\workspace\OSS\rust-gui-desktop-ecosystem-state\apps\tauri-fetch)`
+tauri-grid,no,69.43,0,0,no,no,none,not_run,build-failed,not_run,build failed: error: failed to run custom build command for `tauri-grid v0.1.0 (C:\Users\M.Pertsev\Desktop\workspace\OSS\rust-gui-desktop-ecosystem-state\apps\tauri-grid)`
+tauri-peek,no,23.03,0,0,no,no,msmf-manifest,no,build-failed,build-failed,build failed: error: failed to run custom build command for `tauri-peek v0.1.0 (C:\Users\M.Pertsev\Desktop\workspace\OSS\rust-gui-desktop-ecosystem-state\apps\tauri-peek)` | build failed: error: failed to run custom build command for `tauri-peek v0.1.0 (C:\Users\M.Pertsev\Desktop\workspace\OSS\rust-gui-desktop-ecosystem-state\apps\tauri-peek)`
+tauri-tray,no,81.52,0,0,no,no,none,not_run,build-failed,not_run,build failed: error: failed to run custom build command for `tauri-tray v0.1.0 (C:\Users\M.Pertsev\Desktop\workspace\OSS\rust-gui-desktop-ecosystem-state\apps\tauri-tray)`
+vizia-app,no,54.38,0,0,no,no,none,not_run,build-failed,not_run,build failed: error: linking with `link.exe` failed: exit code: 1120
+vizia-babel,no,50.70,0,0,no,no,none,not_run,build-failed,not_run,build failed: error: linking with `link.exe` failed: exit code: 1120
+vizia-board,no,50.16,0,0,no,no,none,not_run,build-failed,not_run,build failed: error: linking with `link.exe` failed: exit code: 1120
+vizia-dash,no,50.85,0,0,no,no,none,not_run,build-failed,not_run,build failed: error: linking with `link.exe` failed: exit code: 1120
+vizia-fetch,no,61.51,0,0,no,no,none,not_run,build-failed,not_run,build failed: error: linking with `link.exe` failed: exit code: 1120
+vizia-grid,no,52.34,0,0,no,no,none,not_run,build-failed,not_run,build failed: error: linking with `link.exe` failed: exit code: 1120
+vizia-peek,no,70.39,0,0,no,no,msmf-manifest,no,build-failed,build-failed,build failed: error: linking with `link.exe` failed: exit code: 1120 | build failed: error: linking with `link.exe` failed: exit code: 1120
+vizia-tray,no,61.17,0,0,no,no,none,not_run,build-failed,not_run,build failed: error: linking with `link.exe` failed: exit code: 1120
+xilem-app,yes,85.05,12328448,5836800,yes,yes,none,not_run,alive+window,not_run,
+xilem-babel,yes,82.05,12342272,5836800,no,no,wgpu-dx12,yes,died,alive+window,process exited before 10s (exit=101)
+xilem-board,yes,84.07,12519424,6033408,yes,yes,none,not_run,alive+window,not_run,
+xilem-dash,yes,82.24,12296704,5828608,yes,yes,none,not_run,alive+window,not_run,
+xilem-fetch,yes,89.17,13872128,6459392,no,no,wgpu-dx12,yes,died,alive+window,process exited before 10s (exit=101)
+xilem-grid,yes,78.83,12432896,5935104,no,no,wgpu-dx12,yes,died,alive+window,process exited before 10s (exit=101)
+xilem-peek,yes,100.86,13246464,6639616,no,no,msmf-manifest,yes,died,alive+window,process exited before 10s (exit=101)
+xilem-tray,yes,92.32,12030976,6082560,no,no,wgpu-gl,no,died,died,process exited before 10s (exit=101) | process exited before 10s (exit=101) | process exited before 10s (exit=101)

@@ -1,0 +1,75 @@
+   Compiling core-foundation v0.9.4
+   Compiling core-foundation v0.10.0
+   Compiling http-body-util v0.1.3
+   Compiling rustls-pemfile v2.2.0
+   Compiling windows-threading v0.1.0
+   Compiling malloc_buf v0.0.6
+   Compiling zune-inflate v0.2.54
+   Compiling encoding_rs v0.8.35
+   Compiling avif-serialize v0.8.9
+   Compiling filetime v0.2.29
+   Compiling unicode-vo v0.1.0
+   Compiling cpal v0.17.3
+   Compiling leak v0.1.2
+   Compiling ipnet v2.12.0
+   Compiling dtor-proc-macro v0.0.5
+   Compiling roxmltree v0.20.0
+   Compiling bit_field v0.10.3
+   Compiling cpufeatures v0.2.17
+   Compiling xmlwriter v0.1.0
+   Compiling shlex v1.3.0
+   Compiling pico-args v0.5.0
+   Compiling color_quant v1.1.0
+   Compiling data-url v0.3.2
+   Compiling convert_case v0.4.0
+error[E0433]: cannot find `unix` in `os`
+  --> C:\Users\M.Pertsev\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\core-foundation-0.9.4\src\filedescriptor.rs:19:14
+   |
+19 | use std::os::unix::io::{AsRawFd, RawFd};
+   |              ^^^^ could not find `unix` in `os`
+   |
+note: found an item that was configured out
+  --> /rustc/31fca3adb283cc9dfd56b49cdee9a96eb9c96ffd/library\std\src\os\mod.rs:29:4
+   |
+   = note: the item is gated here
+note: found an item that was configured out
+  --> /rustc/31fca3adb283cc9dfd56b49cdee9a96eb9c96ffd/library\std\src\os\mod.rs:84:40
+   |
+   = note: the item is gated here
+
+error[E0433]: cannot find `unix` in `os`
+  --> C:\Users\M.Pertsev\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\core-foundation-0.10.0\src\filedescriptor.rs:19:14
+   |
+19 | use std::os::unix::io::{AsRawFd, RawFd};
+   |              ^^^^ could not find `unix` in `os`
+   |
+note: found an item that was configured out
+  --> /rustc/31fca3adb283cc9dfd56b49cdee9a96eb9c96ffd/library\std\src\os\mod.rs:29:4
+   |
+   = note: the item is gated here
+note: found an item that was configured out
+  --> /rustc/31fca3adb283cc9dfd56b49cdee9a96eb9c96ffd/library\std\src\os\mod.rs:84:40
+   |
+   = note: the item is gated here
+
+error[E0432]: unresolved import `libc::PATH_MAX`
+  --> C:\Users\M.Pertsev\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\core-foundation-0.10.0\src\url.rs:22:28
+   |
+22 | use libc::{c_char, strlen, PATH_MAX};
+   |                            ^^^^^^^^ no `PATH_MAX` in the root
+
+error[E0432]: unresolved import `libc::PATH_MAX`
+  --> C:\Users\M.Pertsev\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\core-foundation-0.9.4\src\url.rs:22:28
+   |
+22 | use libc::{c_char, strlen, PATH_MAX};
+   |                            ^^^^^^^^ no `PATH_MAX` in the root
+
+   Compiling lebe v0.5.3
+   Compiling block v0.1.6
+   Compiling dunce v1.0.5
+   Compiling float_next_after v1.0.0
+Some errors have detailed explanations: E0432, E0433.
+For more information about an error, try `rustc --explain E0432`.
+error: could not compile `core-foundation` (lib) due to 2 previous errors
+warning: build failed, waiting for other jobs to finish...
+error: could not compile `core-foundation` (lib) due to 2 previous errors

@@ -1,0 +1,27 @@
+   Compiling windows v0.62.2
+   Compiling fontique v0.10.0
+   Compiling accesskit_windows v0.33.1
+   Compiling cpal v0.17.3
+   Compiling nokhwa-bindings-windows v0.4.6
+   Compiling rodio v0.22.2
+   Compiling accesskit_winit v0.33.1
+   Compiling parley v0.10.0
+   Compiling i-slint-common v1.17.1
+   Compiling i-slint-core v1.17.1
+   Compiling nokhwa v0.10.11
+   Compiling i-slint-renderer-software v1.17.1
+   Compiling i-slint-renderer-femtovg v1.17.1
+   Compiling i-slint-backend-winit v1.17.1
+   Compiling i-slint-backend-selector v1.17.1
+   Compiling slint v1.17.1
+   Compiling slint-peek v0.1.0 (C:\Users\M.Pertsev\Desktop\workspace\OSS\rust-gui-desktop-ecosystem-state\apps\slint-peek)
+warning: use of deprecated method `nokhwa::Camera::set_camera_format`: please use `set_camera_requset` instead.
+   --> src\main.rs:299:34
+    |
+299 |                     match camera.set_camera_format(fmt) {
+    |                                  ^^^^^^^^^^^^^^^^^
+    |
+    = note: `#[warn(deprecated)]` on by default
+
+warning: `slint-peek` (bin "slint-peek") generated 1 warning
+    Finished `release` profile [optimized] target(s) in 1m 09s

@@ -1,0 +1,2 @@
+app	variant	compile_ok	run_alive_10s	visible_window	clean_build_secs	binary_bytes	pdb_bytes	exit_code	env_overrides	notes
+egui-grid	default	yes	no	no	95.60	14175744	5836800	1		process exited before 10s (exit=1)

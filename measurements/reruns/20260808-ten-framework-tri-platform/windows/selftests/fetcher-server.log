@@ -1,0 +1,75 @@
+
+--- stderr ---
+fetcher-server listening on 127.0.0.1:7878
+ts_ms=1786199942757 request_id=1 peer=127.0.0.1:52793 HEALTH
+ts_ms=1786199942781 request_id=2 peer=127.0.0.1:52794 FLAKY_RESET
+ts_ms=1786200062999 request_id=3 peer=127.0.0.1:52821 FLAKY_RESET
+ts_ms=1786200064181 request_id=4 peer=127.0.0.1:52822 SEARCH_START q="amber" delay=154ms
+ts_ms=1786200064339 request_id=4 peer=127.0.0.1:52822 SEARCH_DONE q="amber" delay=154ms results=20
+ts_ms=1786200065019 request_id=5 peer=127.0.0.1:52823 SEARCH_START q="coral" delay=273ms
+ts_ms=1786200065019 request_id=6 peer=127.0.0.1:52824 SEARCH_START q="amber" delay=154ms
+ts_ms=1786200065183 request_id=6 peer=127.0.0.1:52824 SEARCH_DONE q="amber" delay=154ms results=20
+ts_ms=1786200065307 request_id=5 peer=127.0.0.1:52823 SEARCH_DONE q="coral" delay=273ms results=20
+ts_ms=1786200066117 request_id=7 peer=127.0.0.1:52825 DOWNLOAD_START
+ts_ms=1786200068887 request_id=7 peer=127.0.0.1:52825 ABORT /download after 19/64 chunks
+ts_ms=1786200069627 request_id=8 peer=127.0.0.1:52826 FLAKY attempt=1 -> 500
+ts_ms=1786200070033 request_id=9 peer=127.0.0.1:52828 FLAKY attempt=2 -> 500
+ts_ms=1786200070844 request_id=10 peer=127.0.0.1:52830 FLAKY attempt=3 -> 200
+ts_ms=1786200183237 request_id=11 peer=127.0.0.1:52868 FLAKY_RESET
+ts_ms=1786200186181 request_id=12 peer=127.0.0.1:52869 SEARCH_START q="amber" delay=154ms
+ts_ms=1786200186340 request_id=12 peer=127.0.0.1:52869 SEARCH_DONE q="amber" delay=154ms results=20
+ts_ms=1786200187033 request_id=13 peer=127.0.0.1:52869 SEARCH_START q="a" delay=164ms
+ts_ms=1786200187112 request_id=13 peer=127.0.0.1:52869 SEARCH_CANCEL
+ts_ms=1786200187363 request_id=14 peer=127.0.0.1:52870 SEARCH_START q="prism" delay=197ms
+ts_ms=1786200187567 request_id=14 peer=127.0.0.1:52870 SEARCH_DONE q="prism" delay=197ms results=20
+ts_ms=1786200188022 request_id=15 peer=127.0.0.1:52870 DOWNLOAD_START
+ts_ms=1786200191172 request_id=15 peer=127.0.0.1:52870 ABORT /download after 22/64 chunks
+ts_ms=1786200191533 request_id=16 peer=127.0.0.1:52873 FLAKY attempt=1 -> 500
+ts_ms=1786200192237 request_id=17 peer=127.0.0.1:52873 FLAKY attempt=2 -> 500
+ts_ms=1786200192947 request_id=18 peer=127.0.0.1:52873 FLAKY attempt=3 -> 200
+ts_ms=1786200193653 request_id=19 peer=127.0.0.1:52873 DOWNLOAD_START
+ts_ms=1786200202234 request_id=19 peer=127.0.0.1:52873 DOWNLOAD_COMPLETE chunks=64
+ts_ms=1786200303419 request_id=20 peer=127.0.0.1:52894 FLAKY_RESET
+ts_ms=1786200303426 request_id=21 peer=127.0.0.1:52895 FLAKY_RESET
+ts_ms=1786200423733 request_id=22 peer=127.0.0.1:52923 FLAKY_RESET
+ts_ms=1786200424792 request_id=23 peer=127.0.0.1:52924 SEARCH_START q="am" delay=228ms
+ts_ms=1786200425027 request_id=23 peer=127.0.0.1:52924 SEARCH_DONE q="am" delay=228ms results=20
+ts_ms=1786200426034 request_id=24 peer=127.0.0.1:52924 SEARCH_START q="rx" delay=299ms
+ts_ms=1786200426075 request_id=25 peer=127.0.0.1:52925 SEARCH_START q="s" delay=152ms
+ts_ms=1786200426241 request_id=25 peer=127.0.0.1:52925 SEARCH_DONE q="s" delay=152ms results=20
+ts_ms=1786200426347 request_id=24 peer=127.0.0.1:52924 SEARCH_DONE q="rx" delay=299ms results=0
+ts_ms=1786200427433 request_id=26 peer=127.0.0.1:52924 DOWNLOAD_START
+ts_ms=1786200430469 request_id=26 peer=127.0.0.1:52924 ABORT /download after 21/64 chunks
+ts_ms=1786200431134 request_id=27 peer=127.0.0.1:52925 FLAKY attempt=1 -> 500
+ts_ms=1786200431934 request_id=28 peer=127.0.0.1:52925 FLAKY attempt=2 -> 500
+ts_ms=1786200432733 request_id=29 peer=127.0.0.1:52925 FLAKY attempt=3 -> 200
+ts_ms=1786200434750 request_id=30 peer=127.0.0.1:52928 FLAKY_RESET
+ts_ms=1786200438657 request_id=31 peer=127.0.0.1:56447 SEARCH_START q="amber" delay=154ms
+ts_ms=1786200438818 request_id=31 peer=127.0.0.1:56447 SEARCH_DONE q="amber" delay=154ms results=20
+ts_ms=1786200439584 request_id=32 peer=127.0.0.1:56448 DOWNLOAD_START
+ts_ms=1786200441194 request_id=32 peer=127.0.0.1:56448 ABORT /download after 11/64 chunks
+ts_ms=1786200441603 request_id=33 peer=127.0.0.1:56449 DOWNLOAD_START
+ts_ms=1786200443767 request_id=33 peer=127.0.0.1:56449 ABORT /download after 15/64 chunks
+ts_ms=1786200444114 request_id=34 peer=127.0.0.1:56452 FLAKY attempt=1 -> 500
+ts_ms=1786200444629 request_id=35 peer=127.0.0.1:56453 FLAKY attempt=2 -> 500
+ts_ms=1786200445144 request_id=36 peer=127.0.0.1:56454 FLAKY attempt=3 -> 200
+ts_ms=1786200554984 request_id=37 peer=127.0.0.1:55643 FLAKY_RESET
+ts_ms=1786200554990 request_id=38 peer=127.0.0.1:55644 FLAKY_RESET
+ts_ms=1786200554995 request_id=39 peer=127.0.0.1:55645 FLAKY_RESET
+ts_ms=1786200555718 request_id=40 peer=127.0.0.1:55646 HEALTH
+ts_ms=1786200555719 request_id=41 peer=127.0.0.1:55646 FLAKY_RESET
+ts_ms=1786200557399 request_id=42 peer=127.0.0.1:55646 SEARCH_START q="amb" delay=194ms
+ts_ms=1786200557594 request_id=42 peer=127.0.0.1:55646 SEARCH_DONE q="amb" delay=194ms results=20
+ts_ms=1786200559049 request_id=43 peer=127.0.0.1:55646 SEARCH_START q="co" delay=295ms
+ts_ms=1786200559109 request_id=43 peer=127.0.0.1:55646 SEARCH_CANCEL
+ts_ms=1786200559110 request_id=44 peer=127.0.0.1:55647 SEARCH_START q="br" delay=207ms
+ts_ms=1786200559323 request_id=44 peer=127.0.0.1:55647 SEARCH_DONE q="br" delay=207ms results=20
+ts_ms=1786200559359 request_id=45 peer=127.0.0.1:55647 SEARCH_START q="br" delay=207ms
+ts_ms=1786200559575 request_id=45 peer=127.0.0.1:55647 SEARCH_DONE q="br" delay=207ms results=20
+ts_ms=1786200561049 request_id=46 peer=127.0.0.1:55647 DOWNLOAD_START
+ts_ms=1786200562655 request_id=46 peer=127.0.0.1:55647 ABORT /download after 11/64 chunks
+ts_ms=1786200564050 request_id=47 peer=127.0.0.1:55650 DOWNLOAD_START
+ts_ms=1786200572697 request_id=47 peer=127.0.0.1:55650 DOWNLOAD_COMPLETE chunks=64
+ts_ms=1786200574049 request_id=48 peer=127.0.0.1:55650 FLAKY attempt=1 -> 500
+ts_ms=1786200574849 request_id=49 peer=127.0.0.1:55650 FLAKY attempt=2 -> 500
+ts_ms=1786200575649 request_id=50 peer=127.0.0.1:55650 FLAKY attempt=3 -> 200
