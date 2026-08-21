@@ -239,34 +239,34 @@
 <header>
   <div class="eyebrow">RCN Initiative #46 · Companion Brief · <a href="dashboard.html" style="color:inherit">← main dashboard</a></div>
   <h1>The winit shell facade, specified</h1>
-  <p class="sub">Requirements and traps for a framework-neutral OS-shell layer — <strong>"Tauri plugins, but for winit"</strong> —
-  distilled from one shell-integration app built in <strong>ten Rust GUI frameworks</strong>, plus a headless-Linux probe round.
+  <p class="sub">Requirements and traps for a framework-neutral OS-shell layer: <strong>"Tauri plugins, but for winit"</strong>.
+  Distilled from one shell-integration app built in <strong>ten Rust GUI frameworks</strong>, plus a headless-Linux probe round.
   Every trap below was observed, not hypothesized.</p>
   <div class="meta">distilled 2026-08-08 from the SPEC-4 round · 10 frameworks × 11 capabilities · macOS tested · Linux container probed · Windows tested 2026-08-08 on one machine (report/21) · full spec: report/19-shell-facade-spec.md</div>
 </header>
 
 <section>
   <div class="sec-head"><h2>Why this layer needs an owner</h2><span class="k">the numbers</span></div>
-  <p class="lede">Nine of ten frameworks assemble the same five crates (tray-icon, muda, global-hotkey, rfd, arboard — plus
+  <p class="lede">Nine of ten frameworks assemble the same five crates (tray-icon, muda, global-hotkey, rfd, arboard, plus
   notify-rust), and every integration re-discovers the same traps. On Linux the layer is GTK-coupled and Wayland-unserved;
   winit itself has no menu/tray API (<a href="https://github.com/rust-windowing/winit/issues/403">winit#403</a>, open since
-  2018). The protocol pieces exist in Rust — <a href="https://docs.rs/ksni/latest/ksni/">ksni</a> for StatusNotifierItem,
-  <a href="https://docs.rs/ashpd/latest/ashpd/desktop/global_shortcuts/">ashpd</a> for the GlobalShortcuts portal, DBusMenu
-  implementations — but no maintained framework-neutral facade integrates them.</p>
+  2018). The protocol pieces exist in Rust. <a href="https://docs.rs/ksni/latest/ksni/">ksni</a> implements StatusNotifierItem,
+  <a href="https://docs.rs/ashpd/latest/ashpd/desktop/global_shortcuts/">ashpd</a> covers the GlobalShortcuts portal, and DBusMenu
+  crates exist. What is missing is a maintained framework-neutral facade that puts them together.</p>
   <div class="tiles">
-    <div class="tile hot"><div class="n">3×</div><div class="t"><strong>the muda Edit-role trap was hit independently</strong> by iced, egui and xilem — ⌘V dead app-wide, silently. Four more frameworks dodged it only by prior knowledge.</div></div>
-    <div class="tile"><div class="n">100%</div><div class="t"><strong>of tested macOS-written tray apps died at launch on Linux</strong> after compiling with zero source changes — muda panics instead of returning <code>Err</code>. Build-only CI passes.</div></div>
-    <div class="tile"><div class="n">≤1</div><div class="t"><strong>bus factor of muda, tray-icon and global-hotkey</strong> — the historical author is near zero commits in 12 months; the volunteer on top of all three has no visible funding. "De-GTK work has no owner."</div></div>
-    <div class="tile"><div class="n">9/10</div><div class="t"><strong>frameworks pay a 50–100 ms polling tax</strong> — no tray/menu/hotkey channel has waker integration. Only floem wired delivery into a real wake primitive.</div></div>
+    <div class="tile hot"><div class="n">3×</div><div class="t"><strong>the muda Edit-role trap was hit independently</strong> by iced, egui and xilem. ⌘V dies app-wide, silently. Four more frameworks dodged it only by prior knowledge.</div></div>
+    <div class="tile"><div class="n">100%</div><div class="t"><strong>of tested macOS-written tray apps died at launch on Linux</strong> after compiling with zero source changes. muda panics instead of returning <code>Err</code>. Build-only CI passes.</div></div>
+    <div class="tile"><div class="n">≤1</div><div class="t"><strong>bus factor of muda, tray-icon and global-hotkey</strong>. The historical author is near zero commits in 12 months; the volunteer on top of all three has no visible funding. "De-GTK work has no owner."</div></div>
+    <div class="tile"><div class="n">9/10</div><div class="t"><strong>frameworks pay a 50–100 ms polling tax</strong>. No tray/menu/hotkey channel has waker integration. Only floem wired delivery into a real wakeup.</div></div>
   </div>
 </section>
 
 <section>
   <div class="sec-head"><h2>Acceptance checklist</h2><span class="k">a facade is done when a plain winit app passes all nine</span></div>
-  <p class="lede">The corpus's ten implementations are the reference answers — all ten achieved every capability on macOS
-  (zero not-achievable cells). The Linux column is what the facade must fix. The Windows column (measured 2026-08-08, one
-  machine — report/21) starts further back: three of the ten frameworks' tray apps never compiled, and only the tray,
-  hotkey, toast and dark-mode cells were exercised.</p>
+  <p class="lede">The corpus's ten implementations are the reference answers. All ten achieved every capability on macOS
+  (zero not-achievable cells). The Linux column is what the facade must fix. The Windows column, measured 2026-08-08 on one
+  machine and written up in report/21, starts further back. Three of the ten frameworks' tray apps never compiled, and only
+  the tray, hotkey, toast and dark-mode cells were exercised.</p>
   <div class="scroll">
   <table>
     <thead><tr><th>Capability</th><th>Acceptance test</th><th>macOS in corpus</th><th>Linux in corpus</th><th>Windows in corpus</th></tr></thead>
@@ -277,18 +277,18 @@
       <tr><th>Native dialogs</th><td>open/save panels without blocking the loop</td><td><span class="chip c-shared">10/10</span></td><td><span class="chip c-house">untested</span><span class="note">rfd XDG-portal is the candidate</span></td><td><span class="chip c-house">untested</span></td></tr>
       <tr><th>Clipboard text + image</th><td>paste a screenshot into the window</td><td><span class="chip c-shared">10/10</span></td><td><span class="chip c-house">untested</span></td><td><span class="chip c-house">untested</span><span class="note">only probe: dioxus paste_image correctly errored on an empty clipboard</span></td></tr>
       <tr><th>File drop</th><td>window receives real paths from the file manager</td><td><span class="chip c-shared">10/10 (event-level)</span></td><td><span class="chip c-house">untested</span></td><td><span class="chip c-house">untested</span></td></tr>
-      <tr><th>Notification</th><td>banner attributed to the app</td><td><span class="chip c-web">weakest cell</span><span class="note">traps T10–T12</span></td><td><span class="chip c-house">untested</span></td><td><span class="chip c-web">posted (dioxus)</span><span class="note">notify-rust toast from a bare unsigned exe — refutes the AUMID/shortcut risk note</span></td></tr>
+      <tr><th>Notification</th><td>banner attributed to the app</td><td><span class="chip c-web">weakest cell</span><span class="note">traps T10–T12</span></td><td><span class="chip c-house">untested</span></td><td><span class="chip c-web">posted (dioxus)</span><span class="note">notify-rust toast from a bare unsigned exe, which refutes the AUMID/shortcut risk note</span></td></tr>
       <tr><th>Live dark mode</th><td>palette follows the OS without restart</td><td><span class="chip c-shared">10/10</span></td><td><span class="chip c-house">untested</span></td><td><span class="chip c-web">dark theme detected (iced, floem)</span><span class="note">theme-changed events logged; no live OS toggle exercised</span></td></tr>
       <tr><th>Close-to-tray + reopen</th><td>close hides; tray/Dock restores; process survives 0 windows</td><td><span class="chip c-shared">10/10</span><span class="note">Dock-reopen: floem/tauri only</span></td><td><span class="chip c-house">untested</span></td><td><span class="chip c-house">untested</span></td></tr>
     </tbody>
   </table>
   </div>
-  <p class="lede" style="margin-top:14px;font-size:13.5px">Cross-cutting criteria the corpus adds: <strong>no silent
-  failure</strong> (every Linux failure observed was a panic or a silent success — the facade must return errors with
-  reasons; Windows adds a build-time gate — 28 of 80 apps never compile — plus intermittent surface errors and the same
-  unwrap-culture split: a hotkey collision that egui and xilem treat as fatal while five frameworks log it and survive);
-  <strong>a runtime capability probe</strong> so build-only CI cannot lie; and <strong>focus-aware Edit-menu
-  dispatch</strong> — only gpui achieved it; nine frameworks hard-wire the Edit menu to one widget.</p>
+  <p class="lede" style="margin-top:14px;font-size:13.5px">The corpus adds three cross-cutting criteria.
+  <strong>No silent failure.</strong> Every Linux failure observed was a panic or a silent success, so the facade must
+  return errors with reasons. Windows adds a build-time gate where 28 of 80 apps never compile, plus intermittent surface
+  errors and the same unwrap-culture split: a hotkey collision that egui and xilem treat as fatal, while five frameworks
+  log it and keep running. <strong>A runtime capability probe.</strong> Build-only CI must not be able to lie.
+  <strong>Focus-aware Edit-menu dispatch.</strong> Only gpui achieved it; nine frameworks hard-wire the Edit menu to one widget.</p>
 </section>
 
 <section>
@@ -298,17 +298,17 @@
     <summary>Menus &amp; the muda layer <span class="tag">T1–T5 · the three-shape channel trap is the headline</span></summary>
     <div class="body">
       <p><strong>T1 · Predefined Edit roles: dead selectors + stolen key equivalents.</strong> <code>PredefinedMenuItem::{cut,copy,paste}</code>
-      dispatch Cocoa responder-chain selectors no winit view implements — items no-op <em>and</em> NSMenu consumes ⌘X/⌘C/⌘V before the
+      dispatch Cocoa responder-chain selectors no winit view implements. The items no-op, <em>and</em> NSMenu consumes ⌘X/⌘C/⌘V before the
       focused widget sees them. Paste breaks app-wide, silently. Every fix re-injects synthetic clipboard events into one hard-coded widget.</p>
       <p><strong>T2 · One global <code>MenuEvent</code> handler slot, three failure shapes.</strong> (a) a separately-resolved muda
-      owns a <em>different</em> static channel — clicks vanish; (b) last registration wins — dioxus's menubar events arrive as tray
-      events; (c) floem works <em>only because</em> its muda 0.17 and tray-icon's muda 0.19 are separate compiled instances —
-      version divergence is currently load-bearing for correctness. A facade needs per-menu closures, not a global static.</p>
+      owns a <em>different</em> static channel, so clicks vanish; (b) last registration wins, so dioxus's menubar events arrive as tray
+      events; (c) floem works <em>only because</em> its muda 0.17 and tray-icon's muda 0.19 are separate compiled instances, which
+      makes version divergence load-bearing for correctness right now. A facade needs per-menu closures, not a global static.</p>
       <p><strong>T3 · Use-after-free on first menu click</strong> (muda 0.17): raw <code>*const MenuChild</code> stored unretained;
       the idiomatic append-then-init shape reads freed memory on the first click. Menus must own their items.</p>
-      <p><strong>T4 · Creation ordering:</strong> main thread, <em>after</em> the run loop starts, `!Send` handle — every framework
+      <p><strong>T4 · Creation ordering.</strong> Main thread, <em>after</em> the run loop starts, with a <code>!Send</code> handle. Every framework
       paid differently (boot task, creator closure, external-loop embedding, timer tick). The API must enforce the contract, not document it.</p>
-      <p><strong>T5 · Linux menubar on plain winit is a compile error</strong> — <code>Menu::init_for_gtk_window</code> requires
+      <p><strong>T5 · Linux menubar on plain winit is a compile error.</strong> <code>Menu::init_for_gtk_window</code> requires
       <code>W: IsA&lt;gtk::Window&gt;</code> (E0277 retained). This is the hard boundary a DBusMenu backend removes.</p>
     </div>
   </details>
@@ -316,16 +316,16 @@
   <details class="exp">
     <summary>Linux tray &amp; hotkey <span class="tag">T6–T9 · panics where it isn't silent</span></summary>
     <div class="body">
-      <p><strong>T6 ·</strong> muda <strong>panics</strong> ("GTK has not been initialized") at the first <code>gtk::Menu::new</code> —
-      macOS-written apps compile unchanged and die at launch; graceful-degradation code never runs.</p>
+      <p><strong>T6 ·</strong> muda <strong>panics</strong> ("GTK has not been initialized") at the first <code>gtk::Menu::new</code>. macOS-written
+      apps compile unchanged and die at launch; graceful-degradation code never runs.</p>
       <p><strong>T7 ·</strong> Bare <code>TrayIconBuilder::build</code> without GTK returns <code>Ok</code> for an icon that can never
       function; with GTK but no StatusNotifier host on the bus (DBus <code>NameHasOwner</code> → false, captured) everything still
       reports success. <strong>Zero feedback either way.</strong></p>
       <p><strong>T8 ·</strong> tray-icon's winit path requires a <strong>parallel GTK event loop</strong> on a second thread (its own
       example does this). ksni removes the GTK loop entirely.</p>
-      <p><strong>T9 ·</strong> global-hotkey is <strong>X11-only</strong> (though there it worked end-to-end — registration and delivery
+      <p><strong>T9 ·</strong> global-hotkey is <strong>X11-only</strong> (though there it worked end-to-end: registration and delivery
       of an xdotool-fired chord, probe retained). No Wayland portal; delivery is poll-only; Pressed <em>and</em> Released both arrive;
-      observed cross-process contention behavior was inconsistent between apps — the facade must define that contract.</p>
+      observed cross-process contention behavior was inconsistent between apps, so the facade must define that contract.</p>
     </div>
   </details>
 
@@ -333,15 +333,15 @@
     <summary>Notifications <span class="tag">T10–T12 · the least reliable helper of the round</span></summary>
     <div class="body">
       <p><strong>T10 ·</strong> From an unbundled binary, mac-notification-sys resolves bundle id <code>"use_default"</code> via
-      LaunchServices — macOS 26 pops a <strong>blocking "Where is use_default?" chooser while <code>.show()</code> returns
+      LaunchServices. macOS 26 then pops a <strong>blocking "Where is use_default?" chooser while <code>.show()</code> returns
       <code>Ok</code></strong> (hit by freya, vizia, xilem independently).</p>
       <p><strong>T11 ·</strong> The helper pumps the main runloop: from inside a winit callback → <strong>panic-abort</strong>
       ("tried to handle event while another event is currently being handled", xilem + vizia); from a <code>slint::Timer</code>
       callback → abort ("Recursion in timer code"). The safe shape (detached thread) then <em>silently drops the banner</em> for
-      unbundled binaries. egui additionally saw eframe stop scheduling frames after the first notification (2 of 3 runs; cause
+      unbundled binaries. egui also saw eframe stop scheduling frames after the first notification (2 of 3 runs; cause
       unproven) and rejected the crate. Three frameworks shipped <code>osascript</code> subprocesses instead.</p>
       <p><strong>T12 ·</strong> <code>Ok(())</code> proves nothing about a banner. Acceptance tests must observe display, from a
-      bundled, identified <code>.app</code> — the facade must be identity-aware and fail loud from bare binaries.</p>
+      bundled, identified <code>.app</code>. The facade must be identity-aware and fail loud from bare binaries.</p>
     </div>
   </details>
 
@@ -356,7 +356,7 @@
       display it. gpui's multi-entry clipboard with native image decode (<code>ClipboardEntry::Image</code>) is the reference shape.</p>
       <p><strong>T15 ·</strong> The polling tax: no tray/menu/hotkey channel has waker integration, so the standard integration is a
       50–100 ms timer pump (iced needs a non-default executor feature just to have a timer). Delivery must be callback/waker-based
-      with a main-thread bridge — floem's <code>ExtSendTrigger</code>/<code>create_ext_action</code> is the tested reference.</p>
+      with a main-thread bridge. floem's <code>ExtSendTrigger</code>/<code>create_ext_action</code> is the tested reference.</p>
     </div>
   </details>
 </section>
@@ -365,39 +365,39 @@
   <div class="sec-head"><h2>What good looks like</h2><span class="k">tested reference shapes to steal</span></div>
   <div class="cols">
     <div class="panel">
-      <h3 class="up">▲ gpui — the focus-aware menubar</h3>
+      <h3 class="up">▲ gpui's focus-aware menubar</h3>
       <ul>
-        <li><strong>The cohort's only focus-aware Edit menu:</strong> <code>MenuItem::os_action</code> routes Cut/Copy/Paste to the focused editor's actions; accelerators derive from the keymap.</li>
-        <li><strong>Zero tauri-apps crates for menubar/dialogs/clipboard</strong> — native panels over a oneshot channel; multi-entry clipboard decodes pasteboard images natively.</li>
-        <li>Caveats: surface ≠ implementation off-macOS; no tray/toast in core; thin re-entrancy guards.</li>
+        <li><strong>The cohort's only focus-aware Edit menu.</strong> <code>MenuItem::os_action</code> routes Cut/Copy/Paste to the focused editor's actions; accelerators derive from the keymap.</li>
+        <li><strong>Zero tauri-apps crates for menubar/dialogs/clipboard</strong>. Native panels come over a oneshot channel; multi-entry clipboard decodes pasteboard images natively.</li>
+        <li>Caveats: the API exists off-macOS but the implementation does not; no tray/toast in core; thin re-entrancy guards.</li>
       </ul>
     </div>
     <div class="panel">
-      <h3 class="up">▲ floem — closures + the wake primitive</h3>
+      <h3 class="up">▲ floem's closures and wakeups</h3>
       <ul>
-        <li><strong>Menu items carry action closures</strong> — no MenuId bookkeeping, no global event channel (dissolves trap T2 by construction).</li>
-        <li><strong><code>ExtSendTrigger</code></strong> — the only first-class foreign-thread wake primitive in the cohort; exactly the delivery mechanism T15 asks for. Plus <code>AppEvent::Reopen</code>.</li>
+        <li><strong>Menu items carry action closures</strong>, so there is no MenuId bookkeeping and no global event channel. That dissolves trap T2 by construction.</li>
+        <li><strong><code>ExtSendTrigger</code></strong> is the only first-class foreign-thread wakeup in the cohort, exactly the delivery mechanism T15 asks for. Plus <code>AppEvent::Reopen</code>.</li>
         <li>Cost observed: none of it documented outside the source.</li>
       </ul>
     </div>
     <div class="panel">
-      <h3 class="up">▲ freya — the framework owns the globals</h3>
+      <h3 class="up">▲ freya owns the globals</h3>
       <ul>
-        <li><strong>The <code>tray</code> feature registers muda/tray-icon's global handlers itself</strong> and forwards into one typed callback — the app never links its own muda copy, so the channel-splitting trap <em>cannot happen</em>, and creation ordering is handled by construction.</li>
+        <li><strong>The <code>tray</code> feature registers muda/tray-icon's global handlers itself</strong> and forwards into one typed callback. The app never links its own muda copy, so the channel-splitting trap <em>cannot happen</em>, and creation ordering is handled by construction.</li>
         <li>The structural template for a facade's framework adapters.</li>
       </ul>
     </div>
     <div class="panel">
-      <h3 class="up">▲ slint — the declarative ceiling</h3>
+      <h3 class="up">▲ slint's declarative ceiling</h3>
       <ul>
-        <li><strong><code>SystemTrayIcon</code> + <code>MenuBar</code> as DSL elements</strong> make the shell ~80% declarative, with reactive menu labels — the ergonomics target.</li>
+        <li><strong><code>SystemTrayIcon</code> + <code>MenuBar</code> as DSL elements</strong> make the shell ~80% declarative, with reactive menu labels. That is the ergonomics target.</li>
         <li>Gaps: no standard Edit roles, single-shot tray handle creation (silent stderr-only failure), external file drop needs an unstable feature.</li>
       </ul>
     </div>
   </div>
   <p class="lede" style="margin-top:16px;font-size:13.5px"><strong>Baselines to beat</strong> (same spec, LoC incl. markup):
   dioxus 394 · slint 447 · egui 514 · tauri 559 · floem 610 · iced 682 · vizia 720 · xilem 774 · freya 865 · gpui 1,575.
-  Shell integration grew dependency trees by 8–112 crates per framework — a facade should collapse the assembled-crate
+  Shell integration grew dependency trees by 8–112 crates per framework. A facade should collapse the assembled-crate
   boilerplate toward the dioxus/slint end while keeping native rendering.</p>
 </section>
 
@@ -407,10 +407,10 @@
     <div class="panel">
       <h3>The probe results (retained in linux/probes/)</h3>
       <ul>
-        <li><code>muda_on_winit</code> — <strong>E0277 at compile time</strong>: no winit-facing menubar attach API exists on Linux.</li>
-        <li><code>tray_without_gtk</code> — returns <code>Ok</code> for a non-functional icon (GTK criticals on stderr only).</li>
-        <li><code>tray_with_gtk_no_host</code> — <strong>silent success</strong> with no StatusNotifier host on the bus.</li>
-        <li><code>global_hotkey_x11</code> — <strong>fully working end-to-end</strong> (registration + xdotool-fired delivery).</li>
+        <li><code>muda_on_winit</code> gives <strong>E0277 at compile time</strong>. No winit-facing menubar attach API exists on Linux.</li>
+        <li><code>tray_without_gtk</code> returns <code>Ok</code> for a non-functional icon (GTK criticals on stderr only).</li>
+        <li><code>tray_with_gtk_no_host</code> is a <strong>silent success</strong> with no StatusNotifier host on the bus.</li>
+        <li><code>global_hotkey_x11</code> worked <strong>end-to-end</strong> (registration + xdotool-fired delivery).</li>
       </ul>
     </div>
     <div class="panel">
@@ -418,8 +418,8 @@
       <ul>
         <li><strong>ksni</strong> (StatusNotifierItem) removes both the parallel GTK loop and the GTK-uninitialized panic.</li>
         <li><strong>ashpd</strong> GlobalShortcuts portal adds the Wayland half global-hotkey lacks; keep the X11 grab as the proven fallback.</li>
-        <li><strong>DBusMenu:</strong> the corpus never names a specific crate — selecting and auditing one is an early facade task.</li>
-        <li><strong>Make absence loud:</strong> ship the DBus <code>NameHasOwner</code> check the probe used; <code>Err(NoHost)</code>, never silent success.</li>
+        <li><strong>DBusMenu.</strong> The corpus never names a specific crate, so selecting and auditing one is an early facade task.</li>
+        <li><strong>Make absence loud.</strong> Ship the DBus <code>NameHasOwner</code> check the probe used, and return <code>Err(NoHost)</code> instead of a silent success.</li>
       </ul>
     </div>
   </div>
@@ -429,9 +429,9 @@
   <div class="sec-head"><h2>Open questions</h2><span class="k">for the effort, not the corpus</span></div>
   <ol class="opps">
     <li><b>Where does it live?</b> rust-windowing (winit has wanted to shed this scope since #403), tauri-apps (owns the incumbents, concentration risk), or a neutral org. The study's funding recommendation #2 notes no dedicated public funding source exists for this work today.</li>
-    <li><b>Facade vs upstream fixes?</b> Several traps are one-line-ish upstream fixes (muda: return <code>Err</code> without GTK; retain menu items; document the Edit-role constraint). The trap catalog is effectively the issue list — filing it has value independent of any facade.</li>
-    <li><b>Specify the fuzzy contracts.</b> Hotkey cross-process contention, TCC permission inheritance, and notification identity were observed behaving inconsistently — the facade must define and test these, not inherit them.</li>
-    <li><b>Windows.</b> The 2026-08-08 campaign (report/21) gives the checklist its first measured Windows column — but from one machine, one GPU/driver, one desktop session, and only the tray/hotkey/toast/dark-mode cells were exercised. Dialogs, file drop, clipboard image, menubar and close-to-tray still need a dedicated Windows pass before claiming three platforms.</li>
+    <li><b>Facade vs upstream fixes?</b> Several traps are one-line-ish upstream fixes (muda: return <code>Err</code> without GTK; retain menu items; document the Edit-role constraint). The trap catalog is the issue list, and filing it has value independent of any facade.</li>
+    <li><b>Specify the fuzzy contracts.</b> Hotkey cross-process contention, TCC permission inheritance, and notification identity were observed behaving inconsistently. The facade must define and test these, not inherit them.</li>
+    <li><b>Windows.</b> The 2026-08-08 campaign (report/21) gives the checklist its first measured Windows column, but from one machine, one GPU/driver and one desktop session, and only the tray/hotkey/toast/dark-mode cells were exercised. Dialogs, file drop, clipboard image, menubar and close-to-tray still need a dedicated Windows pass before claiming three platforms.</li>
   </ol>
 </section>
 
@@ -442,7 +442,7 @@
   with a headless arm64 Debian 12 / Xvfb / X11 Linux round and four retained fault-line probes. Every trap cites a per-app
   FRICTION.md with reproduction context; the full requirements document with all citations is
   <code>report/19-shell-facade-spec.md</code> in the repo. Windows was tested 2026-08-08 on one x64 machine (Ryzen AI 9 HX 370,
-  Radeon 890M, Windows 11 Home 26200.7171 — <code>report/21-windows-reality-results.md</code>); its column reflects that
+  Radeon 890M, Windows 11 Home 26200.7171), written up in <code>report/21-windows-reality-results.md</code>; its column reflects that
   machine only. Finder drops were verified at the event/code
   level, not by synthesized drags. Notification "weakest cell" reflects macOS behavior from unbundled binaries; a bundled-.app
   round is the specified acceptance path.</p>
