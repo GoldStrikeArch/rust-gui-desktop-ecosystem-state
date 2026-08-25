@@ -1,3 +1,5 @@
+## Disclaimer: This repo was done by using AI a lot
+
 # Rust Desktop GUI Ecosystem Research
 
 Research for the RCN "Cross-Platform GUI Desktop Apps" initiative
@@ -28,18 +30,18 @@ Two questions drove this work:
 
 ## Per-framework research (source-linked)
 
-| Report | Framework | Version tested | Depth |
-|---|---|---|---|
-| [report/01-iced.md](report/01-iced.md) | iced | 0.14.0 | full deep dive |
-| [report/02-egui.md](report/02-egui.md) | egui/eframe | 0.35.0 | full deep dive |
-| [report/03-gpui.md](report/03-gpui.md) | gpui (Zed) | 0.2.2 | full deep dive |
-| [report/04-tauri.md](report/04-tauri.md) | Tauri | 2.11.5 | full deep dive |
-| [report/05-linebender.md](report/05-linebender.md) | xilem / Linebender stack | 0.4.0 | full deep dive |
-| [report/06-slint.md](report/06-slint.md) | Slint | 1.17.1 | full deep dive |
-| [report/07-dioxus.md](report/07-dioxus.md) | Dioxus (+ Blitz) | 0.7.9 | full deep dive |
-| [report/data/stack-rows.md#freya](report/data/stack-rows.md#freya) | Freya | 0.4.0 | cohort-derived² |
-| [report/data/stack-rows.md#vizia](report/data/stack-rows.md#vizia) | Vizia | 0.4.0 | cohort-derived² |
-| [report/data/stack-rows.md#floem](report/data/stack-rows.md#floem) | Floem | git-778bb5f2¹ | cohort-derived² |
+| Report                                                             | Framework                | Version tested | Depth           |
+| ------------------------------------------------------------------ | ------------------------ | -------------- | --------------- |
+| [report/01-iced.md](report/01-iced.md)                             | iced                     | 0.14.0         | full deep dive  |
+| [report/02-egui.md](report/02-egui.md)                             | egui/eframe              | 0.35.0         | full deep dive  |
+| [report/03-gpui.md](report/03-gpui.md)                             | gpui (Zed)               | 0.2.2          | full deep dive  |
+| [report/04-tauri.md](report/04-tauri.md)                           | Tauri                    | 2.11.5         | full deep dive  |
+| [report/05-linebender.md](report/05-linebender.md)                 | xilem / Linebender stack | 0.4.0          | full deep dive  |
+| [report/06-slint.md](report/06-slint.md)                           | Slint                    | 1.17.1         | full deep dive  |
+| [report/07-dioxus.md](report/07-dioxus.md)                         | Dioxus (+ Blitz)         | 0.7.9          | full deep dive  |
+| [report/data/stack-rows.md#freya](report/data/stack-rows.md#freya) | Freya                    | 0.4.0          | cohort-derived² |
+| [report/data/stack-rows.md#vizia](report/data/stack-rows.md#vizia) | Vizia                    | 0.4.0          | cohort-derived² |
+| [report/data/stack-rows.md#floem](report/data/stack-rows.md#floem) | Floem                    | git-778bb5f2¹  | cohort-derived² |
 
 ¹ Floem's crates.io release (0.2.0, Nov 2024) is 20 months stale and
 API-incompatible with current documentation; upstream recommends `main`, which
@@ -54,7 +56,7 @@ dives. Their stack rows are sourced from the 24 app crates (`apps/freya-*`,
 `deps-flat.txt`, `GAPS.md`, and the eight `FRICTION.md` files per framework),
 and they appear on equal footing with the other seven in the ecosystem map,
 the duplication matrix, `dashboard.html`, and every measured round
-(iter1–iter4, packaging, Linux, Windows). What they do *not* yet have is the
+(iter1–iter4, packaging, Linux, Windows). What they do _not_ yet have is the
 prose-page treatment of `report/01`–`07`: a few upstream-ecosystem fields
 (governance, production users, wasm/mobile support, docs quality) are marked
 `pending_upstream_research` rather than guessed. A 2026-08-04 follow-up filled
@@ -147,7 +149,7 @@ the PowerShell harness under `windows/` and recorded into the cohort as the
 [report/21-windows-reality-results.md](report/21-windows-reality-results.md)
 (MSI install verification is pending one elevated re-run; the NVDA pass was
 not performed).
-Note that `scripts/verify-windows.sh` above verifies *visible windows* on
+Note that `scripts/verify-windows.sh` above verifies _visible windows_ on
 macOS — it is unrelated to Microsoft Windows.
 
 `measure.sh` deliberately refuses non-macOS hosts because its binary-size,
