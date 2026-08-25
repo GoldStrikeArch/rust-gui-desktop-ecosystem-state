@@ -240,25 +240,25 @@
   <div class="eyebrow">RCN Initiative #46 · Cross-Platform GUI Desktop Apps · Research Brief</div>
   <h1>The Rust desktop GUI ecosystem, measured</h1>
   <p class="sub">Seven frameworks researched against primary sources, plus freya, vizia and floem added 2026-08-03 with a narrower upstream check. Eight comparable specifications built in each of the ten (80 apps),
-  and the dependency trees compared by experiment round. Two questions drive all of it: <strong>where exactly is the fragmentation</strong>,
-  and <strong>how do you actually ship a cross-platform desktop app in Rust today?</strong></p>
+  and the dependency trees compared by experiment round. Two questions. <strong>Where exactly is the fragmentation?</strong>
+  And <strong>how do you actually ship a cross-platform desktop app in Rust today?</strong></p>
   <div class="meta">core research 2026-07-07 · experiments reconciled through 2026-07-10 · freya/vizia/floem expansion round measured 2026-08-03 on the same machine · apple m4 pro · rustc 1.96.1 · windows round measured 2026-08-08 · ryzen ai 9 hx 370 / radeon 890m · windows 11 home 26200.7171 · methodology &amp; full reports: gui-ecosystem-research repo</div>
 </header>
 
 <section>
   <div class="sec-head"><h2>The thesis</h2><span class="k">converging bottom-up</span></div>
-  <p class="lede">The ecosystem is <strong>consolidating from the bottom of the stack upward</strong>, faster than its
-  reputation suggests. In the last 12 months the principal reusable pure-Rust text stacks converged on HarfRust, Zed
+  <p class="lede">The ecosystem is <strong>consolidating from the bottom of the stack upward</strong>.
+  In the last 12 months the principal reusable pure-Rust text stacks converged on HarfRust, Zed
   dropped its custom Linux GPU layer for wgpu, and Slint/Bevy/floem migrated to parley/fontique. AccessKit is now the
-  de-facto native accessibility abstraction; iced and floem remain unintegrated (floem's pinned rev has no
+  shared native accessibility layer. iced and floem remain unintegrated (floem's pinned rev has no
   <code>accesskit</code> anywhere in its dependency tree), while gpui support is unreleased and
   currently disabled in Zed.
-  What remains fragmented is the top: text <em>layout</em>, 2D renderers, widgets, and windowing forks.</p>
+  The top is still fragmented: text <em>layout</em>, 2D renderers, widgets, and windowing forks.</p>
   <div class="tiles">
     <div class="tile hot"><div class="n">1</div><div class="t"><strong>shared pure-Rust shaping engine.</strong> HarfRust now shapes for cosmic-text, parley <em>and</em> egui; gpui macOS/Windows use OS engines (its tested 0.2.2 Linux path shaped via cosmic-text/rustybuzz); webviews use browser engines; rustybuzz remains maintained elsewhere.</div></div>
     <div class="tile"><div class="n">4</div><div class="t"><strong>text-layout stacks still maintained</strong> (cosmic-text, parley, epaint galley, gpui). The flagship duplication.</div></div>
     <div class="tile"><div class="n">6+</div><div class="t"><strong>framework-side renderer families</strong> targeting a mix of wgpu, platform GPU APIs, OpenGL/Skia, and software. The least-shared layer.</div></div>
-    <div class="tile"><div class="n">1<small>/28</small></div><div class="t">among the 28 crates in <strong>all ten</strong> dependency trees, <code>raw-window-handle</code> is the sole cross-platform GUI-interoperability abstraction; the set also includes platform-specific GUI crates. Recomputed 2026-08-03 over all ten <code>*-app</code> lockfiles; 16 of the 28 carry version skew.</div></div>
+    <div class="tile"><div class="n">1<small>/28</small></div><div class="t">among the 28 crates in <strong>all ten</strong> dependency trees, <code>raw-window-handle</code> is the only shared cross-platform window-handle crate. Some of those 28 are platform-specific GUI crates. Recomputed 2026-08-03 over all ten <code>*-app</code> lockfiles; 16 of the 28 carry version skew.</div></div>
   </div>
 </section>
 
@@ -409,7 +409,7 @@
       <ul>
         <li><strong>wgpu is the leading reusable native GPU layer in this sample.</strong> The stored 2026-07-07 tables record roughly 1.27k reverse dependencies but differ by one, and the raw response was not retained. Zed replaced Blade with wgpu on Linux (Feb '26), and eframe flipped its default from glow.</li>
         <li><strong>HarfRust unified reusable pure-Rust shaping in &lt;12 months</strong>, adopted by cosmic-text 0.15, parley 0.6, and epaint 0.34. Platform/browser shapers remain.</li>
-        <li><strong>AccessKit is the de-facto a11y layer</strong>, integrated by egui (schema required; eframe adapter default), Slint (default on Winit desktop), xilem, Bevy, vizia (default feature), freya (inline per-element attributes), Blitz, GTK 4.18, and gpui main. Iced and floem remain the holdouts; gpui is unreleased and Zed currently opts out.</li>
+        <li><strong>AccessKit is the shared a11y layer</strong>, integrated by egui (schema required; eframe adapter default), Slint (default on Winit desktop), xilem, Bevy, vizia (default feature), freya (inline per-element attributes), Blitz, GTK 4.18, and gpui main. Iced and floem remain the holdouts; gpui is unreleased and Zed currently opts out.</li>
         <li><strong>taffy crossed framework lines</strong>, into gpui, Blitz, floem, bevy_ui, Servo (CSS Grid) and Slint (experimental). 8.9M downloads.</li>
         <li><strong>parley/fontique are absorbing the text layer.</strong> Slint 1.14, floem, and Bevy 0.19 all defected from cosmic-text/fontdb within a year.</li>
         <li><strong>Hot-patching is crossing framework lines.</strong> Dioxus's subsecond drives Bevy 0.17's shipped <code>hotpatching</code> feature (via dioxus-devtools), an in-progress iced integration (iced#3000), and Axum servers; since 0.7.0 the <code>dx</code> CLI works on any Rust project (the iced author's cargo-hot is a self-described broken exploration). Verified upstream 2026-08-08; not exercised in this corpus. Sources in <code>report/data/hotpatch-convergence.md</code>.</li>
@@ -434,7 +434,7 @@
   <strong>GPU</strong> (wgpu turns one API into Metal/Vulkan/DX12) → <strong>2D renderer</strong> (turns "rounded rect with
   shadow" into GPU work or pixels) → <strong>text</strong> (find fonts → shape glyphs → lay out lines) → <strong>layout</strong>
   (taffy computes flexbox math) → <strong>a11y</strong> (AccessKit feeds screen readers) → widgets. Several lower-layer
-  abstractions are increasingly shared; these four stories are where sharing still breaks down.</p>
+  pieces are increasingly shared. These four stories are where sharing still breaks down.</p>
 
   <details class="exp">
     <summary>1 · Four text-layout stacks <span class="tag">the flagship duplication</span></summary>
@@ -519,9 +519,8 @@
       <a href="https://docs.rs/ashpd/latest/ashpd/desktop/global_shortcuts/">ashpd</a>, while
       <a href="https://docs.rs/ksni/latest/ksni/">ksni</a> implements StatusNotifierItem. winit itself has no menu/tray API
       (<a href="https://github.com/rust-windowing/winit/issues/403">winit#403</a>, open since 2018).</p>
-      <p><strong>Why you care.</strong> This specific integration gap contributes to native-GPU Rust apps feeling "not quite a desktop app" on Linux. It's not
-      impossible. The remaining opportunity is to integrate existing portal/SNI/DBusMenu implementations into maintained,
-      winit-compatible shell facades. That shared integration would benefit every winit-based framework.</p>
+      <p><strong>Why you care.</strong> On Linux a native-GPU Rust app often has no tray, no menubar on a plain winit window, and no Wayland hotkey. The work left is to wire the existing portal, SNI, and DBusMenu crates into a maintained
+      winit-compatible facade. Every winit-based framework would get that for free.</p>
     </div>
   </details>
 
@@ -542,15 +541,14 @@
       <p><strong>Why you care.</strong> The ecosystem standardized on a project with concentrated recent authorship and no
       later direct institutional grant identified in this audit. The
       remaining gaps (a web/canvas adapter, deeper text-editing semantics, and the prototype-stage Wayland a11y stack
-      "Newton") are long-running infrastructure work, and sustained support would help.</p>
+      "Newton") are long-running infrastructure work; funding them is recommendation 4 below.</p>
     </div>
   </details>
 </section>
 
 <section>
   <div class="sec-head"><h2>The load-bearing crates</h2><span class="k">who actually carries the ecosystem · verified 2026-07-07</span></div>
-  <p class="lede">The shared infrastructure under the sampled frameworks, ranked by an explicitly interpretive
-  sustainability assessment. The table contains <strong>21 entries</strong>; 15 are rated amber/red. "Author concentration" is
+  <p class="lede">The shared infrastructure under the sampled frameworks, ranked by how concentrated and how funded they look from public evidence. The table contains <strong>21 entries</strong>; 15 are rated amber/red. "Author concentration" is
   a heuristic derived from dated public commit attribution, not a measured probability of collapse, and "none found" means no public direct
   funding source was identified, not proof that a contributor is unpaid. Exact reverse-dependency, sponsor, and search-result counts are dated
   snapshot observations whose raw query responses were not retained. Full sourced table:
@@ -670,7 +668,7 @@
 
 <section>
   <div class="sec-head"><h2>The interactivity curve</h2><span class="k">round 2 · two interaction-heavy apps × ten frameworks</span></div>
-  <p class="lede">Round 2 tested what production apps are made of: <strong>drag-and-drop, live data, custom charts, hover
+  <p class="lede">Round 2 tested interaction: <strong>drag-and-drop, live data, custom charts, hover
   interactions, inline editing, animation.</strong> Two more apps per framework. "Pulse" is a live metrics
   dashboard (draggable card grid, 1–60 Hz data at default 10, hover-tooltip chart) and "Board" is a kanban (cross-column DnD,
   drop indicators, double-click edit). All 20 built and survived the scripted launch check, and later inspection observed
@@ -910,7 +908,7 @@
 <section>
   <div class="sec-head"><h2>One corpus, ten text stacks</h2><span class="k">round 3 · "Babel" · same 11 lines everywhere</span></div>
   <p class="lede">The same multilingual corpus (Latin ligatures, Arabic/Hebrew BiDi, Chinese/Japanese/Korean, Devanagari,
-  Thai, ZWJ emoji, one all-scripts line) rendered by every framework. This is the text-stack fragmentation made visible.
+  Thai, ZWJ emoji, one all-scripts line) rendered by every framework.
   Verification used screenshots plus OCR/glyph/caret diagnostics described in each FRICTION file. All ten screenshots are
   retained, but not every raw diagnostic output is; exact caret/OCR/mark counts and caption-specific interpretations therefore
   remain local observations rather than independently reproducible results. Full matrices incl. evidence levels and editing
@@ -935,8 +933,8 @@
   Devanagari, Thai and BiDi are all correct; regional-indicator flag pairs are tofu too. The same stack renders CJK on other
   platforms, so this reads as a macOS fallback-resolution bug rather than a missing feature, and no app-side fix short of
   bundling a CJK font exists.</p>
-  <p class="lede" style="margin-top:16px;font-size:13.5px"><strong>The sharpest cross-stack finding is about editing, not
-  rendering:</strong> Backspace over 👨‍👩‍👧‍👦 deletes the whole cluster in WebKit and gpui's hand-rolled editor, shrinks it
+  <p class="lede" style="margin-top:16px;font-size:13.5px"><strong>Editing is the sharper finding.</strong>
+  Rendering mostly works. Backspace over 👨‍👩‍👧‍👦 deletes the whole cluster in WebKit and gpui's hand-rolled editor, shrinks it
   through valid smaller emoji in Slint (by design), and splits the cluster or leaves a dangling zero-width joiner in the tested
   iced, egui, and xilem editing paths. Those integrations lacked whole-cluster deletion out of the box; this does not establish
   that cosmic-text or Parley themselves lack grapheme editing. The 2026-08-03 trio splits the same way from three more stacks:
@@ -951,12 +949,12 @@
 <section>
   <div class="sec-head"><h2>From binary to .dmg</h2><span class="k">round 3 · packaging the todo apps · macOS · extended to all ten 2026-08-08</span></div>
   <p class="lede">The seven July iteration-1 apps were bundled into launching DMGs containing ad-hoc-sealed .app bundles. The
-  "packaging is the hard part" claim <strong>splits in two</strong>: the mechanical layer is nearly free. A revived
+  "packaging is the hard part" claim <strong>splits in two</strong>. The mechanical layer is nearly free. A revived
   <a href="https://github.com/burtonageo/cargo-bundle">cargo-bundle</a> packaged all six non-Tauri frameworks with an
   identical 4-line stanza, under a minute each, and it beat
   <a href="https://github.com/crabnebula-dev/cargo-packager">cargo-packager</a>, the ecosystem's "intended answer,"
-  head-to-head in this run. The <strong>trust layer is the real cliff</strong>: with no identity configured none of the
-  tested runs produced a distribution signature; cargo-bundle lacks signing while Tauri/cargo-packager support it when
+  head-to-head in this run. The <strong>trust layer is the real cliff</strong>. With no identity configured, none of the
+  tested runs produced a distribution signature. cargo-bundle lacks signing, while Tauri/cargo-packager support it when
   configured. The create-dmg flows failed repeatedly on this macOS 26 machine, while a plain <code>hdiutil create</code>
   fallback was more reliable. In the standard quarantined-distribution path tested here, <code>spctl</code> rejected all seven
   of those ad-hoc bundles as expected without Developer ID signing and notarization; Tauri,
@@ -1000,7 +998,7 @@
       <div class="brow"><span class="blabel">xilem</span><div class="btrack"><div class="bar" style="width:100%"></div></div><span class="bval">60–75%</span></div>
       <div class="fn">The observed 4–75% range tracked different texture paths: the webviews used getUserMedia, GPUI used an
       <em>undocumented public zero-copy surface path</em> (the IOSurface is the Metal texture; NV12-only assert), and the
-      other native paths re-uploaded RGBA frames. This is not a controlled ranking: resolutions and implementations differ,
+      other native paths re-uploaded RGBA frames. Resolutions and implementations differ, so don't treat the bars as a ranking,
       and only Dioxus retained a raw per-sample CPU CSV (the 2026-08-03 trio retained 1 Hz <code>ps</code> samples in their
       self-test logs). *egui at 720p; iced/slint/xilem/freya/vizia/floem at 1080p. floem's figure is not comparable: its
       vger renderer keys images by content hash in a single atlas, and any frame above roughly a third of the atlas dimension
@@ -1238,20 +1236,20 @@
       later direct institutional AccessKit grant; visible support includes personal <a href="https://github.com/sponsors/mwcampbell">GitHub Sponsors</a>.
       <a href="https://github.com/indygreg/apple-platform-rs">rcodesign</a>, the principal open-source Rust-native
       cross-platform implementation found, has concentrated maintenance and no release since Nov 2024.</li>
-    <li><b>Bless a framework-neutral packager.</b> Non-Tauri apps lack one equally integrated bundle + sign + runtime-update chain:
-      <a href="https://github.com/crabnebula-dev/cargo-packager">cargo-packager</a> had current commits as of June 23, 2026, but its latest release was 0.11.8 from November 2025,
-      <a href="https://github.com/burtonageo/cargo-bundle">cargo-bundle</a> is minimal,
-      <a href="https://github.com/axodotdev/cargo-dist">dist</a> is CLI-shaped. A 2026-08-08 test adds the strongest measured candidate:
-      <a href="https://github.com/DioxusLabs/dioxus">dx bundle</a> (officially any-Rust-project since 0.7.0) packaged all nine
-      non-Tauri apps 9/9 with a first-try-working DMG step and in-code signing/notarization automation, at the cost of its own
-      config file and build profile, with Linux formats untested here. The 2026-08-08 Windows round measured its Windows path: an NSIS exe (not the documented MSI) whose silent install/uninstall worked but whose installed copy failed the launch check, while cargo-packager's WiX route built an MSI from every buildable app (all seven installed and uninstalled cleanly; the MSI-installed dioxus-app copy failed the same launch check) and both cargo-bundle MSI and cargo-packager NSIS went 0/10. Improve a shared composition around dx or cargo-packager, or
+    <li><b>Bless a framework-neutral packager.</b> Non-Tauri apps lack one equally integrated bundle + sign + runtime-update chain.
+      <a href="https://github.com/crabnebula-dev/cargo-packager">cargo-packager</a> had current commits as of June 23, 2026, but its latest release was 0.11.8 from November 2025.
+      <a href="https://github.com/burtonageo/cargo-bundle">cargo-bundle</a> is minimal.
+      <a href="https://github.com/axodotdev/cargo-dist">dist</a> is CLI-shaped. The strongest measured candidate so far is
+      <a href="https://github.com/DioxusLabs/dioxus">dx bundle</a> (officially any-Rust-project since 0.7.0). It packaged all nine
+      non-Tauri apps 9/9, with a first-try DMG step and in-code signing/notarization automation. Cost: its own
+      config file and build profile. Linux formats were untested here. On Windows it emitted an NSIS exe, not the documented MSI. Silent install/uninstall worked; the installed copy failed the launch check. cargo-packager's WiX route built an MSI from every buildable app (all seven installed and uninstalled cleanly; the MSI-installed dioxus-app copy failed the same launch check). cargo-bundle MSI and cargo-packager NSIS went 0/10. Improve a shared composition around dx or cargo-packager, or
       standardize on <a href="https://github.com/velopack/velopack">Velopack</a> (official Rust crate) + rcodesign.</li>
   </ol>
 </section>
 
 <footer>
-  <p><strong>Method.</strong> External research was snapshotted 2026-07-07 and the original empirical work reconciled through 2026-07-10; the freya/vizia/floem expansion round was built and measured on 2026-08-03 on the same machine and toolchain. <strong>80 apps built and survived the scripted launch check on macOS</strong>. That is 56 in July (round-4 empirical work ran 2026-07-09..10; round 5 re-ran 11 of them on Linux in a headless container, 2026-07-10) plus 24 on 2026-08-03, all on one Apple M4 Pro (24 GiB, macOS 26.5.2, rustc 1.96.1). On 2026-08-08 the same 80 apps were probed on Windows 11 x64 (AMD Ryzen AI 9 HX 370, Radeon 890M, Windows 11 Home 26200.7171, rustc 1.96.1) by the serial PowerShell harness in <code>windows/</code>: 36 alive+window / 28 build-failed / 16 died on the default env, with the workaround-ladder, runtime, selftest and packaging phases recorded in <code>report/21-windows-reality-results.md</code>. A retained serial audit observed an on-screen layer-0 window for all 56 July binaries; its structured results and per-app logs are documented in <a href="measurements/EVIDENCE.md">measurements/EVIDENCE.md</a>. Each of the 24 expansion apps was separately launch-checked and window-observed in its own round, with build, binary-size and dependency figures from <code>measurements/reruns/2026-08-03-expansion/</code>. CPU/RSS was sampled for all ten live dashboards; camera-preview figures are reported app observations at stated resolutions, with raw per-sample CPU data retained only for Dioxus. Per-capability evidence ranges from source/API-path review through app self-tests and synthetic input, as marked in the reports; not every narrative interaction has a standalone retained harness. All ten todo `.app` bundles were ad-hoc sealed and placed in `hdiutil`-verified DMGs, not distribution-signed/notarized (seven in July; freya, vizia and floem completed 2026-08-08, when a nine-app `dx bundle` comparison also ran). Builds were serial with a warm registry cache and cold target directories.</p>
-  <p><strong>Caveats.</strong> Primary measurements came from one macOS machine; Round 5 adds a limited headless Linux-container check that predates the expansion round, while the Windows campaign (harness in <code>windows/</code>, runbook in <code>WINDOWS-RUN.md</code>) was executed 2026-08-08 on one x64 machine with one integrated GPU and driver (Radeon 890M, 32.0.13058.2) and one live desktop session, so its results are that machine's reality rather than "Windows". They are written up in <code>report/21-windows-reality-results.md</code>. WiX MSI install verification completed in a supplemental elevated pass (7/7 installed and uninstalled, 6/7 launched, with the dioxus installed-copy anomaly). GPUI was measured at its last crates.io release (0.2.2); Zed main has since moved (wgpu on Linux, AccessKit) without publishing. Floem was measured at git rev <code>778bb5f2</code> of lapce/floem <code>main</code> rather than a published release, because crates.io 0.2.0 was 20 months stale at measurement and <code>main</code> cannot be published; its numbers describe that rev only. Upstream ecosystem fields for the three additions were checked on 2026-08-04 for license, maintainer concentration and download/star counts (freya: solo maintainer, 36.5k downloads; vizia: 3 active contributors, 6.3k; floem: 5 active contributors, 28.8k, crates.io 21 months stale vs an active repo); governance, production users and platform/wasm/mobile support remain unresearched and are deliberately absent rather than guessed. Numbers describe these small implementations; they neither establish a general framework ranking nor predict your app.
+  <p><strong>Method.</strong> External research was snapshotted 2026-07-07. The original empirical work was reconciled through 2026-07-10. The freya/vizia/floem expansion round was built and measured on 2026-08-03 on the same machine and toolchain. <strong>80 apps built and survived the scripted launch check on macOS</strong>. That is 56 in July (round-4 empirical work ran 2026-07-09..10; round 5 re-ran 11 of them on Linux in a headless container, 2026-07-10) plus 24 on 2026-08-03, all on one Apple M4 Pro (24 GiB, macOS 26.5.2, rustc 1.96.1). On 2026-08-08 the same 80 apps were probed on Windows 11 x64 (AMD Ryzen AI 9 HX 370, Radeon 890M, Windows 11 Home 26200.7171, rustc 1.96.1) by the serial PowerShell harness in <code>windows/</code>: 36 alive+window / 28 build-failed / 16 died on the default env, with the workaround-ladder, runtime, selftest and packaging phases recorded in <code>report/21-windows-reality-results.md</code>. A retained serial audit observed an on-screen layer-0 window for all 56 July binaries; its structured results and per-app logs are documented in <a href="measurements/EVIDENCE.md">measurements/EVIDENCE.md</a>. Each of the 24 expansion apps was separately launch-checked and window-observed in its own round, with build, binary-size and dependency figures from <code>measurements/reruns/2026-08-03-expansion/</code>. CPU/RSS was sampled for all ten live dashboards; camera-preview figures are reported app observations at stated resolutions, with raw per-sample CPU data retained only for Dioxus. Per-capability evidence ranges from source/API-path review through app self-tests and synthetic input, as marked in the reports; not every narrative interaction has a standalone retained harness. All ten todo `.app` bundles were ad-hoc sealed and placed in `hdiutil`-verified DMGs, not distribution-signed/notarized (seven in July; freya, vizia and floem completed 2026-08-08, when a nine-app `dx bundle` comparison also ran). Builds were serial with a warm registry cache and cold target directories.</p>
+  <p><strong>Caveats.</strong> Primary measurements came from one macOS machine. Round 5 adds a limited headless Linux-container check that predates the expansion round. The Windows campaign (harness in <code>windows/</code>, runbook in <code>WINDOWS-RUN.md</code>) ran 2026-08-08 on one x64 machine with one integrated GPU and driver (Radeon 890M, 32.0.13058.2) and one live desktop session, so its results are that machine's reality rather than "Windows". They are written up in <code>report/21-windows-reality-results.md</code>. WiX MSI install verification completed in a supplemental elevated pass (7/7 installed and uninstalled, 6/7 launched, with the dioxus installed-copy anomaly). GPUI was measured at its last crates.io release (0.2.2); Zed main has since moved (wgpu on Linux, AccessKit) without publishing. Floem was measured at git rev <code>778bb5f2</code> of lapce/floem <code>main</code> rather than a published release, because crates.io 0.2.0 was 20 months stale at measurement and <code>main</code> cannot be published; its numbers describe that rev only. Upstream ecosystem fields for the three additions were checked on 2026-08-04 for license, maintainer concentration and download/star counts (freya: solo maintainer, 36.5k downloads; vizia: 3 active contributors, 6.3k; floem: 5 active contributors, 28.8k, crates.io 21 months stale vs an active repo); governance, production users and platform/wasm/mobile support remain unresearched and are deliberately absent rather than guessed. Numbers describe these small implementations; they neither establish a general framework ranking nor predict your app.
   Two ecosystem-level dimensions were <strong>not measured at all</strong>: system-compositor integration and vsync frame pacing. No app in this sample uses a zero-copy/compositor-layer presentation path. Every camera preview observed here CPU-uploads frames into the framework's own texture pipeline (the ~27–31% single-core cost in the round-4 chart above is consistent with that), so power-efficient video-style rendering remains an open, unmeasured gap across the ecosystem. Mobile platform capability (biometrics, push, payments, store packaging) was likewise out of scope for this desktop benchmark; question 4 above reflects documented upstream paths, not measurements.</p>
 </footer>
 </div>

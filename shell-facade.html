@@ -117,6 +117,10 @@
   .sec-head h2 { font-size: 22px; margin: 0 0 -2px; letter-spacing: -0.01em; padding-bottom: 8px; border-bottom: 4px solid var(--yellow); }
   .sec-head .k { font-family: var(--mono); font-size: 12px; color: var(--ink-3); }
   .lede { color: var(--ink-2); max-width: 70ch; margin: 0 0 22px; }
+  ul.crit { color: var(--ink-2); max-width: 70ch; margin: 8px 0 0; padding-left: 18px; font-size: 13.5px; }
+  ul.crit li { margin-bottom: 8px; }
+  ul.crit li::marker { color: var(--ink-3); }
+  ul.crit strong { color: var(--ink); }
   .lede strong, p strong { color: var(--ink); }
 
   /* stat tiles */
@@ -239,9 +243,9 @@
 <header>
   <div class="eyebrow">RCN Initiative #46 · Companion Brief · <a href="dashboard.html" style="color:inherit">← main dashboard</a></div>
   <h1>The winit shell facade, specified</h1>
-  <p class="sub">Requirements and traps for a framework-neutral OS-shell layer: <strong>"Tauri plugins, but for winit"</strong>.
+  <p class="sub">Requirements and traps for a framework-neutral OS-shell layer, <strong>"Tauri plugins, but for winit"</strong>.
   Distilled from one shell-integration app built in <strong>ten Rust GUI frameworks</strong>, plus a headless-Linux probe round.
-  Every trap below was observed, not hypothesized.</p>
+  Every trap below was hit in one of those builds.</p>
   <div class="meta">distilled 2026-08-08 from the SPEC-4 round · 10 frameworks × 11 capabilities · macOS tested · Linux container probed · Windows tested 2026-08-08 on one machine (report/21) · full spec: report/19-shell-facade-spec.md</div>
 </header>
 
@@ -252,18 +256,18 @@
   winit itself has no menu/tray API (<a href="https://github.com/rust-windowing/winit/issues/403">winit#403</a>, open since
   2018). The protocol pieces exist in Rust. <a href="https://docs.rs/ksni/latest/ksni/">ksni</a> implements StatusNotifierItem,
   <a href="https://docs.rs/ashpd/latest/ashpd/desktop/global_shortcuts/">ashpd</a> covers the GlobalShortcuts portal, and DBusMenu
-  crates exist. What is missing is a maintained framework-neutral facade that puts them together.</p>
+  crates exist. Nobody maintains a framework-neutral facade that puts them together.</p>
   <div class="tiles">
     <div class="tile hot"><div class="n">3×</div><div class="t"><strong>the muda Edit-role trap was hit independently</strong> by iced, egui and xilem. ⌘V dies app-wide, silently. Four more frameworks dodged it only by prior knowledge.</div></div>
     <div class="tile"><div class="n">100%</div><div class="t"><strong>of tested macOS-written tray apps died at launch on Linux</strong> after compiling with zero source changes. muda panics instead of returning <code>Err</code>. Build-only CI passes.</div></div>
-    <div class="tile"><div class="n">≤1</div><div class="t"><strong>bus factor of muda, tray-icon and global-hotkey</strong>. The historical author is near zero commits in 12 months; the volunteer on top of all three has no visible funding. "De-GTK work has no owner."</div></div>
+    <div class="tile"><div class="n">≤1</div><div class="t"><strong>bus factor of muda, tray-icon and global-hotkey</strong>. The historical author is near zero commits in 12 months; the volunteer on top of all three has no visible funding. De-GTK work has no owner.</div></div>
     <div class="tile"><div class="n">9/10</div><div class="t"><strong>frameworks pay a 50–100 ms polling tax</strong>. No tray/menu/hotkey channel has waker integration. Only floem wired delivery into a real wakeup.</div></div>
   </div>
 </section>
 
 <section>
   <div class="sec-head"><h2>Acceptance checklist</h2><span class="k">a facade is done when a plain winit app passes all nine</span></div>
-  <p class="lede">The corpus's ten implementations are the reference answers. All ten achieved every capability on macOS
+  <p class="lede">These ten implementations are the reference answers. All ten achieved every capability on macOS
   (zero not-achievable cells). The Linux column is what the facade must fix. The Windows column, measured 2026-08-08 on one
   machine and written up in report/21, starts further back. Three of the ten frameworks' tray apps never compiled, and only
   the tray, hotkey, toast and dark-mode cells were exercised.</p>
@@ -283,12 +287,15 @@
     </tbody>
   </table>
   </div>
-  <p class="lede" style="margin-top:14px;font-size:13.5px">The corpus adds three cross-cutting criteria.
-  <strong>No silent failure.</strong> Every Linux failure observed was a panic or a silent success, so the facade must
-  return errors with reasons. Windows adds a build-time gate where 28 of 80 apps never compile, plus intermittent surface
-  errors and the same unwrap-culture split: a hotkey collision that egui and xilem treat as fatal, while five frameworks
-  log it and keep running. <strong>A runtime capability probe.</strong> Build-only CI must not be able to lie.
-  <strong>Focus-aware Edit-menu dispatch.</strong> Only gpui achieved it; nine frameworks hard-wire the Edit menu to one widget.</p>
+  <p class="lede" style="margin-top:14px;font-size:13.5px">Three extra acceptance rules.</p>
+  <ul class="crit">
+    <li><strong>No silent failure.</strong> Every Linux failure observed was a panic or a silent success, so the facade must
+    return errors with reasons. Windows adds a build-time gate where 28 of 80 apps never compile, plus intermittent surface
+    errors and the same unwrap-culture split: a hotkey collision that egui and xilem treat as fatal, while five frameworks
+    log it and keep running.</li>
+    <li><strong>A runtime capability probe.</strong> Build-only CI must not be able to lie.</li>
+    <li><strong>Focus-aware Edit-menu dispatch.</strong> Only gpui achieved it; nine frameworks hard-wire the Edit menu to one widget.</li>
+  </ul>
 </section>
 
 <section>
@@ -377,28 +384,28 @@
       <ul>
         <li><strong>Menu items carry action closures</strong>, so there is no MenuId bookkeeping and no global event channel. That dissolves trap T2 by construction.</li>
         <li><strong><code>ExtSendTrigger</code></strong> is the only first-class foreign-thread wakeup in the cohort, exactly the delivery mechanism T15 asks for. Plus <code>AppEvent::Reopen</code>.</li>
-        <li>Cost observed: none of it documented outside the source.</li>
+        <li>Cost observed: none of it is documented outside the source.</li>
       </ul>
     </div>
     <div class="panel">
       <h3 class="up">▲ freya owns the globals</h3>
       <ul>
         <li><strong>The <code>tray</code> feature registers muda/tray-icon's global handlers itself</strong> and forwards into one typed callback. The app never links its own muda copy, so the channel-splitting trap <em>cannot happen</em>, and creation ordering is handled by construction.</li>
-        <li>The structural template for a facade's framework adapters.</li>
+        <li>This is the shape a facade's framework adapters should take.</li>
       </ul>
     </div>
     <div class="panel">
       <h3 class="up">▲ slint's declarative ceiling</h3>
       <ul>
-        <li><strong><code>SystemTrayIcon</code> + <code>MenuBar</code> as DSL elements</strong> make the shell ~80% declarative, with reactive menu labels. That is the ergonomics target.</li>
+        <li><strong><code>SystemTrayIcon</code> + <code>MenuBar</code> as DSL elements</strong> make the shell ~80% declarative, with reactive menu labels. That's the shape to copy.</li>
         <li>Gaps: no standard Edit roles, single-shot tray handle creation (silent stderr-only failure), external file drop needs an unstable feature.</li>
       </ul>
     </div>
   </div>
   <p class="lede" style="margin-top:16px;font-size:13.5px"><strong>Baselines to beat</strong> (same spec, LoC incl. markup):
   dioxus 394 · slint 447 · egui 514 · tauri 559 · floem 610 · iced 682 · vizia 720 · xilem 774 · freya 865 · gpui 1,575.
-  Shell integration grew dependency trees by 8–112 crates per framework. A facade should collapse the assembled-crate
-  boilerplate toward the dioxus/slint end while keeping native rendering.</p>
+  Shell integration grew dependency trees by 8–112 crates per framework. A facade should get the glue closer to the
+  dioxus/slint LoC without forcing a webview.</p>
 </section>
 
 <section>
