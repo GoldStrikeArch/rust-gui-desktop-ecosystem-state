@@ -1,0 +1,24 @@
+# Ledger (Tauri) — SPEC-10 forms & numeric-input test.
+# Same manual plain-cargo Tauri v2 setup as ../tauri-app (no Node / npm /
+# tauri-cli): hand-written tauri.conf.json + capability, static vanilla
+# HTML/CSS/JS in ui/, copied icons.
+#
+# - rust_decimal: the row model carries exact base-10 money (Decimal), not f64.
+# - tauri-plugin-clipboard-manager: the only way to READ the clipboard without
+#   a user paste gesture, needed for the TSV row paste (Rust-side -> no ACL).
+[package]
+name = "tauri-ledger"
+version = "0.1.0"
+edition = "2021"
+description = "Ledger mini-app (RCN GUI ecosystem research, SPEC-10) built with Tauri v2"
+license = "MIT"
+
+[build-dependencies]
+tauri-build = { version = "=2.6.3", features = [] }
+
+[dependencies]
+tauri = { version = "=2.11.5", features = [] }
+tauri-plugin-clipboard-manager = "=2.3.2"
+rust_decimal = "=1.42.1"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"

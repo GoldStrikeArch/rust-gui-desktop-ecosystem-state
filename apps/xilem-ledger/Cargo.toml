@@ -1,0 +1,29 @@
+[package]
+name = "xilem-ledger"
+version = "0.1.0"
+edition = "2024"
+publish = false
+
+# Independent crate — deliberately NOT a workspace member.
+[workspace]
+
+[dependencies]
+# Same pinned framework version as apps/xilem-app (latest crates.io release).
+xilem = "=0.4.0"
+# Part of the xilem 0.4.0 release train. Needed directly because xilem does
+# not re-export MasonryState/AppDriver/DriverCtx, and SPEC-10 needs three
+# things that only exist below the view layer: programmatic focus
+# (RenderRoot::focus_on), focus-change observation (RenderRoot::focused_widget
+# — xilem 0.4 has no focus/blur view API at all), and keyboard interception
+# for Up/Down stepping and Esc-revert (masonry's TextArea swallows both).
+masonry_winit = "=0.4.0"
+# Money type. The whole point of SPEC-10 is that the value is not an f64;
+# Decimal gives exact 2-dp arithmetic for Amount/Subtotal/VAT/Total.
+rust_decimal = { version = "=1.39.0", default-features = false, features = ["std"] }
+# Row copy/paste as TSV. masonry can *set* the clipboard from a widget
+# (EventCtx::set_clipboard) but there is no way to read it outside the
+# built-in Cmd+V path, and no clipboard API at the xilem view layer.
+arboard = "=3.6.1"
+
+[profile.release]
+# Defaults; nothing special needed.

@@ -38,8 +38,7 @@ whether that path was exercised end-to-end.
 swallow ⌘X/⌘C/⌘V** before the framework's own bindings see them — hit
 independently by iced, egui, AND xilem; all three had to ship custom menu
 items that re-inject synthetic paste/copy events.
-³ dioxus trap: tray-icon and muda share ONE global MenuEvent handler slot and
-dioxus installs the tray receiver last — menubar events arrive as tray events.
+³ dioxus trap: tray-icon and muda share ONE global MenuEvent handler slot (a `OnceCell`, first registration wins) and dioxus-desktop registers its menubar receiver first — tray-menu events arrive on the muda hook and `use_tray_menu_event_handler` never fires (DioxusLabs/dioxus#4495). An earlier version of this footnote stated the direction backwards; corrected 2026-08-30 after a source re-check.
 ⁴ egui clipboard is text-only; images need arboard.
 ⁵ masonry_winit 0.4 drops winit's `DroppedFile` on the floor; caught by
 wrapping the ApplicationHandler.
@@ -47,10 +46,7 @@ wrapping the ApplicationHandler.
 no file-path representation, slint#1967); requires the **unstable**
 `unstable-winit-030` raw-event filter.
 ⁷ notify-rust was rejected after failures reproduced in these tested versions:
-the egui/macOS app lost frame scheduling after a notification (delegate
-replacement is the leading inferred cause, pending a minimized upstream
-reproduction); on xilem it failed three ways
-(LaunchServices chooser, runloop-reentrancy panic-abort, dropped banners).
+the egui/macOS app lost frame scheduling after a notification (cause unproven; a 2026-08-30 source check rules out the earlier "delegate replacement" hypothesis — mac-notification-sys never touches `NSApp.delegate` — and points at its synchronous main-thread run-loop pumping); on xilem it failed three ways (AppleScript's app chooser for the `use_default` bundle id, runloop-reentrancy panic-abort, dropped banners).
 Both shipped `osascript` shell-outs instead. Everywhere else it "worked" at
 the API level, but unbundled cargo binaries have no app bundle identity so
 macOS may silently drop banners. Reliable app-attributed delivery normally

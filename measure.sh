@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 # Serial, reproducible measurement pass over one experiment round.
-# Usage: ./measure.sh [--round iter1|iter2|iter3|iter4|all] [--output PATH] [app-dir ...]
+# Usage: ./measure.sh [--round iter1|iter2|iter3|iter4|iter5|all] [--output PATH] [app-dir ...]
 # Defaults: --round iter1, output a timestamped file under measurements/reruns/.
 #   iter1 = *-app; iter2 = *-dash + *-board; iter3 = *-tray + *-babel
-#   iter4 = *-grid + *-fetch + *-peek
+#   iter4 = *-grid + *-fetch + *-peek; iter5 = *-windows + *-ledger
 # Run apps SERIALLY (never in parallel) so timings are contention-free.
 # This measurement path is macOS-only: it uses BSD stat, Mach-O strip flags,
 # and macOS executable/process assumptions. The Linux round has separate tools.
@@ -36,8 +36,8 @@ while [ "$#" -gt 0 ]; do
 done
 
 case "$round" in
-  iter1|iter2|iter3|iter4|all) ;;
-  *) echo "invalid round '$round' (expected iter1, iter2, iter3, iter4, or all)" >&2; exit 2 ;;
+  iter1|iter2|iter3|iter4|iter5|all) ;;
+  *) echo "invalid round '$round' (expected iter1, iter2, iter3, iter4, iter5, or all)" >&2; exit 2 ;;
 esac
 
 if [ "$(uname -s)" != "Darwin" ]; then
@@ -54,7 +54,8 @@ if [ ${#apps[@]} -eq 0 ]; then
     iter2) apps=("$ROOT"/apps/*-dash "$ROOT"/apps/*-board); expected_apps=20 ;;
     iter3) apps=("$ROOT"/apps/*-tray "$ROOT"/apps/*-babel); expected_apps=20 ;;
     iter4) apps=("$ROOT"/apps/*-grid "$ROOT"/apps/*-fetch "$ROOT"/apps/*-peek); expected_apps=30 ;;
-    all) apps=("$ROOT"/apps/*-app "$ROOT"/apps/*-dash "$ROOT"/apps/*-board "$ROOT"/apps/*-tray "$ROOT"/apps/*-babel "$ROOT"/apps/*-grid "$ROOT"/apps/*-fetch "$ROOT"/apps/*-peek); expected_apps=80 ;;
+    iter5) apps=("$ROOT"/apps/*-windows "$ROOT"/apps/*-ledger); expected_apps=22 ;;
+    all) apps=("$ROOT"/apps/*-app "$ROOT"/apps/*-dash "$ROOT"/apps/*-board "$ROOT"/apps/*-tray "$ROOT"/apps/*-babel "$ROOT"/apps/*-grid "$ROOT"/apps/*-fetch "$ROOT"/apps/*-peek "$ROOT"/apps/*-windows "$ROOT"/apps/*-ledger); expected_apps=102 ;;
   esac
 fi
 

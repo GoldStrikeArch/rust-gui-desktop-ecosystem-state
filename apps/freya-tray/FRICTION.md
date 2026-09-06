@@ -21,13 +21,11 @@ ship, and ~60 are verification-only self-test hooks).
 | notification | **assembled** | `notify-rust` 4.18. `.show()` returns `Ok` from an unbundled binary (`notification: OK`). **Trap:** with no bundle identifier, mac-notification-sys asks the OS to choose one and pops a modal **"Choose Application"** panel that blocks the UI thread indefinitely (observed — it froze the self-test until dismissed). `notify_rust::set_application("com.apple.Terminal")` before `.show()` makes it non-interactive. |
 | dark_mode_live | **built-in** | `Platform::get().preferred_theme` is a reactive `State<PreferredTheme>`; a `use_side_effect` swaps `light_theme()`/`dark_theme()` into the component theme context and repaints. Verified live with `osascript … set dark mode to not dark mode` while running: `theme-changed: Light` then `theme-changed: Dark`. Zero platform code. |
 | multi_window | **built-in** | `Platform::get().launch_window(WindowConfig::new(about_app)…).await` returns the new `WindowId`; `close_window(id)` closes it. Verified: `About — Tray Notes (freya)` appeared alongside the main window, independently. |
-| close_to_tray | **assembled** | `WindowConfig::with_on_close(…) -> CloseDecision::KeepOpen` plus `LaunchConfig::with_exit_on_close(false)` (Freya also refuses to exit while a tray handler is registered). The hook receives a `RendererContext`, but `AppWindow`'s `window` field is `pub(crate)`, so **the hook cannot hide the window itself**; it sets a flag that the UI poll loop turns into `Platform::with_window(None, \|w\| w.set_visible(false))`. Verified: clicking the red close button removed the window from the window list while the process stayed alive. |
+| close_to_tray | **assembled** | `WindowConfig::with_on_close(…) -> CloseDecision::KeepOpen` plus `LaunchConfig::with_exit_on_close(false)` (Freya also refuses to exit while a tray handler is registered). The hook receives a `RendererContext`; this app sets a flag that the UI poll loop turns into `Platform::with_window(None, \|w\| w.set_visible(false))`. Verified: clicking the red close button removed the window from the window list while the process stayed alive. **Correction 2026-08-30:** the first draft claimed the hook could not touch its window because `AppWindow.window` is `pub(crate)` — wrong: `AppWindow::window_mut()` and `RendererContext::windows_mut()` are public in freya-winit 0.4.1 (`window.rs:379-385`), so the hook can hide the window directly; the flag indirection here is unnecessary. |
 
 ## The headline trap: muda menu items are use-after-free by default
 
-muda stores a **raw `*const MenuChild`** inside each `NSMenuItem` and does not
-retain it (there is a `FIXME: Use Rc or something else` at that exact spot in
-muda 0.17). The idiomatic Rust shape —
+muda stores a **raw `*const MenuChild`** inside each `NSMenuItem` and does not retain it (there is a `FIXME: Use Rc or something else` at that exact spot in muda 0.17 — and the code is identical in 0.19.3, so every published muda has it). Upstream status (checked 2026-08-30): reported before as muda #202 and #233 (both closed as user error) and **fixed on `main` by PR #361 / commit a1550bd on 2026-07-30, which switches the ivar to `Cell<Option<Rc<RefCell<MenuChild>>>>`; no release contains it yet**. The idiomatic Rust shape —
 
 ```rust
 let menu = Menu::new();
@@ -35,9 +33,7 @@ menu.append_items(&[&MenuItem::with_id(ID, "New", true, accel), …]);
 menu.init_for_nsapp();       // items dropped here
 ```
 
-— leaves every one of those pointers dangling. The build is clean, the menu
-*renders* correctly, and then the **first click on any item** reads freed
-memory. Observed symptom: the freed `MenuChild` was reinterpreted as a
+— is fine as far as the *item handles* go (the `Menu` keeps `Rc` clones of its children); what dangles is the `MenuChild` behind the `Menu`/`Submenu` itself once that owner is dropped after `init_for_nsapp` — which is what this app's first setup function did. The build is clean, the menu *renders* correctly, and then the **first click on any item** reads freed memory. Observed symptom: the freed `MenuChild` was reinterpreted as a
 `PredefinedMenuItemType::About` carrying a zero-sized icon, panicking inside
 muda's PNG encoder (`FormatError { inner: ZeroWidth }`) — a message that points
 at an About panel this app doesn't have. The fix is to keep every `Menu`,
@@ -118,7 +114,5 @@ to `screencapture -R`).
   `is_app_focused`, `scale_factor`. Live dark mode and multi-window cost
   ~5 lines each; both are the easiest of the cohort so far.
 - Good: `on_file_drop` as an element event rather than a window event.
-- Bad: `AppWindow`'s `window` is `pub(crate)`, so the one hook that is *about*
-  a window (`with_on_close`) cannot act on it.
-- Bad: no window-screenshot API, no timer, no way to signal the reactive
-  runtime from a platform callback.
+- (Retracted 2026-08-30) An earlier draft complained that `AppWindow`'s `window` is `pub(crate)`, so `with_on_close` could not act on its window; the public `window_mut()` accessor makes that wrong.
+- Bad: no window-screenshot API, no interval hook (only the one-shot `sdk::use_timeout` behind a non-default feature), no way to signal the reactive runtime from a platform callback.

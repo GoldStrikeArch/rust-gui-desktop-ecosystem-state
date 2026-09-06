@@ -1,0 +1,1 @@
+{"default":{"identifier":"default","description":"Core defaults for the main window (the event bus carries the row model to the webview). The clipboard plugin is driven only from Rust, which bypasses the ACL, so it needs no permission entry. App-defined #[tauri::command]s never need permissions.","local":true,"windows":["main"],"permissions":["core:default"]}}

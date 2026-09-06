@@ -27,6 +27,19 @@ Two questions drove this work:
   identical app built in 10 frameworks: build times, binary sizes, dep trees,
   overlap analysis.
 - `dashboard.html` — shareable one-page summary of all of the above.
+- **[SUMMARY-2026-08-30.md](SUMMARY-2026-08-30.md)** — the long-form session
+  summary: the thread-triggered corrections, the full re-verification sweep,
+  the 41-item upstream issue list, and iteration 5 (22 new apps incl. Dioxus
+  Native) with its key findings.
+- **[report/data/corrections-2026-08-30.md](report/data/corrections-2026-08-30.md)** —
+  what the r/rust thread got us to re-check, what was wrong, and what changed
+  (Freya double-click, AccessKit maintainers, the muda handler slot, the
+  fontique "AssetsV2" explanation, and more). Per-finding evidence in
+  [report/data/verification/](report/data/verification/).
+- **[report/data/upstream-issues.md](report/data/upstream-issues.md)** — the
+  verified list of issues to file upstream (root cause located in the pinned
+  source, upstream status checked), with ready-to-paste drafts in the
+  verification reports.
 
 ## Per-framework research (source-linked)
 
@@ -103,6 +116,26 @@ and evidence manifest:
   server in `tools/fetcher-server/` (debounce, stale protection, streamed
   progress, server-verified cancellation) → `apps/<fw>-fetch/`.
 
+**Iteration 5 (2026-08-30), 22 more apps:**
+
+- `apps/SPEC-9.md` — "Windows" multi-window + modal (modality kind reached,
+  parenting, shared state across windows, cross-window messages, close veto,
+  persistence, per-window shortcuts) → `apps/<fw>-windows/`.
+- `apps/SPEC-10.md` — "Ledger" forms + numeric input (typed filtering,
+  locale parse/format, decimal alignment / `tnum`, tab order, validation,
+  undo, TSV clipboard, the corpus' first accessibility-tree dump) →
+  `apps/<fw>-ledger/`.
+
+Both were built for the ten frameworks **plus an eleventh entry, Dioxus
+Native** (`apps/dioxus-native-*`, Blitz `main` @ `64eb278` / 0.3.0-beta.2),
+which shares the Dioxus desktop `app.rs` unchanged via `#[path]` and swaps
+only `platform.rs`. Every app has a `WINDOWS_SELFTEST=1` / `LEDGER_SELFTEST=1`
+hook (`SELFTEST DONE pass=N fail=0`), an `evidence/` directory, and a
+FRICTION.md; three verifier passes are in `report/data/verification/iter5-*`.
+Results: [report/22-windows-forms-results.md](report/22-windows-forms-results.md),
+raw rows `report/data/iter5-rows.md`, measurement round `./measure.sh --round iter5`.
+The ranked backlog of further specs is `report/data/next-apps-candidates.md`.
+
 Plus a **packaging round**: the todo apps bundled into ad-hoc-signed
 `.app` + `.dmg` artifacts under `dist/` —
 [report/14-packaging-results.md](report/14-packaging-results.md).
@@ -133,6 +166,7 @@ Reproduce the measurements:
 ./measure.sh --round iter2      # dashboard + board → timestamped rerun CSV
 ./measure.sh --round iter3      # tray + Babel → timestamped rerun CSV
 ./measure.sh --round iter4      # Peek + Grid + Fetcher → timestamped rerun CSV
+./measure.sh --round iter5      # Windows + Ledger (11 entries incl. dioxus-native) → timestamped rerun CSV
 ./scripts/runtime-sample.sh     # new dashboard CPU/RSS summary + raw-sample sibling
 python3 scripts/overlap.py --round iter1  # todo-app dependency overlap
 ./scripts/verify-iter3.sh       # serial window/self-test evidence for tray+Babel

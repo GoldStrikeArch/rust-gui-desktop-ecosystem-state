@@ -1,0 +1,26 @@
+# Windows (Tauri) — SPEC-9 multi-window & modal test.
+# Same manual plain-cargo Tauri v2 setup as ../tauri-app (no Node / npm /
+# tauri-cli): hand-written tauri.conf.json + capability, static vanilla
+# HTML/CSS/JS in ui/, copied icons.
+#
+# Feature flags: tauri default features only. Two official first-party
+# plugins (see FRICTION.md):
+# - dialog      -> rfd; the ONLY OS-modal primitive Tauri ships (NSAlert as a
+#                  window sheet when `.parent()` is set).
+# - window-state -> position/size persistence for every window.
+[package]
+name = "tauri-windows"
+version = "0.1.0"
+edition = "2021"
+description = "Windows mini-app (RCN GUI ecosystem research, SPEC-9) built with Tauri v2"
+license = "MIT"
+
+[build-dependencies]
+tauri-build = { version = "=2.6.3", features = [] }
+
+[dependencies]
+tauri = { version = "=2.11.5", features = [] }
+tauri-plugin-dialog = "=2.7.1"
+tauri-plugin-window-state = "=2.4.1"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"

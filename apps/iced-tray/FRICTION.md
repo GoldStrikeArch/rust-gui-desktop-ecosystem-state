@@ -45,10 +45,7 @@ rejected: `PredefinedMenuItem` clipboard roles (see native_menubar).
    main thread after the run loop starts; the trick is a `Task::done(SetupShell)`
    from `boot` (iced conveniently runs update on the main thread — this whole
    app is impossible if a framework runs update off-thread).
-3. **Event injection**: three separate crossbeam channels (menu, tray, hotkey)
-   with no waker integration → a 100 ms polling subscription, which needs the
-   `smol`/`tokio` feature because `time::every` doesn't exist on the default
-   thread-pool executor.
+3. **Event injection**: three separate crossbeam channels (menu, tray, hotkey) drained by a 100 ms polling subscription, which needs the `smol`/`tokio` feature because `time::every` doesn't exist on the default thread-pool executor. (Note 2026-08-30: "no waker integration" was overstated — all three crates also expose `set_event_handler`, a callback from the platform thread that muda/tray-icon's docs recommend pairing with an `EventLoopProxy`; the app chose polling because each callback slot is a process-global one-shot `OnceCell` and iced offers no proxy-to-`Message` bridge without a custom subscription.)
 4. Cosmetic gap, not fixed: the app keeps a Dock icon and doesn't respond to
    Dock-icon reopen when hidden (winit exposes no `applicationShouldHandleReopen`;
    ActivationPolicy::Accessory isn't reachable through iced).

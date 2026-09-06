@@ -51,9 +51,7 @@ and its cited run scrolled about 130k pixels/~8k rows rather than the full
 | Row selection (shift-range) | assembled⁵ | assembled⁶ | assembled | hand-rolled | hand-rolled⁵ | assembled | assembled |
 | Custom cells (chips) | built-in | built-in | assembled | built-in | assembled | assembled⁴ | built-in |
 
-¹ iced 0.14's new `table` widget was REJECTED after a source read: it eagerly
-materializes one Element per cell for ALL rows (600k widgets at 100k rows) —
-no virtualization, sort, or resize. "Has a table widget" ≠ "has a data grid."
+¹ iced 0.14's new `table` widget was REJECTED after a source read: it eagerly materializes one Element per cell for ALL rows (600 006 `Element`s per view call at 100k rows, plus 600 000 `T::clone()`s; unchanged on master) — no virtualization, sort, resize, or selection. "Has a table widget" ≠ "has a data grid."
 ² a real Tauri app would npm-install a JS grid (out of bounds under the
 no-external-JS rule); notable architecture: rows stayed in Rust with the
 viewport fetching windows over IPC — every keystroke 3.4–10.8 ms, no
@@ -61,18 +59,14 @@ placeholder flashes. IPC works fine as a virtualization backplane.
 ³ xilem is the inverse of egui: its riskiest cell (100k virtualization) is a
 free stock view (`virtual_scroll`, first real test — it held), while
 everything table-shaped around it (headers, selection, resize) needed
-hand-written masonry widgets (536 LoC, half the app). Side-effect sighting:
-sort arrows ▲/▼ rendered as tofu (the fontique Han/symbol fallback bug
-reaching UI chrome).
+hand-written masonry widgets (536 LoC, half the app). Side-effect sighting: sort arrows ▲/▼ were rendered as tofu until swapped for ASCII (the fontique symbol-fallback gap reaching UI chrome).
 ⁴ Slint's `StandardTableView` was REJECTED after a source audit: rows are
 text-only `StandardListViewItem`s and selection is a single current-row —
 status chips and range-select cannot even be rendered inside it. The custom
 Rust `Model` + `ListView` path is the real (and good) story: 20 of 100k rows
 materialized at first paint. Also load-bearing and undocumented: the DSL can
 assign into model row fields and it write-backs via `set_row_data`.
-⁵ winit delivers no modifiers on mouse events — iced needs a persistent
-ModifiersChanged subscription; xilem needs a custom widget reading
-PointerState.
+⁵ winit delivers modifiers only via a separate `ModifiersChanged` event: iced surfaces that raw model to the app, so shift/cmd-click needs a persistent subscription (per-event modifiers were proposed in iced PR #2733 and declined in #3158); masonry already folds them into `PointerState.modifiers`, but xilem 0.4 exposes no stock view that reads it, so a custom masonry widget is required (footnote corrected 2026-08-30 — an earlier draft blamed the platform layer for xilem too).
 ⁶ egui trap: selectable label text silently eats row clicks in sense()-
 enabled tables — fixed via `style.interaction.selectable_labels = false`.
 

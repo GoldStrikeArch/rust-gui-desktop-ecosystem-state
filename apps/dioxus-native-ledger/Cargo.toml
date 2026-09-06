@@ -1,0 +1,32 @@
+# SPEC-10 "Ledger" — Dioxus NATIVE (Blitz main), a separate cohort entry from
+# apps/dioxus-ledger (which is the same Dioxus 0.7 VirtualDom rendered by a
+# wry/tao webview). Here the same VirtualDom is rendered by Blitz:
+# Stylo + Taffy + Parley + AccessKit painted through anyrender/Vello-Hybrid and
+# windowed by winit 0.31-beta. No webview, no JS engine.
+#
+# `src/app.rs` is NOT copied: main.rs includes apps/dioxus-ledger/src/app.rs
+# verbatim with #[path]. Only platform.rs is re-implemented.
+[package]
+name = "dioxus-native-ledger"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+# Pinned by git rev: crates.io dioxus-native 0.7.x is Blitz 0.2 (Oct 2025).
+# main @ 2026-08-29, workspace version 0.3.0-beta.2 (blitz-dom 0.3.0-beta.2,
+# stylo 0.20, taffy 0.14, parley 0.11.1, winit =0.31.0-beta.2).
+# Default features kept: accessibility, hot-reload, net, html, svg,
+# system-fonts, clipboard, file-dialog, vello-hybrid, woff, apple-font-embolden.
+dioxus-native = { git = "https://github.com/DioxusLabs/blitz", rev = "64eb27853aa2672486b7edf825fb044be78c9db3", features = ["prelude"] }
+# The stable Dioxus facade, so the shared app.rs keeps `use dioxus::prelude::*`.
+# default-features = false drops the renderer selection (dioxus-native is the
+# renderer here); all four sub-crates resolve to the same 0.7.10 that
+# dioxus-native itself uses, so there is exactly one dioxus-core in the graph.
+dioxus = { version = "=0.7.9", default-features = false, features = ["macro", "html", "hooks", "signals"] }
+# Helper crates — identical set and pins to apps/dioxus-ledger (see FRICTION.md):
+rust_decimal = { version = "=1.39.0", default-features = false, features = ["std"] }
+arboard = "=3.6.1"
+tokio = { version = "=1.52.3", features = ["time"] }
+
+[profile.release]
+# Framework defaults; no size/LTO tuning so measurements are comparable.

@@ -1,0 +1,26 @@
+{
+  "geom": [
+    [
+      "main",
+      [
+        10.0,
+        33.0,
+        720.0,
+        330.0
+      ]
+    ],
+    [
+      "prefs",
+      [
+        1124.0,
+        33.0,
+        320.0,
+        200.0
+      ]
+    ]
+  ],
+  "inspector_open": false,
+  "prefs_open": true,
+  "compact": true,
+  "theme": 1
+}

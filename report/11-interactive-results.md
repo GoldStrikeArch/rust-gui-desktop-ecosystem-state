@@ -174,16 +174,14 @@ slint-dash's 393, yet the dashboard rebuilt in 3 s.
    Missing high-level editor behavior compounds in every feature that touches
    text.
 5. **Timers/live data are a solved problem everywhere.** Slint and Xilem expose
-   direct defaults; Iced also has a framework API, feature-gated behind an
-   misleading compile error, egui's is an idiom (deadline math), dioxus
+   direct defaults; Iced also has a framework API (`time::every`), feature-gated with a plain "cannot find function" compile error and a docs.rs feature badge, egui's is an idiom (deadline math), dioxus
    makes you add tokio yourself.
 6. **Every implementation recorded at least one framework-specific trap**:
    wry's
    `dragDropEnabled` default eating drag events; egui's hit-test making
    buttons inside stock drag sources silently inert (found via a failing
    kittest test); masonry's last-wins pointer capture breaking stock buttons
-   inside draggable containers; Dioxus mouse events lacking target geometry;
-   iced's `text_input` capturing Escape from `keyboard::listen()`; Slint's
+   inside draggable containers; Dioxus mouse events lacking the target's *size* (offset coordinates exist; the rect is only reachable asynchronously via `onmounted`); iced's `text_input` capturing Escape so `iced::event::listen()` — documented as uncaptured events only — never sees it; Slint's
    `drag-image` being bitmap-only; and GPUI's lack of a general element-bounds
    query outside drag events, which forced paint-time bounds plumbing for
    geometry-aware interactions. Framework choice is partly about which such

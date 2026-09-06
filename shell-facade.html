@@ -261,7 +261,7 @@
     <div class="tile hot"><div class="n">3×</div><div class="t"><strong>the muda Edit-role trap was hit independently</strong> by iced, egui and xilem. ⌘V dies app-wide, silently. Four more frameworks dodged it only by prior knowledge.</div></div>
     <div class="tile"><div class="n">100%</div><div class="t"><strong>of tested macOS-written tray apps died at launch on Linux</strong> after compiling with zero source changes. muda panics instead of returning <code>Err</code>. Build-only CI passes.</div></div>
     <div class="tile"><div class="n">≤1</div><div class="t"><strong>bus factor of muda, tray-icon and global-hotkey</strong>. The historical author is near zero commits in 12 months; the volunteer on top of all three has no visible funding. De-GTK work has no owner.</div></div>
-    <div class="tile"><div class="n">9/10</div><div class="t"><strong>frameworks pay a 50–100 ms polling tax</strong>. No tray/menu/hotkey channel has waker integration. Only floem wired delivery into a real wakeup.</div></div>
+    <div class="tile"><div class="n">9/10</div><div class="t"><strong>integrations pay a 50–100 ms polling tax</strong>. The crates ship callbacks, but each is a process-global one-shot slot. Only floem wired delivery into a real wakeup.</div></div>
   </div>
 </section>
 
@@ -308,11 +308,8 @@
       dispatch Cocoa responder-chain selectors no winit view implements. The items no-op, <em>and</em> NSMenu consumes ⌘X/⌘C/⌘V before the
       focused widget sees them. Paste breaks app-wide, silently. Every fix re-injects synthetic clipboard events into one hard-coded widget.</p>
       <p><strong>T2 · One global <code>MenuEvent</code> handler slot, three failure shapes.</strong> (a) a separately-resolved muda
-      owns a <em>different</em> static channel, so clicks vanish; (b) last registration wins, so dioxus's menubar events arrive as tray
-      events; (c) floem works <em>only because</em> its muda 0.17 and tray-icon's muda 0.19 are separate compiled instances, which
-      makes version divergence load-bearing for correctness right now. A facade needs per-menu closures, not a global static.</p>
-      <p><strong>T3 · Use-after-free on first menu click</strong> (muda 0.17): raw <code>*const MenuChild</code> stored unretained;
-      the idiomatic append-then-init shape reads freed memory on the first click. Menus must own their items.</p>
+      owns a <em>different</em> static channel, so clicks vanish; (b) <em>first</em> registration wins (the slot is a <code>OnceCell</code>), so dioxus's tray-menu clicks arrive on the menubar hook and <code>use_tray_menu_event_handler</code> never fires (dioxus#4495; an earlier draft here had the direction inverted — corrected 2026-08-30); (c) floem works <em>only because</em> its muda 0.17 and tray-icon 0.24's muda 0.19 are separate compiled instances — pull tray-icon 0.21 (muda 0.17) instead and cargo unifies them; version divergence is load-bearing for correctness right now. A facade needs per-menu closures, not a global static.</p>
+      <p><strong>T3 · Use-after-free on first menu click</strong> (macOS; muda 0.17.2 and 0.19.3 have identical code): raw <code>*const MenuChild</code> stored unretained; drop the owning <code>Menu</code>/<code>Submenu</code> after <code>init_for_nsapp</code> and the first click reads freed memory. Reported as muda #202/#233, <strong>fixed on main by PR #361 (2026-07-30), unreleased</strong> as of 2026-08-30. Menus must own their items.</p>
       <p><strong>T4 · Creation ordering.</strong> Main thread, <em>after</em> the run loop starts, with a <code>!Send</code> handle. Every framework
       paid differently (boot task, creator closure, external-loop embedding, timer tick). The API must enforce the contract, not document it.</p>
       <p><strong>T5 · Linux menubar on plain winit is a compile error.</strong> <code>Menu::init_for_gtk_window</code> requires
@@ -323,32 +320,25 @@
   <details class="exp">
     <summary>Linux tray &amp; hotkey <span class="tag">T6–T9 · panics where it isn't silent</span></summary>
     <div class="body">
-      <p><strong>T6 ·</strong> muda <strong>panics</strong> ("GTK has not been initialized") at the first <code>gtk::Menu::new</code>. macOS-written
-      apps compile unchanged and die at launch; graceful-degradation code never runs.</p>
+      <p><strong>T6 ·</strong> muda lets gtk-rs <strong>panic</strong> ("GTK has not been initialized", gtk-rs's <code>assert_initialized_main_thread!</code>) at the first <code>gtk::Menu::new</code> instead of checking <code>gtk::is_initialized()</code> and returning <code>Err</code>. macOS-written apps compile unchanged and die at launch; graceful-degradation code never runs.</p>
       <p><strong>T7 ·</strong> Bare <code>TrayIconBuilder::build</code> without GTK returns <code>Ok</code> for an icon that can never
       function; with GTK but no StatusNotifier host on the bus (DBus <code>NameHasOwner</code> → false, captured) everything still
       reports success. <strong>Zero feedback either way.</strong></p>
       <p><strong>T8 ·</strong> tray-icon's winit path requires a <strong>parallel GTK event loop</strong> on a second thread (its own
       example does this). ksni removes the GTK loop entirely.</p>
       <p><strong>T9 ·</strong> global-hotkey is <strong>X11-only</strong> (though there it worked end-to-end: registration and delivery
-      of an xdotool-fired chord, probe retained). No Wayland portal; delivery is poll-only; Pressed <em>and</em> Released both arrive;
-      observed cross-process contention behavior was inconsistent between apps, so the facade must define that contract.</p>
+      of an xdotool-fired chord, probe retained). No Wayland portal (tracked upstream: global-hotkey #28/#162); a <code>set_event_handler</code> callback exists but nine of ten integrations poll; Pressed <em>and</em> Released both arrive (documented); cross-process contention was not characterised (two apps saw every registrant fire), so the facade must define that contract.</p>
     </div>
   </details>
 
   <details class="exp">
     <summary>Notifications <span class="tag">T10–T12 · the least reliable helper of the round</span></summary>
     <div class="body">
-      <p><strong>T10 ·</strong> From an unbundled binary, mac-notification-sys resolves bundle id <code>"use_default"</code> via
-      LaunchServices. macOS 26 then pops a <strong>blocking "Where is use_default?" chooser while <code>.show()</code> returns
-      <code>Ok</code></strong> (hit by freya, vizia, xilem independently).</p>
+      <p><strong>T10 ·</strong> From an unbundled binary, mac-notification-sys resolves bundle id <code>"use_default"</code> by running the AppleScript <code>get id of application "use_default"</code> (not LaunchServices — corrected 2026-08-30). macOS 26 then pops <strong>AppleScript's blocking "Where is use_default?" chooser while <code>.show()</code> returns <code>Ok</code></strong> (hit by freya, vizia, xilem independently; upstream mac-notification-sys #81).</p>
       <p><strong>T11 ·</strong> The helper pumps the main runloop: from inside a winit callback → <strong>panic-abort</strong>
       ("tried to handle event while another event is currently being handled", xilem + vizia); from a <code>slint::Timer</code>
-      callback → abort ("Recursion in timer code"). The safe shape (detached thread) then <em>silently drops the banner</em> for
-      unbundled binaries. egui also saw eframe stop scheduling frames after the first notification (2 of 3 runs; cause
-      unproven) and rejected the crate. Three frameworks shipped <code>osascript</code> subprocesses instead.</p>
-      <p><strong>T12 ·</strong> <code>Ok(())</code> proves nothing about a banner. Acceptance tests must observe display, from a
-      bundled, identified <code>.app</code>. The facade must be identity-aware and fail loud from bare binaries.</p>
+      callback → abort ("Recursion in timer code"). The safe shape (detached thread) avoids the abort but not the identity problem, so unbundled binaries <em>still get no banner</em>. egui also saw eframe stop scheduling frames after the first notification (2 of 3 runs; cause unproven — source rules out the earlier "delegate replacement" theory and points at the same run-loop pumping) and rejected the crate. Three frameworks shipped <code>osascript</code> subprocesses instead.</p>
+      <p><strong>T12 ·</strong> <code>Ok(())</code> proves nothing about a banner — in the pinned notify-rust 4.18 the macOS <code>show()</code> returns <code>Ok</code> before sending; the send happens in <code>Drop</code> and its error is discarded. (The same version already ships a UserNotifications backend behind <code>preview-macos-un</code>; none of our apps enabled it.) Acceptance tests must observe display, from a bundled, identified <code>.app</code>. The facade must be identity-aware and fail loud from bare binaries.</p>
     </div>
   </details>
 
@@ -357,13 +347,10 @@
     <div class="body">
       <p><strong>T13 ·</strong> Hide/reopen is where frameworks leak: eframe never runs <code>App::ui</code> for hidden viewports
       (first attempt: a window that could never come back); gpui's app-level hide is silently ignored during NSMenu dismissal
-      (300 ms settle-delay fix); 8 of 10 frameworks cannot drop the Dock icon (<code>ActivationPolicy::Accessory</code> unreachable);
-      only floem and tauri expose Dock-icon reopen.</p>
+      (300 ms settle-delay fix); none of the ten apps drops the Dock icon, though 6 of 10 frameworks expose a route to <code>ActivationPolicy::Accessory</code> (tauri, eframe, slint, xilem, freya, dioxus; not iced, vizia, floem, gpui — an earlier draft's "8 of 10 cannot" was wrong, corrected 2026-08-30); only floem and tauri expose Dock-icon reopen.</p>
       <p><strong>T14 ·</strong> Clipboard images: arboard hands back raw RGBA and four frameworks PNG-encode it again just to
       display it. gpui's multi-entry clipboard with native image decode (<code>ClipboardEntry::Image</code>) is the reference shape.</p>
-      <p><strong>T15 ·</strong> The polling tax: no tray/menu/hotkey channel has waker integration, so the standard integration is a
-      50–100 ms timer pump (iced needs a non-default executor feature just to have a timer). Delivery must be callback/waker-based
-      with a main-thread bridge. floem's <code>ExtSendTrigger</code>/<code>create_ext_action</code> is the tested reference.</p>
+      <p><strong>T15 ·</strong> The polling tax (corrected 2026-08-30): nine of ten integrations drain the crates' receivers from a 50–100 ms timer pump (iced needs a non-default executor feature just to have a timer). The crates do ship <code>set_event_handler</code> callbacks — the real constraint is that each is a process-global <code>OnceCell</code> (T2), so a framework that claims it leaves the app with the receiver. Delivery must be per-menu callbacks with a main-thread bridge. floem's <code>ExtSendTrigger</code>/<code>create_ext_action</code> is the tested reference.</p>
     </div>
   </details>
 </section>

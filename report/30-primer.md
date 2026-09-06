@@ -245,15 +245,21 @@ constraint.
 - **What the authorship snapshot says:** the dated public history counted 363
   all-time commits from founder Matt Campbell and 174 from Arnold Loubriat,
   versus 14 for the next contributor. Recent work was also concentrated around
-  those two. This is a continuity-risk signal; it does **not** prove that only
-  two people understand the project, that maintainers are unpaid, or that the
-  project is inactive.
+  those two — and by the 2026-08-29 re-check it is concentrated in **one**:
+  Arnold Loubriat has merged every pull request and cut every release since
+  April 2026, while Matt Campbell's last commit was 2026-03-04 (he still
+  reviews). This is a continuity-risk signal; it does **not** prove that
+  only one person understands the project or that the project is inactive.
 - **What the STF evidence says:** the **Sovereign Tech Fund** supported a
   2023–24 GNOME Foundation contract covering related accessibility work,
   including AccessKit/AT-SPI plumbing, and GNOME reported that effort mostly
-  wrapped up by 2025. This audit found no later direct institutional AccessKit
-  grant; personal GitHub Sponsors links remain visible. That is narrower than
-  saying all project funding ended.
+  wrapped up by 2025. **Correction 2026-08-30:** the July audit's "no later
+  direct institutional AccessKit grant" was wrong — NLnet's NGI0 Commons Fund
+  has funded ["iOS support for AccessKit"](https://nlnet.nl/project/AccessKit-iOS/)
+  since 2025-11 (scoped to the iOS adapter, delivered as `accesskit_ios`
+  0.1.0 in May 2026). It is feature funding, not maintenance funding; the
+  repository has no project-level funding channel, and the active
+  maintainer's GitHub Sponsors page lists two individual sponsors.
 - **Why this matters strategically:** AccessKit is active and widely adopted,
   while open work remains around web/canvas support, deeper text-editing
   semantics, and the Linux accessibility substrate (the Wayland-oriented

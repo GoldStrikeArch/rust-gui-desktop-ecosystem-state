@@ -1,0 +1,18 @@
+[package]
+name = "slint-ledger"
+version = "0.1.0"
+edition = "2024"
+
+# Same pin as apps/slint-app; default features (winit backend, femtovg
+# renderer, accessibility/AccessKit).
+[dependencies]
+slint = "=1.17.1"
+# Slint's public Rust API has no clipboard access (only TextInput.copy()/paste()
+# inside a focused field), and row-level TSV copy/paste needs the real one.
+arboard = "=3.6.1"
+
+[build-dependencies]
+slint-build = "=1.17.1"
+
+[profile.release]
+debug = false

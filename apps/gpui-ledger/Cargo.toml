@@ -1,0 +1,15 @@
+[package]
+name = "gpui-ledger"
+version = "0.1.0"
+edition = "2024"
+publish = false
+
+[dependencies]
+# Same pin as apps/gpui-app (SPEC-10 rule). Feature "runtime_shaders": Xcode 26
+# ships no Metal Toolchain, so gpui's shaders are compiled at app startup —
+# see apps/gpui-app/GAPS.md.
+gpui = { version = "=0.2.2", features = ["runtime_shaders"] }
+
+# No helper crates. Money is i64 minor units (exact, no rust_decimal needed),
+# locale parse/format is ~70 hand-written lines, and the text input is the
+# hand-rolled single-line editor in src/cell.rs (gpui ships none).

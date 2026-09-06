@@ -1,0 +1,363 @@
+// Ledger (slint) — SPEC-10 forms & numeric input.
+//
+// Number model: every value that reaches the DSL is already a `string`
+// formatted by Rust for the current locale. Slint's `LineEdit` owns its text
+// and has no numeric type, so the widget<->model contract is
+//   model -> widget : `changed value => le.text = value`  (explicit sync down)
+//   widget -> model : `key-pressed` filter + `edited`/blur/Enter -> callback
+// and all parsing, validation and formatting live in Rust.
+//
+// The typing filter really is a filter: `TextInput.key-pressed` is invoked
+// *before* the character is inserted and returning `accept` swallows it
+// (i-slint-core/items/text.rs:958). `input-type: decimal` exists too but only
+// accepts what `str::parse::<f32>` accepts — no grouping separators — so it
+// cannot be used for a field that displays `1,234.56`.
+
+import { Button, LineEdit, ListView, Palette, CheckBox, ComboBox, Slider, VerticalBox, HorizontalBox, DatePickerPopup, Date } from "std-widgets.slint";
+
+export struct Row {
+    date: string,
+    desc: string,
+    cat: int,
+    qty: string,
+    price: string,
+    amount: string,
+    reimb: bool,
+    neg: bool,      // amount < 0 -> red
+    e-date: bool,
+    e-desc: bool,
+    e-qty: bool,
+    e-price: bool,
+    rev: int,      // bumped by Rust to force a widget re-sync (Esc / undo / paste)
+}
+
+// Columns: 0 date, 1 desc, 2 category, 3 qty, 4 unit price, 5 reimbursable.
+global Cols {
+    out property <[length]> w: [140px, 170px, 180px, 60px, 100px, 100px, 56px];
+    out property <string> mono: "Menlo";
+}
+
+component EditCell inherits Rectangle {
+    in property <int> ri;
+    in property <int> ci;
+    in property <int> kind;        // 0 free text, 1 integer, 2 decimal, 3 date mask
+    in property <string> value;
+    in property <bool> err;
+    in property <int> focus-row;
+    in property <int> focus-col;
+    in property <string> label;
+    in property <int> rev;
+
+    callback commit(int, int, string);
+    callback stepby(int, int, float);
+    callback navigate(int, int, int);
+    callback revert(int, int);
+    callback copy-row(int);
+    callback paste-row(int);
+    pure callback allow(int, string, string) -> bool;
+    callback focused(int, int);
+
+    border-width: 1px;
+    border-radius: 4px;
+    border-color: root.err ? #ef4444 : transparent;
+    // std-widgets' LineEdit carries min-width: 160px, which would blow the
+    // column widths apart inside a HorizontalLayout.
+    min-width: 0px;
+    horizontal-stretch: 0;
+
+    property <bool> want: root.focus-row == root.ri && root.focus-col == root.ci;
+    changed want => { if (root.want) { le.focus(); } }
+    changed value => { if (le.text != root.value) { le.text = root.value; } }
+    changed rev => { if (le.text != root.value) { le.text = root.value; } }
+    init => { le.text = root.value; }
+
+    le := LineEdit {
+        font-family: root.kind == 0 ? "" : Cols.mono;
+        horizontal-alignment: root.kind == 1 || root.kind == 2 ? right : left;
+        accessible-label: root.label;
+        key-pressed(e) => {
+            if (e.text == Key.UpArrow) {
+                root.stepby(root.ri, root.ci, e.modifiers.shift ? 10 : 1);
+                return accept;
+            }
+            if (e.text == Key.DownArrow) {
+                root.stepby(root.ri, root.ci, e.modifiers.shift ? -10 : -1);
+                return accept;
+            }
+            if (e.text == Key.Return) {
+                root.commit(root.ri, root.ci, self.text);
+                root.navigate(root.ri, root.ci, e.modifiers.shift ? -1 : 1);
+                return accept;
+            }
+            if (e.text == Key.Escape) { root.revert(root.ri, root.ci); return accept; }
+            if (e.modifiers.control && e.modifiers.shift && (e.text == "c" || e.text == "C")) {
+                root.copy-row(root.ri);
+                return accept;
+            }
+            if (e.modifiers.control && e.modifiers.shift && (e.text == "v" || e.text == "V")) {
+                root.paste-row(root.ri);
+                return accept;
+            }
+            // Typing filter: Rust decides whether `self.text + e.text` can
+            // still become a number in the active locale. `accept` = swallow.
+            if (root.kind != 0 && !root.allow(root.kind, self.text, e.text)) { return accept; }
+            return reject;
+        }
+        changed has-focus => {
+            if (self.has-focus) {
+                self.select-all();   // spreadsheet convention: focus selects the cell value
+                root.focused(root.ri, root.ci);
+            } else {
+                root.commit(root.ri, root.ci, self.text);
+            }
+        }
+    }
+}
+
+export component MainWindow inherits Window {
+    title: "Ledger (slint)";
+    preferred-width: 860px;
+    preferred-height: 560px;
+    min-width: 700px;
+    min-height: 360px;
+    // LEDGER_TOP=1: keeps the window above the other apps that share this
+    // desktop during scripted verification runs.
+    in property <bool> on-top;
+    always-on-top: root.on-top;
+
+    in property <[Row]> rows;
+    in property <[string]> cats;
+    in property <string> subtotal;
+    in property <string> vat-amount;
+    in property <string> total;
+    in property <string> vat-text;
+    in property <float> vat: 19;
+    in property <string> locale-name: "en-US";
+    in property <int> error-count;
+    in property <string> error-summary;
+    in property <bool> can-undo;
+    in property <string> status;
+    in-out property <int> focus-row: -1;
+    in-out property <int> focus-col: -1;
+
+    callback commit(int, int, string);
+    callback stepby(int, int, float);
+    callback navigate(int, int, int);
+    callback revert(int, int);
+    callback set-cat(int, int);
+    callback type-ahead(int, string);
+    callback set-reimb(int, bool);
+    callback set-vat(float);
+    callback set-vat-text(string);
+    callback toggle-locale();
+    callback undo-edit();
+    callback copy-row(int);
+    callback paste-row(int);
+    callback save();
+    callback picked-date(int, int, int);
+    callback cell-focused(int, int);
+    pure callback allow(int, string, string) -> bool;
+
+    // verification hooks
+    public function focus-cell(r: int, c: int) { root.focus-row = r; root.focus-col = c; }
+    out property <int> rows-len: root.rows.length;
+
+    VerticalBox {
+        padding: 8px;
+        spacing: 6px;
+
+        HorizontalBox {
+            padding: 0px;
+            spacing: 8px;
+            alignment: start;
+            Button {
+                text: "Locale: " + root.locale-name;
+                accessible-label: "Toggle locale";
+                clicked => { root.toggle-locale(); }
+            }
+            Text { text: "VAT %"; vertical-alignment: center; color: Palette.foreground; }
+            Slider {
+                width: 160px;
+                minimum: 0;
+                maximum: 25;
+                step: 0.5;
+                value: root.vat;
+                accessible-label: "VAT percent";
+                changed(v) => { root.set-vat(v); }
+            }
+            vat-edit := LineEdit {
+                width: 80px;
+                font-family: Cols.mono;
+                horizontal-alignment: right;
+                accessible-label: "VAT percent value";
+                text: root.vat-text;
+                edited(t) => { root.set-vat-text(t); }
+            }
+            Button {
+                text: "Pick date…";
+                enabled: root.focus-row >= 0;
+                clicked => { picker.show(); }
+            }
+            Button { text: "Undo edit"; enabled: root.can-undo; clicked => { root.undo-edit(); } }
+            Button { text: "Copy row"; clicked => { root.copy-row(root.focus-row); } }
+            Button { text: "Paste row"; clicked => { root.paste-row(root.focus-row); } }
+            Button {
+                text: root.error-count == 0 ? "Save" : "Save (" + root.error-count + " errors)";
+                enabled: root.error-count == 0;
+                primary: true;
+                clicked => { root.save(); }
+            }
+        }
+
+        // header
+        Rectangle {
+            height: 22px;
+            background: Palette.alternate-background;
+            HorizontalLayout {
+                spacing: 4px;
+                Text { width: Cols.w[0]; text: "Date"; font-weight: 700; vertical-alignment: center; color: Palette.foreground; }
+                Text { width: Cols.w[1]; text: "Description"; font-weight: 700; vertical-alignment: center; color: Palette.foreground; }
+                Text { width: Cols.w[2]; text: "Category"; font-weight: 700; vertical-alignment: center; color: Palette.foreground; }
+                Text { width: Cols.w[3]; text: "Qty"; font-weight: 700; horizontal-alignment: right; vertical-alignment: center; color: Palette.foreground; }
+                Text { width: Cols.w[4]; text: "Unit price"; font-weight: 700; horizontal-alignment: right; vertical-alignment: center; color: Palette.foreground; }
+                Text { width: Cols.w[5]; text: "Amount"; font-weight: 700; horizontal-alignment: right; vertical-alignment: center; color: Palette.foreground; }
+                Text { width: Cols.w[6]; text: "Reimb."; font-weight: 700; horizontal-alignment: center; vertical-alignment: center; color: Palette.foreground; }
+            }
+        }
+
+        ListView {
+            vertical-stretch: 1;
+            for r[i] in root.rows: Rectangle {
+                height: 34px;
+                background: i == root.focus-row ? Palette.alternate-background : transparent;
+                HorizontalLayout {
+                    spacing: 4px;
+                    padding-top: 2px;
+                    padding-bottom: 2px;
+                    EditCell {
+                        width: Cols.w[0]; ri: i; ci: 0; kind: 3; value: r.date; err: r.e-date; rev: r.rev;
+                        label: "Date row " + (i + 1);
+                        focus-row: root.focus-row; focus-col: root.focus-col;
+                        commit(a, b, t) => { root.commit(a, b, t); }
+                        stepby(a, b, d) => { root.stepby(a, b, d); }
+                        navigate(a, b, d) => { root.navigate(a, b, d); }
+                        revert(a, b) => { root.revert(a, b); }
+                        copy-row(a) => { root.copy-row(a); }
+                        paste-row(a) => { root.paste-row(a); }
+                        allow(k, c, ch) => { root.allow(k, c, ch) }
+                        focused(a, b) => { root.cell-focused(a, b); }
+                    }
+                    EditCell {
+                        width: Cols.w[1]; ri: i; ci: 1; kind: 0; value: r.desc; err: r.e-desc; rev: r.rev;
+                        label: "Description row " + (i + 1);
+                        focus-row: root.focus-row; focus-col: root.focus-col;
+                        commit(a, b, t) => { root.commit(a, b, t); }
+                        stepby(a, b, d) => { root.stepby(a, b, d); }
+                        navigate(a, b, d) => { root.navigate(a, b, d); }
+                        revert(a, b) => { root.revert(a, b); }
+                        copy-row(a) => { root.copy-row(a); }
+                        paste-row(a) => { root.paste-row(a); }
+                        allow(k, c, ch) => { root.allow(k, c, ch) }
+                        focused(a, b) => { root.cell-focused(a, b); }
+                    }
+                    // ComboBox has arrow-key selection but no type-ahead; the
+                    // wrapping FocusScope adds it (unhandled keys bubble up).
+                    FocusScope {
+                        width: Cols.w[2];
+                        horizontal-stretch: 0;
+                        key-pressed(e) => {
+                            root.type-ahead(i, e.text);
+                            return reject;
+                        }
+                        ComboBox {
+                            width: parent.width;
+                            height: parent.height;
+                            model: root.cats;
+                            current-index: r.cat;
+                            accessible-label: "Category row " + (i + 1);
+                            selected => { root.set-cat(i, self.current-index); }
+                        }
+                    }
+                    EditCell {
+                        width: Cols.w[3]; ri: i; ci: 3; kind: 1; value: r.qty; err: r.e-qty; rev: r.rev;
+                        label: "Quantity row " + (i + 1);
+                        focus-row: root.focus-row; focus-col: root.focus-col;
+                        commit(a, b, t) => { root.commit(a, b, t); }
+                        stepby(a, b, d) => { root.stepby(a, b, d); }
+                        navigate(a, b, d) => { root.navigate(a, b, d); }
+                        revert(a, b) => { root.revert(a, b); }
+                        copy-row(a) => { root.copy-row(a); }
+                        paste-row(a) => { root.paste-row(a); }
+                        allow(k, c, ch) => { root.allow(k, c, ch) }
+                        focused(a, b) => { root.cell-focused(a, b); }
+                    }
+                    EditCell {
+                        width: Cols.w[4]; ri: i; ci: 4; kind: 2; value: r.price; err: r.e-price; rev: r.rev;
+                        label: "Unit price row " + (i + 1);
+                        focus-row: root.focus-row; focus-col: root.focus-col;
+                        commit(a, b, t) => { root.commit(a, b, t); }
+                        stepby(a, b, d) => { root.stepby(a, b, d); }
+                        navigate(a, b, d) => { root.navigate(a, b, d); }
+                        revert(a, b) => { root.revert(a, b); }
+                        copy-row(a) => { root.copy-row(a); }
+                        paste-row(a) => { root.paste-row(a); }
+                        allow(k, c, ch) => { root.allow(k, c, ch) }
+                        focused(a, b) => { root.cell-focused(a, b); }
+                    }
+                    Text {
+                        width: Cols.w[5];
+                        text: r.amount;
+                        font-family: Cols.mono;
+                        horizontal-alignment: right;
+                        vertical-alignment: center;
+                        color: r.neg ? #ef4444 : Palette.foreground;
+                        accessible-label: "Amount row " + (i + 1);
+                        accessible-value: r.amount;
+                    }
+                    Rectangle {
+                        width: Cols.w[6];
+                        CheckBox {
+                            x: (parent.width - self.width) / 2;
+                            checked: r.reimb;
+                            accessible-label: "Reimbursable row " + (i + 1);
+                            toggled => { root.set-reimb(i, self.checked); }
+                        }
+                    }
+                }
+            }
+        }
+
+        // footer
+        Rectangle {
+            height: 26px;
+            background: Palette.alternate-background;
+            HorizontalLayout {
+                spacing: 4px;
+                Text { horizontal-stretch: 1; text: root.status; vertical-alignment: center; color: Palette.foreground; }
+                Text { width: 90px; text: "Subtotal"; horizontal-alignment: right; vertical-alignment: center; color: Palette.foreground; }
+                Text { width: Cols.w[5]; text: root.subtotal; font-family: Cols.mono; horizontal-alignment: right; vertical-alignment: center; color: Palette.foreground; }
+                Text { width: 50px; text: "VAT"; horizontal-alignment: right; vertical-alignment: center; color: Palette.foreground; }
+                Text { width: Cols.w[5]; text: root.vat-amount; font-family: Cols.mono; horizontal-alignment: right; vertical-alignment: center; color: Palette.foreground; }
+                Text { width: 50px; text: "Total"; horizontal-alignment: right; vertical-alignment: center; color: Palette.foreground; }
+                Text { width: Cols.w[5]; text: root.total; font-family: Cols.mono; font-weight: 700; horizontal-alignment: right; vertical-alignment: center; color: Palette.foreground; }
+                Rectangle { width: 8px; }
+            }
+        }
+
+        if root.error-count > 0: Text {
+            text: root.error-summary;
+            color: #ef4444;
+            wrap: word-wrap;
+        }
+    }
+
+    // Built-in date picker (std-widgets). It is a PopupWindow, so it cannot be
+    // parented to a table cell without one instance per row; a single
+    // window-level instance fills the focused row instead.
+    picker := DatePickerPopup {
+        x: 200px;
+        y: 80px;
+        accepted(d) => { root.picked-date(root.focus-row, d.year, d.month); }
+        canceled => { picker.close(); }
+    }
+}

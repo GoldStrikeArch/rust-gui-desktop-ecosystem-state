@@ -20,7 +20,7 @@ tray-icon visibility on a desktop with a StatusNotifier host, or Wayland
 ## Headline 1 — porting cost is zero at the source level, real at the render path
 
 All 11 tested apps (7 todo + 2 tray + 2 babel) **compiled on Linux with zero
-source changes** (gpui needed one `-dev` package at link time). But the
+source changes** (gpui needed one `-dev` package at link time: `libxkbcommon-x11-dev`). But the
 default render path produced no usable UI for 3 of 5 native stacks on
 software Vulkan (2 crashed outright — iced panicked, xilem aborted — and
 gpui stayed alive showing a black window):
@@ -51,12 +51,10 @@ retained as `linux-results/vkcube-check.png`). A working probe (probe2,
 `linux-results/gpui-epoll-probe2-*`) has now settled the root cause and
 REFUTED the earlier event-loop hypothesis: the X socket fd IS registered in
 the main thread's polled epoll set and is actively read (292 epoll_pwait
-calls and 370 reads on it in a 6 s strace window), and gpui renders and
-submits complete non-black frames — but the X server rejects every one
-with BadMatch, because the software presentation path (Mesa 22.3.6
+calls and 370 reads on it in a 6 s strace window), and gpui renders and submits complete non-black frames (through its Blade/ash Vulkan backend — gpui 0.2.2 does not use wgpu on Linux, which matters for triage since Zed's newer `gpui_wgpu` backend is a different code path) — but the X server rejects every one with BadMatch, because the software presentation path (Mesa 22.3.6
 lavapipe) blits the swapchain via core-protocol PutImage at depth 24 onto
 the depth-32 ARGB window gpui creates (51 PutImage requests → 51 BadMatch
-errors in 6 s), and gpui swallows the errors silently. vkcube renders
+errors in 6 s), and gpui swallows the errors silently (unconditional depth-32 visual at `platform/linux/x11/window.rs:405-411`; `Event::Error` dropped at `client.rs:1262`; decoded from the retained probe 2026-08-30). vkcube renders
 because it uses the default depth-24 visual. Worst-in-round failure mode
 regardless: healthy-looking process, no diagnostics, black window.
 
@@ -83,9 +81,7 @@ visually/order-consistent with the macOS artifact in the observed run** (same
 cosmic-text stack);
 Devanagari conjuncts, Thai stacking, CJK all correct from Noto. Color emoji:
 CBDT **does** render in color (skin tones, 🏳️‍🌈, flags) — but **singleton
-emoji (👍, 😀) render monochrome** because Noto Sans Symbols2/DejaVu shadow
-Noto Color Emoji in fontdb's fallback ordering — a distro-fonts artifact
-invisible on macOS. gpui-babel: unverifiable (black window defect above).
+emoji (👍, 😀) render monochrome** because cosmic-text's hard-coded Unix fallback list (`src/font/fallback/unix.rs:31-48`) places Noto Sans Symbols2 ahead of Noto Color Emoji, with no Emoji_Presentation awareness — so any distro that ships both gets it; upstream pop-os/cosmic-text#327 (open). Invisible on macOS. (Reworded 2026-08-30; the retained crop shows 👍 mono vs 👍🏽 colour.) gpui-babel: unverifiable (black window defect above).
 
 ## What this changes in earlier reports
 

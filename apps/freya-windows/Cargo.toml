@@ -1,0 +1,31 @@
+[package]
+name = "freya-windows"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+# Same pinned version as iteration 1 (apps/freya-app). Default features only:
+# multi-window is first-party (`LaunchConfig::with_window`,
+# `WinitPlatformExt::launch_window/close_window/focus_window/with_window`) and
+# `State::create_global` is the documented cross-window state primitive, so no
+# feature flag is needed for anything in SPEC-9.
+freya = "=0.4.0"
+
+# Helper crates:
+# - rfd: native NSAlert message boxes. Freya depends on rfd internally (for its
+#   release-mode panic dialog) but does not re-export it, and it ships no
+#   message-box API of its own. Used for the Delete confirm and for the
+#   Save/Discard/Cancel prompt inside the `with_on_close` veto hook, which is
+#   the only place a *synchronous* answer is possible.
+# - serde/serde_json: window geometry persistence (both are already in Freya's
+#   dependency tree via accesskit/toml, so they cost nothing extra to build).
+# - async-io: Freya's executor exposes no timer primitive; needed for the 300 ms
+#   Pong flash and for the scripted self-test's waits. Same crate
+#   freya-animation uses for its clock.
+rfd = "=0.17.2"
+serde = { version = "=1.0.229", features = ["derive"] }
+serde_json = "=1.0.151"
+async-io = "=2.6.0"
+
+[profile.release]
+debug = false

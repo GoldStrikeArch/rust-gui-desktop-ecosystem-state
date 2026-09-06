@@ -39,29 +39,20 @@ line does not prove that no request arrived at the handler.
 
 ## The traps (one per framework, again)
 
-- **iced**: `time::every`/network need a non-default executor feature; the
-  default thread-pool executor has **no reactor** — reqwest panics at
-  runtime with no compile-time hint.
-- **egui**: ehttp's `Request::get` sets a default timeout that kills an 8 s
-  stream — must clear it; plain (non-streaming) fetches cannot be aborted.
-- **gpui**: `Application::with_http_client` is an attractive nuisance — the
-  trait ships but the only implementation is a `NullHttpClient` that errors
-  unconditionally (Zed's reqwest client is unpublished).
+- **iced**: the default `futures::executor::ThreadPool` has **no reactor**, so tokio-based clients (reqwest) panic at runtime; enable `features = ["tokio"]`. `iced::time::every` at least fails at compile time behind a documented feature gate. A trap for the reader, not an iced defect (reworded 2026-08-30).
+- **egui**: ehttp's default timeout is 30 s, so it could not have killed the 8 s stream — the app cleared it defensively (corrected 2026-08-30). The real defect found on re-check: ehttp 0.7.1's `fetch_raw_native(with_timeout)` ignores the flag for GET and inverts it for POST/PUT/PATCH (`src/types.rs:389-435`), so streaming GETs are silently capped at 30 s and non-streaming POSTs get no timeout; and plain (non-streaming) fetches cannot be aborted.
+- **gpui**: `Application::with_http_client` is an attractive nuisance — the trait ships but no transport implementation is published; the default is a `NullHttpClient` that errors unconditionally (`gpui_http_client` 0.2.2 adds only blocked/fake clients and decorators; Zed's reqwest client is unpublished).
 - **tauri**: browser `fetch` is **CORS-blocked** from `tauri://localhost`
   against any server you can't add headers to; the sanctioned
   tauri-plugin-http (+51 crates, +5.9 MiB) moves the gate into the capability
   ACL with **URL scopes baked at build time** (a runtime port change needs a
-  rebuild); its fetch shim once froze the webview on a late abort.
+  rebuild); its fetch shim raises an unhandled rejection on a late abort (deterministic: two never-removed abort listeners invoke `fetch_cancel` on an already-freed rid); one run additionally froze the webview (n=1, unexplained).
 - **xilem**: re-exports tokio *without* the `macros` feature — `select!`
   needs a direct tokio dependency.
-- **slint**: `slint::spawn_local` panics ("no reactor running") the moment a
-  reqwest future is polled — disproven by a dedicated probe binary, not just
-  avoided.
+- **slint**: `slint::spawn_local` panics ("no reactor running") the moment a reqwest future is polled — a documented constraint (the `spawn_local` rustdoc prescribes `async_compat::Compat` for tokio futures); confirmed by a dedicated probe binary, not just avoided.
 - **dioxus**: the **occlusion freeze** — an occluded/unactivated window parks
   the entire VirtualDom+task loop (timers *and in-flight downloads* stop);
-  wry 0.53 has `with_background_throttling(Disabled)` but dioxus 0.7.9
-  doesn't plumb it through. Reproduced 3 of 6 runs; deterministic with
-  always-on-top. **Upstream-actionable.**
+  the gate is dioxus-desktop's `poll_vdom`, which waits for the webview's JS to acknowledge each edit batch (`webview.rs:562-566`) before any Rust future is polled, so WebKit's WebContent throttling of an occluded page parks everything; wry 0.53 has `with_background_throttling(Disabled)` but dioxus 0.7.9 doesn't plumb it through (still true in 0.7.10 and 0.8.0-alpha.1). Reproduced 3 of 6 runs; deterministic with always-on-top (that mitigation is n=1). Already tracked upstream as DioxusLabs/dioxus#5586 + PR #5587 (unmerged).
 
 ## Verdict for the initiative
 

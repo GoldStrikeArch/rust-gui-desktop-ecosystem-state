@@ -87,6 +87,4 @@ notification needs).
 - Bad: no window-visibility getter, no window-id/screenshot API (the
   screenshot hook has to park the window at a known position and shell out
   to `screencapture -R`).
-- Bad: like the rest of the cohort, an unbundled cargo binary keeps a Dock
-  icon and there is no reachable `ActivationPolicy::Accessory`, so "hidden
-  to the tray" still shows in the Dock.
+- Bad: an unbundled cargo binary keeps a Dock icon and vizia 0.4 exposes no route to `ActivationPolicy::Accessory` (it builds the winit event loop internally), so "hidden to the tray" still shows in the Dock. (Not "like the rest of the cohort", as an earlier draft said: 6 of 10 frameworks do expose an event-loop-builder hook or a policy setter — see report/19 T13.)

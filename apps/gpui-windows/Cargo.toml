@@ -1,0 +1,15 @@
+[package]
+name = "gpui-windows"
+version = "0.1.0"
+edition = "2024"
+publish = false
+
+[dependencies]
+# Same pin as apps/gpui-app (SPEC-9 rule). Feature "runtime_shaders": Xcode 26
+# ships no Metal Toolchain, so gpui's shaders must be compiled at app startup
+# instead of at build time — see apps/gpui-app/GAPS.md.
+gpui = { version = "=0.2.2", features = ["runtime_shaders"] }
+
+# No helper crates: window persistence is a 4-line text file parsed by hand,
+# the confirm/save dialogs are gpui's own native NSAlert sheets, and the two
+# text inputs are the hand-rolled on_key_down field from apps/gpui-grid.

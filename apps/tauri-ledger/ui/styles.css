@@ -1,0 +1,61 @@
+:root {
+  --bg: #f7f7f8; --fg: #1b1b1f; --panel: #fff; --line: #d9d9df; --muted: #6b6b76;
+  --accent: #2f6fed; --bad: #d33a3a;
+}
+@media (prefers-color-scheme: dark) {
+  :root { --bg:#1e1e22; --fg:#e9e9ee; --panel:#26262c; --line:#3a3a42; --muted:#9a9aa6;
+          --accent:#5b8ef5; --bad:#ff6b6b; }
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0; height: 100vh; display: flex; flex-direction: column;
+  background: var(--bg); color: var(--fg);
+  font: 13px/1.35 -apple-system, "Segoe UI", system-ui, sans-serif;
+}
+.toolbar {
+  display: flex; align-items: center; gap: 8px; padding: 8px 10px;
+  background: var(--panel); border-bottom: 1px solid var(--line);
+}
+.spacer { flex: 1; }
+button {
+  font: inherit; padding: 4px 10px; border: 1px solid var(--line); border-radius: 5px;
+  background: var(--panel); color: var(--fg); cursor: pointer;
+}
+button:disabled { opacity: .45; cursor: default; }
+input, select { font: inherit; color: var(--fg); background: var(--panel);
+  border: 1px solid var(--line); border-radius: 4px; padding: 1px 5px; width: 100%; }
+input:focus-visible, select:focus-visible, button:focus-visible {
+  outline: 2px solid var(--accent); outline-offset: 1px;
+}
+input.bad { border-color: var(--bad); background: color-mix(in srgb, var(--bad) 12%, var(--panel)); }
+.vat { width: 70px; flex: 0 0 70px; }
+#vat-range { width: 150px; flex: 0 0 150px; }
+
+.tablewrap { flex: 1; overflow: auto; }
+table { border-collapse: collapse; width: 100%; }
+th, td { border-bottom: 1px solid var(--line); padding: 1px 6px; text-align: left; }
+thead th { position: sticky; top: 0; background: var(--panel); color: var(--muted);
+  font-weight: 600; z-index: 1; }
+.c-date { width: 120px; } .c-cat { width: 120px; }
+.c-num { width: 108px; text-align: right; }
+.c-chk { width: 62px; text-align: center; }
+td.c-chk input { width: auto; }
+
+/* SPEC-10 §3: right-aligned + tabular figures. Every money value is emitted
+   with exactly two fraction digits, so equal digit advance == the decimal
+   separators line up down the column. */
+.num, td.c-num, tfoot td {
+  text-align: right;
+  font-variant-numeric: tabular-nums lining-nums;
+  font-feature-settings: "tnum" 1, "lnum" 1;
+}
+td.amount.neg { color: var(--bad); }
+tfoot th, tfoot td { position: sticky; bottom: 0; background: var(--panel); }
+tfoot th { text-align: right; color: var(--muted); }
+tfoot tr.total td, tfoot tr.total th { font-weight: 700; color: var(--fg); }
+
+.summary { max-height: 96px; overflow: auto; padding: 6px 10px; color: var(--bad);
+  border-top: 1px solid var(--line); background: var(--panel); }
+.summary:empty { display: none; }
+.hint { padding: 5px 10px; color: var(--muted); border-top: 1px solid var(--line);
+  background: var(--panel); }

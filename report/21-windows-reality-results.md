@@ -37,13 +37,10 @@ screen readers (Phase F pending).
 **28 of 80 apps fail `cargo build --release` as-is** (vs 0 of 11 on Linux in
 report/18) — including **three entire frameworks at 0/8**: tauri (the
 `tauri-build` build script hard-fails on a missing `icons/icon.ico` before
-any app code compiles), freya (`freya-skia-bindings` can't download its
-prebuilt Skia — curl(3), malformed/missing URL for the Windows feature set —
-and the source fallback panics without LLVM/clang-cl), and vizia (all Rust
+any app code compiles), freya (`freya-skia-bindings`' prebuilt-Skia download failed with curl(3) on this machine — a 2026-08-30 re-check found the Windows asset for that feature set *does* exist and downloads with the same curl flags (HTTP 200, 22.3 MB), so the cause is machine-local and unisolated, plausibly the 272-character `--output` path — and the source fallback then panics without LLVM/clang-cl), and vizia (all Rust
 compiles; every link dies LNK1120 on 5 unresolved `__std_*` externals in
 skia-safe 0.93's prebuilt skia.lib — STL helpers added after toolset 14.34).
-All three fall on packaging/distribution infrastructure — an icon resource, a
-prebuilt-binary supply chain, a C++ ABI/STL mismatch — not on framework code.
+All three fall on packaging/distribution infrastructure — an icon resource this repo never committed (our omission; tauri-build errors correctly), a prebuilt-binary download that failed locally, a C++ ABI/STL mismatch — not on framework code.
 Meanwhile the runbook's headline prediction ("the 8 nokhwa-pinned peek apps
 fail to build") mostly **did NOT happen**: iced-peek and slint-peek built and
 ran as-is, egui-peek and xilem-peek built as-is (their deaths were GPU, not
@@ -57,20 +54,19 @@ tauri/freya/vizia framework-wide outages) failed on Apple-only dependencies
 | iced | ✓ 8/8 | ✓ 8/8 | wgpu — zero surface errors; peek builds as-is | — (ladder never fired) |
 | egui | ✓ 8/8 | 3/8 | wgpu/Vulkan: 4× `FailedToCreateSurfaceForAnyBackend` (clean exit 1); 1× hotkey **panic** | `WGPU_BACKEND=dx12` 4/4; tray unrescuable |
 | gpui | 7/8¹ | ✓ 7/7 | in-house Direct3D 11 — no wgpu, zero flakiness | — |
-| tauri | **✗ 0/8** | — | `icons/icon.ico` missing → build-script abort, ~69–82 s each | untried; fix would be one .ico (sources deliberately not patched) |
+| tauri | **✗ 0/8** | — | `icons/icon.ico` missing from our repo → build-script abort, ~69–82 s each (our omission, not a tauri defect) | untried; fix would be one .ico (sources deliberately not patched) |
 | xilem | ✓ 8/8 | 3/8 | 4× surface `.unwrap()` panic in masonry_winit; 1× hotkey **panic** | `WGPU_BACKEND=dx12` 4/4; tray unrescuable |
 | slint | ✓ 8/8 | ✓ 8/8 | FemtoVG/GL — sidesteps the Vulkan lottery; peek builds as-is | — |
 | dioxus | 7/8² | ✓ 7/7 | WebView2 151.0.4129.59, plain | — |
-| freya | **✗ 0/8** | — | prebuilt-Skia download curl(3) + LLVM-less source fallback panic | would require installing LLVM — a demand no other framework makes |
+| freya | **✗ 0/8** | — | prebuilt-Skia download curl(3) on this machine (asset exists upstream; cause unisolated) + LLVM-less source fallback panic | would require installing LLVM — a demand no other framework makes |
 | vizia | **✗ 0/8** | — | LNK1120: 5 unresolved `__std_*` vs prebuilt skia.lib under the 14.34 STL | no cargo knob exists; needs a complete newer toolset or source Skia |
 | floem | 6/8² | **0/6** | every buildable app died on the surface `.unwrap()` | `WGPU_BACKEND=dx12` 6/6 |
 
 ¹ gpui-peek is the confirmed **permanent no-Windows-path** finding:
 `core-foundation` fails E0433/E0432 (`std::os::unix`, `libc::PATH_MAX`) under
-default AND msmf variants — no camera route exists.
+default AND msmf variants — no camera route exists in this crate. Re-check 2026-08-30: `core-foundation`/`objc` sit in gpui-peek's plain `[dependencies]` instead of a `[target.'cfg(target_os = "macos")'.dependencies]` table — our own gating bug, so "permanent no-Windows-path" describes this app, not gpui.
 ² dioxus-peek, floem-babel, floem-peek all die on objc2's compile_error
-("`objc2` only works on Apple platforms") — Apple-only branches reached from
-their feature sets.
+("`objc2` only works on Apple platforms") — `objc2` is an unconditional `[dependencies]` entry in our dioxus-peek, floem-babel and floem-peek crates, not something a framework crate pulls in on Windows; our gating bug (re-check 2026-08-30).
 
 Aggregate: **36 alive+window / 28 build-failed / 16 died / 0 alive-no-window**
 on the default env. iced and slint are the only perfect 8/8-build, 8/8-run
@@ -82,7 +78,7 @@ the fatal step.
 ## Headline 2 — the default GPU path is flaky, not broken; the two real deaths are error-handling culture
 
 Of the 16 default-env launch deaths, **14 are one identical error** —
-`FailedToCreateSurfaceForAnyBackend` from wgpu's Vulkan surface creation
+`FailedToCreateSurfaceForAnyBackend` from wgpu (the retained error carries an *empty* per-backend error map, which points at instance initialisation rather than Vulkan surface creation specifically; no Vulkan-specific error was ever captured — wording softened 2026-08-30)
 (egui-babel/fetch/grid/peek, xilem-babel/fetch/grid/peek,
 floem-app/board/dash/fetch/grid/tray) — and **`WGPU_BACKEND=dx12` rescued all
 14** (12 in results.csv's workaround column; egui-peek and xilem-peek carry
@@ -141,10 +137,7 @@ else — consistent with the macOS re-tessellation finding. gpui-dash is the
 memory floor at **98 MiB** max RSS vs xilem-dash's 495 MiB and dioxus-dash's
 489 MiB ceiling; dioxus-dash carried **6 stable msedgewebview2.exe helper
 processes** (smallest binaries of the campaign at 5.0–6.5 MB exe, paid back
-in helpers). And **notify-rust toasts WORK from a bare unsigned exe**:
-dioxus-tray logged `[tray-notes] notification posted via notify-rust` —
-directly refuting WINDOWS-RUN.md risk #4 (toasts "silently absent" without an
-AUMID/Start-Menu shortcut).
+in helpers). And notify-rust's `show()` **returned `Ok` from a bare unsigned exe**: dioxus-tray logged `[tray-notes] notification posted via notify-rust` — but no toast was observed or captured (stdout/stderr for that run are otherwise empty), so this does *not* refute WINDOWS-RUN.md risk #4 (toasts "silently absent" without an AUMID/Start-Menu shortcut); it only shows the API call succeeds (corrected 2026-08-30).
 
 ## Packaging head-to-head
 

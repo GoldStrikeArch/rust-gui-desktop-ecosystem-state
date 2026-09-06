@@ -1,0 +1,30 @@
+[package]
+name = "freya-ledger"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+# Same pinned version as iteration 1 (apps/freya-app). Default features only.
+#
+# Everything the form needs is first-party: `Input` (with a real typing filter,
+# `on_validate`, whose validator can *reject* a keystroke), `Checkbox`, `Slider`,
+# `Tile`, `ScrollView`, the AccessKit bridge (`a11y_role`/`a11y_alt`/
+# `a11y_builder`) and the Tab/Shift-Tab focus traversal that
+# `freya_components::integration` installs on every window's root.
+# Text clipboard is `freya::prelude::Clipboard` (re-exported from freya-edit),
+# so `arboard` is NOT needed for the TSV row copy/paste.
+freya = "=0.4.0"
+
+# Exact base-10 money. The row model carries `Decimal`, not f64, so
+# Qty x Unit price, the VAT line and the total are exact and round half-up to
+# two places instead of accumulating binary error. Same exact pin as
+# iced-/xilem-/dioxus-/floem-ledger so the cohort measures one version.
+rust_decimal = { version = "=1.39.0", default-features = false, features = ["std"] }
+
+# Freya's executor has no timer primitive; the scripted `LEDGER_SELFTEST=1`
+# pass needs to wait a frame between a programmatic edit and reading back what
+# the tree rendered. Same crate freya-animation uses for its clock.
+async-io = "=2.6.0"
+
+[profile.release]
+debug = false

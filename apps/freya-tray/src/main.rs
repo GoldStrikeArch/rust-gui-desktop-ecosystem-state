@@ -182,10 +182,12 @@ fn install_menubar() {
     let app_sep = PredefinedMenuItem::separator();
     let quit = PredefinedMenuItem::quit(None);
     let _ = app_menu.append_items(&[
-        // NOTE: `PredefinedMenuItem::about(..)` panics inside muda's macOS icon
-        // conversion (`png ... ZeroWidth`) as soon as AppKit realises the menu,
+        // NOTE: `PredefinedMenuItem::about(..)` panicked inside muda's macOS icon
+        // conversion (`png ... ZeroWidth`) as soon as AppKit realised the menu,
         // with or without `AboutMetadata`; in a release build Freya turns that
-        // panic into a modal dialog and exits. Omitted. See FRICTION.md.
+        // panic into a modal dialog and exits. Re-check 2026-08-30: this is almost
+        // certainly the muda use-after-free (muda #233, fixed on main by PR #361,
+        // unreleased) rather than an independent `about()` bug. Omitted. See FRICTION.md.
         &hide,
         &app_sep,
         &quit,

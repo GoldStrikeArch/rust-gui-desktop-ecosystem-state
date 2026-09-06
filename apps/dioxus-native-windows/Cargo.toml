@@ -1,0 +1,40 @@
+# SPEC-9 "Windows" — Dioxus NATIVE (Blitz main), a separate cohort entry from
+# apps/dioxus-windows (same Dioxus 0.7 VirtualDom, wry/tao webview renderer).
+# Here the VirtualDom is rendered by Blitz: Stylo + Taffy + Parley + AccessKit
+# painted through anyrender/Vello-Hybrid, windowed by winit 0.31-beta.
+#
+# `src/app.rs` is NOT copied: main.rs includes apps/dioxus-windows/src/app.rs
+# verbatim with #[path]. Only platform.rs is re-implemented.
+[package]
+name = "dioxus-native-windows"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+# Pinned by git rev: crates.io dioxus-native 0.7.x is Blitz 0.2 (Oct 2025).
+# main @ 2026-08-29, workspace version 0.3.0-beta.2 (blitz-dom 0.3.0-beta.2,
+# stylo 0.20, taffy 0.14, parley 0.11.1, winit =0.31.0-beta.2).
+# Default features kept: accessibility, hot-reload, net, html, svg,
+# system-fonts, clipboard, file-dialog, vello-hybrid, woff, apple-font-embolden.
+dioxus-native = { git = "https://github.com/DioxusLabs/blitz", rev = "64eb27853aa2672486b7edf825fb044be78c9db3", features = ["prelude"] }
+# blitz-shell (same repo + rev, so no version skew) is a REQUIRED extra
+# dependency for this spec, not a convenience: `dioxus_native::launch_cfg` can
+# only ever create ONE window, and the pieces needed to host a second
+# VirtualDom (BlitzApplication / View / WindowConfig / BlitzShellProxy /
+# create_default_event_loop) are re-exported by blitz-shell but NOT by
+# dioxus-native. See FRICTION.md, "second top-level window".
+blitz-shell = { git = "https://github.com/DioxusLabs/blitz", rev = "64eb27853aa2672486b7edf825fb044be78c9db3" }
+# The stable Dioxus facade, so the shared app.rs keeps `use dioxus::prelude::*`.
+dioxus = { version = "=0.7.9", default-features = false, features = ["macro", "html", "hooks", "signals"] }
+# Helper crates — identical set and pins to apps/dioxus-windows (see FRICTION.md):
+# - rfd: the native message box for the Delete confirm (req 8). blitz-shell
+#   already depends on rfd 0.17 (it backs <input type=file>) but re-exports
+#   nothing, so pinning the same version adds zero new crates.
+rfd = { version = "=0.17.2", default-features = false, features = ["xdg-portal"] }
+# - tokio: paces the WINDOWS_SELFTEST script AND supplies the runtime.
+#   `dioxus_native::launch_cfg` builds and enters a multi-thread runtime itself;
+#   this crate does not call it, so platform::launch builds its own.
+tokio = { version = "=1.52.3", features = ["rt-multi-thread", "time"] }
+
+[profile.release]
+# Framework defaults; no size/LTO tuning so measurements are comparable.

@@ -1,0 +1,22 @@
+[package]
+name = "egui-windows"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.92" # egui 0.35 MSRV
+publish = false
+
+# NOT a workspace member (SPEC-9 rule); standalone crate.
+[workspace]
+
+[dependencies]
+# Same pin as iteration 1 (apps/egui-app). Default features only —
+# note that eframe's `persistence` feature is NOT default, so
+# `NativeOptions::persist_window` is inert here (see FRICTION.md).
+eframe = "=0.35.0"
+# Native message boxes. With `set_parent()` rfd's macOS backend uses
+# `NSAlert::beginSheetModalForWindow:` — a real window-modal sheet — which is
+# the only OS-level modality reachable from eframe (FRICTION.md).
+rfd = "=0.17.2"
+# Hand-rolled window-geometry persistence (eframe stores exactly one window).
+serde = { version = "=1.0.228", features = ["derive"] }
+serde_json = "=1.0.150"

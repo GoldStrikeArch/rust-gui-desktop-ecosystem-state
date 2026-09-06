@@ -4,18 +4,12 @@
 //! Freya's first-party `DragZone`/`DropZone` components; everything else is
 //! stock elements plus `use_state` signals.
 
-use std::time::{
-    Duration,
-    Instant,
-};
-
 use freya::{
     animation::*,
     prelude::*,
 };
 
 const COLUMNS: [&str; 3] = ["Todo", "Doing", "Done"];
-const DOUBLE_CLICK: Duration = Duration::from_millis(400);
 /// Height of the "drop at the end of this column" target below the last card.
 const TAIL_ZONE_H: f32 = 140.;
 
@@ -84,7 +78,6 @@ fn app() -> impl IntoElement {
     let mut edit_buffer = use_state(String::new);
     let mut adding = use_state(|| None::<usize>);
     let mut add_buffer = use_state(String::new);
-    let mut last_press = use_state(|| None::<(u64, Instant)>);
 
     let hovered = *drop_slot.read();
     let editing_id = *editing.read();
@@ -143,16 +136,18 @@ fn app() -> impl IntoElement {
                         text: card.text.clone(),
                         column: col_index,
                         index,
-                        on_press: EventHandler::new(move |_| {
-                            // Freya has no double-click event: track the last
-                            // press per card and compare timestamps.
-                            let now = Instant::now();
-                            let is_double = matches!(
-                                *last_press.peek(),
-                                Some((id, at)) if id == card_id && now.duration_since(at) < DOUBLE_CLICK
-                            );
-                            last_press.set(Some((card_id, now)));
-                            if is_double {
+                        on_press: EventHandler::new(move |e: Event<PressEventData>| {
+                            // Freya has no `on_double_click` handler, but it
+                            // ships a multi-press classifier: `EventsCombos::pressed`
+                            // (freya-core `events_combos`, in the prelude) turns
+                            // consecutive presses within 500 ms / 5 px into
+                            // Single / Double / Triple / Quadruple. It is the same
+                            // primitive freya-edit uses for double-click word
+                            // selection, so no app-side timer is needed.
+                            let PressEventData::Mouse(mouse) = &*e else {
+                                return;
+                            };
+                            if EventsCombos::pressed(mouse.global_location).is_double() {
                                 let text = columns
                                     .peek()
                                     .iter()

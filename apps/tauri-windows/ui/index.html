@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="system">
+<head>
+  <meta charset="UTF-8" />
+  <title>Windows (Tauri)</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body data-label="main">
+  <div class="toolbar">
+    <button id="btn-edit">Edit…</button>
+    <button id="btn-inspector">Inspector</button>
+    <button id="btn-prefs">Preferences…</button>
+    <button id="btn-delete">Delete</button>
+    <span class="spacer"></span>
+    <button id="btn-pong">Pong</button>
+  </div>
+  <div class="row head"><span>Name</span><span>Owner</span><span class="c-budget">Budget</span><span>Status</span></div>
+  <div id="rows"></div>
+  <div class="status" id="status"></div>
+  <script src="shared.js"></script>
+  <script src="main.js"></script>
+</body>
+</html>

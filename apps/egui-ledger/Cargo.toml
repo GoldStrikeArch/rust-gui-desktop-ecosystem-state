@@ -1,0 +1,18 @@
+[package]
+name = "egui-ledger"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.92" # egui 0.35 MSRV
+publish = false
+
+# NOT a workspace member (SPEC-10 rule); standalone crate.
+[workspace]
+
+[dependencies]
+# Same pin and default-feature style as iteration 1 (apps/egui-app).
+eframe = "=0.35.0"
+# Table widget (TableBuilder); same repo as egui, so the version tracks it.
+egui_extras = "=0.35.0"
+# Exact base-10 money. f64 cannot represent 0.01, and this spec is an
+# accounting form: Qty x Unit price must round-trip to two places exactly.
+rust_decimal = "=1.39.0"

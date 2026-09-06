@@ -1,0 +1,22 @@
+# SPEC-9 "Windows" — Dioxus. Same pinned framework version as iteration 1
+# (apps/dioxus-app): 0.7.9 with the "desktop" (wry/tao webview) renderer.
+# Built/run with plain cargo; the dx CLI is not used.
+[package]
+name = "dioxus-windows"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+dioxus = { version = "=0.7.9", features = ["desktop"] }
+# Helper crates (each one is a finding — see FRICTION.md):
+# - rfd: the native message box for the Delete confirm (req 8). dioxus-desktop
+#   already depends on rfd 0.17 internally (it backs <input type=file>) but
+#   re-exports nothing, so pinning the same version adds zero new crates.
+rfd = { version = "=0.17.2", default-features = false, features = ["xdg-portal"] }
+# - tokio (time only): paces the WINDOWS_SELFTEST script. dioxus-desktop runs
+#   the VirtualDom on a tokio runtime but re-exports no timer (iteration-2
+#   finding, repeated in every Dioxus app in this corpus).
+tokio = { version = "=1.52.3", features = ["time"] }
+
+[profile.release]
+# Framework defaults; no size/LTO tuning so measurements are comparable.

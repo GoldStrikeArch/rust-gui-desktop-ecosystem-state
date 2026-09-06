@@ -1,0 +1,34 @@
+[package]
+name = "vizia-ledger"
+version = "0.1.0"
+edition = "2024"
+
+# Same pinned version as iteration 1 (apps/vizia-app). Default features only
+# — `["winit", "clipboard", "x11", "wayland", "markdown", "accesskit"]`:
+#   * `winit`     — desktop windowing backend.
+#   * `clipboard` — REQUIRED here: `EventContext::{get,set}_clipboard` is what
+#                   implements SPEC-10's TSV row copy/paste, so no `arboard`.
+#   * `x11`/`wayland` — Linux-only, no-ops on macOS.
+#   * `markdown`  — default-on; unused here.
+#   * `accesskit` — default-on; the source of the `role`/`name`/`text_value`
+#                   modifiers used for the accessibility row.
+# `Textbox` (with `validate` / `on_edit` / `on_submit` / `on_cancel`),
+# `ComboBox` (type-ahead), `Calendar` (a real date picker), `Slider`,
+# `Checkbox`, `Dropdown` and Tab traversal (`navigable`) are all core views.
+[dependencies]
+vizia = "=0.4.0"
+
+# Exact decimal money. `f64` cannot represent 0.01 and SPEC-10 asks for
+# 2-decimal prices, VAT percentages and totals that must add up; `Decimal`
+# is a 96-bit integer + scale, so Qty x Unit price and the VAT split are
+# exact. `maths` is not needed — only add/mul/round/parse are used.
+rust_decimal = { version = "=1.42.1", default-features = false, features = ["std"] }
+
+# `NaiveDate` for the Date column's picker. vizia_core ALREADY depends on
+# chrono (its `Calendar` view is generic over `chrono::Datelike`), so this
+# is the same crate version already in the tree and adds nothing to the
+# build; it just makes the type nameable from application code.
+chrono = { version = "=0.4.45", default-features = false, features = ["std", "clock"] }
+
+[profile.release]
+debug = false

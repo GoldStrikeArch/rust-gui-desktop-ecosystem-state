@@ -1,0 +1,27 @@
+[package]
+name = "slint-windows"
+version = "0.1.0"
+edition = "2024"
+
+# Same pin as apps/slint-app. Extra feature `raw-window-handle-06`: needed to
+# reach the NSWindow behind a Slint window so the edit dialog can be presented
+# as a REAL macOS sheet (-[NSWindow beginSheet:completionHandler:]) and the
+# inspector can be made a real child window (-[NSWindow addChildWindow:ordered:]).
+# Slint itself has no modality and no parenting API.
+[dependencies]
+slint = { version = "=1.17.1", features = ["raw-window-handle-06"] }
+# Native message box for the Delete confirmation (Slint ships none).
+rfd = "=0.15.4"
+# rwh 0.6 types, to match slint's `raw-window-handle-06` feature.
+raw-window-handle = "=0.6.2"
+
+[target.'cfg(target_os = "macos")'.dependencies]
+# Objective-C message sends for beginSheet:/endSheet:/addChildWindow: — the
+# two macOS window-model concepts (modality, parenting) Slint does not model.
+objc2 = "=0.5.2"
+
+[build-dependencies]
+slint-build = "=1.17.1"
+
+[profile.release]
+debug = false

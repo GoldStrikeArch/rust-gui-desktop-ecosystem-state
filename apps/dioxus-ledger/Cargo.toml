@@ -1,0 +1,25 @@
+# SPEC-10 "Ledger" — Dioxus. Same pinned framework version as iteration 1
+# (apps/dioxus-app): 0.7.9 with the "desktop" (wry/tao webview) renderer.
+# Built/run with plain cargo; the dx CLI is not used.
+[package]
+name = "dioxus-ledger"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+dioxus = { version = "=0.7.9", features = ["desktop"] }
+# Helper crates (each one is a finding — see FRICTION.md):
+# - rust_decimal: exact base-10 money arithmetic (Qty x Unit price, VAT,
+#   totals). f64 cannot represent 0.01 exactly, and the spec's rounding /
+#   two-decimal formatting has to be exact.
+rust_decimal = { version = "=1.39.0", default-features = false, features = ["std"] }
+# - arboard: system clipboard for row copy/paste as TSV. The webview's native
+#   clipboard only covers text *inside* an input; a whole-row TSV copy needs
+#   the OS pasteboard directly (same finding as apps/dioxus-tray).
+arboard = "=3.6.1"
+# - tokio (time only): paces the LEDGER_SELFTEST script; dioxus runs on tokio
+#   but re-exports no timer.
+tokio = { version = "=1.52.3", features = ["time"] }
+
+[profile.release]
+# Framework defaults; no size/LTO tuning so measurements are comparable.

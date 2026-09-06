@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="system">
+<head>
+  <meta charset="UTF-8" />
+  <title>Preferences</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body data-label="prefs">
+  <div class="form" style="grid-template-columns: 1fr">
+    <label><input type="checkbox" id="compact" /> Compact rows</label>
+    <div>
+      Theme:
+      <label><input type="radio" name="theme" value="light" /> Light</label>
+      <label><input type="radio" name="theme" value="dark" /> Dark</label>
+      <label><input type="radio" name="theme" value="system" /> System</label>
+    </div>
+  </div>
+  <div class="note">Applies to every open window immediately.</div>
+  <script src="shared.js"></script>
+  <script src="prefs.js"></script>
+</body>
+</html>

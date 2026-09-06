@@ -1,0 +1,30 @@
+[package]
+name = "vizia-windows"
+version = "0.1.0"
+edition = "2024"
+
+# Same pinned version as iteration 1 (apps/vizia-app). Default features only
+# — `["winit", "clipboard", "x11", "wayland", "markdown", "accesskit"]`:
+#   * `winit`     — desktop windowing backend; the only backend with a
+#                   multi-window story (`baseview` is for plugin windows).
+#   * `clipboard` — default-on; used by the modal's Textboxes.
+#   * `x11`/`wayland` — Linux-only, no-ops on macOS.
+#   * `markdown`  — default-on; unused here.
+#   * `accesskit` — default-on platform accessibility tree.
+# Sub-windows (`Window::new` / `Window::popup`), the `WindowModifiers`
+# (title/inner_size/position/anchor/always_on_top/on_close/on_create),
+# `WindowEvent::WindowClose` interception, `Keymap`/`KeyChord` and the
+# `ModifyWindow` escape hatch to the raw `winit::window::Window` are all in
+# core + vizia_winit, so the only helper crate is the native message box.
+[dependencies]
+vizia = "=0.4.0"
+
+# Native message box for the Delete confirm and the Save/Discard/Cancel
+# close prompt. vizia ships no dialog API of any kind (not even an alert),
+# and the blocking `MessageDialog` is used because vizia has no executor to
+# await an async dialog on and `Model::event` already runs on the main
+# thread. Same version as apps/vizia-tray.
+rfd = "=0.17.2"
+
+[profile.release]
+debug = false

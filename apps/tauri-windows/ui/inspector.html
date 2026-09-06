@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="system">
+<head>
+  <meta charset="UTF-8" />
+  <title>Inspector</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body data-label="inspector">
+  <div class="form">
+    <label for="f-name">Name</label><input id="f-name" type="text" />
+    <label for="f-owner">Owner</label><input id="f-owner" type="text" />
+    <label for="f-budget">Budget</label><input id="f-budget" type="text" />
+    <label for="f-status">Status</label>
+    <select id="f-status"><option>Open</option><option>Closed</option></select>
+  </div>
+  <div class="buttons"><button id="btn-ping">Ping</button></div>
+  <div class="note" id="note"></div>
+  <script src="shared.js"></script>
+  <script src="inspector.js"></script>
+</body>
+</html>

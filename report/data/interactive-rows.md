@@ -87,7 +87,7 @@ board:
 ```
 
 SURPRISES:
-- Dioxus mouse events carry offset coordinates but NO target-element geometry, and no sync getBoundingClientRect — the single biggest DnD pain; solved with invisible half-overlays per card.
+- Dioxus mouse events carry offset coordinates (element_coordinates()) but not the target's size, and no sync getBoundingClientRect (the rect is only reachable asynchronously via onmounted -> MountedData::get_client_rect(), the same shape as the DOM) — the single biggest DnD pain; solved with invisible half-overlays per card. (Softened 2026-08-30: an earlier draft said 'no target-element geometry'.)
 - key: attributes are silently ignored unless on the first node of a block — surfaced only as a deprecation-style warning; would have silently broken list diffing and the drop animation.
 - onresize (ResizeObserver-backed, 0.6+) fires on mount too — exact chart pixel width with zero JS; both apps' full interactive surface worked on first successful compile.
 - Framework ships tokio internally but re-exports no timer — 10 Hz ticker requires adding tokio yourself.
@@ -170,7 +170,7 @@ board:
     within_column_reorder: {rating: hand-rolled, note: "Free once cross-column exists — same remove→retarget→insert path."}
     drop_indicator: {rating: assembled, note: "4px accent container injected at target index (~10 LoC)."}
     drag_ghost: {rating: assembled, note: "pin(ghost) in a root stack following cursor. Ghost is non-interactive so it never steals hover from drop targets."}
-    inline_edit: {rating: assembled, note: "on_double_click built-in; Enter via on_submit; focus via operation::focus(id). SHARP EDGE: text_input CAPTURES Escape so keyboard::listen() never fires — needs raw event::listen_with."}
+    inline_edit: {rating: assembled, note: "on_double_click built-in; Enter via on_submit; focus via operation::focus(id). SHARP EDGE: text_input captures Escape (text_input.rs:1235-1243), and iced::event::listen() is documented to deliver uncaptured events only, so it never sees it — needs raw event::listen_with. Documented behaviour, not a defect; the real gap is a missing on_escape hook (adjacent: iced#2678). Corrected 2026-08-30."}
     add_delete: {rating: built-in, note: "Standard Elm CRUD."}
     animation: {rating: hand-rolled, note: "No layout/FLIP animation exists — reorder snaps; landed card plays 200ms settle pop via Animation + float (approximation per fallback rule)."}
     column_scroll: {rating: built-in, note: "One scrollable per lane; mouse_area coords stay correct inside scrolled viewports — DnD needed zero offset math."}
@@ -365,27 +365,27 @@ board:
     within_column_reorder: {rating: built-in, evidence: synthetic-input, note: "Same mechanism — every card is wrapped in a DropZone meaning 'insert before me', with an index correction when the source was earlier in the same column. Observed: card dragged from Doing index 2 to index 0."}
     drop_indicator: {rating: assembled, evidence: synthetic-input, note: "DropZone::on_drag_over(bool) fires on enter/leave ONLY while a drag of that payload type is in flight — exactly the signal you want. It drives a drop_slot signal and a 4→6 px pill between cards (~20 LoC)."}
     drag_ghost: {rating: built-in, evidence: synthetic-input, note: "DragZone::drag_element(..) renders any element at the cursor, offset by the grab point, on Layer::Overlay with interactive(false) — which correctly propagates to children, so the ghost never eats the drop. show_while_dragging(true) keeps the original in place. Zero code beyond describing the ghost."}
-    inline_edit: {rating: hand-rolled, evidence: synthetic-input, note: "Freya 0.4 has NO double-click event — no on_double_click, no click count in MouseEventData — so it is emulated by remembering (card_id, Instant) of the last press against a 400 ms window. Enter is Input::on_submit; Escape needs Input::on_pre_key_down, which REPLACES the widget's stock key filter, so the app must re-implement the default arms (Enter/Shift pass, Tab skip, everything else stop_propagation + prevent_default) around its own Escape case."}
+    inline_edit: {rating: assembled, evidence: synthetic-input, note: "Freya 0.4 has no on_double_click handler and no click count in MouseEventData, but ships a first-party multi-press classifier — EventsCombos::pressed(location) -> PressEventType::{Single,Double,Triple,Quadruple} (freya-core events_combos, in the prelude; 500 ms / 5 px) — the same primitive freya-edit uses for double-click word selection. The kanban calls it from on_press (two lines). CORRECTION 2026-08-30: the first implementation missed it and timed presses by hand; fixed after the Freya maintainer pointed it out; re-verified with synthetic CGEvents (double-click opens editor, single click does not, typing+Enter commits). Enter is Input::on_submit; Escape needs Input::on_pre_key_down, which REPLACES the widget's stock key filter, so the app must re-implement the default arms (Enter/Shift pass, Tab skip, everything else stop_propagation + prevent_default) around its own Escape case."}
     add_delete: {rating: built-in, evidence: synthetic-input, note: "Button + a per-column adding: Option<usize> signal that swaps the button for an auto_focus(true) Input; delete is .on_press on a 20×20 rect carrying a11y_role(Button) + a11y_alt."}
     animation: {rating: built-in, evidence: observed, note: "use_animation_with_dependencies(&(column, index), ..) with OnChange::Rerun replays an AnimNum scale-in (0.94→1.0, 180 ms, Ease::Out/Function::Back) whenever a card's position changes — i.e. exactly on drop. No frame scheduling, no Instant threading. No layout/FLIP animation, so neighbours snap into their new slots instead of sliding; the moved card is the only thing that animates (documented gap)."}
     column_scroll: {rating: built-in, evidence: synthetic-input, note: "One ScrollView per column."}
   traps:
     - "`Ref` held across a write() ABORTS the app behind a modal dialog. State::peek()/read() return a Ref; writing to the same signal while one is alive panics, and a UI-thread panic surfaces as a blocking CFUserNotificationDisplayAlert 'Fatal Error' panel that freezes the app (window keeps its last frame, every later event queues behind the modal). The trap is `if let Some(x) = *state.peek() { state.write() … }` — the scrutinee temporary is still alive inside the body."
     - "DropZone cannot cover a container's slack space: it renders rect().width(auto).height(auto) around its child and exposes no size setters, so 'drop anywhere in the empty part of this column' cannot be expressed by sizing a zone (this app uses an explicit 140 px tail zone). The obvious alternative — use_drag::<T>() + on_mouse_up on the column rect — did NOT work: an on_mouse_up listener on an ancestor never fired for clicks in the empty area while on_pointer_down on the same rect fired every time."
-    - "Size::flex silently no-ops: a child sized Size::flex(1.) collapses unless the PARENT opts into .content(Content::flex()). No warning; the first build rendered a single full-width column."
+    - "Size::flex is silently ignored without Content::flex(): a child sized Size::flex(1.) behaves like fill (evaluates to the full parent extent) unless the PARENT opts into .content(Content::flex()). No warning, undocumented pairing; the first build rendered a single full-width column. (Corrected 2026-08-30: 'collapses' → 'fills'.)"
 ```
 
 SURPRISES:
 - Drag-and-drop is a first-party TYPED component pair (DragZone/DropZone) with a working ghost and an on_drag_over hook — the least code of any framework in this study for both a sortable dashboard and a cross-container kanban (~30-35 LoC each).
 - use_animation needs no frame scheduling from the app at all, and use_animation_with_dependencies makes "animate when this thing moved" a two-line declaration.
 - on_press unifies mouse/touch/keyboard activation and every element has AccessKit fields (a11y_role, a11y_alt) inline, so a11y is not a separate data model.
-- Against that: canvases silently never repaint unless they carry an event handler, Slider is percentage-only, Input is single-line, there is no double-click event, and a trivial borrow mistake becomes a frozen app behind a system alert.
+- Against that: canvases silently never repaint unless they carry an event handler, Slider is percentage-only, Input is single-line (multiline fixed on freya main #2192, unreleased), double-click is an undocumented classifier call (`EventsCombos::pressed`) rather than an event, and a trivial borrow mistake becomes a frozen app behind a system alert.
 - Debug builds silently inject freya-performance-plugin's FPS overlay (cfg(debug_assertions) inside freya::prelude::launch), which is confusing the first time you see it.
 
 TIME_SINK:
 - Canvas staleness: diagnosing why sparklines froze while the main chart updated (the difference was the presence of event handlers).
 - Skia API archaeology (PathBuilder vs Path, Color→SkColor, ctx.size already divided by the scale factor).
-- The empty-column drop target — three attempts, including the Ref-across-write panic that hung the app behind a modal alert — plus double-click emulation and re-implementing Input's default key filter to get Escape.
+- The empty-column drop target — three attempts, including the Ref-across-write panic that hung the app behind a modal alert — plus re-implementing Input's default key filter to get Escape (and, in the first version, hand-timing double-clicks before finding `EventsCombos::pressed` — corrected 2026-08-30).
 
 ## vizia
 
@@ -503,7 +503,7 @@ SURPRISES:
 - Built-in drag-and-drop with an automatic ghost and a spring release is unique among the frameworks measured: the spec's hardest capability was the easiest cell in both apps, and cross-container DnD costs exactly the same as within-container.
 - Signal-tracked canvas paint closures give reactive repaint for custom drawing with zero bookkeeping — the whole cache/invalidation layer iced needed simply does not exist here.
 - Real text measurement (TextLayout::size()) is usable inside canvas code, which is what lets the tooltip box be sized correctly rather than estimated from character counts.
-- A typed DoubleClick listener exists (several frameworks make you hand-time double clicks).
+- A typed DoubleClick listener exists (the only framework in the cohort whose first implementation hand-timed double clicks was freya, and that turned out to be a missed built-in).
 - Against that: no interval timer primitive (the framework's own example hand-rolls a re-arming exec_after chain), no transactional drop or FLIP reflow animation, and heavy doc/example drift on `main` — deprecated constructors everywhere the docs still use them, and in-source doc examples that don't compile against the same rev.
 
 TIME_SINK:

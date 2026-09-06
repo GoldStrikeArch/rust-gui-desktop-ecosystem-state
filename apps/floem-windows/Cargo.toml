@@ -1,0 +1,30 @@
+# Same git pin as apps/floem-app (see the DEVIATION note there): floem's
+# crates.io release (0.2.0, Nov 2024) is stale and the maintained `main`
+# cannot be published because it depends on the forked `floem-winit` via git.
+# Rev 778bb5f2 (2026-06-21) is pinned identically across all floem apps.
+#
+# SPEC-9 helper crates:
+# - rfd: native NSAlert message boxes (Delete confirm + the Save/Discard/
+#   Cancel close prompt). floem ALREADY depends on rfd 0.17.1 internally
+#   (`floem::open_file`/`save_as` wrap it), so pinning =0.17.2 unifies to a
+#   single rfd in the tree — no second dialog stack is compiled in. floem
+#   exposes no message-box wrapper of its own, only the file-dialog ones.
+# - raw-window-handle + objc2: the ONLY route to the two OS window relations
+#   floem/winit cannot express — `-[NSWindow beginSheet:completionHandler:]`
+#   (a real macOS window-modal sheet for the Edit dialog) and
+#   `-[NSWindow addChildWindow:ordered:]` (parent/owner for the Inspector),
+#   plus `makeKeyAndOrderFront:` for singleton focus-the-existing-window.
+#   Reached through `WindowIdExt::with_window_handle`, the backend-neutral
+#   handle accessor added in the pinned rev. Same pair floem-babel/-peek use.
+# No serde: window geometry persists as a 5-token-per-line text file (25 LoC).
+
+[package]
+name = "floem-windows"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+floem = { git = "https://github.com/lapce/floem", rev = "778bb5f2aa08429e579ee2e6ac97e84fbf18b618" }
+rfd = "=0.17.2"
+raw-window-handle = "=0.6.2"
+objc2 = "=0.6.3"

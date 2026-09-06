@@ -1,0 +1,31 @@
+[package]
+name = "iced-windows"
+version = "0.1.0"
+edition = "2024"
+
+# Same pinned framework version as iteration 1 (apps/iced-app).
+# Default features are enough: multi-window is `iced::daemon`, which is part
+# of the default surface. No executor feature is needed — the 300 ms Pong
+# flash and the self-test delays are `Task::future` + `thread::sleep` on
+# iced's default thread-pool executor (`iced::time::every` would have forced
+# the `smol`/`tokio` feature; see apps/iced-dash/FRICTION.md).
+[dependencies]
+iced = "=0.14.0"
+
+# Native message boxes. iced has no dialog API of any kind; rfd's async
+# NSAlert composes with `Task::perform` (same pattern as apps/iced-tray).
+rfd = "=0.17.2"
+
+# Window position/size persistence (a JSON file next to the binary).
+serde = { version = "=1.0.229", features = ["derive"] }
+serde_json = "=1.0.151"
+
+# macOS-only, for the two things iced 0.14 cannot express at all:
+#   * real window parenting  — NSWindow addChildWindow:ordered:
+#   * real window modality   — NSWindow beginSheet:completionHandler:
+# Reachable because `iced::window::run` hands us a `&dyn Window`
+# (raw-window-handle) on the main thread. Without this the app falls back to
+# `window::enable_mouse_passthrough` + `Level::AlwaysOnTop` (set
+# WINDOWS_NO_SHEET=1 to measure that path).
+[target.'cfg(target_os = "macos")'.dependencies]
+objc2 = "=0.6.4"

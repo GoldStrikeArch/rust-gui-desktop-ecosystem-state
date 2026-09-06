@@ -1,0 +1,22 @@
+[package]
+name = "iced-ledger"
+version = "0.1.0"
+edition = "2024"
+
+# Same pinned framework version as iteration 1 (apps/iced-app). Default
+# features only: text_input / combo_box / checkbox / slider are all part of
+# the default widget set, and this app has no timers and no async work, so
+# neither the `smol` nor the `tokio` executor feature is needed.
+[dependencies]
+# `advanced`: the ONLY way to ask iced which widget currently has focus is
+# `operation::focusable::find_focused()`, and the function that runs a raw
+# `Operation` (`iced::advanced::widget::operate`) is behind this feature flag.
+# `iced::widget::operation` (unflagged) exposes focus/focus_next/is_focused but
+# not find_focused. Needed for click-to-focus and blur detection.
+iced = { version = "=0.14.0", features = ["advanced"] }
+
+# Money. f64 cannot represent 0.01 and this spec is explicitly about
+# accounting-style input; `Decimal` gives exact 2-place arithmetic, `round_dp`
+# and a `Display` impl that honours `{:.2}`. default-features = false drops the
+# optional serde/database integrations (nothing here serialises).
+rust_decimal = { version = "=1.39.0", default-features = false, features = ["std"] }

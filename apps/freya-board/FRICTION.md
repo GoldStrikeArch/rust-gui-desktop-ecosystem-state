@@ -14,7 +14,7 @@ against window-scoped screenshots**, not asserted by construction.
 | Within-column reorder | **built-in** | Same mechanism — every card is wrapped in a `DropZone` that means "insert *before* me", and the index is corrected when the source was earlier in the same column. Observed: card dragged from Doing index 2 to index 0. |
 | Drop indicator | **assembled** | `DropZone::on_drag_over(bool)` fires on enter/leave *only while a drag of that payload type is in flight*, which is exactly the signal you want; it drives a `drop_slot` signal, and a 4→6 px pill between cards paints accent when it matches. ~20 LoC. |
 | Drag ghost/preview | **built-in** | `DragZone::drag_element(...)` renders any element at the cursor, offset by the grab point, on `Layer::Overlay` with `interactive(false)` (which correctly propagates to children, so the ghost never eats the drop). `show_while_dragging(true)` keeps the original in place. Zero code beyond describing the ghost. |
-| Inline edit (dbl-click, Enter/Esc) | **hand-rolled** | Freya 0.4 has **no double-click event** — no `on_double_click`, no click count in `MouseEventData`. Implemented by remembering `(card_id, Instant)` of the last press and comparing against a 400 ms window. Enter is `Input::on_submit`; Escape needs `Input::on_pre_key_down`, which *replaces* the widget's stock key filter, so the app has to re-implement the default arms (`Enter`/`Shift` → pass, `Tab` → skip, everything else → `stop_propagation` + `prevent_default`) around its own Escape case. Observed: double-click opened the editor, typing + Enter committed ("v2Collect binary sizes"), Escape on the add-card editor cancelled it. |
+| Inline edit (dbl-click, Enter/Esc) | **assembled** | Freya 0.4 has no `on_double_click` handler and no click count in `MouseEventData`, but it does ship a first-party multi-press classifier: `EventsCombos::pressed(location) -> PressEventType::{Single, Double, Triple, Quadruple}` (freya-core `events_combos`, re-exported in the prelude; 500 ms / 5 px window). It is the same primitive freya-edit uses for double-click word selection and `WindowDragExt` uses for double-click-to-maximize. The kanban calls it from `on_press` with the `MouseEventData::global_location`, two lines. **Correction 2026-08-30:** the first version of this app missed the classifier and timed presses itself ("no double-click event"); the Freya maintainer pointed to `PressEventType`/`EventsCombos::pressed`, and the app, this file and the report rows were updated. Discoverability note: the classifier is not mentioned in the event-handler docs, and neither the `on_press` docs nor `MouseEventData` link to it; `events_combos.rs` has no doc comments. Latent Freya inconsistency worth an upstream note: the classifier's global state is fed *element-relative* coordinates by `Input`/`SelectableText` but *global* coordinates by `WindowDragExt` (and this app), so two presses in different coordinate spaces can collide within the 5 px threshold. Also observed: blurring the editor (clicking elsewhere) neither commits nor cancels — the editor stays open until Enter/Escape, and Escape only works while the input has focus. Enter is `Input::on_submit`; Escape needs `Input::on_pre_key_down`, which *replaces* the widget's stock key filter, so the app has to re-implement the default arms (`Enter`/`Shift` → pass, `Tab` → skip, everything else → `stop_propagation` + `prevent_default`) around its own Escape case. Observed: double-click opened the editor, typing + Enter committed ("v2Collect binary sizes"), Escape on the add-card editor cancelled it. |
 | Add/delete cards | **built-in** | `Button` + a per-column `adding: Option<usize>` signal that swaps the button for an `auto_focus(true)` `Input`; delete is `.on_press` on a 20×20 rect carrying `a11y_role(Button)` + `a11y_alt`. Observed working. |
 | Drop/reorder animation | **built-in** | `use_animation_with_dependencies(&(column, index), …)` with `OnChange::Rerun` replays an `AnimNum::new(0.94, 1.0).time(180).ease(Ease::Out).function(Function::Back)` scale-in whenever a card's position changes — i.e. exactly on drop. No frame scheduling, no `Instant` threading. There is **no layout/FLIP animation**, so neighbours snap into their new slots instead of sliding; the moved card is the only thing that animates (documented gap). |
 | Independent column scrolling | **built-in** | One `ScrollView` per column. |
@@ -32,21 +32,12 @@ value into a local first. Worth knowing that the failure mode is a hung window
 plus a system alert rather than a stderr backtrace.
 
 **2. `DropZone` cannot cover a container's slack space.**
-`DropZone` renders `rect().width(Size::auto()).height(Size::auto())` around its
-child and exposes **no width/height setters**, so it always shrink-wraps. "Drop
+`DropZone` renders `rect().width(Size::auto()).height(Size::auto())` around its child and exposes **no width/height setters**, so it always shrink-wraps (fixed on freya `main` by #2151 / issue #2147, unreleased as of 2026-08-30). "Drop
 anywhere in the empty part of this column" therefore cannot be expressed by
 sizing a zone; this app gives each column an explicit 140 px tail zone below the
-last card instead. The obvious alternative — handling the drop by hand on the
-column rect via `use_drag::<T>()` + `on_mouse_up` — did **not** work: an
-`on_mouse_up` listener on an ancestor rect never fired for clicks in the
-column's empty area, while `on_pointer_down` on the same rect fired every time
-(logged from a debug build). Bubbling for released events looks unreliable
-outside the `DropZone` path; the built-in components work, so this is filed as
-a limitation rather than a hard blocker.
+last card instead. The obvious alternative — handling the drop by hand on the column rect via `use_drag::<T>()` + `on_mouse_up` — did **not** work in this app: an `on_mouse_up` listener on an ancestor rect never fired for clicks in the column's empty area, while `on_pointer_down` on the same rect fired every time (logged from a debug build). **Re-check 2026-08-30:** a source trace of freya-core's dispatch (ragnarok + runner) found no mechanism for a `MouseUp`-vs-`PointerDown` asymmetry in an empty area, so that observation is *unconfirmed* and may have been an app-side layering effect. The verified mechanism nearby is different: `DropZone` calls `stop_propagation()` unconditionally on mouse-up (`drag_drop.rs:215`, before checking whether a drag is in flight), which swallows any ancestor `on_mouse_up` for clicks that land *inside* a `DropZone` — filed upstream. The built-in components work, so this stays a limitation rather than a hard blocker.
 
-**3. `Size::flex` silently no-ops.** A child sized `Size::flex(1.)` collapses
-unless the *parent* opts into `.content(Content::flex())`. There is no warning;
-the first build of this app rendered a single full-width column.
+**3. `Size::flex` is silently ignored without `Content::flex()`.** A child sized `Size::flex(1.)` behaves like `fill` — torin evaluates it to the full available parent extent (`size.rs:273`) — unless the *parent* opts into `.content(Content::flex())` (`measure.rs:644,673`). There is no warning and the rustdoc never mentions the pairing; the first build of this app rendered a single full-width column. (Wording corrected 2026-08-30: "collapses" → "fills".)
 
 ## Helper crates
 
@@ -59,7 +50,7 @@ inputs, buttons and animation. `freya::animation` is compiled in unconditionally
 1. **The empty-column drop target** — three attempts (column-level
    `on_mouse_up`, `on_pointer_press`, then the explicit tail zone), including
    the `Ref`-across-`write` panic that made the app hang behind a modal alert.
-2. Double-click emulation and re-implementing `Input`'s default key filter to
+2. Re-implementing `Input`'s default key filter to
    get Escape.
 3. `Content::flex()` discovery.
 
@@ -70,7 +61,7 @@ inputs, buttons and animation. `freya::animation` is compiled in unconditionally
   cross-container kanban.
 - Good: `use_animation_with_dependencies` makes "animate when this thing moved"
   a two-line declaration.
-- Bad: no double-click; `Input` is single-line only and its key handling is
+- Bad: double-click is a classifier call you have to know about, not an event; `Input` is single-line only (multiline fixed on freya `main`, #2192, unreleased) and its key handling is
   all-or-nothing.
 - Bad: the panic-to-modal-dialog behaviour, which turns a small borrow mistake
   into a frozen app.

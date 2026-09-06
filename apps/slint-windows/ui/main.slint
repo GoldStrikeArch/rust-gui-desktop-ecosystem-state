@@ -1,0 +1,404 @@
+// Windows (slint) — SPEC-9 multi-window / modality test.
+//
+// Every top-level window is a separate *exported component*. There is no
+// window-tree; `MainWindow::new()`, `InspectorWindow::new()` etc. each
+// instantiate an independent item tree with its own copy of every global
+// (including `Palette`). The only thing two windows can genuinely share is a
+// Rust-owned `Model`, so all cross-window state lives in
+//   - `projects` : Rc<VecModel<Project>>  (the row data)
+//   - `sh`       : Rc<VecModel<Shared>> with exactly ONE row (the scalars)
+// handed to every window as the same `ModelRc`. Reads are reactive in every
+// window (ModelNotify::row_changed wakes them all); writes go through a Rust
+// callback because the DSL has no way to mutate a model row outside a
+// repeater.
+
+import { Button, LineEdit, ListView, Palette, CheckBox, StandardButton, VerticalBox, HorizontalBox, RadioGroup } from "std-widgets.slint";
+
+export struct Project {
+    name: string,
+    owner: string,
+    budget: float,
+    budget-s: string, // pre-formatted in Rust
+    status: string,
+}
+
+// The single shared row. Slint has no cross-component signal, so this struct
+// *is* the application's shared state.
+export struct Shared {
+    selected: int,
+    pings: int,
+    theme: int,     // 0 light, 1 dark, 2 system
+    compact: bool,
+    dirty: bool,
+    flash: bool,    // Pong: inspector background flash
+    blocked: bool,  // a modal is up
+    insp-open: bool,
+    prefs-open: bool,
+}
+
+// ---------------------------------------------------------------------------
+// Main window
+// ---------------------------------------------------------------------------
+export component MainWindow inherits Window {
+    title: "Windows (slint)";
+    preferred-width: 720px;
+    preferred-height: 480px;
+    min-width: 480px;
+    min-height: 320px;
+
+    in property <[Project]> projects;
+    in property <[Shared]> sh;
+    // false during the CGEvent modality test, so that only the AppKit sheet
+    // is under test and not our own click-swallowing overlay.
+    in property <bool> overlay-enabled: true;
+
+    // self-test / synthetic-input geometry
+    out property <length> del-x: del-btn.absolute-position.x + del-btn.width / 2;
+    out property <length> del-y: del-btn.absolute-position.y + del-btn.height / 2;
+
+    callback select(int);
+    callback edit();
+    callback toggle-inspector();   // Cmd+Shift+I
+    callback show-inspector();     // toolbar button: open or focus (singleton)
+    callback open-prefs();
+    callback del();
+    callback pong();
+
+    // verification hooks
+    public function request-close() { root.close(); }
+
+    property <Shared> s: root.sh[0];
+    property <int> theme: root.s.theme;
+    changed theme => { root.apply-theme(); }
+    init => { root.apply-theme(); }
+    function apply-theme() {
+        Palette.color-scheme = root.theme == 0 ? ColorScheme.light
+            : root.theme == 1 ? ColorScheme.dark : ColorScheme.unknown;
+    }
+
+    forward-focus: fs;
+
+    // NOTE: Slint remaps modifiers on macOS — `modifiers.control` is the
+    // Command key there (and `modifiers.meta` is the real Control key).
+    fs := FocusScope {
+        key-pressed(e) => {
+            if (e.modifiers.control && e.text == "w") { root.close(); return accept; }
+            if (e.modifiers.control && e.text == ",") { root.open-prefs(); return accept; }
+            if (e.modifiers.control && e.modifiers.shift && (e.text == "i" || e.text == "I")) {
+                root.toggle-inspector();
+                return accept;
+            }
+            return reject;
+        }
+
+        VerticalLayout {
+            HorizontalLayout {
+                padding: 8px;
+                spacing: 8px;
+                Button { text: "Edit…"; enabled: root.s.selected >= 0; clicked => { root.edit(); } }
+                Button { text: "Inspector"; clicked => { root.show-inspector(); } }
+                Button { text: "Preferences…"; clicked => { root.open-prefs(); } }
+                del-btn := Button { text: "Delete"; enabled: root.s.selected >= 0; clicked => { root.del(); } }
+                Button { text: "Pong"; clicked => { root.pong(); } }
+                Rectangle { horizontal-stretch: 1; }
+            }
+
+            Rectangle {
+                height: 22px;
+                background: Palette.alternate-background;
+                HorizontalLayout {
+                    padding-left: 10px;
+                    spacing: 8px;
+                    Text { text: "Name"; width: 200px; font-weight: 700; vertical-alignment: center; color: Palette.foreground; }
+                    Text { text: "Owner"; width: 140px; font-weight: 700; vertical-alignment: center; color: Palette.foreground; }
+                    Text { text: "Budget"; width: 110px; font-weight: 700; horizontal-alignment: right; vertical-alignment: center; color: Palette.foreground; }
+                    Text { text: "Status"; font-weight: 700; vertical-alignment: center; color: Palette.foreground; }
+                }
+            }
+
+            ListView {
+                for p[i] in root.projects: row := Rectangle {
+                    height: root.s.compact ? 22px : 34px;
+                    background: i == root.s.selected ? Palette.accent-background
+                        : mod(i, 2) == 0 ? Palette.background : Palette.alternate-background;
+                    property <brush> fg: i == root.s.selected ? Palette.accent-foreground : Palette.foreground;
+                    TouchArea {
+                        clicked => { root.select(i); }
+                        double-clicked => { root.select(i); root.edit(); }
+                    }
+                    HorizontalLayout {
+                        padding-left: 10px;
+                        spacing: 8px;
+                        Text { text: p.name; width: 200px; vertical-alignment: center; color: row.fg; overflow: elide; }
+                        Text { text: p.owner; width: 140px; vertical-alignment: center; color: row.fg; overflow: elide; }
+                        Text { text: p.budget-s; width: 110px; horizontal-alignment: right; vertical-alignment: center; color: row.fg; }
+                        Text { text: p.status; vertical-alignment: center; color: row.fg; }
+                    }
+                }
+            }
+
+            Rectangle {
+                height: 26px;
+                background: Palette.alternate-background;
+                HorizontalLayout {
+                    padding-left: 10px;
+                    status := Text {
+                        vertical-alignment: center;
+                        color: Palette.foreground;
+                        text: "selected: " + (root.s.selected >= 0 ? root.projects[root.s.selected].name : "—")
+                            + " · pings: " + root.s.pings + (root.s.dirty ? " · modified" : "");
+                    }
+                }
+            }
+        }
+    }
+
+    // Fallback modality: a full-window click/key sink. Only used when the
+    // AppKit sheet is not in play (see FRICTION).
+    if root.overlay-enabled && root.s.blocked: Rectangle {
+        background: #00000038;
+        TouchArea { }
+    }
+}
+
+// ---------------------------------------------------------------------------
+// Edit dialog — a real `Dialog` element in its own top-level window, presented
+// as an AppKit sheet from Rust.
+// ---------------------------------------------------------------------------
+export component EditDialog inherits Dialog {
+    title: "Edit project";
+    in-out property <string> name-text;
+    in-out property <string> budget-text;
+    in property <[Shared]> sh;
+    callback commit();
+    callback dismiss();
+
+    property <int> theme: root.sh[0].theme;
+    changed theme => { root.apply-theme(); }
+    init => { root.apply-theme(); }
+    function apply-theme() {
+        Palette.color-scheme = root.theme == 0 ? ColorScheme.light
+            : root.theme == 1 ? ColorScheme.dark : ColorScheme.unknown;
+    }
+
+    forward-focus: name-edit;
+
+    FocusScope {
+        key-pressed(e) => {
+            if (e.text == Key.Escape) { root.dismiss(); return accept; }
+            return reject;
+        }
+        VerticalBox {
+            Text { text: "Edit project"; font-weight: 700; color: Palette.foreground; }
+            HorizontalBox {
+                padding: 0px;
+                Text { text: "Name"; width: 60px; vertical-alignment: center; color: Palette.foreground; }
+                name-edit := LineEdit {
+                    text <=> root.name-text;
+                    accessible-label: "Project name";
+                    accepted => { root.commit(); }
+                }
+            }
+            HorizontalBox {
+                padding: 0px;
+                Text { text: "Budget"; width: 60px; vertical-alignment: center; color: Palette.foreground; }
+                LineEdit {
+                    text <=> root.budget-text;
+                    input-type: decimal;
+                    accessible-label: "Project budget";
+                    accepted => { root.commit(); }
+                }
+            }
+        }
+    }
+
+    // The Dialog element lays these out per platform convention and exposes
+    // `ok-clicked` / `cancel-clicked` on the component's public API.
+    StandardButton { kind: ok; }
+    StandardButton { kind: cancel; }
+}
+
+// ---------------------------------------------------------------------------
+// Inspector — singleton child window, bidirectional with the main list.
+// ---------------------------------------------------------------------------
+export component InspectorWindow inherits Window {
+    title: "Inspector";
+    preferred-width: 360px;
+    preferred-height: 300px;
+
+    in property <[Project]> projects;
+    in property <[Shared]> sh;
+    callback set-field(int, string);
+    callback ping();
+    // Slint has no application-level accelerator table: every window that
+    // should answer Cmd+, / Cmd+Shift+I has to carry the handler itself.
+    callback open-prefs();
+    callback toggle-inspector();
+
+    // verification hooks
+    public function request-close() { root.close(); }
+    public function focus-name() { e-name.focus(); }
+    out property <string> shown-name: e-name.text;
+
+    property <Shared> s: root.sh[0];
+    property <Project> p: root.s.selected >= 0 ? root.projects[root.s.selected]
+        : { name: "", owner: "", budget-s: "", status: "" };
+
+    // One source of truth, explicit sync down: a Slint text input owns its
+    // own `text`, so a plain binding would be destroyed by the first
+    // keystroke. `changed` handlers push model -> widget, `edited` pushes
+    // widget -> model, and the equality guard stops the loop.
+    property <string> src-name: root.p.name;
+    property <string> src-owner: root.p.owner;
+    property <string> src-budget: root.p.budget-s;
+    changed src-name => { if (e-name.text != root.src-name) { e-name.text = root.src-name; } }
+    changed src-owner => { if (e-owner.text != root.src-owner) { e-owner.text = root.src-owner; } }
+    changed src-budget => { if (e-budget.text != root.src-budget) { e-budget.text = root.src-budget; } }
+    init => {
+        e-name.text = root.src-name;
+        e-owner.text = root.src-owner;
+        e-budget.text = root.src-budget;
+        root.apply-theme();
+    }
+
+    property <int> theme: root.s.theme;
+    changed theme => { root.apply-theme(); }
+    function apply-theme() {
+        Palette.color-scheme = root.theme == 0 ? ColorScheme.light
+            : root.theme == 1 ? ColorScheme.dark : ColorScheme.unknown;
+    }
+
+    background: root.s.flash ? #f59e0b : Palette.background;
+    forward-focus: fs;
+
+    fs := FocusScope {
+        key-pressed(e) => {
+            if (e.text == Key.Escape) { root.close(); return accept; }
+            if (e.modifiers.control && e.text == "w") { root.close(); return accept; }
+            if (e.modifiers.control && e.text == ",") { root.open-prefs(); return accept; }
+            if (e.modifiers.control && e.modifiers.shift && (e.text == "i" || e.text == "I")) {
+                root.toggle-inspector();
+                return accept;
+            }
+            return reject;
+        }
+        VerticalBox {
+            Text { text: "Inspector"; font-weight: 700; color: Palette.foreground; }
+            Text {
+                text: root.s.selected >= 0 ? "row " + root.s.selected : "no selection";
+                color: Palette.foreground;
+            }
+            HorizontalBox {
+                padding: 0px;
+                Text { text: "Name"; width: 60px; vertical-alignment: center; color: Palette.foreground; }
+                e-name := LineEdit {
+                    accessible-label: "Name";
+                    edited(t) => { root.set-field(0, t); }
+                }
+            }
+            HorizontalBox {
+                padding: 0px;
+                Text { text: "Owner"; width: 60px; vertical-alignment: center; color: Palette.foreground; }
+                e-owner := LineEdit {
+                    accessible-label: "Owner";
+                    edited(t) => { root.set-field(1, t); }
+                }
+            }
+            HorizontalBox {
+                padding: 0px;
+                Text { text: "Budget"; width: 60px; vertical-alignment: center; color: Palette.foreground; }
+                e-budget := LineEdit {
+                    input-type: decimal;
+                    accessible-label: "Budget";
+                    edited(t) => { root.set-field(2, t); }
+                }
+            }
+            Button { text: "Ping"; clicked => { root.ping(); } }
+            Text { text: "pings: " + root.s.pings; color: Palette.foreground; }
+            Rectangle { vertical-stretch: 1; }
+        }
+    }
+}
+
+// ---------------------------------------------------------------------------
+// Preferences — singleton, non-modal.
+// ---------------------------------------------------------------------------
+export component PrefsWindow inherits Window {
+    title: "Preferences";
+    preferred-width: 320px;
+    preferred-height: 200px;
+
+    in property <[Shared]> sh;
+    callback set-compact(bool);
+    callback set-theme(int);
+    callback toggle-inspector();
+
+    property <Shared> s: root.sh[0];
+    property <int> theme: root.s.theme;
+    changed theme => { root.apply-theme(); }
+    init => { root.apply-theme(); }
+    function apply-theme() {
+        Palette.color-scheme = root.theme == 0 ? ColorScheme.light
+            : root.theme == 1 ? ColorScheme.dark : ColorScheme.unknown;
+    }
+
+    forward-focus: fs;
+
+    fs := FocusScope {
+        key-pressed(e) => {
+            if (e.text == Key.Escape) { root.close(); return accept; }
+            if (e.modifiers.control && e.text == "w") { root.close(); return accept; }
+            if (e.modifiers.control && e.modifiers.shift && (e.text == "i" || e.text == "I")) {
+                root.toggle-inspector();
+                return accept;
+            }
+            return reject;
+        }
+        VerticalBox {
+            Text { text: "Preferences"; font-weight: 700; color: Palette.foreground; }
+            CheckBox {
+                text: "Compact rows";
+                checked: root.s.compact;
+                accessible-label: "Compact rows";
+                toggled => { root.set-compact(self.checked); }
+            }
+            RadioGroup {
+                title: "Theme";
+                RadioButton { text: "Light"; checked: root.s.theme == 0; toggled => { if (self.checked) { root.set-theme(0); } } }
+                RadioButton { text: "Dark"; checked: root.s.theme == 1; toggled => { if (self.checked) { root.set-theme(1); } } }
+                RadioButton { text: "System"; checked: root.s.theme == 2; toggled => { if (self.checked) { root.set-theme(2); } } }
+            }
+            Rectangle { vertical-stretch: 1; }
+        }
+    }
+}
+
+// ---------------------------------------------------------------------------
+// Unsaved-changes prompt. In-app (not rfd) so the self-test can drive it.
+// ---------------------------------------------------------------------------
+export component SavePrompt inherits Window {
+    title: "Save changes?";
+    preferred-width: 340px;
+    preferred-height: 120px;
+    // NOTE: `always-on-top: true` raises the NSWindow level, which makes
+    // scripts/window-count.swift (layer == 0 filter) stop seeing it.
+    callback save();
+    callback discard();
+    callback cancel();
+    forward-focus: fs;
+    fs := FocusScope {
+        key-pressed(e) => {
+            if (e.text == Key.Escape) { root.cancel(); return accept; }
+            return reject;
+        }
+        VerticalBox {
+            Text { text: "Save changes before closing?"; color: Palette.foreground; }
+            HorizontalBox {
+                padding: 0px;
+                Button { text: "Save"; clicked => { root.save(); } }
+                Button { text: "Discard"; clicked => { root.discard(); } }
+                Button { text: "Cancel"; clicked => { root.cancel(); } }
+            }
+        }
+    }
+}

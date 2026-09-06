@@ -41,13 +41,7 @@ Version note: same pinned git rev as apps/floem-app (crates.io 0.2.0 stale;
 
 ## The muda-version minefield (headline finding)
 
-floem pins muda =0.17 and claims that instance's single global
-`MenuEvent::set_event_handler` slot at `Application::new()` for its own menu
-system. tray-icon 0.24 bundles muda 0.19 — a *separate* compiled instance
-with a *free* handler slot, which this app hooks. The two coexist only
-because the versions DIFFER: had tray-icon resolved to muda 0.17.x, cargo
-would have unified the crates and floem's handler would silently swallow
-every tray-menu click (no error, no event). An app author has no way to see
+floem requires muda `"0.17.1"` (caret, so any 0.17.x — the lock resolves 0.17.2) and claims that instance's single global `MenuEvent::set_event_handler` slot at `Application::new()` for its own menu system; the slot is a `OnceCell`, so the first registration wins for the life of the process. tray-icon 0.24 bundles muda 0.19 — a *separate* compiled instance with a *free* handler slot, which this app hooks. The two coexist only because the versions DIFFER: had this app pulled tray-icon 0.21.x (which depends on muda 0.17) instead, cargo would have unified the crates and floem's earlier registration would silently swallow every tray-menu click (no error, no event). (Wording corrected 2026-08-30: the pin is a caret requirement, not `=0.17`, and the hazard comes from an *older* tray-icon, not a newer one.) An app author has no way to see
 this except by reading floem's source. Price paid: two copies of muda in the
 binary.
 

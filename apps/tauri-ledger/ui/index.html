@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Ledger (Tauri)</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="toolbar">
+    <button id="locale-btn" aria-label="Toggle locale">Locale: en-US</button>
+    <label for="vat-range">VAT %</label>
+    <input id="vat-range" type="range" min="0" max="25" step="0.5" aria-label="VAT percent slider" />
+    <input id="vat-num" type="text" inputmode="decimal" class="num vat" aria-label="VAT percent" />
+    <span class="spacer"></span>
+    <button id="copy-btn" aria-label="Copy focused row as TSV">Copy row (⌘C)</button>
+    <button id="paste-btn" aria-label="Paste TSV into focused row">Paste row (⌘V)</button>
+    <button id="save-btn" aria-label="Save">Save</button>
+  </div>
+
+  <div class="tablewrap">
+    <table id="grid">
+      <thead>
+        <tr>
+          <th scope="col" class="c-date">Date</th>
+          <th scope="col" class="c-desc">Description</th>
+          <th scope="col" class="c-cat">Category</th>
+          <th scope="col" class="c-num">Qty</th>
+          <th scope="col" class="c-num">Unit price</th>
+          <th scope="col" class="c-num">Amount</th>
+          <th scope="col" class="c-chk">Reimb.</th>
+        </tr>
+      </thead>
+      <tbody id="rows"></tbody>
+      <tfoot>
+        <tr><th colspan="5" scope="row">Subtotal</th><td class="c-num" id="f-subtotal"></td><td></td></tr>
+        <tr><th colspan="5" scope="row" id="f-vatlabel">VAT</th><td class="c-num" id="f-vat"></td><td></td></tr>
+        <tr class="total"><th colspan="5" scope="row">Total</th><td class="c-num" id="f-total"></td><td></td></tr>
+      </tfoot>
+    </table>
+  </div>
+
+  <div id="summary" class="summary" role="status" aria-live="polite"></div>
+  <div class="hint">Tab/Shift+Tab: next cell · Enter/Shift+Enter: down/up · Up/Down: step (Shift = ×10) · Esc: revert · ⌘Z / ⌘⇧Z: undo</div>
+
+  <script src="main.js"></script>
+  <script src="selftest.js"></script>
+</body>
+</html>

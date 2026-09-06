@@ -18,7 +18,7 @@ clicked through the accessibility tree of this process directly).
 | clipboard_text | **built-in** (egui/eframe) + assembled Edit-menu roles | Plain ⌘V paste into `TextEdit` is core egui (its winit backend bundles arboard for text). BUT native Edit-menu roles can't use `PredefinedMenuItem::cut/copy/paste`: those dispatch `cut:`/`copy:`/`paste:` down the responder chain and egui's winit NSView implements none of them (egui draws its own widgets). Bridged instead with custom muda items whose events inject `egui::Event::{Cut,Copy,Paste(text)}` at the top of the pass — paste round-trip verified (pbcopy → Edit▸Paste ⌘V → editor → Save → file contents match). |
 | clipboard_image | **assembled** (`arboard`) | egui's own clipboard path is text-only (confirmed: `egui::Event::Paste(String)`, `Context::copy_text` — no image variant). `arboard::Clipboard::get_image()` → `ColorImage::from_rgba_unmultiplied` → `ctx.load_texture` renders the thumbnail; verified with a PNG placed on the pasteboard via osascript (`Pasted image 400x280`). |
 | file_drop | **built-in** | `ctx.input(\|i\| i.raw.dropped_files)` with `DroppedFile::path`. Code path exercised in earlier iterations of this research; a Finder drag is not scriptable without heavier automation, so this app's handler was verified by code review + the API contract only. |
-| notification | **hand-rolled** (`osascript` subprocess); notify-rust rejected for this app | In two of three full-app runs, the first `notify-rust` notification appeared and eframe then stopped scheduling frames while tray/hotkey callbacks remained alive. `mac-notification-sys` replacing the NSApplication delegate is a plausible explanation, but no minimized reproduction was retained, so the root cause is **not proven**. The shipped experiment uses `osascript -e 'display notification …'`, avoiding in-process notification/AppKit state (and inheriting the attribution/permission limitations of an unbundled subprocess). |
+| notification | **hand-rolled** (`osascript` subprocess); notify-rust rejected for this app | In two of three full-app runs, the first `notify-rust` notification appeared and eframe then stopped scheduling frames while tray/hotkey callbacks remained alive. The first hypothesis (`mac-notification-sys` replacing the NSApplication delegate) is ruled out by a 2026-08-30 source check — it sets only `NSUserNotificationCenter.delegate`, never `NSApp.delegate`; the likely cause is its synchronous `[NSRunLoop runUntilDate:]` pumping on the main thread (`objc/notify.m:167-179`), which re-enters winit's event handler. No minimized reproduction was retained, so the root cause is still **not proven**. The shipped experiment uses `osascript -e 'display notification …'`, avoiding in-process notification/AppKit state (and inheriting the attribution/permission limitations of an unbundled subprocess). |
 | dark_mode_live | **built-in** | `ThemePreference::System` is the default; the same process rendered dark and light across OS appearance flips without restart (screenshot pairs; the shared test desktop had several agents toggling appearance, which made for a free soak test). |
 | multi_window | **built-in** (viewports) | About window via `ctx.show_viewport_immediate` — note the 0.35 signature passes the closure `&mut egui::Ui` (not `&Context`). Opens/closes independently of the main window (AX-verified both windows listed; closed via its titlebar button). One nuance: immediate viewports only render while the parent's `ui` runs, and eframe keeps running the parent's `ui` when the parent is hidden *only if* a child viewport is visible. |
 | close_to_tray | **assembled, with a landmine** | The mechanics are built-in: `close_requested()` → `CancelClose` + `ViewportCommand::Visible(false)`. The landmine: **eframe 0.35 never calls `App::ui` for a hidden viewport** (`run_ui = is_visible \|\| …` in wgpu_integration.rs), so any "reopen" logic living in `ui` is dead once you hide — first attempt produced a window that could hide but never come back. The fix is `App::logic` (new-ish in eframe), which runs on every pass *including hidden ones*; viewport commands sent from it (`Visible(true)`, `Focus`) are applied by the UI-less passes. Hide→show→hide toggled reliably via the global hotkey afterwards. |
@@ -30,9 +30,7 @@ clicked through the accessibility tree of this process directly).
 - `rfd = 0.17.2` — native open/save panels.
 - `arboard = 3.6.1` — image clipboard (egui text clipboard is built-in).
 - **REJECTED in this experiment: `notify-rust 4.18`** — the full app stopped
-  receiving frames after its first notification in two of three runs. Delegate
-  replacement is a hypothesis pending a minimized reproduction. Replaced by
-  an `osascript` subprocess.
+  receiving frames after its first notification in two of three runs. Delegate replacement was the first hypothesis; source rules it out (2026-08-30) and run-loop re-entrancy is the likely cause; still unreproduced in isolation. Replaced by an `osascript` subprocess.
 - (debug-only, removed) `env_logger` — used with `RUST_LOG=eframe=trace` to diagnose the hidden-window stall; removed from the final build.
 
 ## Integration model (the actual finding)
@@ -61,10 +59,7 @@ actual app + shell wiring, which was straightforward.
 
 ## Surprises
 
-- eframe 0.35's `App::logic` + invisible-pass machinery exists precisely for
-  tray-style apps — but nothing in the tray-icon/eframe docs points at it;
-  without reading eframe source the close-to-tray dead-end looks like a
-  winit bug.
+- eframe 0.35's `App::logic` + invisible-pass machinery exists precisely for tray-style apps — `App::logic`'s own doc does say it runs while hidden (`epi.rs:152-161`), but nothing in `App::ui`, the viewport docs or tray-icon points at it; without reading eframe source the close-to-tray dead-end looks like a winit bug.
 - muda accelerators really do swallow ⌘X/⌘C/⌘V before winit sees them; if
   you give Edit-menu items those accelerators you MUST bridge the events
   back into egui or you break copy/paste everywhere in the app.

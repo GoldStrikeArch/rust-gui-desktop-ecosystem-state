@@ -1,0 +1,67 @@
+/* Theme tokens. data-theme is set from the shared model broadcast; "system"
+   falls through to prefers-color-scheme so the OS setting still wins. */
+:root {
+  --bg: #f6f6f7; --fg: #1b1b1f; --panel: #ffffff; --line: #d8d8de;
+  --sel: #2f6fed; --sel-fg: #ffffff; --muted: #6b6b76;
+  --row-pad: 8px;
+}
+html[data-theme="dark"] {
+  --bg: #1e1e22; --fg: #e8e8ec; --panel: #26262c; --line: #3a3a42;
+  --sel: #4b86f0; --sel-fg: #ffffff; --muted: #9a9aa6;
+}
+@media (prefers-color-scheme: dark) {
+  html[data-theme="system"] {
+    --bg: #1e1e22; --fg: #e8e8ec; --panel: #26262c; --line: #3a3a42;
+    --sel: #4b86f0; --sel-fg: #ffffff; --muted: #9a9aa6;
+  }
+}
+body.compact { --row-pad: 2px; }
+
+* { box-sizing: border-box; }
+body {
+  margin: 0; background: var(--bg); color: var(--fg);
+  font: 13px/1.4 -apple-system, "Segoe UI", system-ui, sans-serif;
+  height: 100vh; display: flex; flex-direction: column;
+  transition: background .15s;
+}
+body.flash { background: #ffd76a; }
+
+.toolbar {
+  display: flex; gap: 6px; padding: 8px; border-bottom: 1px solid var(--line);
+  background: var(--panel); align-items: center;
+}
+button {
+  font: inherit; padding: 4px 10px; border: 1px solid var(--line);
+  border-radius: 5px; background: var(--panel); color: var(--fg); cursor: pointer;
+}
+button:hover { border-color: var(--sel); }
+button:disabled { opacity: .45; cursor: default; }
+.spacer { flex: 1; }
+
+#rows { flex: 1; overflow: auto; }
+.row {
+  display: grid; grid-template-columns: 1fr 90px 110px 80px;
+  gap: 8px; padding: var(--row-pad) 10px; cursor: default;
+  border-bottom: 1px solid var(--line);
+}
+.row.head { font-weight: 600; color: var(--muted); border-bottom: 1px solid var(--line); }
+.row.sel { background: var(--sel); color: var(--sel-fg); }
+.c-budget { text-align: right; font-variant-numeric: tabular-nums; }
+
+.status {
+  padding: 6px 10px; border-top: 1px solid var(--line);
+  background: var(--panel); color: var(--muted);
+}
+.status b { color: var(--fg); }
+
+/* The input block that stands in for OS modality on macOS (see FRICTION.md). */
+#veil { position: fixed; inset: 0; z-index: 999; background: rgba(0,0,0,.12); }
+
+.form { padding: 12px; display: grid; grid-template-columns: 90px 1fr; gap: 8px 10px; align-items: center; }
+.form label { color: var(--muted); }
+input[type=text], input[type=number], select {
+  font: inherit; padding: 4px 6px; border: 1px solid var(--line);
+  border-radius: 5px; background: var(--panel); color: var(--fg); width: 100%;
+}
+.buttons { display: flex; gap: 8px; justify-content: flex-end; padding: 0 12px 12px; }
+.note { padding: 0 12px 10px; color: var(--muted); }

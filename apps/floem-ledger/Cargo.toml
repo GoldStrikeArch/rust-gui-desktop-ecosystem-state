@@ -1,0 +1,26 @@
+# Same git pin as apps/floem-app (see the DEVIATION note there): floem's
+# crates.io release (0.2.0, Nov 2024) is stale and the maintained `main`
+# cannot be published because it depends on the forked `floem-winit` via git.
+# Rev 778bb5f2 (2026-06-21) is pinned identically across all floem apps.
+#
+# SPEC-10 helper crates:
+# - rust_decimal =1.39.0 (same exact pin as iced-/xilem-/dioxus-ledger, so the
+#   money stack is identical across frameworks): exact base-10 arithmetic for
+#   Qty x Unit price, VAT and totals. `default-features = false, features =
+#   ["std"]` — no serde, no db drivers.
+# Nothing else. Locale parsing/formatting is ~60 lines of hand-written code
+# (no `icu`/`num-format`) because the two locales the spec names differ only
+# in their group/decimal separators; the clipboard is floem's built-in
+# `floem::Clipboard`; the date field is a hand-rolled mask (floem has no date
+# picker); and the window raise hook used by the verification driver is
+# floem's own `action::focus_window()` — no objc2 needed here, unlike
+# apps/floem-windows, because this app has a single window.
+
+[package]
+name = "floem-ledger"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+floem = { git = "https://github.com/lapce/floem", rev = "778bb5f2aa08429e579ee2e6ac97e84fbf18b618" }
+rust_decimal = { version = "=1.39.0", default-features = false, features = ["std"] }
